@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   smooth_page_indicator: ^1.0.0
   cupertino_icons: ^1.0.2
+  lottie:
 
 dev_dependencies:
   flutter_test:
@@ -23,6 +24,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/getting_started/keuanganku_onboarding_image.png
+    - assets/images/getting_started/keuanganku_splashscreen_2.png
 
   fonts:
     - family: Quicksand_Medium
