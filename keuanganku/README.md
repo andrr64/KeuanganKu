@@ -1,6 +1,6 @@
-# keuanganku
+# KeuanganKu
 
-A new Flutter project.
+Sebuah proyek aplikasi sumber-terbuka yang bertujuan untuk memenuhi penilaian akhir mata kuliah Mobile Programming.
 
 ## Getting Started
 
