@@ -15,6 +15,11 @@ class MyApp extends StatelessWidget {
       title: 'KeuanganKu',
       routes: Routes.getRoutes(),
       initialRoute: Routes.perkenalan,
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          elevation: 0
+        )
+      ),
     );
   }
 }
