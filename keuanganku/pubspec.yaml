@@ -36,3 +36,12 @@ flutter:
     - family: Quicksand
       fonts:
         - asset: assets/fonts/Quicksand-Regular.ttf
+    - family: Inter_Bold
+      fonts:
+        - asset: assets/fonts/Inter-Bold.ttf
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+    - family: Inter_Medium
+      fonts:
+        - asset: assets/fonts/Inter-Medium.ttf
