@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:keuanganku/pages/mainpage/beranda/beranda.dart';
 import 'package:keuanganku/pages/mainpage/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/pages/mainpage/tentang/tentang.dart';
@@ -14,7 +15,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  static final List<Widget> _buildScreens = [
+  static final List<Widget> _screens = [
     const HalamanBeranda(),
     const HalamanPengeluaran(),
     const HalamanWallet(),
@@ -23,33 +24,48 @@ class _MainPageState extends State<MainPage> {
 
   Color? warna = Colors.grey[800];
 
-  static int currentIndex = 0;
+  static int _currentIndex = 0;
   static final List<BottomNavigationBarItem> _listButton = [
     const BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.home), label: "Beranda"),
+        backgroundColor: Warna.warna_primer,
+        icon: Icon(CupertinoIcons.home),
+        label: "Beranda"),
     const BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.money_dollar), label: "Pengeluaran"),
-    const BottomNavigationBarItem(icon: Icon(Icons.wallet), label: "Wallet"),
+        backgroundColor: Warna.warna_primer,
+        icon: Icon(CupertinoIcons.money_dollar),
+        label: "Pengeluaran"),
     const BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.info), label: "Tentang"),
+        backgroundColor: Warna.warna_primer,
+        icon: Icon(Icons.wallet),
+        label: "Wallet"),
+    const BottomNavigationBarItem(
+        backgroundColor: Warna.warna_primer,
+        icon: Icon(CupertinoIcons.info),
+        label: "Tentang"),
   ];
 
   void _onButtonChange(int index) {
     setState(() {
-      currentIndex = index;
+      const SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      );
+      _currentIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildScreens[currentIndex],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Warna.warna_primer,
-          unselectedItemColor: warna,
+          backgroundColor: Warna.warna_primer,
           selectedLabelStyle:
               const TextStyle(fontFamily: "Quicksand", fontSize: 12),
-          currentIndex: currentIndex,
+          currentIndex: _currentIndex,
           onTap: (index) => _onButtonChange(index),
           items: _listButton),
     );
