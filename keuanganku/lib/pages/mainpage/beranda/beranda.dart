@@ -12,10 +12,7 @@ class HalamanBeranda extends StatefulWidget {
 
 class _HalamanBerandaState extends State<HalamanBeranda> {
   List<bool> buttonBoolean = [true, false, false];
-  static const _SystemUiConfig = SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark);
-
+  
   void _onButtonChange(int index) {
     setState(() {
       buttonBoolean = [false, false, false];

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/pages/getting_started/halaman_getting_started.dart';
-import 'package:keuanganku/pages/getting_started/input_name/input_nama.dart';
 import 'package:keuanganku/pages/mainpage/mainpage.dart';
 
 class Routes {
   static const beranda = "/beranda";
-  
+
   static const perkenalan = "/getting_started";
   // ignore: constant_identifier_names
   static const perkenalan_inputNama = "/getting_started/input_name";
@@ -15,7 +14,6 @@ class Routes {
   static void initializePages(BuildContext context) {
     _pagesMaps = {
       Routes.perkenalan: (context) => const GettingStartedPage(),
-      Routes.perkenalan_inputNama: (context) => const InputNama(),
       Routes.beranda: (context) => const MainPage()
     };
   }
