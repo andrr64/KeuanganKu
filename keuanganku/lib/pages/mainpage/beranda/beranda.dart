@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:keuanganku/pages/mainpage/beranda/warna.dart';
 import 'package:keuanganku/pages/warna_aplikasi.dart';
 
@@ -12,7 +11,7 @@ class HalamanBeranda extends StatefulWidget {
 
 class _HalamanBerandaState extends State<HalamanBeranda> {
   List<bool> buttonBoolean = [true, false, false];
-  
+
   void _onButtonChange(int index) {
     setState(() {
       buttonBoolean = [false, false, false];
