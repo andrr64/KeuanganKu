@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:keuanganku/android_system.dart';
 import 'package:keuanganku/pages/routes.dart';
 
 void main() {
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark));
+  AndroidSys.setNotificationBarColor();
   runApp(const MyApp());
 }
 
@@ -16,6 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Routes.initializePages(context);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'KeuanganKu',
       routes: Routes.getRoutes(),
       initialRoute: Routes.perkenalan,
