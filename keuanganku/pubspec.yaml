@@ -14,6 +14,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0
   cupertino_icons: ^1.0.2
   fl_chart: ^0.64.0
+  intl:
 
 dev_dependencies:
   flutter_test:
@@ -45,3 +46,6 @@ flutter:
     - family: Inter_Medium
       fonts:
         - asset: assets/fonts/Inter-Medium.ttf
+    - family: OpenSans_SemiBold
+      fonts:
+        - asset : assets/fonts/OpenSans-SemiBold.ttf

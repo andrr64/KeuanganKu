@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> {
     List<BottomNavigationBarItem> bottomNavBarItems = [
       BottomNavigationBarItem(
         icon: Icon(_currentIndex == 0? Icons.analytics : Icons.analytics_outlined),
-        label: "Analisis"),
+        label: "Ringkasan"),
         
       BottomNavigationBarItem(
         icon: Icon(_currentIndex == 1? CupertinoIcons.money_dollar_circle_fill : CupertinoIcons.money_dollar_circle),
@@ -58,6 +58,7 @@ class _MainPageState extends State<MainPage> {
         children: _screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type:BottomNavigationBarType.fixed ,
         selectedItemColor: Warna.warna_primer,
         unselectedItemColor: Warna.warna_primer_50,
         currentIndex: _currentIndex,
