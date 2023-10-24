@@ -4,12 +4,11 @@ import 'package:keuanganku/ui/mainpage/mainpage.dart';
 
 class Routes {
   static const beranda = "/beranda";
-
   static const perkenalan = "/getting_started";
   // ignore: constant_identifier_names
   static const perkenalan_inputNama = "/getting_started/input_name";
 
-  static Map<String, WidgetBuilder>? _pagesMaps;
+  static late Map<String, WidgetBuilder> _pagesMaps;
 
   static void initializePages(BuildContext context) {
     _pagesMaps = {
@@ -19,12 +18,12 @@ class Routes {
   }
 
   static getRoutes() {
-    return _pagesMaps!;
+    return _pagesMaps;
   }
 
   static getPages(String routeName) {
     // Artinya apa bang mesi?
     // pageMaps! => sudah pasti pageMaps tidak null
-    return _pagesMaps![routeName]!;
+    return _pagesMaps[routeName];
   }
 }

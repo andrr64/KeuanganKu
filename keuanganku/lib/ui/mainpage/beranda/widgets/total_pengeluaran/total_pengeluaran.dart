@@ -12,7 +12,12 @@ class DataPool {
 class ObjectProperty {
   // ignore: non_constant_identifier_names
   static Color warna_background_container = Colors.white;
-
+  static BoxShadow box_shadow = BoxShadow(
+            color: Colors.grey.withOpacity(0.25),
+            spreadRadius: 0,
+            blurRadius: 5,
+            offset: const Offset(0, 0)
+          );
 }
 
 class Widgets {
@@ -78,12 +83,7 @@ class _TotalPengeluaranState extends State<TotalPengeluaran> {
         color: ObjectProperty.warna_background_container,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.25),
-            spreadRadius: 0,
-            blurRadius: 5,
-            offset: const Offset(0, 0)
-          )
+          ObjectProperty.box_shadow
         ]
       ),
       child: Padding(

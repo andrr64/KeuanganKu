@@ -3,7 +3,7 @@ import 'package:keuanganku/android_system.dart';
 import 'package:keuanganku/ui/routes.dart';
 
 void main() {
-  AndroidSys.setNotificationBarColor();
+  AndroidSys.setNotificationBarColor(); // Berfungsi untuk mengubah warna bar notifikasi android
   runApp(const MyApp());
 }
 
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'KeuanganKu',
-      routes: Routes.getRoutes(),
+      routes: Routes.getRoutes(), 
       initialRoute: Routes.perkenalan,
       theme: ThemeData(appBarTheme: const AppBarTheme(elevation: 0)),
     );
