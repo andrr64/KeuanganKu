@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/android_system.dart';
-import 'package:keuanganku/pages/routes.dart';
+import 'package:keuanganku/ui/routes.dart';
 
 void main() {
   AndroidSys.setNotificationBarColor();

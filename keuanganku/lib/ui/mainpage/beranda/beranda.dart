@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:keuanganku/pages/mainpage/beranda/widgets/tombol_navigasi_transaksi/tombol_navigas_transaksi.dart';
-import 'package:keuanganku/pages/mainpage/beranda/widgets/tombol_navigasi_waktu/TombolNavigasiWaktu.dart';
-import 'package:keuanganku/pages/mainpage/beranda/widgets/total_pemasukan/total_pemasukan.dart';
-import 'package:keuanganku/pages/mainpage/beranda/widgets/total_pengeluaran/total_pengeluaran.dart';
+import 'package:keuanganku/ui/mainpage/beranda/widgets/tombol_navigasi_transaksi/tombol_navigas_transaksi.dart';
+import 'package:keuanganku/ui/mainpage/beranda/widgets/tombol_navigasi_waktu/TombolNavigasiWaktu.dart';
+import 'package:keuanganku/ui/mainpage/beranda/widgets/total_pemasukan/total_pemasukan.dart';
+import 'package:keuanganku/ui/mainpage/beranda/widgets/total_pengeluaran/total_pengeluaran.dart';
 
 class ObjectProperty {
   // ignore: non_constant_identifier_names

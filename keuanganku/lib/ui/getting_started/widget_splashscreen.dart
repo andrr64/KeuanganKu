@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/pages/warna_aplikasi.dart';
+import 'package:keuanganku/ui/warna_aplikasi.dart';
 
 Text getJudul(String judul) {
   return Text(

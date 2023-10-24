@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/android_system.dart';
-import 'package:keuanganku/pages/mainpage/beranda/beranda.dart';
-import 'package:keuanganku/pages/mainpage/pengeluaran/pengeluaran.dart';
-import 'package:keuanganku/pages/mainpage/tentang/tentang.dart';
-import 'package:keuanganku/pages/mainpage/wallet/wallet.dart';
-import 'package:keuanganku/pages/warna_aplikasi.dart';
+import 'package:keuanganku/ui/mainpage/beranda/beranda.dart';
+import 'package:keuanganku/ui/mainpage/pengeluaran/pengeluaran.dart';
+import 'package:keuanganku/ui/mainpage/tentang/tentang.dart';
+import 'package:keuanganku/ui/mainpage/wallet/wallet.dart';
+import 'package:keuanganku/ui/warna_aplikasi.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

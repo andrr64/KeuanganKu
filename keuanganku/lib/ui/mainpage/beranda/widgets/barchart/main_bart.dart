@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:keuanganku/pages/mainpage/beranda/widgets/barchart/bar_data.dart';
+import 'package:keuanganku/ui/mainpage/beranda/widgets/barchart/bar_data.dart';
 
 class MyBartChart extends StatelessWidget {
   final List dataMingguan;

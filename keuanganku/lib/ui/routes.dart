@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/pages/getting_started/halaman_getting_started.dart';
-import 'package:keuanganku/pages/mainpage/mainpage.dart';
+import 'package:keuanganku/ui/getting_started/halaman_getting_started.dart';
+import 'package:keuanganku/ui/mainpage/mainpage.dart';
 
 class Routes {
   static const beranda = "/beranda";

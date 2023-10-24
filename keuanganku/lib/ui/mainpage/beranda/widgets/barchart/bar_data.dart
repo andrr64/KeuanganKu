@@ -1,4 +1,4 @@
-import 'package:keuanganku/pages/mainpage/beranda/widgets/barchart/individual_bar.dart';
+import 'package:keuanganku/ui/mainpage/beranda/widgets/barchart/individual_bar.dart';
 
 class BarDataMingguan {
   final double senin;

@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:keuanganku/pages/mainpage/beranda/widgets/barchart/individual_bar.dart';
+import 'package:keuanganku/ui/mainpage/beranda/widgets/barchart/individual_bar.dart';
 
 class BarChartDataArray {
   List<IndividualBar> listDataBarChart = [];
