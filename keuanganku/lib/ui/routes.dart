@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/ui/getting_started/halaman_getting_started.dart';
-import 'package:keuanganku/ui/mainpage/mainpage.dart';
+import 'package:keuanganku/ui/pages/getting_started/halaman_getting_started.dart';
+import 'package:keuanganku/ui/pages/main/mainpage.dart';
 
 class Routes {
   static const beranda = "/beranda";
@@ -13,7 +13,7 @@ class Routes {
   static void initializePages(BuildContext context) {
     _pagesMaps = {
       Routes.perkenalan: (context) => const GettingStartedPage(),
-      Routes.beranda: (context) => const MainPage()
+      Routes.beranda: (context) => MainPage()
     };
   }
 

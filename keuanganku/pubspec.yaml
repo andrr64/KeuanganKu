@@ -48,4 +48,7 @@ flutter:
         - asset: assets/fonts/Inter-Medium.ttf
     - family: OpenSans_SemiBold
       fonts:
-        - asset : assets/fonts/OpenSans-SemiBold.ttf
+        - asset: assets/fonts/OpenSans-SemiBold.ttf
+    - family: OpenSans_Bold
+      fonts:
+        - asset: assets/fonts/OpenSans-Bold.ttf
