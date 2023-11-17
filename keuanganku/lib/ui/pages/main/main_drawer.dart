@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/ui/pages/main/appinfo.dart';
+import 'package:keuanganku/ui/pages/main/main_info_apk.dart';
 
 class ObjectProperty {
   Color primaryColor = const Color(0xff3F4245);
 }
 
-class MainDrawer extends StatelessWidget {
-  MainDrawer({super.key});
+class DrawerAplikasi extends StatelessWidget {
+  DrawerAplikasi({super.key});
   final ObjectProperty property = ObjectProperty();
   
   @override

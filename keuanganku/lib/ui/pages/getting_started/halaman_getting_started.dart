@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:keuanganku/main.dart';
 import 'package:keuanganku/ui/pages/getting_started/halaman_1.dart';
 import 'package:keuanganku/ui/pages/getting_started/halaman_2.dart';
 import 'package:keuanganku/ui/pages/getting_started/halaman_akhir.dart';
-import 'package:keuanganku/ui/routes.dart';
 import 'package:keuanganku/ui/warna_aplikasi.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -102,7 +102,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                         ),
                         onPressed: () {
                           Navigator.pushReplacementNamed(
-                              context, Routes.beranda);
+                              context, routes.root);
                         },
                       ),
                     )

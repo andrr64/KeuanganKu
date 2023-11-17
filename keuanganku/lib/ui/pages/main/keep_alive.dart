@@ -2,6 +2,12 @@
 
 import 'package:flutter/material.dart';
 
+
+/*
+Class ini digunakan untuk mempertahankan state 'child' 
+*/
+
+
 class KeepAlivePage extends StatefulWidget {
   const KeepAlivePage({
     Key? key, required this.child,
@@ -13,17 +19,13 @@ class KeepAlivePage extends StatefulWidget {
   _KeepAlivePageState createState() => _KeepAlivePageState();
 }
 
-class _KeepAlivePageState extends State<KeepAlivePage>
-    with AutomaticKeepAliveClientMixin {
+class _KeepAlivePageState extends State<KeepAlivePage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
-    /// Dont't forget this
     super.build(context);
-
     return widget.child;
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

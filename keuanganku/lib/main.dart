@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/android_system.dart';
-import 'package:keuanganku/ui/routes.dart';
+import 'package:keuanganku/ui/pages/routes.dart';
+
+Routes routes = Routes();
 
 void main() {
   AndroidSys.setNotificationBarColor(); // Berfungsi untuk mengubah warna bar notifikasi android
@@ -12,12 +14,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Routes.initializePages(context);
+    routes.initializePages(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'KeuanganKu',
-      routes: Routes.getRoutes(), 
-      initialRoute: Routes.perkenalan,
+      routes: routes.getRoutes(), 
+      initialRoute: routes.root,
       theme: ThemeData(appBarTheme: const AppBarTheme(elevation: 0)),
     );
   }
