@@ -5,8 +5,9 @@ class ObjectProperty {
   Color primaryColor = const Color(0xff3F4245);
 }
 
-class DrawerAplikasi extends StatelessWidget {
-  DrawerAplikasi({super.key});
+class ApplicationDrawer extends StatelessWidget {
+  /// Drawer aplikasi
+  ApplicationDrawer({super.key});
   final ObjectProperty property = ObjectProperty();
   
   @override

@@ -1,42 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:keuanganku/ui/pages/main/beranda/widgets/daftar_transaksi/daftar_transaksi.dart';
+import 'package:keuanganku/ui/pages/main/beranda/widgets/in_or_out/in_or_out.dart';
+import 'package:keuanganku/ui/pages/main/beranda/widgets/total_dana/total_dana.dart';
+import 'package:keuanganku/ui/warna_aplikasi.dart';
 
 class Properties {
-  final Color primaryColor = const Color(0xff383651);
+  final Color primaryColor = Warna.primaryColor;
 }
 
-class Widgets {
-
-}
-
-class HalamanRingkasan extends StatefulWidget {
-  HalamanRingkasan({super.key});
-  final Widgets widgets = Widgets();
-  final Properties properties = Properties();
-
-  @override
-  State<HalamanRingkasan> createState() => HalamanRingkasanState();
-}
-
-class HalamanRingkasanState extends State<HalamanRingkasan> {
-
-  Widget formatWidget({required Widget child}){
-    return Padding(padding: const EdgeInsets.symmetric(vertical: 5), child: child,);
+class Data {
+  String totalDana = "IDR 12,400,000";
+  void updateTotalDana(){
+    //TODO: Implementation
   }
 
+  int inOrOut = 0;
+  void updateInOrOut(int index){
+    inOrOut = index;
+  }
+}
+
+class HalamanBeranda extends StatefulWidget {
+  /// Class Halaman ini memuat seluruh ringkasan pemasukan dan pengeluaran serta fitur analisa
+  const HalamanBeranda({super.key});
+  static Properties properties = Properties();
+  static Data data = Data();
+
+  @override
+  State<HalamanBeranda> createState() => HalamanBerandaState();
+}
+
+class HalamanBerandaState extends State<HalamanBeranda> {
+  final double vPadding = 7.6;
+  
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+
+    void updateStateInOrOut(int index){
+      setState(() {
+        HalamanBeranda.data.inOrOut = index;
+      });
+    }
+    
+    void updateAllState(){
+      setState(() {
+        
+      });
+    }
+
+    return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: 20,
-          ),
-          child: Column( 
+        child: Center(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-
-            ],        
+              SizedBox(height: vPadding,),
+              TotalDana(onChange:(p0){updateAllState();} , X: HalamanBeranda.data.totalDana),
+              InOrOut(onChange: updateStateInOrOut,),
+              DaftarTransaksi(updateRootState: updateAllState)
+            ],
           ),
         ),
       ),

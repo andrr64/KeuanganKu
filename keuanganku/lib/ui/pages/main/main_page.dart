@@ -6,7 +6,6 @@ import 'package:keuanganku/ui/pages/main/beranda/beranda.dart';
 import 'package:keuanganku/ui/pages/main/main_body.dart';
 import 'package:keuanganku/ui/pages/main/main_drawer.dart';
 import 'package:keuanganku/ui/pages/main/pengeluaran/pengeluaran.dart';
-import 'package:keuanganku/ui/pages/main/to_pay/to_pay.dart';
 import 'package:keuanganku/ui/pages/main/wallet/wallet.dart';
 
 class Properties {
@@ -14,19 +13,16 @@ class Properties {
 }
 
 class Data {
-  final List<Widget> listRootPageChild = [
-    KeepAlivePage(child: HalamanRingkasan()),
-    const KeepAlivePage(child: HalamanPengeluaran()),
-    const KeepAlivePage(child: HalamanWallet()),
-    const KeepAlivePage(child: Scaffold()),
+  /// Variabel ini menyimpan list halaman untuk halaman 'MainPage'
+  final List<Widget> listMainPagePages = [
+    KeepAlivePage(child: HalamanBeranda()),
+    KeepAlivePage(child: HalamanPengeluaran()),
+    KeepAlivePage(child: HalamanWallet()),
+    KeepAlivePage(child: Scaffold()),
   ];
-  int indeksTerbaru = 0;
-  final List<String> appBarTitle = [
-    "Ringkasan",
-    "Pengeluaran",
-    "Wallet",
-    "To-Do"
-  ];
+
+  /// Indeks halaman terbaru
+  int currentIndex = 0;
 }
 
 class MainPage extends StatefulWidget {
@@ -39,33 +35,37 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  /// Controller untuk mengatur halaman
   final PageController _pageController = PageController();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final List<Widget> _listBody = [
-    KeepAlivePage(child: HalamanRingkasan()),
-    const KeepAlivePage(child: HalamanPengeluaran()),
-    const KeepAlivePage(child: HalamanWallet()),
-    const KeepAlivePage(child: HalamanToPay())
-  ];
 
+  /// Kunci scaffold
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void updateState(){
+    setState(() {
+
+    });
+  }
+
+  /// Fungsi yang dipanggil ketika indeks/halaman berubah
   dynamic onPageChanged(int index) {
     setState(() {
-      widget.data.indeksTerbaru = index;
+      widget.data.currentIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      drawer: DrawerAplikasi(),
-      appBar: BarAplikasi(scaffoldKey: _scaffoldKey, index: widget.data.indeksTerbaru).getWidget(context),
-      body: MainBody(
-        onPageChanged: onPageChanged, 
-        pageController: _pageController, 
-        body: _listBody,
-      ).getWidget(),
-      bottomNavigationBar: AppBottomNavigationBar(widget.data.indeksTerbaru, _pageController).getWidget()
+        key: _scaffoldKey,
+        drawer: ApplicationDrawer(),
+        appBar: ApplicationBar(scaffoldKey: _scaffoldKey, index: widget.data.currentIndex).getWidget(context),
+        body: ApplicationMainBody(
+          onPageChanged: onPageChanged,
+          pageController: _pageController,
+          body: widget.data.listMainPagePages,
+        ).getWidget(),
+        bottomNavigationBar:ApplicatioBottomNavBar(widget.data.currentIndex, _pageController).getWidget()
     );
   }
 }

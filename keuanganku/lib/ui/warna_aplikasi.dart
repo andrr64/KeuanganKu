@@ -1,10 +1,19 @@
 import 'dart:ui';
 
 class Warna {
-  // ignore: constant_identifier_names
-  static const warna_primer = Color(0xff2A2D37);
-  // ignore: constant_identifier_names
-  static const warna_primer_50 = Color(0xff846B88);
-  // ignore: constant_identifier_names
-  static const warna_indikator_nonaktif = Color(0xffCDCDCD);
+  static const Color primaryColor = Color.fromARGB(255, 56, 54, 81);
+
+  static const Color secondaryColorOrange = Color.fromARGB(255,255,111,49);
+
+  static Color getColorByPercentage({double? percentage}) {
+    if (percentage != null) {
+      // Konversi persentase alpha ke nilai antara 0 dan 255
+      int alpha = (255 * (percentage)/100).round();
+
+      // Tentukan nilai ARGB dengan alpha yang sudah dikonversi
+      return Color.fromARGB(
+          alpha, primaryColor.red, primaryColor.green, primaryColor.blue);
+    }
+    return primaryColor;
+  }
 }

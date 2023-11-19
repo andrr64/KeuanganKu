@@ -5,7 +5,7 @@ Text getJudul(String judul) {
   return Text(
     judul,
     style: const TextStyle(
-        fontFamily: "Quicksand_Bold", fontSize: 30, color: Warna.warna_primer),
+        fontFamily: "Quicksand_Bold", fontSize: 30, color: Warna.primaryColor),
   );
 }
 
@@ -16,7 +16,7 @@ Text _getInfo(String info) {
     style: const TextStyle(
       fontFamily: "Quicksand",
       fontSize: 14,
-      color: Warna.warna_primer,
+      color: Warna.primaryColor,
     ),
   );
 }

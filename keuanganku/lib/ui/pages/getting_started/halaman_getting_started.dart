@@ -53,7 +53,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                           style: TextStyle(
                               fontFamily: "Quicksand_Medium",
                               fontSize: 14,
-                              color: Warna.warna_primer),
+                              color: Warna.primaryColor),
                         ),
                       ),
                     )
@@ -64,11 +64,11 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
               SmoothPageIndicator(
                 controller: _pageController,
                 count: 3,
-                effect: const WormEffect(
+                effect: WormEffect(
                     dotWidth: 8,
                     dotHeight: 8,
-                    dotColor: Warna.warna_indikator_nonaktif,
-                    activeDotColor: Warna.warna_primer),
+                    dotColor: Warna.getColorByPercentage(percentage: 50),
+                    activeDotColor: Warna.primaryColor),
               ),
               !halamanAkhir
                   ? SizedBox(
@@ -76,7 +76,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                       height: 30,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Warna.warna_primer,
+                          backgroundColor: Warna.primaryColor,
                         ),
                         onPressed: () {
                           _pageController.nextPage(
@@ -94,15 +94,14 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                       height: 30,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Warna.warna_primer,
+                          backgroundColor: Warna.primaryColor,
                         ),
                         child: const Text(
                           "Done",
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, routes.root);
+                          Navigator.pushReplacementNamed(context, routes.root);
                         },
                       ),
                     )

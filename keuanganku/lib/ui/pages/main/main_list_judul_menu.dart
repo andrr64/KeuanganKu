@@ -1,5 +1,5 @@
 const List<String> menuTitle = [
-  "Ringkasan",
+  "Beranda",
   "Pengeluaran",
   "Wallet",
   "To-Pay"

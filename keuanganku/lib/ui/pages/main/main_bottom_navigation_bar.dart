@@ -16,12 +16,12 @@ class Data {
   ];
 }
 
-class AppBottomNavigationBar{
+class ApplicatioBottomNavBar{
   final Data data = Data();
   final Properties properties = Properties();
   late final PageController pageController;
 
-  AppBottomNavigationBar(int index, this.pageController){
+  ApplicatioBottomNavBar(int index, this.pageController){
     data.currentIndex = index;
   }
 
@@ -42,6 +42,7 @@ class AppBottomNavigationBar{
     ];
 
     return BottomNavigationBar(
+
       backgroundColor: Colors.white,
       type:BottomNavigationBarType.fixed ,
       selectedItemColor: properties.primaryColor,

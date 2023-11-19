@@ -5,8 +5,8 @@ class Properties {
   final Color primaryColor = const Color(0xff383651);
 }
 
-class BarAplikasi{
-  BarAplikasi({required this.scaffoldKey, required this.index});
+class ApplicationBar{
+  ApplicationBar({required this.scaffoldKey, required this.index});
   final Properties properties = Properties();
   final GlobalKey<ScaffoldState> scaffoldKey;
   final int index;

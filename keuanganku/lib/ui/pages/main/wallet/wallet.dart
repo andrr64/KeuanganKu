@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
+class Data {
+  final Color backgroundColor = Colors.white;
+}
+
 class HalamanWallet extends StatefulWidget {
-  const HalamanWallet({super.key});
+  HalamanWallet({super.key});
+  final Data data = Data();
 
   @override
   State<HalamanWallet> createState() => _HalamanWalletState();
@@ -10,8 +15,8 @@ class HalamanWallet extends StatefulWidget {
 class _HalamanWalletState extends State<HalamanWallet> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-
+    return Scaffold(
+      backgroundColor: widget.data.backgroundColor,
     );
   }
 }

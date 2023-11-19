@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class MainBody {
-  const MainBody({required this.onPageChanged, required this.pageController, required this.body});
+class ApplicationMainBody {
+  const ApplicationMainBody({required this.onPageChanged, required this.pageController, required this.body});
   final PageController pageController;
   final void Function(int) onPageChanged;
   final List<Widget> body;

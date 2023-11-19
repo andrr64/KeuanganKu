@@ -9,10 +9,6 @@ class HalamanPengeluaran extends StatefulWidget {
 
 class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
 
-  Widget formatWidget({required Widget child}){
-    return Padding(padding: const EdgeInsets.symmetric(vertical: 10), child: child,);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
