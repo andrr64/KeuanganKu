@@ -1,8 +1,7 @@
 import 'package:intl/intl.dart';
 
 String formatCurrency(double total) {
-  // Menggunakan NumberFormat untuk memformat angka menjadi mata uang
-  final currencyFormat = NumberFormat.currency(locale: 'id_ID');
+  final currencyFormat = NumberFormat.currency(locale: 'id_ID', symbol: 'IDR', decimalDigits: 0);
   String formattedTotal = currencyFormat.format(total);
 
   return formattedTotal;
