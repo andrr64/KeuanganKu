@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'KeuanganKu',
       routes: routes.getRoutes(), 
-      initialRoute: routes.root,
+      initialRoute: routes.mainPage,
       theme: ThemeData(appBarTheme: const AppBarTheme(elevation: 0)),
     );
   }
