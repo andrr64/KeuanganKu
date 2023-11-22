@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/ui/pages/main/main_page.dart';
 
 class Routes {
-  final root = "/root";
+  final mainPage = "/mainpage";
 
   late Map<String, WidgetBuilder> _pagesMaps;
 
   void initializePages(BuildContext context) {
     _pagesMaps = {
-      root: (context) => MainPage()
+      mainPage: (context) => MainPage()
     };
   }
 
