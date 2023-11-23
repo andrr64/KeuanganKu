@@ -10,20 +10,20 @@ class Properties {
     "Pemasukan",
     "Pengeluaran"
   ];
-  double panjangGarisTabJenisTransaksi = 150;
-  double  posisiGarisTabJenisTransaksi(indeksTabJenisTransaksi) => panjangGarisTabJenisTransaksi * indeksTabJenisTransaksi;
+  double  posisiGarisTabJenisTransaksi(indeksTab, panjangGarisTab) => panjangGarisTab * indeksTab;
 }
 
 class TabJenisTransaksi extends StatelessWidget {
-  TabJenisTransaksi({super.key, required this.indeksTabJenisTransaksi});
+  TabJenisTransaksi({super.key, required this.indeksTab});
  
-  final int indeksTabJenisTransaksi;
+  final int indeksTab;
   final Properties properties = Properties();
 
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
+    var panjangGarisTab = size.width * 0.9 / 2;
 
     // EVENTS
     void tabJenisTransaksiBerubah(int index){
@@ -55,7 +55,7 @@ class TabJenisTransaksi extends StatelessWidget {
                 tabJenisTransaksiBerubah(index);
               },
               child: SizedBox(
-                width:properties.panjangGarisTabJenisTransaksi,
+                width:panjangGarisTab,
                 child: Text(
                   properties.listTabJenisTransaksi[index],
                   style: TextStyle(
@@ -75,11 +75,11 @@ class TabJenisTransaksi extends StatelessWidget {
       AnimatedPositioned(
         duration: const Duration(milliseconds: 250),
         bottom: 0,
-        left:properties.posisiGarisTabJenisTransaksi(indeksTabJenisTransaksi),
+        left:properties.posisiGarisTabJenisTransaksi(panjangGarisTab, indeksTab),
         curve: Curves.easeInOutQuint,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 500),
-          width: properties.panjangGarisTabJenisTransaksi - 10,
+          width: panjangGarisTab - 10,
           height: 2,
           curve: Curves.ease,
           decoration: BoxDecoration(

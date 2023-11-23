@@ -122,7 +122,7 @@ class _RingkasanGrafikState extends State<RingkasanGrafik> {
   Widget build(BuildContext context) {
     // WIDGETS
     WIDGET_tabJenisTransaksi(){
-      return TabJenisTransaksi(indeksTabJenisTransaksi: RingkasanGrafik.data.indeksTabJenisTransaksi);
+      return TabJenisTransaksi(indeksTab: RingkasanGrafik.data.indeksTabJenisTransaksi);
     }
     WIDGET_tabWaktuTransaksi(){
       return TabWaktuTransaksi(indeksWaktuTransaksi: RingkasanGrafik.data.indeksTabWaktuTransaksi,);
