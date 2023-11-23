@@ -5,7 +5,7 @@ import 'package:keuanganku/database/model/data_transaksi.dart';
 import 'package:keuanganku/database/model/kategori.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/ui/application_colors.dart';
-import 'package:keuanganku/ui/pages/main/beranda/widgets/daftar_transaksi/widgets/card_data_transaksi.dart';
+import 'package:keuanganku/ui/pages/main/beranda/widgets/daftar_transaksi/widgets/card_data_transaksi/card_data_transaksi.dart';
 import 'package:keuanganku/ui/pages/main/wrap.dart';
 import 'package:keuanganku/ui/state_bridge.dart';
 
