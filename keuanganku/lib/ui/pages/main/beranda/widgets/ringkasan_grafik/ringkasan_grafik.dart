@@ -1,9 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
-import 'package:keuanganku/ui/pages/main/beranda/widgets/ringkasan_grafik/children/grafik_bar/grafik_bar.dart';
-import 'package:keuanganku/ui/pages/main/beranda/widgets/ringkasan_grafik/children/tab_jenis_transaksi/tab_jenis_transaksi.dart';
-import 'package:keuanganku/ui/pages/main/beranda/widgets/ringkasan_grafik/children/tab_waktu_transaksi/tab_waktu_transaksi.dart';
+import 'package:keuanganku/ui/pages/main/beranda/widgets/ringkasan_grafik/widgets/grafik_bar/grafik_bar.dart';
+import 'package:keuanganku/ui/pages/main/beranda/widgets/ringkasan_grafik/widgets/tab_jenis_transaksi/tab_jenis_transaksi.dart';
+import 'package:keuanganku/ui/pages/main/beranda/widgets/ringkasan_grafik/widgets/tab_waktu_transaksi/tab_waktu_transaksi.dart';
 import 'package:keuanganku/ui/reusable%20_components/bar_chart/data.dart';
 import 'package:keuanganku/ui/state_bridge.dart';
 import 'package:keuanganku/util/get_currency.dart';

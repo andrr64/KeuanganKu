@@ -1,67 +1,52 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
+import 'package:keuanganku/enum/data_transaksi.dart';
+import 'package:keuanganku/ui/application_colors.dart';
 import 'package:keuanganku/ui/pages/main/util.dart';
 import 'package:keuanganku/ui/state_bridge.dart';
-import 'package:keuanganku/ui/application_colors.dart';
 
 class Data {
-  Data(){
-    dropDownChoosed = dropwDownMenu[0];
-  }
-  List dropwDownMenu = [
+  SortirTransaksi sortir = SortirTransaksi.Terbaru;
+  List<String> menuSortir = [
     "Terbaru",
     "Terlama",
     "Tertinggi",
     "Terendah"
   ];
-  String dropDownChoosed = "";
-}
 
-
-
-class Widgets {
-  dynamic titleAndSelectBox(Size size){
-    return
-      SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: SizedBox(
-          width: size.width * 0.9,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text("Daftar Transaksi",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: "QuickSand_Bold",
-                  color: ApplicationColors.primary
-                ),
-              ),
-              DropdownButton(
-                value: DaftarTransaksi.data.dropDownChoosed,
-                items: DaftarTransaksi.data.dropwDownMenu.map<DropdownMenuItem<String>>((e) {
-                  return DropdownMenuItem<String>(
-                    value: e,
-                    child: Text(e, style: const TextStyle(color: ApplicationColors.primary, fontSize: 16,fontFamily: "QuickSand_Medium"),),
-                  );
-                }).toList(),
-                onChanged: (newVal){
-                  DaftarTransaksi.data.dropDownChoosed = newVal!;
-                  DaftarTransaksi.state.update!();
-                }
-              )
-            ],
-            ),
-          ),
-      );
+  SortirTransaksi getEnumSortir(String val){
+    switch(val){
+      case "Terbaru":
+        return SortirTransaksi.Terbaru;
+      case "Terlama":
+        return SortirTransaksi.Terlama;
+      case "Tertinggi":
+        return SortirTransaksi.Tertinggi;
+      case "Terendah":
+        return SortirTransaksi.Terendah;
+      default:
+        return SortirTransaksi.Terbaru;
+    }
   }
-  dynamic listTransaksi(){
-    return Container(height: 400,);
+
+  String getSortirString(SortirTransaksi val) {
+    switch (val) {
+      case SortirTransaksi.Terbaru:
+        return "Terbaru";
+      case SortirTransaksi.Terlama:
+        return "Terlama";
+      case SortirTransaksi.Tertinggi:
+        return "Tertinggi";
+      case SortirTransaksi.Terendah:
+        return "Terendah";
+    }
   }
 }
 
 class DaftarTransaksi extends StatefulWidget {
   const DaftarTransaksi({super.key});
-
-  static Widgets widgets = Widgets();
+  
   static Data data = Data();
   static StateBridge state = StateBridge();
 
@@ -77,16 +62,56 @@ class _DaftarTransaksiState extends State<DaftarTransaksi> {
         
       });
     });
+    
     var size = MediaQuery.sizeOf(context);
-    return wrapWithPadding(
+    
+    // EVENTS
+    void ketikaDropDownBerubah(String newVal) => DaftarTransaksi.data.sortir = DaftarTransaksi.data.getEnumSortir(newVal);
+
+    // WIDGETS
+    Widget WIDGET_title (){
+      return  
+      const Text("Daftar Transaksi",
+        style: TextStyle(
+          fontSize: 20,
+          fontFamily: "QuickSand_Bold",
+          color: ApplicationColors.primary
+        )
+      );
+    }
+    Widget WIDGET_dropDownMenu(){
+       return 
+       DropdownButton(
+        value: DaftarTransaksi.data.getSortirString(DaftarTransaksi.data.sortir),
+        items: DaftarTransaksi.data.menuSortir.map<DropdownMenuItem<String>>((e) {
+          return DropdownMenuItem<String>(
+            value: e,
+            child: Text(e, style: const TextStyle(color: ApplicationColors.primary, fontSize: 16,fontFamily: "QuickSand_Medium"),),
+          );
+        }).toList(),
+        onChanged: (newVal){
+          ketikaDropDownBerubah(newVal!);
+          DaftarTransaksi.state.update!();
+        }
+      );
+    }
+    
+    return
+    wrapWithPadding(
       context,
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          DaftarTransaksi.widgets.titleAndSelectBox(size),
-          DaftarTransaksi.widgets.listTransaksi()
-        ],
-      ) 
+      SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: SizedBox(
+          width: size.width * 0.9,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              WIDGET_title(),
+              WIDGET_dropDownMenu()
+            ],
+            ),
+          ),
+      ),
     );
   }
 }

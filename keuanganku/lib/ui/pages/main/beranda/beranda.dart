@@ -43,7 +43,9 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
 
   void updateState(){
     setState(() {
-      
+      DaftarTransaksi.state.update!();
+      RingkasanGrafik.state.update!();
+      TotalDana.state.update!();
     });
   }
 
@@ -65,6 +67,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
             SizedBox(height: vPadding,),
             WIDGET_totalDana(),
             WIDGET_ringkasanGrafik(),
+            WIDGET_daftarTransaksi()
           ],
         ),
       ),

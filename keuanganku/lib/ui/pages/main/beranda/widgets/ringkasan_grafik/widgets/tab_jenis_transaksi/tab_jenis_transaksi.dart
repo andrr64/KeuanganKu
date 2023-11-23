@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/ui/application_colors.dart';
+import 'package:keuanganku/ui/pages/getting_started/halaman_1.dart';
+import 'package:keuanganku/ui/pages/main/beranda/beranda.dart';
 import 'package:keuanganku/ui/pages/main/beranda/widgets/ringkasan_grafik/ringkasan_grafik.dart';
 import 'package:keuanganku/ui/pages/main/util.dart';
 
@@ -36,10 +38,8 @@ class TabJenisTransaksi extends StatelessWidget {
         case 1:
           RingkasanGrafik.data.jenisTransaksi = JenisTransaksi.PEMASUKAN;
           break;
-        default:
-          break;
       }
-      RingkasanGrafik.state.update!();
+      HalamanBeranda.state.update!();
     }  
 
     // WIDGETS
