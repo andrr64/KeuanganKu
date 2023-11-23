@@ -39,7 +39,7 @@ class _CardTransaksiState extends State<CardTransaksi> {
                 widget.dataTransaksi.judul,
                 style: const TextStyle(
                   fontFamily: "QuickSand_Bold",
-                  fontSize: 14,
+                  fontSize: 16,
                   color: ApplicationColors.primary,
                 ),
               ),
@@ -67,7 +67,7 @@ class _CardTransaksiState extends State<CardTransaksi> {
               formatCurrency(widget.dataTransaksi.nilai),
               style: const TextStyle(
                 fontFamily: "QuickSand_Bold",
-                fontSize: 14,
+                fontSize: 16,
                 color: ApplicationColors.primary,
               ),
             ),
