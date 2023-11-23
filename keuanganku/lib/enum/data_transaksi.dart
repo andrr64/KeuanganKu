@@ -12,3 +12,10 @@ enum WaktuTransaksi {
   SEMUANYA,
   KHUSUS
 }
+
+enum SortirTransaksi {
+  Terbaru,
+  Terlama,
+  Tertinggi,
+  Terendah
+}
