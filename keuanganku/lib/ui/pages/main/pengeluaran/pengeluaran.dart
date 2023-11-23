@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:keuanganku/ui/state_bridge.dart';
 
 class HalamanPengeluaran extends StatefulWidget {
   const HalamanPengeluaran({super.key});
+
+  static StateBridge state = StateBridge();
 
   @override
   State<HalamanPengeluaran> createState() => _HalamanPengeluaranState();
 }
 
 class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
+  @override
+  void initState() {
+    super.initState();
+    HalamanPengeluaran.state.init(() { 
+      setState(() {
+        
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

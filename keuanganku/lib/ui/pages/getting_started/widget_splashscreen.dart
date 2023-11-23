@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/ui/warna_aplikasi.dart';
+import 'package:keuanganku/ui/application_colors.dart';
 
 Text getJudul(String judul) {
   return Text(
     judul,
     style: const TextStyle(
-        fontFamily: "Quicksand_Bold", fontSize: 30, color: Warna.primaryColor),
+        fontFamily: "Quicksand_Bold", fontSize: 30, color: ApplicationColors.primary),
   );
 }
 
@@ -16,7 +16,7 @@ Text _getInfo(String info) {
     style: const TextStyle(
       fontFamily: "Quicksand",
       fontSize: 14,
-      color: Warna.primaryColor,
+      color: ApplicationColors.primary,
     ),
   );
 }

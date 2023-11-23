@@ -1,0 +1,114 @@
+// ignore_for_file: non_constant_identifier_names
+
+import 'package:flutter/material.dart';
+import 'package:keuanganku/enum/data_transaksi.dart';
+import 'package:keuanganku/ui/application_colors.dart';
+import 'package:keuanganku/ui/pages/main/beranda/widgets/ringkasan_grafik/ringkasan_grafik.dart';
+import 'package:keuanganku/ui/pages/main/util.dart';
+
+class Properties {
+  final List<String> listTabJenisTransaksi = [
+    "Pemasukan",
+    "Pengeluaran"
+  ];
+  double panjangGarisTabJenisTransaksi = 150;
+  double  posisiGarisTabJenisTransaksi(indeksTabJenisTransaksi) => panjangGarisTabJenisTransaksi * indeksTabJenisTransaksi;
+}
+
+class TabJenisTransaksi extends StatelessWidget {
+  TabJenisTransaksi({super.key, required this.indeksTabJenisTransaksi});
+ 
+  final int indeksTabJenisTransaksi;
+  final Properties properties = Properties();
+
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.sizeOf(context);
+
+    // EVENTS
+    void tabJenisTransaksiBerubah(int index){
+      RingkasanGrafik.data.indeksTabJenisTransaksi = index;
+      switch (index) {
+        case 0:
+          RingkasanGrafik.data.jenisTransaksi = JenisTransaksi.PENGELUARAN;
+          break;
+        case 1:
+          RingkasanGrafik.data.jenisTransaksi = JenisTransaksi.PEMASUKAN;
+          break;
+        default:
+          break;
+      }
+      RingkasanGrafik.state.update!();
+    }  
+
+    // WIDGETS
+    WIDGET_teksTab(){
+      return 
+      SizedBox(
+        width: size.width*0.9,
+        height: 27.5,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount:properties.listTabJenisTransaksi.length,
+          physics: const BouncingScrollPhysics(),
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: (){
+                tabJenisTransaksiBerubah(index);
+              },
+              child: SizedBox(
+                width:properties.panjangGarisTabJenisTransaksi,
+                child: Text(
+                  properties.listTabJenisTransaksi[index],
+                  style: TextStyle(
+                    fontFamily: "QuickSand_Bold",
+                    fontSize: 20,
+                    color:RingkasanGrafik.data.indeksTabJenisTransaksi == index? ApplicationColors.primary : ApplicationColors.primaryColorWidthPercentage(percentage: 50 )
+                  ),
+                ),
+              )
+            );
+          }
+        ),
+      );
+    }
+    WIDGET_garisTab(){
+      return            
+      AnimatedPositioned(
+        duration: const Duration(milliseconds: 250),
+        bottom: 0,
+        left:properties.posisiGarisTabJenisTransaksi(indeksTabJenisTransaksi),
+        curve: Curves.easeInOutQuint,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 500),
+          width: properties.panjangGarisTabJenisTransaksi - 10,
+          height: 2,
+          curve: Curves.ease,
+          decoration: BoxDecoration(
+            color: ApplicationColors.secondaryOrange,
+            borderRadius: BorderRadius.circular(15)
+          ),
+        ),
+      );
+    }
+
+    return 
+    wrapWithPadding(
+      context,
+      SizedBox(
+        width: size.width * 0.9,
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                WIDGET_teksTab(),
+                WIDGET_garisTab()
+              ]
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

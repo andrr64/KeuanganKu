@@ -3,7 +3,7 @@ import 'package:keuanganku/main.dart';
 import 'package:keuanganku/ui/pages/getting_started/halaman_1.dart';
 import 'package:keuanganku/ui/pages/getting_started/halaman_2.dart';
 import 'package:keuanganku/ui/pages/getting_started/halaman_akhir.dart';
-import 'package:keuanganku/ui/warna_aplikasi.dart';
+import 'package:keuanganku/ui/application_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class GettingStartedPage extends StatefulWidget {
@@ -53,7 +53,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                           style: TextStyle(
                               fontFamily: "Quicksand_Medium",
                               fontSize: 14,
-                              color: Warna.primaryColor),
+                              color: ApplicationColors.primary),
                         ),
                       ),
                     )
@@ -67,8 +67,8 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                 effect: WormEffect(
                     dotWidth: 8,
                     dotHeight: 8,
-                    dotColor: Warna.getColorByPercentage(percentage: 50),
-                    activeDotColor: Warna.primaryColor),
+                    dotColor: ApplicationColors.primaryColorWidthPercentage(percentage: 50),
+                    activeDotColor: ApplicationColors.primary),
               ),
               !halamanAkhir
                   ? SizedBox(
@@ -76,7 +76,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                       height: 30,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Warna.primaryColor,
+                          backgroundColor: ApplicationColors.primary,
                         ),
                         onPressed: () {
                           _pageController.nextPage(
@@ -94,14 +94,14 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                       height: 30,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Warna.primaryColor,
+                          backgroundColor: ApplicationColors.primary,
                         ),
                         child: const Text(
                           "Done",
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, routes.root);
+                          Navigator.pushReplacementNamed(context, routes.mainPage);
                         },
                       ),
                     )

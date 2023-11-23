@@ -1,11 +1,23 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:keuanganku/ui/pages/main/util.dart';
-import 'package:keuanganku/ui/warna_aplikasi.dart';
+import 'package:keuanganku/ui/state_bridge.dart';
+import 'package:keuanganku/ui/application_colors.dart';
+import 'package:keuanganku/util/get_currency.dart';
+
+class Data {
+  double get API_Database_GET_totalDana {
+    return 1500000;
+  }
+}
 
 class TotalDana extends StatefulWidget {
-  const TotalDana({super.key, required this.onChange, required this.X });
-  final void Function(int) onChange;
-  final String X;
+  const TotalDana({super.key});
+
+  static StateBridge state = StateBridge();
+  static Data data = Data();
+
   @override
   State<TotalDana> createState() => _TotalDanaState();
 }
@@ -13,6 +25,12 @@ class TotalDana extends StatefulWidget {
 class _TotalDanaState extends State<TotalDana> {
   @override
   Widget build(BuildContext context) {
+    TotalDana.state.init(() {
+      setState(() {
+        
+      });
+    });
+    
     return wrapWithPadding(
       context,
       SizedBox(
@@ -26,14 +44,14 @@ class _TotalDanaState extends State<TotalDana> {
               style: TextStyle(
                   fontSize: 18,
                   fontFamily: "QuickSand_Medium",
-                  color: Warna.getColorByPercentage(percentage: 75)),
+                  color: ApplicationColors.primaryColorWidthPercentage(percentage: 75)),
             ),
             Text(
-              widget.X,
+              formatCurrency(TotalDana.data.API_Database_GET_totalDana),
               style: const TextStyle(
                   fontSize: 24,
                   fontFamily: "QuickSand_Bold",
-                  color: Warna.primaryColor),
+                  color: ApplicationColors.primary),
             )
           ],
         ),
