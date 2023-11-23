@@ -1,9 +1,7 @@
-// ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/ui/application_colors.dart';
-import 'package:keuanganku/ui/pages/getting_started/halaman_1.dart';
 import 'package:keuanganku/ui/pages/main/beranda/beranda.dart';
 import 'package:keuanganku/ui/pages/main/beranda/widgets/ringkasan_grafik/ringkasan_grafik.dart';
 import 'package:keuanganku/ui/pages/main/util.dart';
@@ -41,7 +39,7 @@ class TabWaktuTransaksi extends StatelessWidget {
     var size = MediaQuery.sizeOf(context);
 
     // WIDGETS
-    WIDGET_teksTab(){
+    widgetTeksTab(){
       return  
       SizedBox(
         width: size.width*0.9,
@@ -72,7 +70,7 @@ class TabWaktuTransaksi extends StatelessWidget {
         ),
       );          
     }
-    WIDGET_garisTab(){
+    widgetGarisTab(){
       return 
       AnimatedPositioned(
         duration: const Duration(milliseconds: 250),
@@ -101,8 +99,8 @@ class TabWaktuTransaksi extends StatelessWidget {
           children: [
             Stack(
               children: [
-                WIDGET_teksTab(),
-                WIDGET_garisTab()
+                widgetTeksTab(),
+                widgetGarisTab()
               ]
             ),
           ],

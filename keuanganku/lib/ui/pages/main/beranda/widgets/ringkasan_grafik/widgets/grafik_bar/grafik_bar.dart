@@ -53,13 +53,13 @@ class Properties {
     return Text(listMonth[xValue.toInt()], style: textStyle,);
   }
   Widget _defaultGetTitle(double value, TitleMeta meta) {
-  return SideTitleWidget(
+    return SideTitleWidget(
     axisSide: meta.axisSide,
     child: Text(
       meta.formattedValue,
     ),
   );
-}
+  }
   
   Widget 
   getRightTitle(double val, TitleMeta meta){
@@ -105,10 +105,33 @@ class GrafikBar extends StatelessWidget {
   final Properties properties = Properties();
   final List<BarChartXY> dataBarChart;
 
-
+  
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
+    // WIDGETS
+    Widget widgetJudul(){
+      return 
+      Text(properties.infoWaktuTransaksi(waktuTransaksi),
+        style: TextStyle(
+          fontSize: 16,
+          fontFamily: "QuickSand_Medium",
+          color: ApplicationColors.primaryColorWidthPercentage(percentage: 75)
+        ),
+      );
+    }
+    Widget widgetTotalNilai(){
+      return
+      Text(
+        RingkasanGrafik.data.total,
+        style: const TextStyle(
+          fontSize: 18,
+          fontFamily: "QuickSand_Bold",
+          color: ApplicationColors.primary
+        ),
+      );
+    }
+    
     return wrapWithPadding(
     context, 
     SizedBox(
@@ -116,21 +139,8 @@ class GrafikBar extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(properties.infoWaktuTransaksi(waktuTransaksi),
-            style: TextStyle(
-              fontSize: 16,
-              fontFamily: "QuickSand_Medium",
-              color: ApplicationColors.primaryColorWidthPercentage(percentage: 75)
-            ),
-          ),
-          Text(
-            RingkasanGrafik.data.total,
-            style: const TextStyle(
-              fontSize: 18,
-              fontFamily: "QuickSand_Bold",
-              color: ApplicationColors.primary
-            ),
-          ),
+          widgetJudul(),
+          widgetTotalNilai(),
           const SizedBox(height: 20,),
           ApplicationBarChart(
             dataXY: dataBarChart,

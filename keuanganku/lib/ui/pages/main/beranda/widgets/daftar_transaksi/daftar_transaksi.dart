@@ -1,8 +1,11 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:keuanganku/database/model/data_transaksi.dart';
+import 'package:keuanganku/database/model/kategori.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/ui/application_colors.dart';
+import 'package:keuanganku/ui/pages/main/beranda/widgets/daftar_transaksi/widgets/card_data_transaksi.dart';
 import 'package:keuanganku/ui/pages/main/util.dart';
 import 'package:keuanganku/ui/state_bridge.dart';
 
@@ -13,6 +16,20 @@ class Data {
     "Terlama",
     "Tertinggi",
     "Terendah"
+  ];
+  List<DataTransaksi> listTransaksi = [
+    DataTransaksi(
+      id: 1, 
+      judul: "Mama Mia", 
+      deskripsi: "Beli mama mia lezatos", 
+      nilai: 200000, 
+      waktu: DateTime(2003, 12, 15, 23, 0), 
+      kategoriTransaksi: KategoriTransaksi(
+          id:1,
+          judul: "Mama Mia"
+      ),
+      jenisTransaksi: JenisTransaksi.PEMASUKAN
+    ),
   ];
 
   SortirTransaksi getEnumSortir(String val){
@@ -69,7 +86,7 @@ class _DaftarTransaksiState extends State<DaftarTransaksi> {
     void ketikaDropDownBerubah(String newVal) => DaftarTransaksi.data.sortir = DaftarTransaksi.data.getEnumSortir(newVal);
 
     // WIDGETS
-    Widget WIDGET_title (){
+    Widget widgetJudul (){
       return  
       const Text("Daftar Transaksi",
         style: TextStyle(
@@ -79,7 +96,7 @@ class _DaftarTransaksiState extends State<DaftarTransaksi> {
         )
       );
     }
-    Widget WIDGET_dropDownMenu(){
+    Widget widgetTombolDropDown(){
        return 
        DropdownButton(
         value: DaftarTransaksi.data.getSortirString(DaftarTransaksi.data.sortir),
@@ -103,13 +120,20 @@ class _DaftarTransaksiState extends State<DaftarTransaksi> {
         scrollDirection: Axis.horizontal,
         child: SizedBox(
           width: size.width * 0.9,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: [
-              WIDGET_title(),
-              WIDGET_dropDownMenu()
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  widgetJudul(),
+                  widgetTombolDropDown(),
+                ],
+              ),
+              const SizedBox(height: 15,),
+              for(int i = 0; i < DaftarTransaksi.data.listTransaksi.length; i++) 
+                CardTransaksi(const Icon(Icons.store), dataTransaksi: DaftarTransaksi.data.listTransaksi[i], width: 40, height: 40,),
             ],
-            ),
+          ),
           ),
       ),
     );

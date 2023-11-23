@@ -1,16 +1,8 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:keuanganku/ui/pages/main/beranda/widgets/daftar_transaksi/daftar_transaksi.dart';
 import 'package:keuanganku/ui/pages/main/beranda/widgets/ringkasan_grafik/ringkasan_grafik.dart';
 import 'package:keuanganku/ui/pages/main/beranda/widgets/total_dana/total_dana.dart';
 import 'package:keuanganku/ui/state_bridge.dart';
-import 'package:keuanganku/ui/application_colors.dart';
-
-
-class Properties {
-  final Color primaryColor = ApplicationColors.primary;
-}
 
 class HalamanBeranda extends StatefulWidget {
   /// Class Halaman ini memuat seluruh ringkasan pemasukan dan pengeluaran serta fitur analisa
@@ -18,7 +10,6 @@ class HalamanBeranda extends StatefulWidget {
   final void Function() updateParentState;
 
   static StateBridge state = StateBridge();
-  static Properties properties = Properties();
 
   @override
   State<HalamanBeranda> createState() => _HalamanBerandaState();
@@ -28,18 +19,15 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
   final double vPadding = 7.6;
   
   // Widgets
-  WIDGET_totalDana(){
+  widgetTotalDana(){
     return const TotalDana();
   }
-
-  WIDGET_ringkasanGrafik(){
+  widgetRingkasanGrafik(){
     return const RingkasanGrafik();
   }
-
-  WIDGET_daftarTransaksi() {
+  widgetDaftarTransaksi() {
     return const DaftarTransaksi();
   }
-  //+--------------------------------+
 
   void updateState(){
     setState(() {
@@ -50,13 +38,8 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    HalamanBeranda.state.init(updateState);
-  }
-
-  @override
   Widget build(BuildContext context) {
+    HalamanBeranda.state.init(updateState);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -65,9 +48,9 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: vPadding,),
-            WIDGET_totalDana(),
-            WIDGET_ringkasanGrafik(),
-            WIDGET_daftarTransaksi()
+            widgetTotalDana(),
+            widgetRingkasanGrafik(),
+            widgetDaftarTransaksi()
           ],
         ),
       ),
