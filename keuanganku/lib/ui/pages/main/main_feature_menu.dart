@@ -1,4 +1,4 @@
-const List<String> menuTitle = [
+const List<String> listFeature = [
   "Beranda",
   "Pengeluaran",
   "Wallet",

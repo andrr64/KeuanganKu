@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/ui/pages/main/main_bottom_navigation_bar.dart';
-import 'package:keuanganku/ui/pages/main/main_app_bar.dart';
+import 'package:keuanganku/ui/pages/main/bottom_bar.dart';
+import 'package:keuanganku/ui/pages/main/app_bar.dart';
 import 'package:keuanganku/ui/pages/main/keep_alive.dart';
 import 'package:keuanganku/ui/pages/main/beranda/beranda.dart';
-import 'package:keuanganku/ui/pages/main/main_body.dart';
-import 'package:keuanganku/ui/pages/main/main_drawer.dart';
+import 'package:keuanganku/ui/pages/main/body.dart';
+import 'package:keuanganku/ui/pages/main/drawer.dart';
 import 'package:keuanganku/ui/pages/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/ui/pages/main/wallet/wallet.dart';
 
@@ -62,7 +62,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   /// Fungsi yang dipanggil ketika indeks/halaman berubah
-  dynamic onPageChanged(int index) {
+  onPageChanged(int index) {
     setState(() {
       MainPage.data.currentIndex = index;
     });
@@ -72,14 +72,14 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        drawer: ApplicationDrawer(),
-        appBar: ApplicationBar(scaffoldKey: _scaffoldKey, index: MainPage.data.currentIndex).getWidget(context),
-        body: ApplicationMainBody(
+        drawer: AppDrawer(),
+        appBar: AppTopBar(scaffoldKey: _scaffoldKey, index: MainPage.data.currentIndex).getWidget(context),
+        body: AppBody(
           onPageChanged: onPageChanged,
           pageController: _pageController,
           body: MainPage.data.listMainPagePages,
         ).getWidget(),
-        bottomNavigationBar:ApplicatioBottomNavBar(MainPage.data.currentIndex, _pageController).getWidget()
+        bottomNavigationBar:AppBottomNavBar(MainPage.data.currentIndex, _pageController).getWidget()
     );
   }
 }

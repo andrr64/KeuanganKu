@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:keuanganku/ui/pages/main/main_list_judul_menu.dart';
+import 'package:keuanganku/ui/pages/main/main_feature_menu.dart';
 
 class Properties {
   Color primaryColor = const Color(0xff383651);
@@ -16,12 +16,12 @@ class Data {
   ];
 }
 
-class ApplicatioBottomNavBar{
+class AppBottomNavBar{
   final Data data = Data();
   final Properties properties = Properties();
   late final PageController pageController;
 
-  ApplicatioBottomNavBar(int index, this.pageController){
+  AppBottomNavBar(int index, this.pageController){
     data.currentIndex = index;
   }
 
@@ -29,20 +29,19 @@ class ApplicatioBottomNavBar{
     List<BottomNavigationBarItem> bottomNavBarItems = [
       BottomNavigationBarItem(
         icon: Icon(data.currentIndex == 0? Icons.analytics : Icons.analytics_outlined),
-        label: menuTitle[0]),
+        label: listFeature[0]),
       BottomNavigationBarItem(
         icon: Icon(data.currentIndex == 1? CupertinoIcons.money_dollar_circle_fill : CupertinoIcons.money_dollar_circle),
-        label: menuTitle[1]),
+        label: listFeature[1]),
       BottomNavigationBarItem(
         icon: Icon(data.currentIndex == 2? Icons.account_balance_wallet : Icons.account_balance_wallet_outlined),
-        label: menuTitle[2]),
+        label: listFeature[2]),
       BottomNavigationBarItem(
         icon: Icon(data.currentIndex == 3? CupertinoIcons.pencil_circle_fill : CupertinoIcons.pencil_circle),
-        label: menuTitle[3]),
+        label: listFeature[3]),
     ];
 
     return BottomNavigationBar(
-
       backgroundColor: Colors.white,
       type:BottomNavigationBarType.fixed ,
       selectedItemColor: properties.primaryColor,

@@ -3,7 +3,7 @@ import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/ui/application_colors.dart';
 import 'package:keuanganku/ui/pages/main/beranda/beranda.dart';
 import 'package:keuanganku/ui/pages/main/beranda/widgets/ringkasan_grafik/ringkasan_grafik.dart';
-import 'package:keuanganku/ui/pages/main/util.dart';
+import 'package:keuanganku/ui/pages/main/wrap.dart';
 
 class Properties {
   final List<String> listTabJenisTransaksi = [

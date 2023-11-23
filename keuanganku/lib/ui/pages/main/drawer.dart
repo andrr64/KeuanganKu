@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/ui/pages/main/main_info_apk.dart';
+import 'package:keuanganku/application_info.dart';
 
-class ObjectProperty {
+class Properties {
   Color primaryColor = const Color(0xff3F4245);
 }
 
-class ApplicationDrawer extends StatelessWidget {
+class AppDrawer extends StatelessWidget {
   /// Drawer aplikasi
-  ApplicationDrawer({super.key});
-  final ObjectProperty property = ObjectProperty();
+  AppDrawer({super.key});
+  final Properties property = Properties();
   
   @override
   Widget build(BuildContext context) {
@@ -22,26 +22,31 @@ class ApplicationDrawer extends StatelessWidget {
           Container(
             color: property.primaryColor,
             width: double.infinity,
-            child: const Padding(
-              padding: EdgeInsets.only(left: besarPaddingKiri, top: besarPadding, bottom: besarPadding),
+            child: Padding(
+              padding: const EdgeInsets.only(left: besarPaddingKiri, top: besarPadding, bottom: besarPadding),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "KeuanganKu", 
+                  const Text(
+                    ApplicationInfo.title, 
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 23,
                       fontFamily: "QuickSand_Bold"),
                     ),
-                  
                   Text(
-                    stringAppVersion, 
+                    ApplicationInfo.buildMode, 
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: "Inter"),
+                  ),
+                  const Text(
+                    ApplicationInfo.stringAppVersion, 
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: "Inter"),
-                    )
+                  )
                 ],
               ),
             ),
