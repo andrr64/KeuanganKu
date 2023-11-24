@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/android_system.dart';
-import 'package:keuanganku/ui/pages/routes.dart';
+import 'package:keuanganku/app/routes.dart';
 
 extension EnumToString on Enum {
   String get enumValue => toString().split('.').last;
