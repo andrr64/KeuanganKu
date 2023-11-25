@@ -16,15 +16,19 @@ void main() {
 class KeuanganKu extends StatelessWidget {
   const KeuanganKu({super.key});
 
+  ThemeData get tema => ThemeData(
+    appBarTheme: const AppBarTheme(elevation: 0),
+  );
+
   @override
   Widget build(BuildContext context) {
     routes.initializePages(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'KeuanganKu',
-      routes: routes.getRoutes(), 
+      routes: routes.routeMap, 
       initialRoute: routes.mainPage,
-      theme: ThemeData(appBarTheme: const AppBarTheme(elevation: 0)),
+      theme: tema,
     );
   }
 }
