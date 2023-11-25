@@ -23,10 +23,10 @@ class TabJenisTransaksi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
-    var panjangGarisTab = size.width * 0.9 / 2;
+    var panjangGarisTab = size.width * 0.8 / 2;
 
     // EVENTS
-    void tabJenisTransaksiBerubah(int index){
+    void ketikaTabBerubah(int index){
       RingkasanGrafik.data.indeksTabJenisTransaksi = index;
       switch (index) {
         case 0:
@@ -52,7 +52,7 @@ class TabJenisTransaksi extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: (){
-                tabJenisTransaksiBerubah(index);
+                ketikaTabBerubah(index);
               },
               child: SizedBox(
                 width:panjangGarisTab,
@@ -70,6 +70,7 @@ class TabJenisTransaksi extends StatelessWidget {
         ),
       );
     }
+    
     widgetGarisTab(){
       return            
       AnimatedPositioned(

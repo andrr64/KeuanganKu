@@ -14,16 +14,14 @@ class Properties {
   double posisiGarisTabWaktuTransaksi(indeksTabWaktuTransaksi) => indeksTabWaktuTransaksi * panjangGarisTabWaktuTransaksi;
 }
 
-class TabWaktuTransaksi extends StatelessWidget {
-  TabWaktuTransaksi({super.key, required this.indeksWaktuTransaksi});
-  
-  final int indeksWaktuTransaksi;
+class TabWaktuTransaksi{
+  int indeksWaktuTransaksi;
+  TabWaktuTransaksi({required this.indeksWaktuTransaksi});
+  static Data data = Data();
   final Properties properties = Properties();
 
-  @override
-  Widget build(BuildContext context) {
-    // EVENTS
-    void waktuTransaksiBerubah(int index){
+  Widget getWidget(BuildContext context){
+      void waktuTransaksiBerubah(int index){
       RingkasanGrafik.data.indeksTabWaktuTransaksi = index;
       switch (index) {
         case 0:

@@ -5,7 +5,6 @@ import 'package:keuanganku/app/main/beranda/widgets/total_dana/total_dana.dart';
 import 'package:keuanganku/app/state_bridge.dart';
 
 class HalamanBeranda extends StatefulWidget {
-  /// Class Halaman ini memuat seluruh ringkasan pemasukan dan pengeluaran serta fitur analisa
   const HalamanBeranda({super.key, required this.updateParentState});
   final void Function() updateParentState;
 
@@ -17,23 +16,10 @@ class HalamanBeranda extends StatefulWidget {
 
 class _HalamanBerandaState extends State<HalamanBeranda> {
   final double vPadding = 7.6;
-  
-  // Widgets
-  widgetTotalDana(){
-    return const TotalDana();
-  }
-  widgetRingkasanGrafik(){
-    return const RingkasanGrafik();
-  }
-  widgetDaftarTransaksi() {
-    return const DaftarTransaksi();
-  }
 
   void updateState(){
     setState(() {
-      DaftarTransaksi.state.update!();
-      RingkasanGrafik.state.update!();
-      TotalDana.state.update!();
+
     });
   }
 
@@ -48,9 +34,9 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: vPadding,),
-            widgetTotalDana(),
-            widgetRingkasanGrafik(),
-            widgetDaftarTransaksi()
+            TotalDana(context).getWidget(),
+            RingkasanGrafik(context).getWidget(),
+            DaftarTransaksi(context).getWidget()
           ],
         ),
       ),
