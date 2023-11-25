@@ -10,11 +10,11 @@ Routes routes = Routes();
 
 void main() {
   AndroidSys.setNotificationBarColor(); // Berfungsi untuk mengubah warna bar notifikasi android
-  runApp(const MyApp());
+  runApp(const KeuanganKu());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class KeuanganKu extends StatelessWidget {
+  const KeuanganKu({super.key});
 
   @override
   Widget build(BuildContext context) {
