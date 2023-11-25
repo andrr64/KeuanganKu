@@ -5,7 +5,6 @@ import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/widgets/gra
 import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/widgets/tab_jenis_transaksi/tab_jenis_transaksi.dart';
 import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/widgets/tab_waktu_transaksi/tab_waktu_transaksi.dart';
 import 'package:keuanganku/app/reusable%20_components/bar_chart/data.dart';
-import 'package:keuanganku/app/state_bridge.dart';
 import 'package:keuanganku/util/get_currency.dart';
 import 'package:keuanganku/util/random_algo.dart';
 
@@ -95,52 +94,32 @@ class Data {
   }
 }
 
-class RingkasanGrafik extends StatefulWidget {
-  const RingkasanGrafik({super.key});
-
-  static StateBridge state = StateBridge();
+class RingkasanGrafik{
   static Data data = Data();
-  
-  @override
-  State<RingkasanGrafik> createState() => _RingkasanGrafikState();
-}
+  BuildContext context;
+  RingkasanGrafik(this.context);
 
-class _RingkasanGrafikState extends State<RingkasanGrafik> {
-  void updateState(){
-    setState(() {
-      
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    RingkasanGrafik.state.init(updateState);
-  }
-  
-  @override
-  Widget build(BuildContext context) {
+  Widget getWidget(){
     // WIDGETS
-    WIDGET_tabJenisTransaksi(){
+    widgetTabJenisTransaksi(){
       return TabJenisTransaksi(indeksTab: RingkasanGrafik.data.indeksTabJenisTransaksi);
     }
-    WIDGET_tabWaktuTransaksi(){
-      return TabWaktuTransaksi(indeksWaktuTransaksi: RingkasanGrafik.data.indeksTabWaktuTransaksi,);
+    widgetTabWaktuTransaksi(){
+      return TabWaktuTransaksi(indeksWaktuTransaksi: RingkasanGrafik.data.indeksTabWaktuTransaksi,).getWidget(context);
     }
-    WIDGET_grafikBar(){
+    widgetGrafikBar(){
       return GrafikBar(
         jenisTransaksi: RingkasanGrafik.data.jenisTransaksi, 
         waktuTransaksi: RingkasanGrafik.data.waktuTransaksi,
         dataBarChart: RingkasanGrafik.data.arrayBarChart
       );
     }
-    //+-----------------------------
     
     return Column(
       children: [
-        WIDGET_tabJenisTransaksi(),
-        WIDGET_tabWaktuTransaksi(),
-        WIDGET_grafikBar()
+        widgetTabJenisTransaksi(),
+        widgetTabWaktuTransaksi(),
+        widgetGrafikBar()
       ],
     );
   }

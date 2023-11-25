@@ -12,7 +12,7 @@ class Properties {
   Widget _weeklyTitle(double xValue, TitleMeta meta){
     TextStyle textStyle = TextStyle(
       fontFamily: "QuickSand_Bold",
-      fontSize: 14,
+      fontSize: 12,
       color: ApplicationColors.primaryColorWidthPercentage(percentage: 50)
     );
 
