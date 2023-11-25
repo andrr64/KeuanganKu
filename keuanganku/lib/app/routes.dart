@@ -12,9 +12,7 @@ class Routes {
     };
   }
 
-  getRoutes() {
-    return _pagesMaps;
-  }
+  dynamic get routeMap => _pagesMaps;
 
   getPages(String routeName) {
     // Artinya apa bang mesi?
