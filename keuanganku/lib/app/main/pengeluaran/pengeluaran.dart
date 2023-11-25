@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/state_bridge.dart';
 
 class HalamanPengeluaran extends StatefulWidget {
@@ -26,8 +27,16 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
+        backgroundColor: ApplicationColors.primary,
         onPressed: (){
+          showModalBottomSheet(
+            context: context, 
+            builder: (BuildContext context){
+              return const Center(
+                child: Text("Aku sebuah teks di tengah-tengah"),
+              );
+            },
+          );
          },
         child: const Icon(Icons.add, color: Colors.white,),
       ),
@@ -40,8 +49,10 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            
           ],
-        ),),
+        ),
+      ),
     );
   }
 }
