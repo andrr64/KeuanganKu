@@ -1,6 +1,6 @@
 class ModelDataPengeluaran {
-  int id;
-  int id_wallet;
+  int id = 1;
+  int id_wallet ;
   int id_kategori;
   String judul;
   String deskripsi;
@@ -28,7 +28,33 @@ class ModelDataPengeluaran {
         'waktu': waktu.toIso8601String(),
       };
     }
-  
+    
+    String formatWaktu(DateTime waktu) {
+    final List<String> namaBulan = [
+      '', // indeks 0 tidak digunakan
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
+    ];
+
+    String hari = waktu.day.toString();
+    String bulan = namaBulan[waktu.month];
+    String tahun = waktu.year.toString();
+    String jam = waktu.hour.toString().padLeft(2, '0');
+    String menit = waktu.minute.toString().padLeft(2, '0');
+
+    return '$hari $bulan $tahun, $jam:$menit';
+  }
+
   // Metode untuk membuat objek DataPengeluaran dari Map (output SQL)
   static ModelDataPengeluaran fromMap(Map<String, dynamic> map){
     return ModelDataPengeluaran(
