@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/main/beranda/beranda.dart';
-import 'package:keuanganku/database/model/data_transaksi.dart';
-import 'package:keuanganku/database/model/kategori.dart';
+import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/main/beranda/widgets/daftar_transaksi/widgets/card_data_transaksi/card_data_transaksi.dart';
@@ -16,19 +15,8 @@ class Data {
     "Tertinggi",
     "Terendah"
   ];
-  List<DataTransaksi> listTransaksi = [
-    DataTransaksi(
-      id: 1, 
-      judul: "Mama Mia", 
-      deskripsi: "Beli mama mia lezatos", 
-      nilai: 200000, 
-      waktu: DateTime(2003, 12, 15, 23, 0), 
-      kategoriTransaksi: KategoriTransaksi(
-          id:1,
-          judul: "Mama Mia"
-      ),
-      jenisTransaksi: JenisTransaksi.PEMASUKAN
-    ),
+  List<ModelDataPengeluaran> listTransaksi = [
+
   ];
 
   SortirTransaksi getEnumSortir(String val){
