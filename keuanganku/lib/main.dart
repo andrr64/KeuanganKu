@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/android_system.dart';
 import 'package:keuanganku/app/routes.dart';
+import 'package:keuanganku/database/database_services.dart';
+
 
 extension EnumToString on Enum {
   String get enumValue => toString().split('.').last;
 }
 
 Routes routes = Routes();
+DatabaseService db = DatabaseService();
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  db.openDB();
   AndroidSys.setNotificationBarColor(); // Berfungsi untuk mengubah warna bar notifikasi android
   runApp(const KeuanganKu());
 }
