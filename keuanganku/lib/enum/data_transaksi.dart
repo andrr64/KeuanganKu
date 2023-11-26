@@ -2,7 +2,8 @@
 
 enum JenisTransaksi {
   PEMASUKAN,
-  PENGELUARAN
+  PENGELUARAN,
+  NULL
 }
 
 enum WaktuTransaksi {
