@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/reusable%20_components/bar_chart/data.dart';
+import 'package:keuanganku/app/reusable_components/bar_chart/data.dart';
 import 'package:keuanganku/util/search_algo.dart';
 
 class ApplicationBarChart extends StatelessWidget {

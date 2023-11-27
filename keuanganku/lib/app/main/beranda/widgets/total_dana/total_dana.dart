@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/app/main/wrap.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/util/get_currency.dart';
 
@@ -12,10 +11,8 @@ class Data {
 class TotalDana {
   TotalDana(this.context);
   BuildContext context;
-  static Data data = Data();
   Widget getWidget(){
-     return wrapWithPadding(
-      context,
+     return 
       SizedBox(
         width: MediaQuery.sizeOf(context).width * 0.9,
         child: Column(
@@ -30,15 +27,15 @@ class TotalDana {
                   color: ApplicationColors.primaryColorWidthPercentage(percentage: 75)),
             ),
             Text(
-              formatCurrency(TotalDana.data.dbAPIgetTotalDana),
+              formatCurrency(Data().dbAPIgetTotalDana),
               style: const TextStyle(
-                  fontSize: 24,
-                  fontFamily: "QuickSand_Bold",
-                  color: ApplicationColors.primary),
+                fontSize: 24,
+                fontFamily: "QuickSand_Bold",
+                color: ApplicationColors.primary
+              ),
             )
           ],
         ),
-      ),
     );
   }
 }

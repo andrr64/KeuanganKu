@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/app/reusable%20_components/app_bar/app_bar_title.dart';
+import 'package:keuanganku/app/reusable_components/app_bar/app_bar_title.dart';
 
 class KAppBar {
   KAppBar({

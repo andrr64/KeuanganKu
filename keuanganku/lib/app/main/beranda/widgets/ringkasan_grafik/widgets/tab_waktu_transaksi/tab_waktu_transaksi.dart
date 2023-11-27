@@ -4,7 +4,6 @@ import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/main/beranda/beranda.dart';
 import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/ringkasan_grafik.dart';
-import 'package:keuanganku/app/main/wrap.dart';
 
 class Properties {
   final List<String> listTabWaktuTransaksi = [
@@ -21,7 +20,8 @@ class TabWaktuTransaksi{
   final Properties properties = Properties();
 
   Widget getWidget(BuildContext context){
-      void waktuTransaksiBerubah(int index){
+    void waktuTransaksiBerubah(int index){
+      if (RingkasanGrafik.data.indeksTabWaktuTransaksi == index) return;
       RingkasanGrafik.data.indeksTabWaktuTransaksi = index;
       switch (index) {
         case 0:
@@ -89,22 +89,18 @@ class TabWaktuTransaksi{
     }
 
     return 
-    wrapWithPadding(
-      context,
-      SizedBox(
-        width: size.width * 0.9,
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                widgetTeksTab(),
-                widgetGarisTab()
-              ]
-            ),
-          ],
-        ),
+    SizedBox(
+      width: size.width * 0.9,
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              widgetTeksTab(),
+              widgetGarisTab()
+            ]
+          ),
+        ],
       ),
     );
-  
   }
 }

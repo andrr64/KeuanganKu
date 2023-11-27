@@ -3,7 +3,6 @@ import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/main/beranda/beranda.dart';
 import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/ringkasan_grafik.dart';
-import 'package:keuanganku/app/main/wrap.dart';
 
 class Properties {
   final List<String> listTabJenisTransaksi = [
@@ -19,7 +18,6 @@ class TabJenisTransaksi extends StatelessWidget {
   final int indeksTab;
   final Properties properties = Properties();
 
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
@@ -27,6 +25,7 @@ class TabJenisTransaksi extends StatelessWidget {
 
     // EVENTS
     void ketikaTabBerubah(int index){
+      if (RingkasanGrafik.data.indeksTabJenisTransaksi == index) return;
       RingkasanGrafik.data.indeksTabJenisTransaksi = index;
       switch (index) {
         case 0:
@@ -44,6 +43,7 @@ class TabJenisTransaksi extends StatelessWidget {
       return 
       SizedBox(
         width: size.width*0.9,
+        height: 30,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount:properties.listTabJenisTransaksi.length,
@@ -90,20 +90,17 @@ class TabJenisTransaksi extends StatelessWidget {
     }
 
     return 
-    wrapWithPadding(
-      context,
-      SizedBox(
-        width: size.width * 0.9,
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                widgetTeks(),
-                widgetGaris()
-              ]
-            ),
-          ],
-        ),
+    SizedBox(
+      width: size.width * 0.9,
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              widgetTeks(),
+              widgetGaris()
+            ]
+          ),
+        ],
       ),
     );
   }

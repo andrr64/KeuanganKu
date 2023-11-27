@@ -11,3 +11,7 @@ dynamic wrapWithPadding(BuildContext context, Widget child) {
     child: child,
   );
 }
+
+dynamic padding({double? y}){
+  return SizedBox(height: y?? 5,);
+}

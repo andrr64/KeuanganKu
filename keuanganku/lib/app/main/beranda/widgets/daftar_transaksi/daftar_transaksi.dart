@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/main/beranda/beranda.dart';
+import 'package:keuanganku/app/main/wrap.dart';
 import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/app_colors.dart';
@@ -35,7 +36,7 @@ class Properties {
 }
 
 class DaftarTransaksi {
-  Properties properties = Properties();
+  static Properties properties = Properties();
   BuildContext context;
   DaftarTransaksi(this.context, {required this.listData});
 
@@ -93,23 +94,20 @@ class DaftarTransaksi {
     Widget widgetListTransaksi() => widgetCardTransaksi();
     
     return
-    SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SizedBox(
-        width: size.width * 0.9,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                widgetJudul(),
-                widgetTombolDropDown(),
-              ],
-            ),
-            const SizedBox(height: 15,),
-            widgetListTransaksi()
-          ],
-        ),
+    SizedBox(
+      width: size.width * 0.9,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              widgetJudul(),
+              widgetTombolDropDown(),
+            ],
+          ),
+          padding(),
+          widgetListTransaksi()
+        ],
       ),
     );
   }

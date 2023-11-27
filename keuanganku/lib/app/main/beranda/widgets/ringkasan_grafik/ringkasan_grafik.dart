@@ -1,10 +1,11 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:flutter/material.dart';
+import 'package:keuanganku/app/main/wrap.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/widgets/grafik_bar/grafik_bar.dart';
 import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/widgets/tab_jenis_transaksi/tab_jenis_transaksi.dart';
 import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/widgets/tab_waktu_transaksi/tab_waktu_transaksi.dart';
-import 'package:keuanganku/app/reusable%20_components/bar_chart/data.dart';
+import 'package:keuanganku/app/reusable_components/bar_chart/data.dart';
 import 'package:keuanganku/util/get_currency.dart';
 import 'package:keuanganku/util/random_algo.dart';
 
@@ -101,25 +102,21 @@ class RingkasanGrafik{
 
   Widget getWidget(){
     // WIDGETS
-    widgetTabJenisTransaksi(){
-      return TabJenisTransaksi(indeksTab: RingkasanGrafik.data.indeksTabJenisTransaksi);
-    }
-    widgetTabWaktuTransaksi(){
-      return TabWaktuTransaksi(indeksWaktuTransaksi: RingkasanGrafik.data.indeksTabWaktuTransaksi,).getWidget(context);
-    }
-    widgetGrafikBar(){
-      return GrafikBar(
+    widgetTabJenisTransaksi() => TabJenisTransaksi(indeksTab: RingkasanGrafik.data.indeksTabJenisTransaksi);
+    widgetTabWaktuTransaksi() => TabWaktuTransaksi(indeksWaktuTransaksi: RingkasanGrafik.data.indeksTabWaktuTransaksi,).getWidget(context);
+    widgetGrafikBar() => GrafikBar(
         jenisTransaksi: RingkasanGrafik.data.jenisTransaksi, 
         waktuTransaksi: RingkasanGrafik.data.waktuTransaksi,
         dataBarChart: RingkasanGrafik.data.arrayBarChart
-      );
-    }
+    );
     
     return Column(
       children: [
         widgetTabJenisTransaksi(),
+        padding(),
         widgetTabWaktuTransaksi(),
-        widgetGrafikBar()
+        padding(y: 5),
+        widgetGrafikBar(),
       ],
     );
   }

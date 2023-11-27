@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/ringkasan_grafik.dart';
-import 'package:keuanganku/app/main/wrap.dart';
-import 'package:keuanganku/app/reusable%20_components/bar_chart/bar_chart.dart';
-import 'package:keuanganku/app/reusable%20_components/bar_chart/data.dart';
+import 'package:keuanganku/app/reusable_components/bar_chart/bar_chart.dart';
+import 'package:keuanganku/app/reusable_components/bar_chart/data.dart';
 
 class Properties {
     
@@ -132,8 +131,7 @@ class GrafikBar extends StatelessWidget {
       );
     }
     
-    return wrapWithPadding(
-    context, 
+    return  
     SizedBox(
       width: size.width * 0.9,
       child: Column(
@@ -150,7 +148,6 @@ class GrafikBar extends StatelessWidget {
           )
         ],
       ),
-    )
   );
   }
 }
