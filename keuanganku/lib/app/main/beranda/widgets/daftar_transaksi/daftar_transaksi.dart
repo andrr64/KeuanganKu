@@ -4,10 +4,9 @@ import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/main/beranda/widgets/daftar_transaksi/widgets/card_data_transaksi/card_data_transaksi.dart';
-import 'package:keuanganku/app/main/wrap.dart';
 import 'package:keuanganku/main.dart';
 
-class Data {
+class Properties {
   SortirTransaksi sortir = SortirTransaksi.Terbaru;
   List<String> menuSortir = [
     "Terbaru",
@@ -36,16 +35,18 @@ class Data {
 }
 
 class DaftarTransaksi {
-  static Data data = Data();
+  Properties properties = Properties();
   BuildContext context;
-  DaftarTransaksi(this.context);
+  DaftarTransaksi(this.context, {required this.listData});
+
+  dynamic listData;
 
   Widget getWidget(){
     var size = MediaQuery.sizeOf(context);
     
     // EVENTS
     void ketikaDropDownBerubah(dynamic newVal) {
-      DaftarTransaksi.data.sortir = DaftarTransaksi.data.getEnumSortir(newVal);
+      properties.sortir = properties.getEnumSortir(newVal);
       HalamanBeranda.state.update!();
     }
 
@@ -59,6 +60,18 @@ class DaftarTransaksi {
       }).toList();
     }
     
+    Widget widgetCardTransaksi(){
+      return 
+      ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: listData.length,
+        itemBuilder: (context, index) => CardPengeluaran(
+            const Icon(Icons.store), 
+            dataTransaksi: listData[index], 
+        ),
+      ); 
+    }
     Widget widgetJudul (){
       return  
       const Text("Daftar Transaksi",
@@ -72,34 +85,31 @@ class DaftarTransaksi {
     Widget widgetTombolDropDown(){
        return 
        DropdownButton(
-        value: DaftarTransaksi.data.sortir.enumValue,
+        value: properties.sortir.enumValue,
         items: getDropDownMenuItems(),
         onChanged: ketikaDropDownBerubah
       );
     }
+    Widget widgetListTransaksi() => widgetCardTransaksi();
     
     return
-    wrapWithPadding(
-      context,
-      SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: SizedBox(
-          width: size.width * 0.9,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  widgetJudul(),
-                  widgetTombolDropDown(),
-                ],
-              ),
-              const SizedBox(height: 15,),
-              for(int i = 0; i < DaftarTransaksi.data.listTransaksi.length; i++) 
-                CardTransaksi(const Icon(Icons.store), dataTransaksi: DaftarTransaksi.data.listTransaksi[i], width: 40, height: 40,),
-            ],
-          ),
-          ),
+    SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        width: size.width * 0.9,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                widgetJudul(),
+                widgetTombolDropDown(),
+              ],
+            ),
+            const SizedBox(height: 15,),
+            widgetListTransaksi()
+          ],
+        ),
       ),
     );
   }

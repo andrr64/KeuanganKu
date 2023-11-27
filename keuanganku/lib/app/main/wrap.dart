@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 dynamic wrapWithPadding(BuildContext context, Widget child) {
-  double vPadding = 7.5;
+  double vPadding = 5;
   return Padding(
     padding: EdgeInsets.only(
       bottom: vPadding,

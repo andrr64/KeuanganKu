@@ -40,11 +40,10 @@ class TabJenisTransaksi extends StatelessWidget {
     }  
 
     // WIDGETS
-    widgetTeksTab(){
+    widgetTeks(){
       return 
       SizedBox(
         width: size.width*0.9,
-        height: 35,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount:properties.listTabJenisTransaksi.length,
@@ -70,8 +69,7 @@ class TabJenisTransaksi extends StatelessWidget {
         ),
       );
     }
-    
-    widgetGarisTab(){
+    widgetGaris(){
       return            
       AnimatedPositioned(
         duration: const Duration(milliseconds: 250),
@@ -100,8 +98,8 @@ class TabJenisTransaksi extends StatelessWidget {
           children: [
             Stack(
               children: [
-                widgetTeksTab(),
-                widgetGarisTab()
+                widgetTeks(),
+                widgetGaris()
               ]
             ),
           ],

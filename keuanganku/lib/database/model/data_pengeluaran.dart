@@ -1,12 +1,13 @@
 class ModelDataPengeluaran {
-  int id = 1;
+  int id = -1;
   int id_wallet ;
   int id_kategori;
   String judul;
   String deskripsi;
   double nilai;
   DateTime waktu;
-  
+  int? rating;
+
   ModelDataPengeluaran({
     required this.id,
     required this.id_wallet,
@@ -18,18 +19,19 @@ class ModelDataPengeluaran {
   });
 
   Map<String, dynamic> toMap() {
-      return {
-        'id': id,
-        'id_wallet': id_wallet,
-        'id_kategori': id_kategori,
-        'judul': judul,
-        'deskripsi': deskripsi,
-        'nilai': nilai,
-        'waktu': waktu.toIso8601String(),
-      };
-    }
-    
-    String formatWaktu(DateTime waktu) {
+    return {
+      'id': id,
+      'id_wallet': id_wallet,
+      'id_kategori': id_kategori,
+      'judul': judul,
+      'deskripsi': deskripsi,
+      'nilai': nilai,
+      'rating': rating,
+      'waktu': waktu.toIso8601String(),
+    };
+  }
+
+    String formatWaktu() {
     final List<String> namaBulan = [
       '', // indeks 0 tidak digunakan
       'Januari',

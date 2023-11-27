@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:keuanganku/app/app_colors.dart';
+import 'package:keuanganku/util/get_currency.dart';
 
-class CardTransaksi extends StatefulWidget {
-  const CardTransaksi(this.icon, {
+class CardPengeluaran extends StatefulWidget {
+  const CardPengeluaran(this.icon, {
     super.key,
     required this.dataTransaksi,
-    required this.width,
-    required this.height,
+    this.width,
+    this.height,
   });
 
   final Icon icon;
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
   final ModelDataPengeluaran dataTransaksi;
 
   @override
-  State<CardTransaksi> createState() => _CardTransaksiState();
+  State<CardPengeluaran> createState() => _CardPengeluaranState();
 }
 
-class _CardTransaksiState extends State<CardTransaksi> {
+class _CardPengeluaranState extends State<CardPengeluaran> {
   Color bgColor = Colors.white;
 
   @override
@@ -31,10 +32,12 @@ class _CardTransaksiState extends State<CardTransaksi> {
             padding: const EdgeInsets.only(right: 10),
             child: widget.icon,
           ),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-            
+              const Text("DUMMY", style: TextStyle(fontFamily: "QuickSand_Bold", color: ApplicationColors.primary, fontSize: 15),),
+              Text(widget.dataTransaksi.deskripsi, style: const TextStyle(fontFamily: "QuickSand_Medium", color: ApplicationColors.primary,fontSize: 12),),
             ],
           )
         ],
@@ -42,12 +45,13 @@ class _CardTransaksiState extends State<CardTransaksi> {
     }
 
     Widget widgetNilaiWaktu() {
-      return const Padding(
-        padding: EdgeInsets.only(right: 10),
+      return Padding(
+        padding: const EdgeInsets.only(right: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
+            Text(formatCurrency(widget.dataTransaksi.nilai), style: const TextStyle(fontFamily: "QuickSand_Bold", color: ApplicationColors.primary, fontSize: 15),),
+            Text(widget.dataTransaksi.formatWaktu(), style: const TextStyle(fontFamily: "QuickSand_Medium", color: ApplicationColors.primary,fontSize: 12),)
           ],
         ),
       );

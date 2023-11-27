@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
+import 'package:keuanganku/app/main/beranda/widgets/daftar_transaksi/widgets/card_data_transaksi/card_data_transaksi.dart';
+import 'package:keuanganku/app/main/pengeluaran/widgets/form_data_pengeluaran/form_data_pengeluaran.dart';
 import 'package:keuanganku/app/state_bridge.dart';
 import 'package:keuanganku/database/helper/data_pengeluaran.dart';
-import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:keuanganku/main.dart';
 
 class HalamanPengeluaran extends StatefulWidget {
@@ -15,7 +16,6 @@ class HalamanPengeluaran extends StatefulWidget {
 }
 
 class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
-  int __index = 2;
   @override
   void initState() {
     super.initState();
@@ -28,45 +28,36 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
 
   @override
   Widget build(BuildContext context) {
+    // Events
+    ketikaFloatingActionButtonDitekan(){
+      showModalBottomSheet(
+        context: context, 
+        isScrollControlled: true,
+        builder: (context) => FormDataPengeluaran(
+          onSaveCallback: (){
+            setState(() {});
+          },
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         backgroundColor: ApplicationColors.primary,
-        onPressed: (){
-          final exitCode = DataPengeluaran().insert(
-            ModelDataPengeluaran(id: __index, id_wallet: 1, id_kategori: 1, judul: "Test", deskripsi: "", nilai: 123, waktu: DateTime.now()), 
-            db: db.database
-          );
-          
-          { //TODO: handle exitCode
-          }
-          
-          setState(() {
-            __index ++;
-          });
-          /* showModalBottomSheet(
-            context: context, 
-            builder: (BuildContext context){
-              return const Center(
-                child: Text("Aku sebuah teks di tengah-tengah"),
-              );
-            },
-          );
-        */
-         },
+        onPressed: ketikaFloatingActionButtonDitekan,
         child: const Icon(Icons.add, color: Colors.white,),
       ),
       body: FutureBuilder(
         future: DataPengeluaran().readAll(db.database), 
         builder: (context, snapshot){
           if (snapshot.hasData){
-            if (snapshot.data!.length == 0){
+            if (snapshot.data!.isEmpty){
               return const Text("Dude, you dont have data");
             } else {
-              print(snapshot.data!.length);
               return ListView.builder(
                 itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) => ListTile(title: Text(snapshot.data![index].judul),)
+                itemBuilder: (context, index) => CardPengeluaran(const Icon(Icons.store), dataTransaksi: snapshot.data![index])
               );
             }
           } else {

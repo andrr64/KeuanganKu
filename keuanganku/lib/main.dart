@@ -11,10 +11,10 @@ extension EnumToString on Enum {
 Routes routes = Routes();
 DatabaseService db = DatabaseService();
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  db.openDB();
   AndroidSys.setNotificationBarColor(); // Berfungsi untuk mengubah warna bar notifikasi android
+  await db.openDB();
   runApp(const KeuanganKu());
 }
 

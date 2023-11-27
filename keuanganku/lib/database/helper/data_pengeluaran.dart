@@ -65,20 +65,17 @@ class DataPengeluaran {
   Future<List<ModelDataPengeluaran>> readAll(Database db) async {
     final List<Map<String, dynamic>> results = await db.query(_tableName);
     List<ModelDataPengeluaran> data = [];
-    
     for (final result in results) {
       data.add(ModelDataPengeluaran.fromMap(result));
     }
-
     return data;
   }
 
-  Future<int> insert(ModelDataPengeluaran data, {required Database db}) async {
-    final exitCode = await db.insert(
-      _tableName, 
-      data.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace
+  Future<int> create(ModelDataPengeluaran data, {required Database db}) async {
+    return 
+    await db.rawInsert(
+      "INSERT INTO $_tableName(id_kategori, id_wallet, waktu, judul, deskripsi, nilai) VALUES(?,?,?,?,?,?)", 
+      [data.id_kategori, data.id_wallet, data.waktu.toIso8601String(), data.judul, data.deskripsi, data.nilai]
     );
-    return exitCode;
   }
 }
