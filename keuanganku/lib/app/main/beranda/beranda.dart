@@ -34,8 +34,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
   buildBody(){
     return SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: wrapWithPadding(
-          context,
+        child: 
           Column(
             children: [
               TotalDana(context).getWidget(),
@@ -61,7 +60,6 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
               ),
             ],
           ),
-        ),
       );
   }
 
