@@ -44,7 +44,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
               SizedBox(
                 width: MediaQuery.sizeOf(context).width * 0.9,
                 child: FutureBuilder(
-                  future: DataPengeluaran().readAll(db.database), 
+                  future: SQLDataPengeluaran().readAll(db.database), 
                   builder: (context, snapshot){
                     if (snapshot.hasData){
                       if (snapshot.data!.isNotEmpty){

@@ -48,22 +48,28 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
         onPressed: ketikaFloatingActionButtonDitekan,
         child: const Icon(Icons.add, color: Colors.white,),
       ),
-      body: FutureBuilder(
-        future: DataPengeluaran().readAll(db.database), 
-        builder: (context, snapshot){
-          if (snapshot.hasData){
-            if (snapshot.data!.isEmpty){
-              return const Text("Dude, you dont have data");
-            } else {
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) => CardPengeluaran(const Icon(Icons.store), dataTransaksi: snapshot.data![index])
-              );
+      body: Center(
+        child: SizedBox(
+          width: MediaQuery.sizeOf(context).width * 0.9,
+          child: FutureBuilder(
+            future: SQLDataPengeluaran().readAll(db.database), 
+            builder: (context, snapshot){
+              if (snapshot.hasData){
+                if (snapshot.data!.isEmpty){
+                  return const Text("Dude, you dont have data");
+                } 
+                else {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) => CardPengeluaran(const Icon(Icons.store), dataTransaksi: snapshot.data![index])
+                  );
+                }
+              } else {
+                return const CircularProgressIndicator(color: ApplicationColors.primary,);
+              }
             }
-          } else {
-            return const CircularProgressIndicator(color: ApplicationColors.primary,);
-          }
-        }
+          ),
+        ),
       )
     );
   }

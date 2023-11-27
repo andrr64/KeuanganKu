@@ -83,7 +83,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
                   nilai: double.tryParse(_controllerFieldNilai.text) ?? 0, 
                   waktu: DateTime.now(),
                 );
-                DataPengeluaran().create(dataBaru, db: db.database);
+                SQLDataPengeluaran().create(dataBaru, db: db.database);
                 HalamanBeranda.state.update!();
                 widget.onSaveCallback();
                 Navigator.pop(context);

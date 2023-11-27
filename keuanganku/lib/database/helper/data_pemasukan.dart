@@ -1,9 +1,9 @@
-import 'package:keuanganku/database/model/data_pengeluaran.dart';
+import 'package:keuanganku/database/model/data_pemasukan.dart'; // Ganti dengan lokasi file yang benar
 import 'package:sqflite/sqflite.dart';
 
-class SQLDataPengeluaran {
+class SQLDataPemasukan {
   Future createTable(Database db) async {
-    await db.execute(SQLDataPengeluaran().sqlCreateQuery);
+    await db.execute(SQLDataPemasukan().sqlCreateQuery);
   }
 
   final Map<String, Map<String, String>> _table = {
@@ -44,7 +44,7 @@ class SQLDataPengeluaran {
     },
   };
 
-  final _tableName = "data_pengeluaran";
+  final _tableName = "data_pemasukan";
   
   String get sqlCreateQuery {
     String columns = "";
@@ -62,16 +62,17 @@ class SQLDataPengeluaran {
     """;
   }
 
-  Future<List<ModelDataPengeluaran>> readAll(Database db) async {
+  Future<List<ModelDataPemasukan>> readAll(Database db) async {
     final List<Map<String, dynamic>> results = await db.query(_tableName);
-    List<ModelDataPengeluaran> data = [];
+    List<ModelDataPemasukan> data = [];
     for (final result in results) {
-      data.add(ModelDataPengeluaran.fromMap(result));
+      data.add(ModelDataPemasukan.fromMap(result));
     }
     return data;
   }
 
-  Future<int> create(ModelDataPengeluaran data, {required Database db}) async {
+  // CREATE/INSERT NEW DATA
+  Future<int> create(ModelDataPemasukan data, Database db) async {
     return 
     await db.rawInsert(
       "INSERT INTO $_tableName(id_kategori, id_wallet, waktu, judul, deskripsi, nilai) VALUES(?,?,?,?,?,?)", 
