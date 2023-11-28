@@ -31,7 +31,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
     setState(() {});
   }
 
-  Widget buildBody(){
+  buildBody(){
     return SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: 
@@ -67,8 +67,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.only(left: 15),
+      body: Center(
         child: buildBody(),
       ),
     );
