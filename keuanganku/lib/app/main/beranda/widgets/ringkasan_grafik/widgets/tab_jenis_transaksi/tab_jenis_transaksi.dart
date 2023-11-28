@@ -29,10 +29,10 @@ class TabJenisTransaksi extends StatelessWidget {
       RingkasanGrafik.data.indeksTabJenisTransaksi = index;
       switch (index) {
         case 0:
-          RingkasanGrafik.data.jenisTransaksi = JenisTransaksi.PENGELUARAN;
+          RingkasanGrafik.data.jenisTransaksi = JenisTransaksi.PEMASUKAN;
           break;
         case 1:
-          RingkasanGrafik.data.jenisTransaksi = JenisTransaksi.PEMASUKAN;
+          RingkasanGrafik.data.jenisTransaksi = JenisTransaksi.PENGELUARAN;
           break;
       }
       HalamanBeranda.state.update!();
