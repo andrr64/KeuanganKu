@@ -25,9 +25,7 @@ class DatabaseService {
         version: _databaseVersion,
         onCreate: createTable
       );
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   get database => _database;

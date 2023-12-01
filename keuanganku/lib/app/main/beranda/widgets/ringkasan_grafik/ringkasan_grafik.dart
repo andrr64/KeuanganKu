@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:flutter/material.dart';
+import 'package:keuanganku/database/helper/data_pemasukan_x_pengeluaran.dart';
+import 'package:keuanganku/database/model/data_transaksi.dart';
 import 'package:keuanganku/app/main/wrap.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/widgets/grafik_bar/grafik_bar.dart';
@@ -8,6 +10,7 @@ import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/widgets/tab
 import 'package:keuanganku/app/reusable_components/bar_chart/data.dart';
 import 'package:keuanganku/util/get_currency.dart';
 import 'package:keuanganku/util/random_algo.dart';
+import 'package:keuanganku/util/vector_operation.dart';
 
 class Data {
   // Variabel
@@ -90,8 +93,10 @@ class Data {
   JenisTransaksi jenisTransaksi = JenisTransaksi.PENGELUARAN;
   WaktuTransaksi waktuTransaksi = WaktuTransaksi.MINGGUAN;
 
-  String get total {
-    return formatCurrency(12000000);
+  Future<String> get total async {
+    final List<DataTransaksi>listData = await readDataPengeluaranAtauPemasukan(RingkasanGrafik.data.jenisTransaksi, RingkasanGrafik.data.waktuTransaksi);
+    final total = sumList(listData.map((e) => e.nilai!).toList());
+    return formatCurrency(total);
   }
 }
 

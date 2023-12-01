@@ -37,7 +37,7 @@ class _CardPengeluaranState extends State<CardPengeluaran> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Text("DUMMY", style: TextStyle(fontFamily: "QuickSand_Bold", color: ApplicationColors.primary, fontSize: 15),),
-              Text(widget.dataTransaksi.deskripsi, style: const TextStyle(fontFamily: "QuickSand_Medium", color: ApplicationColors.primary,fontSize: 12),),
+              Text(widget.dataTransaksi.deskripsi!, style: const TextStyle(fontFamily: "QuickSand_Medium", color: ApplicationColors.primary,fontSize: 12),),
             ],
           )
         ],
@@ -50,7 +50,7 @@ class _CardPengeluaranState extends State<CardPengeluaran> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(formatCurrency(widget.dataTransaksi.nilai), style: const TextStyle(fontFamily: "QuickSand_Bold", color: ApplicationColors.primary, fontSize: 15),),
+            Text(formatCurrency(widget.dataTransaksi.nilai!), style: const TextStyle(fontFamily: "QuickSand_Bold", color: ApplicationColors.primary, fontSize: 15),),
             Text(widget.dataTransaksi.formatWaktu(), style: const TextStyle(fontFamily: "QuickSand_Medium", color: ApplicationColors.primary,fontSize: 12),)
           ],
         ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:keuanganku/database/helper/data_pengeluaran.dart';
+import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/main/beranda/beranda.dart';
 import 'package:keuanganku/app/reusable_components/ktextfield/ktext_field.dart';
-import 'package:keuanganku/database/helper/data_pengeluaran.dart';
-import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:keuanganku/main.dart';
 
 class FormDataPengeluaran extends StatefulWidget {
@@ -75,13 +75,14 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
               ),
               onPressed: (){
                 ModelDataPengeluaran dataBaru = ModelDataPengeluaran(
-                  id: -1, 
-                  id_wallet: 1, 
-                  id_kategori: 1, 
-                  judul: _controllerFieldJudul.text, 
-                  deskripsi: _controllerFieldDeskripsi.text, 
-                  nilai: double.tryParse(_controllerFieldNilai.text) ?? 0, 
-                  waktu: DateTime.now(),
+                  -1, 
+                  _controllerFieldJudul.text, 
+                  _controllerFieldDeskripsi.text, 
+                  double.tryParse(_controllerFieldNilai.text) ?? 0, 
+                  DateTime.now(),
+                  1, 
+                  1, 
+                  0
                 );
                 SQLDataPengeluaran().create(dataBaru, db: db.database);
                 HalamanBeranda.state.update!();

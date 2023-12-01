@@ -1,22 +1,17 @@
-class ModelDataPengeluaran {
-  int id = -1;
-  int id_wallet ;
-  int id_kategori;
-  String judul;
-  String deskripsi;
-  double nilai;
-  DateTime waktu;
+import 'package:keuanganku/database/model/data_transaksi.dart';
+
+class ModelDataPengeluaran extends DataTransaksi{
+  int? id_wallet;
+  int? id_kategori;
   int? rating;
 
-  ModelDataPengeluaran({
-    required this.id,
-    required this.id_wallet,
-    required this.id_kategori,
-    required this.judul,
-    required this.deskripsi,
-    required this.nilai,
-    required this.waktu,
-  });
+  ModelDataPengeluaran(
+      int id, String judul, String deskripsi, double nilai, DateTime waktu,int id_wallet, int id_kategori, int? rating){
+    super.init(id, judul, deskripsi, nilai, waktu);
+    this.id_wallet = id_wallet;
+    this.id_kategori = id_kategori;
+    this.rating = rating?? 0;
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -27,11 +22,11 @@ class ModelDataPengeluaran {
       'deskripsi': deskripsi,
       'nilai': nilai,
       'rating': rating,
-      'waktu': waktu.toIso8601String(),
+      'waktu': waktu!.toIso8601String(),
     };
   }
 
-    String formatWaktu() {
+  String formatWaktu() {
     final List<String> namaBulan = [
       '', // indeks 0 tidak digunakan
       'Januari',
@@ -48,11 +43,11 @@ class ModelDataPengeluaran {
       'Desember',
     ];
 
-    String hari = waktu.day.toString();
-    String bulan = namaBulan[waktu.month];
-    String tahun = waktu.year.toString();
-    String jam = waktu.hour.toString().padLeft(2, '0');
-    String menit = waktu.minute.toString().padLeft(2, '0');
+    String hari = waktu!.day.toString();
+    String bulan = namaBulan[waktu!.month];
+    String tahun = waktu!.year.toString();
+    String jam = waktu!.hour.toString().padLeft(2, '0');
+    String menit = waktu!.minute.toString().padLeft(2, '0');
 
     return '$hari $bulan $tahun, $jam:$menit';
   }
@@ -60,13 +55,14 @@ class ModelDataPengeluaran {
   // Metode untuk membuat objek DataPengeluaran dari Map (output SQL)
   static ModelDataPengeluaran fromMap(Map<String, dynamic> map){
     return ModelDataPengeluaran(
-      id: map['id'] ?? 0,
-      id_wallet: map['id_wallet'] ?? 0,
-      id_kategori: map['id_kategori'] ?? 0,
-      judul: map['judul'] ?? '',
-      deskripsi: map['deskripsi'] ?? '',
-      nilai: map['nilai'] ?? 0.0,
-      waktu: DateTime.parse(map['waktu'] ?? ''),
+      map['id'] ?? 0,
+      map['judul'] ?? '',
+      map['deskripsi'] ?? '',
+      map['nilai'] ?? 0.0,
+      DateTime.parse(map['waktu'] ?? ''),
+      map['id_wallet'] ?? 0,
+      map['id_kategori'] ?? 0,
+      map['rating'] ?? 0
     );
   }
 }

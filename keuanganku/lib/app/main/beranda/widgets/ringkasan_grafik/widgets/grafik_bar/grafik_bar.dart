@@ -121,13 +121,22 @@ class GrafikBar extends StatelessWidget {
     }
     Widget widgetTotalNilai(){
       return
-      Text(
-        RingkasanGrafik.data.total,
-        style: const TextStyle(
-          fontSize: 18,
-          fontFamily: "QuickSand_Bold",
-          color: ApplicationColors.primary
-        ),
+      FutureBuilder(
+          future: RingkasanGrafik.data.total,
+          builder: (context, snapshot){
+            if (snapshot.hasData){
+              return Text(
+                snapshot.data!,
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontFamily: "QuickSand_Bold",
+                    color: ApplicationColors.primary
+                ),
+              );
+            } else {
+              return const CircularProgressIndicator();
+            }
+          }
       );
     }
     
