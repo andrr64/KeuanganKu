@@ -61,18 +61,39 @@ class DaftarTransaksi {
       }).toList();
     }
     
-    Widget widgetCardTransaksi(){
-      return 
-      ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: listData.length,
-        itemBuilder: (context, index) => CardPengeluaran(
-            const Icon(Icons.store), 
-            dataTransaksi: listData[index], 
-        ),
-      ); 
+    Widget widgetCardListTransaksi(){
+      Widget ketikaAdaData(){
+        return
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: listData.length,
+            itemBuilder: (context, index) => CardPengeluaran(
+              const Icon(Icons.store),
+              dataTransaksi: listData[index],
+            ),
+          );
+      }
+
+      Widget ketikaTidakAdaData(){
+        return SizedBox(
+          height: 100,
+          width: 0.9 * MediaQuery.sizeOf(context).width,
+          child: Center(
+            child: Text("Tidak ada data",
+              style: TextStyle(
+                  fontFamily: "QuickSand_Bold",
+                  fontSize: 16,
+                  color: ApplicationColors.primaryColorWidthPercentage(percentage: 75)
+              ),
+            ),
+          ),
+        );
+      }
+
+      return (listData as List).isNotEmpty? ketikaAdaData() : ketikaTidakAdaData();
     }
+
     Widget widgetJudul (){
       return  
       const Text("Daftar Transaksi",
@@ -91,7 +112,7 @@ class DaftarTransaksi {
         onChanged: ketikaDropDownBerubah
       );
     }
-    Widget widgetListTransaksi() => widgetCardTransaksi();
+    Widget widgetListTransaksi() => widgetCardListTransaksi();
     
     return
     SizedBox(
