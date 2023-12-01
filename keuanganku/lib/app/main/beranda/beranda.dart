@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/API/database/helper/data_pemasukan.dart';
+import 'package:keuanganku/API/database/helper/data_pemasukan_x_pengeluaran.dart' as helper_pemasukan_pengeluaran;
 import 'package:keuanganku/app/main/beranda/widgets/daftar_transaksi/daftar_transaksi.dart';
 import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/ringkasan_grafik.dart';
 import 'package:keuanganku/app/main/beranda/widgets/total_dana/total_dana.dart';
 import 'package:keuanganku/app/main/wrap.dart';
 import 'package:keuanganku/app/state_bridge.dart';
-import 'package:keuanganku/database/helper/data_pengeluaran.dart';
-import 'package:keuanganku/enum/data_transaksi.dart';
-import 'package:keuanganku/main.dart';
 
 class HalamanBeranda extends StatefulWidget {
   const HalamanBeranda({super.key, required this.updateParentState});
@@ -34,17 +31,6 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
   }
 
   Widget buildBody(){
-    Future readDataPengeluaranAtauPemasukan(JenisTransaksi jenisTransaksi, WaktuTransaksi waktuTransaksi) async{
-      switch(jenisTransaksi){
-        case JenisTransaksi.PEMASUKAN:
-          return SQLDataPemasukan().readSpecific(waktuTransaksi, db.database);
-        case JenisTransaksi.PENGELUARAN:
-          return SQLDataPengeluaran().readAll(db.database);
-        default:
-          return Future(() => []);
-      }
-    }
-
     return SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: 
@@ -57,7 +43,10 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
               SizedBox(
                 width: MediaQuery.sizeOf(context).width * 0.9,
                 child: FutureBuilder(
-                  future: readDataPengeluaranAtauPemasukan(RingkasanGrafik.data.jenisTransaksi, RingkasanGrafik.data.waktuTransaksi),
+                  future: helper_pemasukan_pengeluaran.readDataPengeluaranAtauPemasukan(
+                      RingkasanGrafik.data.jenisTransaksi,
+                      RingkasanGrafik.data.waktuTransaksi
+                  ),
                   builder: (context, snapshot){
                     if (snapshot.hasData){
                         return DaftarTransaksi(context, listData: snapshot.data!).getWidget();
