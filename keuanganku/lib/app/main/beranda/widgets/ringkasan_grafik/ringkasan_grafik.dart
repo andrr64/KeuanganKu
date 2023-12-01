@@ -90,7 +90,7 @@ class Data {
     }
   }
 
-  JenisTransaksi jenisTransaksi = JenisTransaksi.PENGELUARAN;
+  JenisTransaksi jenisTransaksi = JenisTransaksi.PEMASUKAN;
   WaktuTransaksi waktuTransaksi = WaktuTransaksi.MINGGUAN;
 
   Future<String> get total async {
