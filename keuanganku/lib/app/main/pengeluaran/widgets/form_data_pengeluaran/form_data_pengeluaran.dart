@@ -31,7 +31,32 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
             SizedBox(height: MediaQuery.sizeOf(context).height * 0.05,),
             SizedBox(
               width: MediaQuery.sizeOf(context).width  * 0.9,
-              child: const Text("Data Baru"),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(
+                    child: Row(
+                      children: [
+                        Icon(Icons.add),
+                        SizedBox(width: 10,),
+                        Text("Data Baru",
+                          style: TextStyle(
+                            fontFamily: "QuickSand_Bold",
+                            fontSize: 22,
+                            color: ApplicationColors.primary
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    child: Icon(Icons.close, color: ApplicationColors.primaryColorWidthPercentage(percentage: 75),),
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                  )
+                ],
+              )
             ),
             const SizedBox(height: 15,),
             Container(
@@ -58,7 +83,8 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
                       KTextField(
                         fieldController: _controllerFieldNilai,
                         icon: Icons.attach_money,
-                        fieldName: "Jumlah", 
+                        fieldName: "Jumlah Pengeluaran", 
+                        keyboardType: TextInputType.number,
                         prefixIconColor: ApplicationColors.primary
                       ),
                       const SizedBox(height: 15,),
