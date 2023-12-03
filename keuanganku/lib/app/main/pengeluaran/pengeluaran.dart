@@ -29,7 +29,7 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
   @override
   Widget build(BuildContext context) {
     // Events
-    ketikaFloatingActionButtonDitekan(){
+    void tambahDataBaru(){
       showModalBottomSheet(
         context: context, 
         isScrollControlled: true,
@@ -45,7 +45,7 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         backgroundColor: ApplicationColors.primary,
-        onPressed: ketikaFloatingActionButtonDitekan,
+        onPressed: tambahDataBaru,
         child: const Icon(Icons.add, color: Colors.white,),
       ),
       body: Center(
