@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/main/list_feature.dart';
-
-class Properties {
-  Color primaryColor = const Color(0xff383651);
-}
 
 class Data {
   int currentIndex = 0;
@@ -18,7 +15,6 @@ class Data {
 
 class AppBottomNavBar{
   final Data data = Data();
-  final Properties properties = Properties();
   late final PageController pageController;
 
   AppBottomNavBar(int index, this.pageController){
@@ -44,7 +40,7 @@ class AppBottomNavBar{
     return BottomNavigationBar(
       backgroundColor: Colors.white,
       type:BottomNavigationBarType.fixed ,
-      selectedItemColor: properties.primaryColor,
+      selectedItemColor: ApplicationColors.primary,
       unselectedItemColor: Colors.grey[0],
       currentIndex: data.currentIndex,
       items: bottomNavBarItems,

@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app_info.dart';
-
-class Properties {
-  Color primaryColor = const Color(0xff3F4245);
-}
 
 class AppDrawer extends StatelessWidget {
   /// Drawer aplikasi
-  AppDrawer({super.key});
-  final Properties property = Properties();
+  const AppDrawer({super.key});
   
   @override
   Widget build(BuildContext context) {
@@ -20,7 +16,7 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            color: property.primaryColor,
+            color: ApplicationColors.primary,
             width: double.infinity,
             child: Padding(
               padding: const EdgeInsets.only(left: besarPaddingKiri, top: besarPadding, bottom: besarPadding),

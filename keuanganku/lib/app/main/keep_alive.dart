@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-
-
 class KeepAlivePage extends StatefulWidget {
   /// Class ini digunakan untuk mempertahankan state 'child' 
   const KeepAlivePage({

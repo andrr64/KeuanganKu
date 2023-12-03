@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/main/list_feature.dart';
 import 'package:keuanganku/app/reusable_components/app_bar/app_bar.dart';
 
-class Properties {
-  final Color primaryColor = const Color(0xff383651);
-}
 
 class AppTopBar{
   AppTopBar({required this.scaffoldKey, required this.index});
-  final Properties properties = Properties();
   final GlobalKey<ScaffoldState> scaffoldKey;
   final int index;
 
@@ -19,7 +16,7 @@ class AppTopBar{
           scaffoldKey.currentState!.openDrawer();
         }, 
         icon: const Icon(Icons.menu), 
-        color: properties.primaryColor,
+        color: ApplicationColors.primary,
       ),
       title: listFeature[index],
       centerTitle: true,
