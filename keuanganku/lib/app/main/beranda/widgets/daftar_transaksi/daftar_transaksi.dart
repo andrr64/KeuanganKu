@@ -4,7 +4,7 @@ import 'package:keuanganku/app/main/beranda/beranda.dart';
 import 'package:keuanganku/app/main/wrap.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/main/beranda/widgets/daftar_transaksi/widgets/card_data_transaksi/card_data_transaksi.dart';
+import 'package:keuanganku/app/reusable_components/card_data_transaksi/card_data_transaksi.dart';
 import 'package:keuanganku/main.dart';
 
 class Properties {
