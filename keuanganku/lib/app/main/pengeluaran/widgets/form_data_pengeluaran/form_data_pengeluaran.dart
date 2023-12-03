@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:keuanganku/app/main/pengeluaran/widgets/form_data_pengeluaran/widgets/field_deskripsi/field_deskripsi.dart';
+import 'package:keuanganku/app/main/pengeluaran/widgets/form_data_pengeluaran/widgets/field_judul/field_judul.dart';
+import 'package:keuanganku/app/main/pengeluaran/widgets/form_data_pengeluaran/widgets/field_jumlah_pengeluaran/field_jumlah_pengeluaran.dart';
 import 'package:keuanganku/database/helper/data_pengeluaran.dart';
 import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/main/beranda/beranda.dart';
-import 'package:keuanganku/app/reusable_components/ktextfield/ktext_field.dart';
 import 'package:keuanganku/main.dart';
 
 class FormDataPengeluaran extends StatefulWidget {
@@ -17,12 +19,27 @@ class FormDataPengeluaran extends StatefulWidget {
 class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
   final formKey = GlobalKey<FormState>();
 
+  DateTime _pickedDate = DateTime.now();
+  DateTime _firstDate = DateTime(2000); // Datetime tahun 2000 mulainya
+  DateTime _lastDate = DateTime.now(); // Akhir datetime
+
   final TextEditingController _controllerFieldJudul = TextEditingController();
   final TextEditingController _controllerFieldDeskripsi = TextEditingController();
   final TextEditingController _controllerFieldNilai = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    void doTampilkanDatePicker(){
+      showDatePicker(
+        context: context, 
+        initialDate: _pickedDate,
+        firstDate: _firstDate, 
+        lastDate: _lastDate
+      );
+    }
+
+    Widget dummyPadding() => const SizedBox(height: 15,);
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -66,28 +83,12 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
                 key: formKey,
                 child: Column(
                   children: [
-                      KTextField(
-                        fieldController: _controllerFieldJudul,
-                        icon: Icons.title,
-                        fieldName: "Judul", 
-                        prefixIconColor: ApplicationColors.primary
-                      ),
-                      const SizedBox(height: 15,),
-                      KTextField(
-                        fieldController: _controllerFieldDeskripsi,
-                        icon: Icons.description,
-                        fieldName: "Deskripsi", 
-                        prefixIconColor: ApplicationColors.primary
-                      ),
-                      const SizedBox(height: 15,),
-                      KTextField(
-                        fieldController: _controllerFieldNilai,
-                        icon: Icons.attach_money,
-                        fieldName: "Jumlah Pengeluaran", 
-                        keyboardType: TextInputType.number,
-                        prefixIconColor: ApplicationColors.primary
-                      ),
-                      const SizedBox(height: 15,),
+                      FieldJudul(_controllerFieldJudul).getWidget(),
+                      dummyPadding(),
+                      FieldDeskripsi(_controllerFieldDeskripsi).getWidget(),
+                      dummyPadding(),
+                      FieldJumlahIDR(_controllerFieldNilai).getWidget(),
+                      dummyPadding(),
                     ],
                 )
               ),
