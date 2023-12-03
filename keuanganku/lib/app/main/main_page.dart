@@ -8,9 +8,6 @@ import 'package:keuanganku/app/main/drawer.dart';
 import 'package:keuanganku/app/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/app/main/wallet/wallet.dart';
 
-class Properties {
-  Color primaryColor = const Color(0xff383651);
-}
 
 class Data {
   bool _init = false;
@@ -33,9 +30,8 @@ class Data {
 }
 
 class MainPage extends StatefulWidget {
-  MainPage({super.key});
-  final Properties properties = Properties();
-  
+  const MainPage({super.key});
+
   static Data data = Data();
 
   @override
