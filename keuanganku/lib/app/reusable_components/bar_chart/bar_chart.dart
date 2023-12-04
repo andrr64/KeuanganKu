@@ -58,7 +58,7 @@ class ApplicationBarChart extends StatelessWidget {
                   showTitles: true,
                   getTitlesWidget: getRightTitle,
                   reservedSize: 45,
-                  interval: maxY / 5
+                  interval: maxY == 0? 1000000 : maxY / 5
                 )
               ),
               bottomTitles: AxisTitles(
