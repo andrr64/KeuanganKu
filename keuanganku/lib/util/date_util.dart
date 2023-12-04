@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 List<DateTime> getRangeTanggalSeninKeMinggu() {
   List<DateTime> tanggalSeninKeMinggu = [];
 
@@ -24,4 +26,10 @@ String formatTanggal(DateTime dateTime) {
   String tahun = dateTime.year.toString();
 
   return '$hari $bulan $tahun';
+}
+
+String formatWaktu(TimeOfDay waktu) {
+  String jam = waktu.hour < 10 ? '0${waktu.hour}' : '${waktu.hour}';
+  String menit = waktu.minute < 10 ? '0${waktu.minute}' : '${waktu.minute}';
+  return '$jam.$menit';
 }
