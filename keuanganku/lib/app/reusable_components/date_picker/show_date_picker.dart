@@ -11,6 +11,6 @@ Future<DateTime> tampilkanDatePicker({
     initialDate: waktuInisialisasi,
     firstDate: waktuAwal, 
     lastDate: waktuAkhir,
-    initialEntryMode: DatePickerEntryMode.calendarOnly 
+    initialEntryMode: DatePickerEntryMode.calendar 
   ))!;
 }
