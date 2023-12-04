@@ -1,6 +1,4 @@
 import 'package:keuanganku/database/model/data_pemasukan.dart'; // Ganti dengan lokasi file yang benar
-import 'package:keuanganku/database/model/data_pengeluaran.dart';
-import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLDataPemasukan {
@@ -71,54 +69,6 @@ class SQLDataPemasukan {
     List<ModelDataPemasukan> data = [];
     for (final result in results) {
       data.add(ModelDataPemasukan.fromMap(result));
-    }
-    return data;
-  }
-
-  Future<List<ModelDataPengeluaran>> readSpecific(WaktuTransaksi waktuTransaksi, Database db) async {
-    String whereClause;
-
-    switch (waktuTransaksi) {
-      case WaktuTransaksi.MINGGUAN:
-        DateTime now = DateTime.now();
-        DateTime startOfWeek =
-            now.subtract(Duration(days: now.weekday - 1)); // Monday
-        DateTime endOfWeek = startOfWeek.add(const Duration(days: 6)); // Sunday
-
-        whereClause = "waktu BETWEEN '${startOfWeek.toIso8601String()}' AND '${endOfWeek.toIso8601String()}'";
-        break;
-      case WaktuTransaksi.BULANAN:
-        DateTime now = DateTime.now();
-        DateTime startOfMonth = DateTime(now.year, now.month, 1);
-        DateTime endOfMonth = DateTime(now.year, now.month + 1, 1)
-            .subtract(const Duration(days: 1));
-
-        whereClause =
-            "waktu BETWEEN '${startOfMonth.toIso8601String()}' AND '${endOfMonth.toIso8601String()}'";
-        break;
-      case WaktuTransaksi.TAHUNAN:
-        whereClause =
-            "strftime('%Y', waktu) = strftime('%Y', 'now')";
-        break;
-      case WaktuTransaksi.SEMUANYA:
-        whereClause = "";
-        break;
-      case WaktuTransaksi.KHUSUS:
-        // Biarkan whereClause kosong untuk menangani kasus khusus
-        whereClause = "";
-        break;
-      default:
-        whereClause = "";
-    }
-
-    final List<Map<String, dynamic>> results = await db.query(
-      _tableName,
-      where: whereClause,
-    );
-
-    List<ModelDataPengeluaran> data = [];
-    for (final result in results) {
-      data.add(ModelDataPengeluaran.fromMap(result));
     }
     return data;
   }

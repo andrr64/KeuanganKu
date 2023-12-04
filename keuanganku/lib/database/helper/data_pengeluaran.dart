@@ -1,5 +1,4 @@
 import 'package:keuanganku/database/model/data_pengeluaran.dart';
-import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLDataPengeluaran {
@@ -72,72 +71,62 @@ class SQLDataPengeluaran {
     return data;
   }
 
-String waktuClauseTanggal(DateTime time){
-    String formattedDate = time.toIso8601String().substring(0, 10);
-    return "waktu LIKE '$formattedDate%'";
-}
+  String waktuClauseTanggal(DateTime time){
+      String formattedDate = time.toIso8601String().substring(0, 10);
+      return "waktu LIKE '$formattedDate%'";
+  }
 
-Future<List<ModelDataPengeluaran>> readWithClause({required String clause, required Database db}) async {
-    final List<Map<String, dynamic>> results = await db.query(
-      _tableName,
-      where: clause,
-    );
-    List<ModelDataPengeluaran> data = [];
-    for (final result in results) {
-      data.add(ModelDataPengeluaran.fromMap(result));
-    }
-    return data;
-}
+  // READ METHODS
+  Future<List<ModelDataPengeluaran>> readWithClause({required String clause, required Database db}) async {
+      final List<Map<String, dynamic>> results = await db.query(
+        _tableName,
+        where: clause,
+      );
+      List<ModelDataPengeluaran> data = [];
+      for (final result in results) {
+        data.add(ModelDataPengeluaran.fromMap(result));
+      }
+      return data;
+  }
 
-Future<List<ModelDataPengeluaran>> readSpecific(WaktuTransaksi waktuTransaksi, Database db) async {
-    String whereClause;
+  Future<List<ModelDataPengeluaran>> readDataByMonth(int year, int month, {required Database db}) async {
+    String formattedMonth = month < 10 ? '0$month' : '$month';
+    String startDate = '$year-$formattedMonth-01';
+    String endDate = '$year-$formattedMonth-31'; // Anda bisa memperbarui ini sesuai dengan bulan tertentu
 
-    switch (waktuTransaksi) {
-      case WaktuTransaksi.MINGGUAN:
-        DateTime now = DateTime.now();
-        DateTime startOfWeek = now.subtract(Duration(days: now.weekday - 1)); // Monday
-        DateTime endOfWeek = startOfWeek.add(const Duration(days: 6)); // Sunday
-
-        whereClause = "waktu BETWEEN '${startOfWeek.toIso8601String()}' AND '${endOfWeek.toIso8601String()}'";
-        break;
-      case WaktuTransaksi.BULANAN:
-        DateTime now = DateTime.now();
-        DateTime startOfMonth = DateTime(now.year, now.month, 1);
-        DateTime endOfMonth = DateTime(now.year, now.month + 1, 1).subtract(const Duration(days: 1));
-
-        whereClause = "waktu BETWEEN '${startOfMonth.toIso8601String()}' AND '${endOfMonth.toIso8601String()}'";
-        break;
-      case WaktuTransaksi.TAHUNAN:
-        whereClause = "strftime('%Y', waktu) = strftime('%Y', 'now')";
-        break;
-      case WaktuTransaksi.SEMUANYA:
-        whereClause = "";
-        break;
-      case WaktuTransaksi.KHUSUS:
-        // Biarkan whereClause kosong untuk menangani kasus khusus
-        whereClause = "";
-        break;
-      default:
-        whereClause = "";
-    }
-
-    final List<Map<String, dynamic>> results = await db.query(
-      _tableName,
-      where: whereClause,
+    List<Map<String, dynamic>> results = await db.rawQuery(
+      "SELECT * FROM $_tableName WHERE strftime('%Y-%m-%d', waktu) BETWEEN '$startDate' AND '$endDate'"
     );
 
-    List<ModelDataPengeluaran> data = [];
-    for (final result in results) {
-      data.add(ModelDataPengeluaran.fromMap(result));
-    }
+    List<ModelDataPengeluaran> data = results.map((map) => ModelDataPengeluaran.fromMap(map)).toList();
     return data;
   }
 
-Future<int> create(ModelDataPengeluaran data, {required Database db}) async {
-  return 
-  await db.rawInsert(
-    "INSERT INTO $_tableName(id_kategori, id_wallet, waktu, judul, deskripsi, nilai) VALUES(?,?,?,?,?,?)", 
-    [data.id_kategori, data.id_wallet, data.waktu!.toIso8601String(), data.judul, data.deskripsi, data.nilai]
-  );
-}
+  Future<List<ModelDataPengeluaran>> readDataByDate(DateTime tanggal, {required Database db}) async {
+    String formattedDate = tanggal.toIso8601String().substring(0, 10);
+    List<Map<String, dynamic>> results = await db.rawQuery(
+      "SELECT * FROM $_tableName WHERE waktu LIKE '$formattedDate%'"
+    );
+
+    List<ModelDataPengeluaran> data = results.map((map) => ModelDataPengeluaran.fromMap(map)).toList();
+    return data;
+  }
+
+  Future<List<ModelDataPengeluaran>> readDataByYear(int year, {required Database db}) async {
+    List<Map<String, dynamic>> results = await db.rawQuery(
+      "SELECT * FROM $_tableName WHERE strftime('%Y', waktu) = '$year'"
+    );
+
+    List<ModelDataPengeluaran> data = results.map((map) => ModelDataPengeluaran.fromMap(map)).toList();
+    return data;
+  }
+
+  // INSERT METHODS
+  Future<int> insert(ModelDataPengeluaran data, {required Database db}) async {
+    return 
+    await db.rawInsert(
+      "INSERT INTO $_tableName(id_kategori, id_wallet, waktu, judul, deskripsi, nilai) VALUES(?,?,?,?,?,?)", 
+      [data.id_kategori, data.id_wallet, data.waktu!.toIso8601String(), data.judul, data.deskripsi, data.nilai]
+    );
+  }
 }
