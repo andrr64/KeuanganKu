@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/util/get_currency.dart';
 
-class CardPengeluaran extends StatefulWidget {
-  const CardPengeluaran(this.icon, {
-    super.key,
-    required this.dataTransaksi,
-    this.width,
-    this.height,
-  });
+class CardTransaksi extends StatefulWidget {
+  const CardTransaksi(
+    this.icon, 
+    {
+      super.key,
+      required this.onPressed,
+      required this.title,
+      required this.kategori,
+      required this.waktu,
+      required this.jumlah,
+      this.width,
+      this.height,
+    }
+  );
 
+  final VoidCallback onPressed;
   final Icon icon;
+  final String kategori;
+  final String title;
+  final String waktu;
+  final double jumlah;
   final double? width;
   final double? height;
-  final ModelDataPengeluaran dataTransaksi;
 
   @override
-  State<CardPengeluaran> createState() => _CardPengeluaranState();
+  State<CardTransaksi> createState() => _CardTransaksiState();
 }
 
-class _CardPengeluaranState extends State<CardPengeluaran> {
+class _CardTransaksiState extends State<CardTransaksi> {
   Color bgColor = Colors.white;
 
   @override
@@ -36,8 +46,8 @@ class _CardPengeluaranState extends State<CardPengeluaran> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Text("DUMMY", style: TextStyle(fontFamily: "QuickSand_Bold", color: ApplicationColors.primary, fontSize: 15),),
-              Text(widget.dataTransaksi.deskripsi!, style: const TextStyle(fontFamily: "QuickSand_Medium", color: ApplicationColors.primary,fontSize: 12),),
+              Text(widget.kategori, style: const TextStyle(fontFamily: "QuickSand_Bold", color: ApplicationColors.primary, fontSize: 15),),
+              Text(widget.title, style: const TextStyle(fontFamily: "QuickSand_Medium", color: ApplicationColors.primary,fontSize: 12),),
             ],
           )
         ],
@@ -50,8 +60,8 @@ class _CardPengeluaranState extends State<CardPengeluaran> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(formatCurrency(widget.dataTransaksi.nilai!), style: const TextStyle(fontFamily: "QuickSand_Bold", color: ApplicationColors.primary, fontSize: 15),),
-            Text(widget.dataTransaksi.formatWaktu(), style: const TextStyle(fontFamily: "QuickSand_Medium", color: ApplicationColors.primary,fontSize: 12),)
+            Text(formatCurrency(widget.jumlah), style: const TextStyle(fontFamily: "QuickSand_Bold", color: ApplicationColors.primary, fontSize: 15),),
+            Text(widget.waktu, style: const TextStyle(fontFamily: "QuickSand_Medium", color: ApplicationColors.primary,fontSize: 12),)
           ],
         ),
       );
@@ -60,10 +70,7 @@ class _CardPengeluaranState extends State<CardPengeluaran> {
     return InkWell(
       hoverColor: ApplicationColors.primaryColorWidthPercentage(percentage: 5),
       onTap: () {
-        // Aksi yang dijalankan ketika ditekan
-        setState(() {
-
-        });
+        widget.onPressed();
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 7.5),
