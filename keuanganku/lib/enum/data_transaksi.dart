@@ -7,8 +7,11 @@ enum JenisTransaksi {
 }
 
 enum WaktuTransaksi {
-  HARIAN,
-  BULANAN,
+  /// Dari hari senin ampe minggu
+  MingguIni,
+
+  /// Dari Januari sampe Desember
+  TahunIni,
 }
 
 enum SortirTransaksi {

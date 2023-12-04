@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/main/beranda/beranda.dart';
-import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/ringkasan_grafik.dart';
+import 'package:keuanganku/app/reusable_components/ringkasan_grafik/ringkasan_grafik.dart' as ringkasan_grafik;
 
 class Properties {
   final List<String> listTabJenisTransaksi = [
@@ -13,10 +12,11 @@ class Properties {
 }
 
 class TabJenisTransaksi extends StatelessWidget {
-  TabJenisTransaksi({super.key, required this.indeksTab});
- 
+  TabJenisTransaksi({super.key, required this.indeksTab, required this.data, required this.onUpdate});
+  final ringkasan_grafik.RuCRingkasanGrafikData data;
   final int indeksTab;
   final Properties properties = Properties();
+  final VoidCallback onUpdate;
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +25,17 @@ class TabJenisTransaksi extends StatelessWidget {
 
     // EVENTS
     void ketikaTabBerubah(int index){
-      if (RingkasanGrafik.data.indeksTabJenisTransaksi == index) return;
-      RingkasanGrafik.data.indeksTabJenisTransaksi = index;
+      if (data.indeksTabJenisTransaksi == index) return;
+      data.indeksTabJenisTransaksi = index;
       switch (index) {
         case 0:
-          RingkasanGrafik.data.jenisTransaksi = JenisTransaksi.PEMASUKAN;
+          data.jenisTransaksi = JenisTransaksi.PEMASUKAN;
           break;
         case 1:
-          RingkasanGrafik.data.jenisTransaksi = JenisTransaksi.PENGELUARAN;
+          data.jenisTransaksi = JenisTransaksi.PENGELUARAN;
           break;
       }
-      HalamanBeranda.state.update!();
+      onUpdate();
     }  
 
     // WIDGETS
@@ -60,7 +60,7 @@ class TabJenisTransaksi extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: "QuickSand_Bold",
                     fontSize: 20,
-                    color:RingkasanGrafik.data.indeksTabJenisTransaksi == index? ApplicationColors.primary : ApplicationColors.primaryColorWidthPercentage(percentage: 50 )
+                    color:data.indeksTabJenisTransaksi == index? ApplicationColors.primary : ApplicationColors.primaryColorWidthPercentage(percentage: 50 )
                   ),
                 ),
               )

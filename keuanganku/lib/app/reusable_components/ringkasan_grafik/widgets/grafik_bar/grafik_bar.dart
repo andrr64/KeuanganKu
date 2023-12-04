@@ -2,13 +2,13 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/ringkasan_grafik.dart';
 import 'package:keuanganku/app/reusable_components/bar_chart/bar_chart.dart';
 import 'package:keuanganku/app/reusable_components/bar_chart/data.dart';
+import 'package:keuanganku/util/get_currency.dart';
 
 class Properties {
     
-  Widget _weeklyTitle(double xValue, TitleMeta meta){
+  Widget _titleMingguIni(double xValue, TitleMeta meta){
     TextStyle textStyle = TextStyle(
       fontFamily: "QuickSand_Bold",
       fontSize: 12,
@@ -27,7 +27,7 @@ class Properties {
     
     return Text(listDay[xValue.toInt()], style: textStyle,);
   }
-  Widget _yearlyTitle(double xValue, TitleMeta meta) {
+  Widget _titleTahunIni(double xValue, TitleMeta meta) {
     TextStyle textStyle = TextStyle(
       fontFamily: "QuickSand_Bold",
       fontSize: 12,
@@ -74,10 +74,10 @@ class Properties {
   Widget Function(double val, TitleMeta meta) 
   getBottomTitle(WaktuTransaksi waktuTransaksi){
     switch (waktuTransaksi) {
-      case WaktuTransaksi.MINGGUAN:
-        return _weeklyTitle;
-      case WaktuTransaksi.TAHUNAN:
-        return _yearlyTitle;
+      case WaktuTransaksi.MingguIni:
+        return _titleMingguIni;
+      case WaktuTransaksi.TahunIni:
+        return _titleTahunIni;
       default:
         return _defaultGetTitle;
     }  
@@ -86,9 +86,9 @@ class Properties {
   String 
   infoWaktuTransaksi(WaktuTransaksi waktuTransaksi) {
     switch (waktuTransaksi) {
-      case WaktuTransaksi.MINGGUAN:
+      case WaktuTransaksi.MingguIni:
         return "Minggu Ini";
-      case WaktuTransaksi.TAHUNAN:
+      case WaktuTransaksi.TahunIni:
         return "Tahun Ini";
       default:
         return "Ringkasan";
@@ -97,10 +97,11 @@ class Properties {
 }
 
 class GrafikBar extends StatelessWidget {
-  GrafikBar({super.key, required this.jenisTransaksi, required this.waktuTransaksi, required this.dataBarChart});
+  GrafikBar({super.key, required this.jenisTransaksi, required this.waktuTransaksi, required this.dataBarChart, required this.totalNilai});
   
   final JenisTransaksi jenisTransaksi;
   final WaktuTransaksi waktuTransaksi;
+  final double totalNilai;
   final Properties properties = Properties();
   final List<BarChartXY> dataBarChart;
 
@@ -121,22 +122,13 @@ class GrafikBar extends StatelessWidget {
     }
     Widget widgetTotalNilai(){
       return
-      FutureBuilder(
-          future: RingkasanGrafik.data.total,
-          builder: (context, snapshot){
-            if (snapshot.hasData){
-              return Text(
-                snapshot.data!,
-                style: const TextStyle(
-                    fontSize: 18,
-                    fontFamily: "QuickSand_Bold",
-                    color: ApplicationColors.primary
-                ),
-              );
-            } else {
-              return const CircularProgressIndicator();
-            }
-          }
+      Text(
+        formatCurrency(totalNilai),
+        style: const TextStyle(
+            fontSize: 18,
+            fontFamily: "QuickSand_Bold",
+            color: ApplicationColors.primary
+        )
       );
     }
     
@@ -151,7 +143,7 @@ class GrafikBar extends StatelessWidget {
           const SizedBox(height: 20,),
           ApplicationBarChart(
             dataXY: dataBarChart,
-            barWidth:  waktuTransaksi == WaktuTransaksi.MINGGUAN? 25 : (225/dataBarChart.length)-10,
+            barWidth:  waktuTransaksi == WaktuTransaksi.MingguIni? 25 : (225/dataBarChart.length)-10,
             getBottomTitle: properties.getBottomTitle(waktuTransaksi),
             getRightTitle: properties.getRightTitle,
           )

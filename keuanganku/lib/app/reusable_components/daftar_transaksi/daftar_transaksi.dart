@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/app/reusable_components/app_bar/app_bar.dart';
-import 'package:keuanganku/database/model/data_pengeluaran.dart';
-import 'package:keuanganku/app/main/beranda/beranda.dart';
-import 'package:keuanganku/app/main/wrap.dart';
 import 'package:keuanganku/database/model/data_transaksi.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/reusable_components/card_data_transaksi/card_data_transaksi.dart';
 import 'package:keuanganku/main.dart';
+import 'package:keuanganku/util/dummy.dart';
+
+class Data {
+  
+}
 
 class Properties {
   SortirTransaksi sortir = SortirTransaksi.Terbaru;
@@ -16,9 +17,6 @@ class Properties {
     "Terlama",
     "Tertinggi",
     "Terendah"
-  ];
-  List<ModelDataPengeluaran> listTransaksi = [
-
   ];
 
   SortirTransaksi getEnumSortir(String val){
@@ -37,10 +35,18 @@ class Properties {
   }
 }
 
-class DaftarTransaksi {
-  static Properties properties = Properties();
+class RuCDaftarTransaksi {
+  Properties properties = Properties();
   BuildContext context;
-  DaftarTransaksi(this.context, {required this.listData});
+  String? judul;
+  RuCDaftarTransaksi(this.context, {
+    required this.listData, 
+    required this.eventDropDown,
+    required this.onClicked,
+    this.judul,}
+  );
+  void Function() eventDropDown;
+  void Function() onClicked;
 
   List<DataTransaksi> listData;
 
@@ -50,7 +56,7 @@ class DaftarTransaksi {
     // EVENTS
     void ketikaDropDownBerubah(dynamic newVal) {
       properties.sortir = properties.getEnumSortir(newVal);
-      HalamanBeranda.state.update!();
+      
     }
 
     // WIDGETS
@@ -58,7 +64,14 @@ class DaftarTransaksi {
       return SortirTransaksi.values.map<DropdownMenuItem<String>>((item){
         return DropdownMenuItem<String>(
           value: item.enumValue,
-          child: Text(item.enumValue, style: const TextStyle(color: ApplicationColors.primary, fontSize: 16,fontFamily: "QuickSand_Medium"),), 
+          child: Text(
+            item.enumValue, 
+            style: const TextStyle(
+              color: ApplicationColors.primary, 
+              fontSize: 16,
+              fontFamily: "QuickSand_Medium"
+            ),
+          ), 
         );
       }).toList();
     }
@@ -74,18 +87,11 @@ class DaftarTransaksi {
             CardTransaksi(
               const Icon(Icons.store),
               onPressed: () {
-                Navigator.push(
-                  context, 
-                  MaterialPageRoute(builder: (context){
-                    return Scaffold(
-                      appBar: KAppBar(title: "Detail Transaksi").getWidget(),
-                    );
-                  })
-                );
+                onClicked();
               },
               kategori: listData[index].judul!,
               title: listData[index].judul!,
-              waktu: listData[index].waktu!.toIso8601String(),
+              waktu: listData[index].waktuTerformat,
               jumlah: listData[index].nilai!,
             ),
           );
@@ -112,8 +118,8 @@ class DaftarTransaksi {
 
     Widget widgetJudul (){
       return  
-      const Text("Daftar Transaksi",
-        style: TextStyle(
+      Text(judul ?? "Daftar Transaksi",
+        style: const TextStyle(
           fontSize: 20,
           fontFamily: "QuickSand_Bold",
           color: ApplicationColors.primary
@@ -142,7 +148,7 @@ class DaftarTransaksi {
               widgetTombolDropDown(),
             ],
           ),
-          padding(),
+          dummyPadding(height: 10),
           widgetListTransaksi()
         ],
       ),

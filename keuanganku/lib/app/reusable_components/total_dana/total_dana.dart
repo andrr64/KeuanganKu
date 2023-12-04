@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/util/get_currency.dart';
 
-class Data {
-  double get dbAPIgetTotalDana {
-    return 1500000;
-  }
-}
-
-class TotalDana {
-  TotalDana(this.context);
+class RuCTotalDana {
+  RuCTotalDana(this.context, {required this.judul, required this.totalDana});
+  double totalDana;
+  String judul;
   BuildContext context;
   Widget getWidget(){
      return 
@@ -20,14 +16,14 @@ class TotalDana {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Total Dana",
+              judul,
               style: TextStyle(
                   fontSize: 18,
                   fontFamily: "QuickSand_Medium",
                   color: ApplicationColors.primaryColorWidthPercentage(percentage: 75)),
             ),
             Text(
-              formatCurrency(Data().dbAPIgetTotalDana),
+              formatCurrency(totalDana),
               style: const TextStyle(
                 fontSize: 24,
                 fontFamily: "QuickSand_Bold",

@@ -2,8 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/main/beranda/beranda.dart';
-import 'package:keuanganku/app/main/beranda/widgets/ringkasan_grafik/ringkasan_grafik.dart';
+import 'package:keuanganku/app/reusable_components/ringkasan_grafik/ringkasan_grafik.dart' as ringkasan_grafik;
 
 class Properties {
   final List<String> listTabWaktuTransaksi = [
@@ -15,24 +14,25 @@ class Properties {
 
 class TabWaktuTransaksi{
   int indeksWaktuTransaksi;
-  TabWaktuTransaksi({required this.indeksWaktuTransaksi});
-  static Data data = Data();
+  VoidCallback onUpdate;
+  TabWaktuTransaksi({required this.indeksWaktuTransaksi, required this.data, required this.onUpdate});
+  ringkasan_grafik.RuCRingkasanGrafikData data = ringkasan_grafik.RuCRingkasanGrafikData();
   final Properties properties = Properties();
 
   Widget getWidget(BuildContext context){
     void waktuTransaksiBerubah(int index){
-      if (RingkasanGrafik.data.indeksTabWaktuTransaksi == index) return;
-      RingkasanGrafik.data.indeksTabWaktuTransaksi = index;
+      if (data.indeksTabWaktuTransaksi == index) return;
+      data.indeksTabWaktuTransaksi = index;
       switch (index) {
         case 0:
-          RingkasanGrafik.data.waktuTransaksi = WaktuTransaksi.MINGGUAN;
+          data.waktuTransaksi = WaktuTransaksi.MingguIni;
           break;
         case 1:
-          RingkasanGrafik.data.waktuTransaksi = WaktuTransaksi.TAHUNAN;
+          data.waktuTransaksi = WaktuTransaksi.TahunIni;
           break;
         default:
       }
-      HalamanBeranda.state.update!();
+      onUpdate();
     }
     var size = MediaQuery.sizeOf(context);
 
@@ -59,7 +59,7 @@ class TabWaktuTransaksi{
                   style: TextStyle(
                     fontFamily: "QuickSand_Bold",
                     fontSize: 14,
-                    color:RingkasanGrafik.data.indeksTabWaktuTransaksi == index? ApplicationColors.primary : ApplicationColors.primaryColorWidthPercentage(percentage: 50 )
+                    color:data.indeksTabWaktuTransaksi == index? ApplicationColors.primary : ApplicationColors.primaryColorWidthPercentage(percentage: 50 )
                   ),
                 ),
               )

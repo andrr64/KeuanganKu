@@ -1,3 +1,5 @@
+import 'package:keuanganku/util/date_util.dart';
+
 abstract class DataTransaksi {
   int? id = -1;
   String? judul;
@@ -12,4 +14,6 @@ abstract class DataTransaksi {
     this.nilai = nilai;
     this.waktu = waktu;
   }
+
+  String get waktuTerformat => formatTanggal(waktu!); 
 }
