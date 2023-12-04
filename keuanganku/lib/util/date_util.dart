@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-List<DateTime> getRangeTanggalSeninKeMinggu() {
+List<DateTime> getHariMingguan() {
   List<DateTime> tanggalSeninKeMinggu = [];
 
   DateTime now = DateTime.now();
