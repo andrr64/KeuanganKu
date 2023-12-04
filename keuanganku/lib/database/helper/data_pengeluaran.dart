@@ -72,6 +72,23 @@ class SQLDataPengeluaran {
     return data;
   }
 
+String waktuClauseTanggal(DateTime time){
+    String formattedDate = time.toIso8601String().substring(0, 10);
+    return "waktu LIKE '$formattedDate%'";
+}
+
+Future<List<ModelDataPengeluaran>> readWithClause({required String clause, required Database db}) async {
+    final List<Map<String, dynamic>> results = await db.query(
+      _tableName,
+      where: clause,
+    );
+    List<ModelDataPengeluaran> data = [];
+    for (final result in results) {
+      data.add(ModelDataPengeluaran.fromMap(result));
+    }
+    return data;
+}
+
 Future<List<ModelDataPengeluaran>> readSpecific(WaktuTransaksi waktuTransaksi, Database db) async {
     String whereClause;
 
@@ -116,11 +133,11 @@ Future<List<ModelDataPengeluaran>> readSpecific(WaktuTransaksi waktuTransaksi, D
     return data;
   }
 
-  Future<int> create(ModelDataPengeluaran data, {required Database db}) async {
-    return 
-    await db.rawInsert(
-      "INSERT INTO $_tableName(id_kategori, id_wallet, waktu, judul, deskripsi, nilai) VALUES(?,?,?,?,?,?)", 
-      [data.id_kategori, data.id_wallet, data.waktu!.toIso8601String(), data.judul, data.deskripsi, data.nilai]
-    );
-  }
+Future<int> create(ModelDataPengeluaran data, {required Database db}) async {
+  return 
+  await db.rawInsert(
+    "INSERT INTO $_tableName(id_kategori, id_wallet, waktu, judul, deskripsi, nilai) VALUES(?,?,?,?,?,?)", 
+    [data.id_kategori, data.id_wallet, data.waktu!.toIso8601String(), data.judul, data.deskripsi, data.nilai]
+  );
+}
 }
