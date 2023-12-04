@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:keuanganku/app/reusable_components/app_bar/app_bar.dart';
 import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:keuanganku/app/main/beranda/beranda.dart';
 import 'package:keuanganku/app/main/wrap.dart';
+import 'package:keuanganku/database/model/data_transaksi.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/reusable_components/card_data_transaksi/card_data_transaksi.dart';
@@ -40,7 +42,7 @@ class DaftarTransaksi {
   BuildContext context;
   DaftarTransaksi(this.context, {required this.listData});
 
-  dynamic listData;
+  List<DataTransaksi> listData;
 
   Widget getWidget(){
     var size = MediaQuery.sizeOf(context);
@@ -68,9 +70,23 @@ class DaftarTransaksi {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: listData.length,
-            itemBuilder: (context, index) => CardPengeluaran(
+            itemBuilder: (context, index) => 
+            CardTransaksi(
               const Icon(Icons.store),
-              dataTransaksi: listData[index],
+              onPressed: () {
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(builder: (context){
+                    return Scaffold(
+                      appBar: KAppBar(title: "Detail Transaksi").getWidget(),
+                    );
+                  })
+                );
+              },
+              kategori: listData[index].judul!,
+              title: listData[index].judul!,
+              waktu: listData[index].waktu!.toIso8601String(),
+              jumlah: listData[index].nilai!,
             ),
           );
       }
@@ -91,7 +107,7 @@ class DaftarTransaksi {
         );
       }
 
-      return (listData as List).isNotEmpty? ketikaAdaData() : ketikaTidakAdaData();
+      return listData.isNotEmpty? ketikaAdaData() : ketikaTidakAdaData();
     }
 
     Widget widgetJudul (){
