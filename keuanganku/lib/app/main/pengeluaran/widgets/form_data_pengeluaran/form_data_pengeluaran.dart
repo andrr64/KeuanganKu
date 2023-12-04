@@ -54,7 +54,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         1, 
         0
       );
-      SQLDataPengeluaran().create(dataBaru, db: db.database);
+      SQLDataPengeluaran().insert(dataBaru, db: db.database);
       HalamanBeranda.state.update!();
       widget.onSaveCallback();
       Navigator.pop(context);
