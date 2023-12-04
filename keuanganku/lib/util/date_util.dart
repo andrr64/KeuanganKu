@@ -12,3 +12,16 @@ List<DateTime> getRangeTanggalSeninKeMinggu() {
 
   return tanggalSeninKeMinggu;
 }
+
+String formatTanggal(DateTime dateTime) {
+  final List<String> namaBulan = [
+    "", "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+  ];
+
+  String hari = dateTime.day.toString();
+  String bulan = namaBulan[dateTime.month];
+  String tahun = dateTime.year.toString();
+
+  return '$hari $bulan $tahun';
+}
