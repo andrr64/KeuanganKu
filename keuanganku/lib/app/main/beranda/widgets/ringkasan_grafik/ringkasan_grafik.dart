@@ -22,15 +22,7 @@ class Data {
   int indeksTabWaktuTransaksi = 0;
 
   Future<List<BarChartXY>> get _barChartPemasukan async {
-    //TODO: API_GET_Database_dataBarChartPengeluaran(x)
-
-    // 1. Dapatkan range tanggal dari senin ke minggu, misal
-    // Senin (1) - Minggu (7)
     List<DateTime> tanggalSeninKeMinggu = getRangeTanggalSeninKeMinggu();
-
-    // Mengambil list nilai per-tiap hari
-    // Senin = 23000 + 2500 = 25500
-    // Selasa = ...
     Future<List<double>> getDataMingguan(DateTime tanggal) async {
       final List<ModelDataPengeluaran> data = await SQLDataPengeluaran().readWithClause(clause: SQLDataPengeluaran().waktuClauseTanggal(tanggal), db: db.database);
       final List<double> filteredData = data
@@ -43,13 +35,13 @@ class Data {
     switch (waktuTransaksi) {
       case WaktuTransaksi.MINGGUAN:
         return [
-          BarChartXY(xValue: 0, yValue: sumList(await getDataMingguan(tanggalSeninKeMinggu[0]))),
-          BarChartXY(xValue: 1, yValue: sumList(await getDataMingguan(tanggalSeninKeMinggu[1]))),
-          BarChartXY(xValue: 2, yValue: sumList(await getDataMingguan(tanggalSeninKeMinggu[2]))),
-          BarChartXY(xValue: 3, yValue: sumList(await getDataMingguan(tanggalSeninKeMinggu[3]))),
-          BarChartXY(xValue: 4, yValue: sumList(await getDataMingguan(tanggalSeninKeMinggu[4]))),
-          BarChartXY(xValue: 5, yValue: sumList(await getDataMingguan(tanggalSeninKeMinggu[5]))),
-          BarChartXY(xValue: 6, yValue: sumList(await getDataMingguan(tanggalSeninKeMinggu[6]))),
+          BarChartXY(xValue: 0, yValue: 0),
+          BarChartXY(xValue: 1, yValue: 0),
+          BarChartXY(xValue: 2, yValue: 0),
+          BarChartXY(xValue: 3, yValue: 0),
+          BarChartXY(xValue: 4, yValue: 0),
+          BarChartXY(xValue: 5, yValue: 0),
+          BarChartXY(xValue: 6, yValue: 0),
         ];
       case WaktuTransaksi.TAHUNAN:
         return [
@@ -70,18 +62,27 @@ class Data {
     }
   }
 
-  List<BarChartXY> get _barChartPengeluaran {
-    //TODO: API_GET_Database_dataBarChartPemasuakn(x)
+  Future<List<BarChartXY>> get _barChartPengeluaran async{
+    List<DateTime> tanggalSeninKeMinggu = getRangeTanggalSeninKeMinggu();
+    Future<List<double>> getDataMingguan(DateTime tanggal) async {
+      final List<ModelDataPengeluaran> data = await SQLDataPengeluaran().readWithClause(clause: SQLDataPengeluaran().waktuClauseTanggal(tanggal), db: db.database);
+      final List<double> filteredData = data
+          .where((e) => e.nilai != null) // Filter nilai yang bukan null
+          .map((e) => e.nilai!) // Mengonversi nilai nullable menjadi non-nullable
+          .toList();
+      return filteredData;
+    }
+
     switch (waktuTransaksi) {
       case WaktuTransaksi.MINGGUAN:
         return [
-          BarChartXY(xValue: 0, yValue: generateRandomNumber(10000, 10000000)),
-          BarChartXY(xValue: 1, yValue: generateRandomNumber(10000, 10000000)),
-          BarChartXY(xValue: 2, yValue: generateRandomNumber(10000, 10000000)),
-          BarChartXY(xValue: 3, yValue: generateRandomNumber(10000, 10000000)),
-          BarChartXY(xValue: 4, yValue: generateRandomNumber(10000, 10000000)),
-          BarChartXY(xValue: 5, yValue: generateRandomNumber(10000, 10000000)),
-          BarChartXY(xValue: 6, yValue: generateRandomNumber(10000, 10000000)),
+          BarChartXY(xValue: 0, yValue: sumList(await getDataMingguan(tanggalSeninKeMinggu[0]))),
+          BarChartXY(xValue: 1, yValue: sumList(await getDataMingguan(tanggalSeninKeMinggu[1]))),
+          BarChartXY(xValue: 2, yValue: sumList(await getDataMingguan(tanggalSeninKeMinggu[2]))),
+          BarChartXY(xValue: 3, yValue: sumList(await getDataMingguan(tanggalSeninKeMinggu[3]))),
+          BarChartXY(xValue: 4, yValue: sumList(await getDataMingguan(tanggalSeninKeMinggu[4]))),
+          BarChartXY(xValue: 5, yValue: sumList(await getDataMingguan(tanggalSeninKeMinggu[5]))),
+          BarChartXY(xValue: 6, yValue: sumList(await getDataMingguan(tanggalSeninKeMinggu[6]))),
         ];
       case WaktuTransaksi.TAHUNAN:
         return [
