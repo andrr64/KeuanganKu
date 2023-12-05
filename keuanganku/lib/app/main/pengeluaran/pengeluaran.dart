@@ -18,7 +18,7 @@ class HalamanPengeluaran extends StatefulWidget {
 class Data {
   RuCRingkasanGrafikData ringkasanGrafik = RuCRingkasanGrafikData();
   Data(){
-    ringkasanGrafik.waktuTransaksi = WaktuTransaksi.MingguIni;
+    ringkasanGrafik.waktuTransaksi = WaktuTransaksi.Mingguan;
   }
 }
 
@@ -32,6 +32,10 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
         
       });
     });
+  }
+
+  void updateState(){
+    setState(() {});
   }
 
   @override
@@ -49,28 +53,27 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
       );
     }
 
-    Widget widgetRingkasanGrafik(){
+    widgetRingkasanGrafik(){
+      
       return 
-      RuCRingkasanGrafik(
+      Column(
+        children: [
+          RuCGrafikBarRingkasanTransaksi(
             context, 
             data: HalamanPengeluaran.data.ringkasanGrafik, 
-            isSingleTransaction: true, 
-            onUpdate: HalamanPengeluaran.state.update!)
-              .getWidget();
+            onUpdate: updateState, 
+            title: "Total Pengeluaran",
+            isSingleTransaction: true
+          ).getWidget()
+        ],
+      );
     }
 
     Widget buildBody(){
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Ringkasan Pengeluaran",
-          style: TextStyle(
-              fontFamily: "QuickSand_Medium",
-              fontSize: 18,
-              color: ApplicationColors.primary
-            ),
-          ),
-          dummyPadding(height: 5),
+          dummyPadding(height: 10),
           widgetRingkasanGrafik(),
         ],
       );

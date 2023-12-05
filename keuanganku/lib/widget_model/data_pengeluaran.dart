@@ -9,7 +9,7 @@ class WidgetModelDataPengeluaran {
   Future<List<BarChartXY>> listBarChartPengeluaran(WaktuTransaksi waktuTransaksi) async {
   Future<List<BarChartXY>> getHarian() async {
     List<DateTime> listHari = getHariMingguan();
-    return [
+    List<BarChartXY> data = [
       for(int i = 0; i < 7; i++)
         BarChartXY(
           xValue: i.toDouble(), 
@@ -20,7 +20,9 @@ class WidgetModelDataPengeluaran {
           )
         )
     ];
+    return data;
   }
+
   Future<List<BarChartXY>> getBulanan() async {
     int tahun = DateTime.now().year;
     return [
@@ -37,9 +39,9 @@ class WidgetModelDataPengeluaran {
   }
 
   switch (waktuTransaksi) {
-    case WaktuTransaksi.MingguIni:
+    case WaktuTransaksi.Mingguan:
       return await getHarian();
-    case WaktuTransaksi.TahunIni:
+    case WaktuTransaksi.Tahunan:
       return await getBulanan(); 
     default:
       return [];

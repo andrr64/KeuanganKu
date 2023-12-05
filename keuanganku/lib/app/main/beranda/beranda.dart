@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/app/reusable_components/ringkasan_grafik/ringkasan_grafik.dart' as ringkasan_grafik;
 import 'package:keuanganku/app/reusable_components/total_dana/total_dana.dart';
 import 'package:keuanganku/app/state_bridge.dart';
+import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 
 class Data {
@@ -40,8 +41,9 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
   
   /// Grafik bar chart
   Widget widgetRingkasanGrafik() => 
-    ringkasan_grafik.RuCRingkasanGrafik(
+    ringkasan_grafik.RuCGrafikBarRingkasanTransaksi(
       context, 
+      title: "${HalamanBeranda.data.widgetRingkasanGrafik.jenisTransaksi.enumValue} ${HalamanBeranda.data.widgetRingkasanGrafik.waktuTransaksi.enumValue}",
       data: HalamanBeranda.data.widgetRingkasanGrafik,
       onUpdate: HalamanBeranda.state.update!)
         .getWidget(); 

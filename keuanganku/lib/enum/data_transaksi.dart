@@ -1,17 +1,17 @@
 // ignore_for_file: constant_identifier_names
 
 enum JenisTransaksi {
-  PEMASUKAN,
-  PENGELUARAN,
+  Pemasukan,
+  Pengeluaran,
   NULL
 }
 
 enum WaktuTransaksi {
   /// Dari hari senin ampe minggu
-  MingguIni,
+  Mingguan,
 
   /// Dari Januari sampe Desember
-  TahunIni,
+  Tahunan,
 }
 
 enum SortirTransaksi {

@@ -25,10 +25,10 @@ class TabWaktuTransaksi{
       data.indeksTabWaktuTransaksi = index;
       switch (index) {
         case 0:
-          data.waktuTransaksi = WaktuTransaksi.MingguIni;
+          data.waktuTransaksi = WaktuTransaksi.Mingguan;
           break;
         case 1:
-          data.waktuTransaksi = WaktuTransaksi.TahunIni;
+          data.waktuTransaksi = WaktuTransaksi.Tahunan;
           break;
         default:
       }
