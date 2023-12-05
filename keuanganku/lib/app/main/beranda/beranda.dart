@@ -3,6 +3,7 @@ import 'package:keuanganku/app/reusable_components/ringkasan_grafik/ringkasan_gr
 import 'package:keuanganku/app/reusable_components/total_dana/total_dana.dart';
 import 'package:keuanganku/app/state_bridge.dart';
 import 'package:keuanganku/util/date_util.dart';
+import 'package:keuanganku/util/dummy.dart';
 
 class Data {
   ringkasan_grafik.RuCRingkasanGrafikData widgetRingkasanGrafik = ringkasan_grafik.RuCRingkasanGrafikData();
@@ -55,6 +56,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               widgetTotalDana(),
+              dummyPadding(),
               widgetRingkasanGrafik(),
             ],
           ),
