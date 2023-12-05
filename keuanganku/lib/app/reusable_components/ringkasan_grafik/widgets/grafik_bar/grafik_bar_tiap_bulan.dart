@@ -54,7 +54,7 @@ class GrafikBarTahunan extends StatelessWidget {
       width: display.width * 0.9,
       child: ApplicationBarChart(
         dataXY: dataBarChart, 
-        barWidth: 25, 
+        barWidth: display.width * 0.5 / 12, 
         getBottomTitle: bottomTitle, 
         getRightTitle: getRightTitle
       ),

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/app/reusable_components/ringkasan_grafik/ringkasan_grafik.dart' as ringkasan_grafik;
 import 'package:keuanganku/app/reusable_components/total_dana/total_dana.dart';
 import 'package:keuanganku/app/state_bridge.dart';
-import 'package:keuanganku/main.dart';
-import 'package:keuanganku/util/dummy.dart';
+import 'package:keuanganku/util/date_util.dart';
 
 class Data {
   ringkasan_grafik.RuCRingkasanGrafikData widgetRingkasanGrafik = ringkasan_grafik.RuCRingkasanGrafikData();
@@ -43,7 +42,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
   Widget widgetRingkasanGrafik() => 
     ringkasan_grafik.RuCGrafikBarRingkasanTransaksi(
       context, 
-      title: "${HalamanBeranda.data.widgetRingkasanGrafik.jenisTransaksi.enumValue} ${HalamanBeranda.data.widgetRingkasanGrafik.waktuTransaksi.enumValue}",
+      title: enumDataTransaksiInfo(HalamanBeranda.data.widgetRingkasanGrafik.waktuTransaksi),
       data: HalamanBeranda.data.widgetRingkasanGrafik,
       onUpdate: HalamanBeranda.state.update!)
         .getWidget(); 
@@ -53,27 +52,10 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
         scrollDirection: Axis.vertical,
         child: 
           Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               widgetTotalDana(),
-              dummyPadding(height: 10),
               widgetRingkasanGrafik(),
-              dummyPadding(height: 10),
-              // SizedBox(
-              //   width: MediaQuery.sizeOf(context).width * 0.9,
-              //   child: FutureBuilder(
-              //     future: helper_pemasukan_pengeluaran.readDataPengeluaranAtauPemasukan(
-              //         RingkasanGrafik.data.jenisTransaksi,
-              //         RingkasanGrafik.data.waktuTransaksi
-              //     ),
-              //     builder: (context, snapshot){
-              //       if (snapshot.hasData){
-              //           return DaftarTransaksi(context, listData: snapshot.data!).getWidget();
-              //       } else {
-              //         return const Center(child: SizedBox(height: 50, width: 50, child: CircularProgressIndicator(),));
-              //       }
-              //     }
-              //   ),
-              // ),
             ],
           ),
       );
@@ -83,12 +65,10 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          buildBody(),
-        ],
-      ),
+      body: Align(
+        alignment: Alignment.topCenter,
+        child: buildBody(),
+      )
     );
   }
 }

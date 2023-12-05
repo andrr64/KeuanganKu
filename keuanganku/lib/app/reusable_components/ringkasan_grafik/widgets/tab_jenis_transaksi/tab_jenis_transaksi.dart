@@ -43,7 +43,7 @@ class TabJenisTransaksi extends StatelessWidget {
       return 
       SizedBox(
         width: size.width*0.9,
-        height: 30,
+        height: 27.5,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount:properties.listTabJenisTransaksi.length,

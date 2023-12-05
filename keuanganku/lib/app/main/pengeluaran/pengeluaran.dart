@@ -74,7 +74,7 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          HeadingText().h1("Ringkasan"),
+          HeadingText().h1("Ringkasan", fontFamily: "QuickSand_Medium"),
           widgetRingkasanGrafik(),
         ],
       );

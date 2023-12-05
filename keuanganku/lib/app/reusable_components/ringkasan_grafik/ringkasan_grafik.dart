@@ -57,7 +57,7 @@ class RuCGrafikBarRingkasanTransaksi{
             title,
             style: const TextStyle(
               fontFamily: "QuickSand_Medium",
-              fontSize: 15,
+              fontSize: 16,
               color: ApplicationColors.primary
             ),
           ), 
@@ -131,9 +131,9 @@ class RuCGrafikBarRingkasanTransaksi{
     List<Widget> ifNotSingleTransaction(){
       return [
         widgetTabJenisTransaksi(),
-        dummyPadding(height: 10),
+        dummyPadding(height: 5),
         widgetTabWaktuTransaksi(),
-        dummyPadding(height: 10),
+        dummyPadding(height: 5),
         widgetGrafikBar(),
       ];
     }
