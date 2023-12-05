@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/main/pengeluaran/widgets/form_data_pengeluaran/form_data_pengeluaran.dart';
+import 'package:keuanganku/app/reusable_components/heading_text/heading_text.dart';
 import 'package:keuanganku/app/reusable_components/ringkasan_grafik/ringkasan_grafik.dart';
 import 'package:keuanganku/app/state_bridge.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
-import 'package:keuanganku/util/dummy.dart';
+import 'package:keuanganku/util/date_util.dart';
 
 class HalamanPengeluaran extends StatefulWidget {
   const HalamanPengeluaran({super.key});
@@ -62,7 +63,7 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
             context, 
             data: HalamanPengeluaran.data.ringkasanGrafik, 
             onUpdate: updateState, 
-            title: "Total Pengeluaran",
+            title: enumDataTransaksiInfo(HalamanPengeluaran.data.ringkasanGrafik.waktuTransaksi),
             isSingleTransaction: true
           ).getWidget()
         ],
@@ -73,7 +74,7 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          dummyPadding(height: 10),
+          HeadingText().h1("Ringkasan"),
           widgetRingkasanGrafik(),
         ],
       );

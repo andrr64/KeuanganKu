@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keuanganku/enum/data_transaksi.dart';
 
 List<DateTime> getHariMingguan() {
   List<DateTime> tanggalSeninKeMinggu = [];
@@ -32,4 +33,15 @@ String formatWaktu(TimeOfDay waktu) {
   String jam = waktu.hour < 10 ? '0${waktu.hour}' : '${waktu.hour}';
   String menit = waktu.minute < 10 ? '0${waktu.minute}' : '${waktu.minute}';
   return '$jam.$menit';
+}
+
+String enumDataTransaksiInfo(WaktuTransaksi waktuTransaksi){
+  switch (waktuTransaksi){
+    case (WaktuTransaksi.Mingguan):
+      return "Minggu Ini";
+    case (WaktuTransaksi.Tahunan):
+      return "Tahun Ini";
+    default:
+      return "Ringkasan";
+  }
 }
