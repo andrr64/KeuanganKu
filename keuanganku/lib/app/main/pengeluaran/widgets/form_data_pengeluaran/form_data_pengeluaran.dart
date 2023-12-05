@@ -13,6 +13,7 @@ import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/main/beranda/beranda.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/date_util.dart';
+import 'package:keuanganku/util/dummy.dart';
 
 class FormDataPengeluaran extends StatefulWidget {
   const FormDataPengeluaran({super.key, required this.onSaveCallback});
@@ -68,8 +69,6 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
     void eventPilihWaktu() async {
       waktuTerpilih = await tampilkanTimePicker(context: context, waktu: waktuTerpilih);
     }
-
-    Widget dummyPadding() => const SizedBox(height: 15,);
 
     Widget formContainer(){
       controllerTanggal.text = formatTanggal(tanggalTerpilih);
@@ -159,8 +158,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              dummyPadding(),
-              dummyPadding(),
+              dummyPadding(height: 50),
               formTopBar(),
               dummyPadding(),
               formContainer()
