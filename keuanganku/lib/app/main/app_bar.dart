@@ -16,11 +16,11 @@ class AppTopBar{
           scaffoldKey.currentState!.openDrawer();
         }, 
         icon: const Icon(Icons.menu), 
-        color: ApplicationColors.primary,
+        color: Colors.white,
       ),
       title: listFeature[index],
       centerTitle: true,
-      backgroundColor: Colors.white,
+      backgroundColor: ApplicationColors.primaryBlue,
       shadowColor: Colors.transparent,
       elevation: 0,
     ).getWidget();

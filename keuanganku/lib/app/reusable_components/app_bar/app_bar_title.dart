@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/app/app_colors.dart';
-kAppBarTitle(String title, {double? fontSz}){
+kAppBarTitle(String title, {double? fontSz, Color? bgColor}){
+  
   return 
   Text(
     title,
     style: TextStyle(
         fontSize: fontSz ?? 24,
         fontFamily: "QuickSand_Bold",
-        color: ApplicationColors.primary
+        color: bgColor ?? Colors.white
       ),
     );
 }

@@ -1,4 +1,4 @@
-class ModelDataPemasukan {
+class DataWallet {
   int id = -1;
   int id_wallet;
   int id_kategori;
@@ -7,7 +7,7 @@ class ModelDataPemasukan {
   double nilai;
   DateTime waktu;
 
-  ModelDataPemasukan({
+  DataWallet({
     required this.id,
     required this.id_wallet,
     required this.id_kategori,
@@ -31,6 +31,10 @@ class ModelDataPemasukan {
 
   String titleWithLimitedString(int n){
     return judul.length > n? "${judul.substring(0, n)}..." : judul;
+  }
+
+  String get type {
+    return id_kategori == 1 ? "Bank" : "Wallet";
   }
 
   String formatWaktu() {
@@ -60,8 +64,8 @@ class ModelDataPemasukan {
   }
 
   // Metode untuk membuat objek DataPengeluaran dari Map (output SQL)
-  static ModelDataPemasukan fromMap(Map<String, dynamic> map) {
-    return ModelDataPemasukan(
+  static DataWallet fromMap(Map<String, dynamic> map) {
+    return DataWallet(
       id: map['id'] ?? 0,
       id_wallet: map['id_wallet'] ?? 0,
       id_kategori: map['id_kategori'] ?? 0,

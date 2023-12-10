@@ -68,7 +68,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        drawer: AppDrawer(),
+        drawer: const AppDrawer(),
         appBar: AppTopBar(scaffoldKey: _scaffoldKey, index: MainPage.data.currentIndex).getWidget(context),
         body: AppBody(
           onPageChanged: onPageChanged,

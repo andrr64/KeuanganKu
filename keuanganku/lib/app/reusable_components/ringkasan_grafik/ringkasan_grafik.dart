@@ -9,6 +9,7 @@ import 'package:keuanganku/app/reusable_components/bar_chart/data.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/get_currency.dart';
 import 'package:keuanganku/util/vector_operation.dart';
+import 'package:keuanganku/widget_model/data_pemasukan.dart';
 import 'package:keuanganku/widget_model/data_pengeluaran.dart';
 
 class RuCRingkasanGrafikData {
@@ -19,9 +20,9 @@ class RuCRingkasanGrafikData {
   Future<List<BarChartXY>> get arrayBarChart async{
     switch (jenisTransaksi) {
       case JenisTransaksi.Pemasukan:
-        return await WidgetModelDataPengeluaran().listBarChartPengeluaran(waktuTransaksi);
+        return await WidgetHelperDataPemasukan().listBarChartPemasukan(waktuTransaksi);
       case JenisTransaksi.Pengeluaran:
-        return await WidgetModelDataPengeluaran().listBarChartPengeluaran(waktuTransaksi);
+        return await WidgetHelperDataPengeluaran().listBarChartPengeluaran(waktuTransaksi);
       default:
         return [];
     }

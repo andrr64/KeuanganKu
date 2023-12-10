@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/reusable_components/ktextfield/ktext_field.dart';
+import 'package:keuanganku/app/reusable_components/k_textfield/ktext_field.dart';
 
 class FieldJudul {
   FieldJudul(this._controllerFieldJudul);

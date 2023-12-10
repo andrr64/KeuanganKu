@@ -11,6 +11,24 @@ class Data {
     "Wallet",
     "To-Do"
   ];
+
+  List<BottomNavigationBarItem> getItems () {
+    return [
+      BottomNavigationBarItem(
+        icon: Icon(currentIndex == 0? Icons.analytics : Icons.analytics_outlined),
+        label: listFeature[0]),
+      BottomNavigationBarItem(
+        icon: Icon(currentIndex == 1? CupertinoIcons.money_dollar_circle_fill : CupertinoIcons.money_dollar_circle),
+        label: listFeature[1]),
+      BottomNavigationBarItem(
+        icon: Icon(currentIndex == 2? Icons.account_balance_wallet : Icons.account_balance_wallet_outlined),
+        label: listFeature[2]),
+      BottomNavigationBarItem(
+        icon: Icon(currentIndex == 3? CupertinoIcons.pencil_circle_fill : CupertinoIcons.pencil_circle),
+        label: listFeature[3]),
+    ];
+  }
+
 }
 
 class AppBottomNavBar{
@@ -21,29 +39,15 @@ class AppBottomNavBar{
     data.currentIndex = index;
   }
 
-  dynamic getWidget(){
-    List<BottomNavigationBarItem> bottomNavBarItems = [
-      BottomNavigationBarItem(
-        icon: Icon(data.currentIndex == 0? Icons.analytics : Icons.analytics_outlined),
-        label: listFeature[0]),
-      BottomNavigationBarItem(
-        icon: Icon(data.currentIndex == 1? CupertinoIcons.money_dollar_circle_fill : CupertinoIcons.money_dollar_circle),
-        label: listFeature[1]),
-      BottomNavigationBarItem(
-        icon: Icon(data.currentIndex == 2? Icons.account_balance_wallet : Icons.account_balance_wallet_outlined),
-        label: listFeature[2]),
-      BottomNavigationBarItem(
-        icon: Icon(data.currentIndex == 3? CupertinoIcons.pencil_circle_fill : CupertinoIcons.pencil_circle),
-        label: listFeature[3]),
-    ];
+  Widget getWidget(){
 
     return BottomNavigationBar(
-      backgroundColor: Colors.white,
+      backgroundColor: ApplicationColors.primaryBlue,
       type:BottomNavigationBarType.fixed ,
-      selectedItemColor: ApplicationColors.primary,
-      unselectedItemColor: Colors.grey[0],
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.white70,
       currentIndex: data.currentIndex,
-      items: bottomNavBarItems,
+      items: data.getItems(),
       onTap: (index) => pageController.jumpToPage(index),
       selectedFontSize: 12,
       unselectedFontSize: 12,

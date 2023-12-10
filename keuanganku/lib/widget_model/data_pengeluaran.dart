@@ -5,7 +5,7 @@ import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/date_util.dart';
 import 'package:keuanganku/util/vector_operation.dart';
 
-class WidgetModelDataPengeluaran {
+class WidgetHelperDataPengeluaran {
   Future<List<BarChartXY>> listBarChartPengeluaran(WaktuTransaksi waktuTransaksi) async {
   Future<List<BarChartXY>> getHarian() async {
     List<DateTime> listHari = getHariMingguan();
