@@ -1,9 +1,9 @@
 import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:sqflite/sqflite.dart';
 
-class SQLDataPengeluaran {
+class SQLHelperPengeluaran {
   Future createTable(Database db) async {
-    await db.execute(SQLDataPengeluaran().sqlCreateQuery);
+    await db.execute(SQLHelperPengeluaran().sqlCreateQuery);
   }
 
   final Map<String, Map<String, String>> _table = {
@@ -62,11 +62,11 @@ class SQLDataPengeluaran {
     """;
   }
 
-  Future<List<ModelDataPengeluaran>> readAll(Database db) async {
+  Future<List<SQLModelPengeluaran>> readAll(Database db) async {
     final List<Map<String, dynamic>> results = await db.query(_tableName);
-    List<ModelDataPengeluaran> data = [];
+    List<SQLModelPengeluaran> data = [];
     for (final result in results) {
-      data.add(ModelDataPengeluaran.fromMap(result));
+      data.add(SQLModelPengeluaran.fromMap(result));
     }
     return data;
   }
@@ -77,19 +77,19 @@ class SQLDataPengeluaran {
   }
 
   // READ METHODS
-  Future<List<ModelDataPengeluaran>> readWithClause({required String clause, required Database db}) async {
+  Future<List<SQLModelPengeluaran>> readWithClause({required String clause, required Database db}) async {
       final List<Map<String, dynamic>> results = await db.query(
         _tableName,
         where: clause,
       );
-      List<ModelDataPengeluaran> data = [];
+      List<SQLModelPengeluaran> data = [];
       for (final result in results) {
-        data.add(ModelDataPengeluaran.fromMap(result));
+        data.add(SQLModelPengeluaran.fromMap(result));
       }
       return data;
   }
 
-  Future<List<ModelDataPengeluaran>> readDataByMonth(int year, int month, {required Database db}) async {
+  Future<List<SQLModelPengeluaran>> readDataByMonth(int year, int month, {required Database db}) async {
     String formattedMonth = month < 10 ? '0$month' : '$month';
     String startDate = '$year-$formattedMonth-01';
     String endDate = '$year-$formattedMonth-31'; // Anda bisa memperbarui ini sesuai dengan bulan tertentu
@@ -98,35 +98,35 @@ class SQLDataPengeluaran {
       "SELECT * FROM $_tableName WHERE strftime('%Y-%m-%d', waktu) BETWEEN '$startDate' AND '$endDate'"
     );
 
-    List<ModelDataPengeluaran> data = results.map((map) => ModelDataPengeluaran.fromMap(map)).toList();
+    List<SQLModelPengeluaran> data = results.map((map) => SQLModelPengeluaran.fromMap(map)).toList();
     return data;
   }
 
-  Future<List<ModelDataPengeluaran>> readDataByDate(DateTime tanggal, {required Database db}) async {
+  Future<List<SQLModelPengeluaran>> readDataByDate(DateTime tanggal, {required Database db}) async {
     String formattedDate = tanggal.toIso8601String().substring(0, 10);
     List<Map<String, dynamic>> results = await db.rawQuery(
       "SELECT * FROM $_tableName WHERE waktu LIKE '$formattedDate%'"
     );
 
-    List<ModelDataPengeluaran> data = results.map((map) => ModelDataPengeluaran.fromMap(map)).toList();
+    List<SQLModelPengeluaran> data = results.map((map) => SQLModelPengeluaran.fromMap(map)).toList();
     return data;
   }
 
-  Future<List<ModelDataPengeluaran>> readDataByYear(int year, {required Database db}) async {
+  Future<List<SQLModelPengeluaran>> readDataByYear(int year, {required Database db}) async {
     List<Map<String, dynamic>> results = await db.rawQuery(
       "SELECT * FROM $_tableName WHERE strftime('%Y', waktu) = '$year'"
     );
 
-    List<ModelDataPengeluaran> data = results.map((map) => ModelDataPengeluaran.fromMap(map)).toList();
+    List<SQLModelPengeluaran> data = results.map((map) => SQLModelPengeluaran.fromMap(map)).toList();
     return data;
   }
 
   // INSERT METHODS
-  Future<int> insert(ModelDataPengeluaran data, {required Database db}) async {
+  Future<int> insert(SQLModelPengeluaran data, {required Database db}) async {
     return 
     await db.rawInsert(
       "INSERT INTO $_tableName(id_kategori, id_wallet, waktu, judul, deskripsi, nilai) VALUES(?,?,?,?,?,?)", 
-      [data.id_kategori, data.id_wallet, data.waktu!.toIso8601String(), data.judul, data.deskripsi, data.nilai]
+      [data.id_kategori, data.id_wallet, data.waktu.toIso8601String(), data.judul, data.deskripsi, data.nilai]
     );
   }
 }

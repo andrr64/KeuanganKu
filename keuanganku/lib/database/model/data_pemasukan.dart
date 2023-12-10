@@ -1,25 +1,22 @@
-class SQLModelPengeluaran {
-  final int id;
-  final int id_wallet;
-  final int id_kategori;
-  final String judul;
-  final String deskripsi;
-  final double nilai;
-  final double rating;
-  final DateTime waktu;
+class SQLModelPemasukan {
+  int id = -1;
+  int id_wallet;
+  int id_kategori;
+  String judul;
+  String deskripsi;
+  double nilai;
+  DateTime waktu;
 
-
-  SQLModelPengeluaran({
+  SQLModelPemasukan({
     required this.id,
     required this.id_wallet,
     required this.id_kategori,
     required this.judul,
     required this.deskripsi,
     required this.nilai,
-    required this.rating,
     required this.waktu,
   });
-  
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -28,9 +25,16 @@ class SQLModelPengeluaran {
       'judul': judul,
       'deskripsi': deskripsi,
       'nilai': nilai,
-      'rating': rating,
       'waktu': waktu.toIso8601String(),
     };
+  }
+
+  String titleWithLimitedString(int n){
+    return judul.length > n? "${judul.substring(0, n)}..." : judul;
+  }
+
+  String get type {
+    return id_kategori == 1 ? "Bank" : "Wallet";
   }
 
   String formatWaktu() {
@@ -60,16 +64,15 @@ class SQLModelPengeluaran {
   }
 
   // Metode untuk membuat objek DataPengeluaran dari Map (output SQL)
-  static SQLModelPengeluaran fromMap(Map<String, dynamic> map){
-    return SQLModelPengeluaran(
+  static SQLModelPemasukan fromMap(Map<String, dynamic> map) {
+    return SQLModelPemasukan(
       id: map['id'] ?? 0,
+      id_wallet: map['id_wallet'] ?? 0,
+      id_kategori: map['id_kategori'] ?? 0,
       judul: map['judul'] ?? '',
       deskripsi: map['deskripsi'] ?? '',
       nilai: map['nilai'] ?? 0.0,
       waktu: DateTime.parse(map['waktu'] ?? ''),
-      id_wallet: map['id_wallet'] ?? 0,
-      id_kategori: map['id_kategori'] ?? 0,
-      rating: map['rating'] ?? 0
     );
   }
 }

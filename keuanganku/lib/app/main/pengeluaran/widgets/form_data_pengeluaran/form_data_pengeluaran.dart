@@ -45,17 +45,17 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
     // Events
     void eventSimpanData(){
       DateTime waktuPengeluaran = DateTime(tanggalTerpilih.year, tanggalTerpilih.month, tanggalTerpilih.day, waktuTerpilih.hour, waktuTerpilih.minute);
-      ModelDataPengeluaran dataBaru = ModelDataPengeluaran(
-        -1, 
-        controllerFieldJudul.text, 
-        controllerFieldDeskripsi.text, 
-        double.tryParse(controllerFieldNilai.text) ?? 0, 
-        waktuPengeluaran,
-        1, 
-        1, 
-        0
+      SQLModelPengeluaran dataBaru = SQLModelPengeluaran(
+        id: -1,
+        judul: controllerFieldJudul.text, 
+        deskripsi: controllerFieldDeskripsi.text,
+        id_wallet: -1,
+        id_kategori: -1,
+        nilai: double.parse(controllerFieldNilai.text),
+        waktu: waktuPengeluaran,
+        rating: -1
       );
-      SQLDataPengeluaran().insert(dataBaru, db: db.database);
+      SQLHelperPengeluaran().insert(dataBaru, db: db.database);
       HalamanBeranda.state.update!();
       widget.onSaveCallback();
       Navigator.pop(context);
@@ -70,6 +70,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       waktuTerpilih = await tampilkanTimePicker(context: context, waktu: waktuTerpilih);
     }
 
+    // Widgets
     Widget formContainer(){
       controllerTanggal.text = formatTanggal(tanggalTerpilih);
       controllerWaktu.text = formatWaktu(waktuTerpilih);

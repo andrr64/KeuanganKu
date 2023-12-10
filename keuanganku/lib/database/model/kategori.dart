@@ -1,7 +1,7 @@
-class KategoriTransaksi {
+class SQLModelKategoriTransaksi {
   String judul;
   int id;
-  KategoriTransaksi({
+  SQLModelKategoriTransaksi({
     required this.id,
     required this.judul
   });

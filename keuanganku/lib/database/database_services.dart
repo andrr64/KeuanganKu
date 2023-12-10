@@ -12,8 +12,8 @@ class DatabaseService {
 
   /// Fungsi saat file database dibuat
   createTable(Database db, version){
-    SQLDataPengeluaran().createTable(db);
-    SQLDataPemasukan().createTable(db);
+    SQLHelperPengeluaran().createTable(db);
+    SQLHelperPemasukan().createTable(db);
   }
 
   /// Panggil fungsi ini untuk satu kali saja disaat inisialisasi database

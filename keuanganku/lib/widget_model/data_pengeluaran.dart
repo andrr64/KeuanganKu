@@ -14,8 +14,8 @@ class WidgetHelperDataPengeluaran {
         BarChartXY(
           xValue: i.toDouble(), 
           yValue: sumList(
-            (await SQLDataPengeluaran().readDataByDate(listHari[i], db: db.database))
-            .map((e) => e.nilai!)
+            (await SQLHelperPengeluaran().readDataByDate(listHari[i], db: db.database))
+            .map((e) => e.nilai)
               .toList()
           )
         )
@@ -30,8 +30,8 @@ class WidgetHelperDataPengeluaran {
         BarChartXY(
           xValue: i.toDouble(), 
           yValue: sumList(
-            (await SQLDataPengeluaran().readDataByMonth(tahun, i + 1, db: db.database))
-            .map((e) => e.nilai!)
+            (await SQLHelperPengeluaran().readDataByMonth(tahun, i + 1, db: db.database))
+            .map((e) => e.nilai)
               .toList()
           )
         )
