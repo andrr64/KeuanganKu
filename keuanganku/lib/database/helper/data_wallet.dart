@@ -1,3 +1,4 @@
+import 'package:keuanganku/database/model/data_wallet.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLHelperWallet {
@@ -41,4 +42,12 @@ class SQLHelperWallet {
     """;
   }
 
+  // INSERT METHODS
+  Future<int> insert(SQLModelWallet wallet, Database db) async {
+    return 
+    await db.rawInsert(
+      "INSERT INTO $_tableName(tipe,judul) VALUES(?,?)",
+      [wallet.tipe, wallet.judul]
+    );
+  }
 }
