@@ -1,40 +1,26 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/reusable_components/bar_chart/bar_chart.dart';
-import 'package:keuanganku/app/reusable_components/bar_chart/data.dart';
+import 'package:keuanganku/app/reusable%20widgets/bar_chart/bar_chart.dart';
+import 'package:keuanganku/app/reusable%20widgets/bar_chart/data.dart';
 
-class GrafikBarTahunan extends StatelessWidget {
-  const GrafikBarTahunan({super.key, required this.dataBarChart});
+class GrafikBarMingguan extends StatelessWidget {
+  const GrafikBarMingguan({super.key, required this.dataBarChart});
   final List<BarChartXY> dataBarChart;
   
-
   @override
   Widget build(BuildContext context) {
     // Widgets
-    Widget bottomTitle(double xValue, TitleMeta meta) {
+    Widget bottomTitleHarian(double xValue, TitleMeta meta){
       TextStyle textStyle = TextStyle(
         fontFamily: "QuickSand_Bold",
         fontSize: 12,
-        color: ApplicationColors.primaryColorWidthPercentage(percentage: 50),
+        color: ApplicationColors.primaryColorWidthPercentage(percentage: 50)
       );
 
-      List<String> listMonth = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "Mei",
-        "Jun",
-        "Jul",
-        "Ags",
-        "Sep",
-        "Okt",
-        "Nov",
-        "Des",
-      ];
+      List<String> listDay = ["S", "S", "R", "K", "J", "S", "M"];
 
-      return Text(listMonth[xValue.toInt()], style: textStyle,);
+      return Text(listDay[xValue.toInt()], style: textStyle,);
     }
 
     Widget getRightTitle(double val, TitleMeta meta){
@@ -54,8 +40,8 @@ class GrafikBarTahunan extends StatelessWidget {
       width: display.width * 0.9,
       child: ApplicationBarChart(
         dataXY: dataBarChart, 
-        barWidth: display.width * 0.5 / 12, 
-        getBottomTitle: bottomTitle, 
+        barWidth: 25, 
+        getBottomTitle: bottomTitleHarian, 
         getRightTitle: getRightTitle
       ),
     );

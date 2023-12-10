@@ -43,7 +43,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           dummyPadding(height: 25),
-          const ListWallet(),
+          ListWallet(),
           dummyPadding(height: 25),
           const SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -70,7 +70,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ApplicationColors.primaryBlue,
+      backgroundColor: ApplicationColors.primary,
       body: buildBody(context)
     );
   }

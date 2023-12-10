@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/main/pengeluaran/widgets/form_data_pengeluaran/form_data_pengeluaran.dart';
-import 'package:keuanganku/app/reusable_components/heading_text/heading_text.dart';
-import 'package:keuanganku/app/reusable_components/ringkasan_grafik/ringkasan_grafik.dart';
+import 'package:keuanganku/app/reusable%20widgets/heading_text/heading_text.dart';
+import 'package:keuanganku/app/reusable%20widgets/ringkasan_grafik/ringkasan_grafik.dart';
 import 'package:keuanganku/app/state_bridge.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/util/date_util.dart';
@@ -83,7 +83,7 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: ApplicationColors.primaryBlue,
+        backgroundColor: ApplicationColors.primary,
         onPressed: tambahDataBaru,
         child: const Icon(Icons.add, color: Colors.white,),
       ),

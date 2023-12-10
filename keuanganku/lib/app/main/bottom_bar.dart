@@ -9,7 +9,6 @@ class Data {
     "Ringkasan",
     "Pengeluaran",
     "Wallet",
-    "To-Do"
   ];
 
   List<BottomNavigationBarItem> getItems () {
@@ -23,9 +22,6 @@ class Data {
       BottomNavigationBarItem(
         icon: Icon(currentIndex == 2? Icons.account_balance_wallet : Icons.account_balance_wallet_outlined),
         label: listFeature[2]),
-      BottomNavigationBarItem(
-        icon: Icon(currentIndex == 3? CupertinoIcons.pencil_circle_fill : CupertinoIcons.pencil_circle),
-        label: listFeature[3]),
     ];
   }
 
@@ -42,7 +38,7 @@ class AppBottomNavBar{
   Widget getWidget(){
 
     return BottomNavigationBar(
-      backgroundColor: ApplicationColors.primaryBlue,
+      backgroundColor: ApplicationColors.primary,
       type:BottomNavigationBarType.fixed ,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white70,

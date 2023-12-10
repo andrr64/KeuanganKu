@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/main/list_feature.dart';
-import 'package:keuanganku/app/reusable_components/app_bar/app_bar.dart';
+import 'package:keuanganku/app/reusable%20widgets/app_bar/app_bar.dart';
 
 
 class AppTopBar{
@@ -20,7 +20,7 @@ class AppTopBar{
       ),
       title: listFeature[index],
       centerTitle: true,
-      backgroundColor: ApplicationColors.primaryBlue,
+      backgroundColor: ApplicationColors.primary,
       shadowColor: Colors.transparent,
       elevation: 0,
     ).getWidget();

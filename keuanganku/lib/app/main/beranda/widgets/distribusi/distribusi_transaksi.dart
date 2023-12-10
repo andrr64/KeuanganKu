@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:keuanganku/app/reusable_components/k_card/k_card.dart';
+import 'package:keuanganku/app/reusable%20widgets/k_card/k_card.dart';
 import 'package:keuanganku/util/dummy.dart';
 
 class DistribusiTransaksi extends StatelessWidget {
