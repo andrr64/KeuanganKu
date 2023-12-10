@@ -17,7 +17,6 @@ class Data {
         KeepAlivePage(child: HalamanBeranda(updateParentState: updateState,)),
         KeepAlivePage(child: HalamanPengeluaran()),
         KeepAlivePage(child: HalamanWallet()),
-        KeepAlivePage(child: Scaffold()),
     ];
     _init = true;
   }
