@@ -30,6 +30,8 @@ flutter:
   assets:
     - assets/images/getting_started/keuanganku_onboarding_image.png
     - assets/images/getting_started/keuanganku_splashscreen_2.png
+    - assets/icons/wallet.svg
+    - assets/icons/statistik.svg
 
   fonts:
     - family: Quicksand_Medium
