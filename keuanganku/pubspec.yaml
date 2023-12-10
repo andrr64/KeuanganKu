@@ -32,6 +32,7 @@ flutter:
     - assets/images/getting_started/keuanganku_splashscreen_2.png
     - assets/icons/wallet.svg
     - assets/icons/wallet_item.svg
+    - assets/icons/bank_item.svg
     - assets/icons/statistik.svg
     - assets/icons/distribusi.svg
 
