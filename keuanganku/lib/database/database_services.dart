@@ -1,5 +1,6 @@
 import 'package:keuanganku/database/helper/data_pemasukan.dart';
 import 'package:keuanganku/database/helper/data_pengeluaran.dart';
+import 'package:keuanganku/database/helper/data_wallet.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -14,6 +15,7 @@ class DatabaseService {
   createTable(Database db, version){
     SQLHelperPengeluaran().createTable(db);
     SQLHelperPemasukan().createTable(db);
+    SQLHelperWallet().createTable(db);
   }
 
   /// Panggil fungsi ini untuk satu kali saja disaat inisialisasi database
@@ -25,7 +27,7 @@ class DatabaseService {
         version: _databaseVersion,
         onCreate: createTable
       );
-    } catch (e) {}
+    } catch (ignored_exception) {}
   }
 
   get database => _database;
