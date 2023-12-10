@@ -3,13 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/database/model/data_wallet.dart';
+import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/font_style.dart';
+import 'package:keuanganku/util/get_currency.dart';
 
-class KWalletItem extends StatelessWidget {
+class KWalletItem extends StatefulWidget {
   const KWalletItem({super.key, required this.size, required this.wallet});
   final Size size;
   final SQLModelWallet wallet;
-  
+
+  @override
+  State<KWalletItem> createState() => _KWalletItemState();
+}
+
+class _KWalletItemState extends State<KWalletItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -17,8 +24,8 @@ class KWalletItem extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(builder: (context) => Scaffold()));
       },
       child: SizedBox(
-        width: size.width,
-        height: size.height,
+        width: widget.size.width,
+        height: widget.size.height,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -28,7 +35,7 @@ class KWalletItem extends StatelessWidget {
                 SizedBox(
                   width: 25,
                   height: 25,
-                  child: SvgPicture.asset(wallet.iconPath)),
+                  child: SvgPicture.asset(widget.wallet.iconPath)),
                 const SizedBox(
                   width: 10,
                 ),
@@ -36,15 +43,24 @@ class KWalletItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(wallet.tipe, style: kFontStyle(fontSize: 15)),
-                    Text(wallet.judul, style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),),
+                    Text(widget.wallet.tipe, style: kFontStyle(fontSize: 15)),
+                    Text(widget.wallet.judul, style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),),
                   ],
                 ),
               ],
             ),
             Row(
               children: [
-                Text(wallet.nilaiString, style: kFontStyle(fontSize: 14),),
+                FutureBuilder(
+                  future: widget.wallet.totalUang(), 
+                  builder: ((context, snapshot) {
+                    if (snapshot.hasData){
+                      return Text(formatCurrency(snapshot.data!), style: kFontStyle(fontSize: 15),);
+                    } else {
+                      return makeCenterWithRow(child: const SizedBox(height: 35, child: CircularProgressIndicator(),));
+                    }
+                  })
+                ),
                 const SizedBox(width: 5,),
                 const Icon(
                   CupertinoIcons.arrow_right,

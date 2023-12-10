@@ -66,9 +66,9 @@ class SQLModelPemasukan {
   // Metode untuk membuat objek DataPengeluaran dari Map (output SQL)
   static SQLModelPemasukan fromMap(Map<String, dynamic> map) {
     return SQLModelPemasukan(
-      id: map['id'] ?? 0,
-      id_wallet: map['id_wallet'] ?? 0,
-      id_kategori: map['id_kategori'] ?? 0,
+      id: map['id'] ?? -1,
+      id_wallet: map['id_wallet'] ?? -1,
+      id_kategori: map['id_kategori'] ?? -1,
       judul: map['judul'] ?? '',
       deskripsi: map['deskripsi'] ?? '',
       nilai: map['nilai'] ?? 0.0,

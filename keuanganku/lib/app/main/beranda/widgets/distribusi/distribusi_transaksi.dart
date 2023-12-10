@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keuanganku/app/reusable%20widgets/k_card/k_card.dart';
+import 'package:keuanganku/app/reusable%20widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/util/dummy.dart';
 
 class DistribusiTransaksi extends StatelessWidget {
@@ -22,10 +23,9 @@ class DistribusiTransaksi extends StatelessWidget {
         title: "Distribusi",
         width: size.width * 0.875,
         icon: icon,
-        child: Column(
-          children: [
-
-          ],
+        child: const SizedBox(
+          height:300, 
+          child: KEmpty()
         )
       ),
     );

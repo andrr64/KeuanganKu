@@ -1,4 +1,7 @@
+import 'package:keuanganku/database/helper/data_pemasukan.dart';
 import 'package:keuanganku/database/model/data_wallet.dart';
+import 'package:keuanganku/main.dart';
+import 'package:keuanganku/util/vector_operation.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLHelperWallet {
@@ -9,8 +12,7 @@ class SQLHelperWallet {
   final Map<String, Map<String, String>> _table = {
     "id": {
       "name": "id",
-      "type": "INTEGER",
-      "constraint": "AUTO INCREMENT PRIMARY KEY",
+      "type": "INTEGER PRIMARY KEY",
     },
     "tipe" : {
       "name" : "tipe",
@@ -42,11 +44,28 @@ class SQLHelperWallet {
     """;
   }
 
+  // READ METHODS 
+  Future<List<SQLModelWallet>> readAll(Database db) async {
+    final List<Map<String, dynamic>> maps = await db.query(_tableName);
+
+    return List.generate(maps.length, (i) {
+      return SQLModelWallet(
+        id: maps[i]['id'],
+        tipe: maps[i]['tipe'],
+        judul: maps[i]['judul'],
+      );
+    });
+  }
+
+  Future<double> readTotalUang(SQLModelWallet wallet) async{
+    final dataPemasukan = await SQLHelperPemasukan().readDataByWalletId(wallet.id, db.database);
+    return sumList(dataPemasukan.map((e) => e.nilai).toList());
+  }
+
   // INSERT METHODS
   Future<int> insert(SQLModelWallet wallet, Database db) async {
-    return 
-    await db.rawInsert(
-      "INSERT INTO $_tableName(tipe,judul) VALUES(?,?)",
+    return await db.rawInsert(
+      "INSERT INTO $_tableName(tipe, judul) VALUES(?, ?)",
       [wallet.tipe, wallet.judul]
     );
   }

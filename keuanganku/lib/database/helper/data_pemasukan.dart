@@ -108,8 +108,13 @@ class SQLHelperPemasukan {
     return data;
   }
 
+  Future<List<SQLModelPemasukan>> readDataByWalletId(int walletId, Database db) async {
+    final data = await db.query(_tableName, where: "id_wallet = $walletId");
+    return data.map((e) => SQLModelPemasukan.fromMap(e)).toList();
+  }
+
   // CREATE METHODS
-  Future<int> create(SQLModelPemasukan data, Database db) async {
+  Future<int> insert(SQLModelPemasukan data, Database db) async {
     return 
     await db.rawInsert(
       "INSERT INTO $_tableName(id_kategori, id_wallet, waktu, judul, deskripsi, nilai) VALUES(?,?,?,?,?,?)", 

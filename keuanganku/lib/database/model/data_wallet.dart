@@ -1,4 +1,4 @@
-import 'package:keuanganku/util/get_currency.dart';
+import 'package:keuanganku/database/helper/data_wallet.dart';
 
 class SQLModelWallet {
   SQLModelWallet({required this.id,required this.tipe,required this.judul});
@@ -6,6 +6,7 @@ class SQLModelWallet {
   final int id;
   final String judul;
   final String tipe;
+
 
   Map<String, dynamic> toMap(){
     return {
@@ -20,6 +21,12 @@ class SQLModelWallet {
   }
 
   // getter
-  double get nilai => 2000000;
-  String get nilaiString => formatCurrency(nilai);
+  Future<double> totalUang () async{
+    return await SQLHelperWallet().readTotalUang(this);
+  }
+
+  String get iconPath {
+    if (tipe == "Wallet") return "assets/icons/wallet_item.svg";
+    return "assets/icons/bank_item.svg";
+  }
 }
