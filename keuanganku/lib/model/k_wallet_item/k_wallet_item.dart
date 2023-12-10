@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/database/model/data_wallet.dart';
 import 'package:keuanganku/util/font_style.dart';
@@ -8,7 +9,7 @@ class KWalletItem extends StatelessWidget {
   const KWalletItem({super.key, required this.size, required this.wallet});
   final Size size;
   final SQLModelWallet wallet;
-
+  
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -22,12 +23,23 @@ class KWalletItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
               children: [
-                Text(wallet.tipe, style: kFontStyle(fontSize: 15)),
-                Text(wallet.judul, style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),),
+                SizedBox(
+                  width: 25,
+                  height: 25,
+                  child: SvgPicture.asset(wallet.iconPath)),
+                const SizedBox(
+                  width: 10,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(wallet.tipe, style: kFontStyle(fontSize: 15)),
+                    Text(wallet.judul, style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),),
+                  ],
+                ),
               ],
             ),
             Row(
