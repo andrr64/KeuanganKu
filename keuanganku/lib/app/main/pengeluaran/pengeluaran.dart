@@ -83,7 +83,7 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: ApplicationColors.primary,
+        backgroundColor: ApplicationColors.primaryBlue,
         onPressed: tambahDataBaru,
         child: const Icon(Icons.add, color: Colors.white,),
       ),
