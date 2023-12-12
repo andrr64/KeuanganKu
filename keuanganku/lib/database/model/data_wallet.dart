@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:keuanganku/database/helper/data_wallet.dart';
 
 class SQLModelWallet {
@@ -9,9 +12,14 @@ class SQLModelWallet {
 
   static List<String> tipeWallet = [
     "Wallet",
-    "Bank Account"
+    "Bank"
   ];
 
+  static List<Widget> iconTipeWallet = [
+    SvgPicture.asset("assets/icons/wallet_item.svg",height: 20,),
+    SvgPicture.asset("assets/icons/bank_item.svg",height: 20,),
+  ];
+  
   Map<String, dynamic> toMap(){
     return {
       'id' : id,
