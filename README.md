@@ -83,5 +83,5 @@ Untuk menjalankan aplikasi ini disarankan untuk menyiapkan aplikasi berikut ini 
   - [x] Java JDK <code>19.0.0</code>
   - [x] Git <code>2.35.1</code>
 
-## Credit
+## :coffee: Credit
 Project ini mengacu pada modul praktik dari mata kuliah Mobile Programming Universitas Bina Sarana Informatika (UBSI) yang diampu oleh Bpk. <a href="https://github.com/yuris60">Yuris Alkhalifi, M.Kom., CPDSA</a> selaku Dosen.
