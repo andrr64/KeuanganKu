@@ -16,7 +16,7 @@ KeuanganKu hadir sebagai platform inovatif yang dirancang khusus untuk memberika
   <tbody>
     <tr>
       <td>1</td>
-      <td>155220384</td>
+      <td>15220384</td>
       <td>Derza Andreas</td>
     </tr>
     <tr>
