@@ -58,7 +58,6 @@ class _FormWalletState extends State<FormWallet> {
         ),
       );
     }
-
     Widget fieldJumlahUang(){
       return
       Padding(
@@ -72,7 +71,6 @@ class _FormWalletState extends State<FormWallet> {
         ),
       );
     }
-
     Widget buttonSimpan(){
       return
       Padding(
@@ -83,7 +81,6 @@ class _FormWalletState extends State<FormWallet> {
             SQLModelWallet newWallet = SQLModelWallet(id: -1, tipe: "Wallet", judul: controllerFieldJudul.text);
             SQLHelperWallet().insert(newWallet, db.database).then((int idWallet) {
               if (idWallet != -1) {
-                print(idWallet);
                 SQLModelPemasukan pemasukan = SQLModelPemasukan(
                   id: -1, 
                   id_wallet: idWallet, 
@@ -122,10 +119,14 @@ class _FormWalletState extends State<FormWallet> {
         ),
       );
     }
-
-    return SizedBox(
-      width: size.width * 0.95,
+    
+    return Container(
+      width: size.width * 0.90,
       height: size.height * 0.95,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
