@@ -13,7 +13,12 @@ DatabaseService db = DatabaseService();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  AndroidSys.setNotificationBarColor(); // Berfungsi untuk mengubah warna bar notifikasi android
+  AndroidSys.setNotificationBarColor(
+    bgColor: Colors.transparent,
+    iconColor: Brightness.light,
+    navbarColor: Colors.black,
+    navBarIconColor: Brightness.light
+  ); // Berfungsi untuk mengubah warna bar notifikasi android
   await db.openDB();
   runApp(const KeuanganKu());
 }
