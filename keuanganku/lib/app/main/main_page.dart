@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/main/bottom_bar.dart';
-import 'package:keuanganku/app/main/app_bar.dart';
 import 'package:keuanganku/app/main/keep_alive.dart';
 import 'package:keuanganku/app/main/beranda/beranda.dart';
 import 'package:keuanganku/app/main/body.dart';
@@ -11,12 +10,16 @@ import 'package:keuanganku/app/main/wallet/wallet.dart';
 
 class Data {
   bool _init = false;
-  init(void Function() updateState){
+  init(GlobalKey<ScaffoldState> scState, void Function() updateState){
     if(_init) return;
     listMainPagePages = [
-        KeepAlivePage(child: HalamanBeranda(updateParentState: updateState,)),
-        KeepAlivePage(child: HalamanPengeluaran()),
-        KeepAlivePage(child: HalamanWallet()),
+        KeepAlivePage(child: HalamanBeranda(
+          parentScaffoldKey: scState,
+          updateParentState: updateState,)),
+        const KeepAlivePage(child: HalamanPengeluaran()),
+        KeepAlivePage(child: HalamanWallet(
+          parentScaffoldKey: scState,
+        )),
     ];
     _init = true;
   }
@@ -41,8 +44,8 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    MainPage.data.init(updateThisState);
   }
+ 
   /// Controller untuk mengatur halaman
   final PageController _pageController = PageController();
 
@@ -57,7 +60,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   /// Fungsi yang dipanggil ketika indeks/halaman berubah
-  onPageChanged(int index) {
+  void onPageChanged(int index) {
     setState(() {
       MainPage.data.currentIndex = index;
     });
@@ -65,10 +68,11 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    MainPage.data.init(_scaffoldKey, updateThisState);
     return Scaffold(
         key: _scaffoldKey,
         drawer: const AppDrawer(),
-        appBar: AppTopBar(scaffoldKey: _scaffoldKey, index: MainPage.data.currentIndex).getWidget(context),
+        // appBar: AppTopBar(scaffoldKey: _scaffoldKey, index: MainPage.data.currentIndex).getWidget(context),
         body: AppBody(
           onPageChanged: onPageChanged,
           pageController: _pageController,
