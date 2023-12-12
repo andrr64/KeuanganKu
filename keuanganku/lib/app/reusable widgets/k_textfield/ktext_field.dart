@@ -30,9 +30,6 @@ class KTextField extends StatelessWidget {
           labelText: fieldName,
           border: const OutlineInputBorder(),
           prefixIcon: Icon(icon, color: prefixIconColor,),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: prefixIconColor)
-          ),
           labelStyle: const TextStyle(color: ApplicationColors.primary)
         ),
       );
