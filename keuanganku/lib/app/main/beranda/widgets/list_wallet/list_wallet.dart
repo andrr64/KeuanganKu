@@ -67,7 +67,7 @@ class _ListWalletState extends State<ListWallet> {
       return Column(
         children: [
           for(int i = 0; i < wallets.length; i++)
-            KWalletItem(size: Size(width, 50), wallet: wallets[i]),
+            KWalletItem(size: Size(width, 55), wallet: wallets[i]),
           const Divider(color: Colors.black26,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
