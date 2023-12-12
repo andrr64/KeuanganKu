@@ -7,6 +7,10 @@ class SQLModelWallet {
   final String judul;
   final String tipe;
 
+  static List<String> tipeWallet = [
+    "Wallet",
+    "Bank Account"
+  ];
 
   Map<String, dynamic> toMap(){
     return {
