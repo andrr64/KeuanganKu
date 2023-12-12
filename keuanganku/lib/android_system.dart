@@ -3,10 +3,17 @@ import 'package:flutter/services.dart';
 
 class AndroidSys {
   // ignore: non_constant_identifier_names
-  static setNotificationBarColor({bool dark_bgColor = false}) {
+  static setNotificationBarColor({
+    Color? bgColor, 
+    Brightness? iconColor, 
+    Color? navbarColor,
+    Brightness? navBarIconColor
+  }) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: dark_bgColor ? Colors.black : Colors.transparent,
-      statusBarIconBrightness: dark_bgColor ? Brightness.light : Brightness.dark,
+      statusBarColor: bgColor ?? Colors.transparent,
+      statusBarIconBrightness: iconColor?? Brightness.dark,
+      systemNavigationBarColor: navbarColor?? Colors.black,
+      systemNavigationBarIconBrightness: navBarIconColor?? Brightness.light
     ));
   }
 }
