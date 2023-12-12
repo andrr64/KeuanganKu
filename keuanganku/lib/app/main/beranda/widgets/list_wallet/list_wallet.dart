@@ -28,7 +28,8 @@ class Data {
 }
 
 class ListWallet extends StatefulWidget {
-  const ListWallet({super.key});
+  const ListWallet({super.key, required this.updateState});
+  final VoidCallback updateState;
 
   @override
   State<ListWallet> createState() => _ListWalletState();
@@ -54,7 +55,10 @@ class _ListWalletState extends State<ListWallet> {
       showModalBottomSheet(
         context: context, 
         isScrollControlled: true,
-        builder: (context) => FormWallet(onFinished: updateState)
+        builder: (context) => FormWallet(onFinished: (){
+          updateState();
+          widget.updateState();
+        })
       );
     }
 
@@ -63,7 +67,7 @@ class _ListWalletState extends State<ListWallet> {
       return Column(
         children: [
           for(int i = 0; i < wallets.length; i++)
-            KWalletItem(size: Size(width, 60), wallet: wallets[i]),
+            KWalletItem(size: Size(width, 50), wallet: wallets[i]),
           const Divider(color: Colors.black26,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
