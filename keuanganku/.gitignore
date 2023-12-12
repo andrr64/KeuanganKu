@@ -1,3 +1,7 @@
+.dart_tool
+.idea
+.vscode 
+
 # Miscellaneous
 *.class
 *.log
