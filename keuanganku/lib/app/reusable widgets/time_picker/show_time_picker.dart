@@ -7,5 +7,5 @@ Future<TimeOfDay> tampilkanTimePicker({required BuildContext context, required T
       initialTime: waktu,
       initialEntryMode: TimePickerEntryMode.inputOnly
     )
-  )!;
+  ) ?? waktu;
 }
