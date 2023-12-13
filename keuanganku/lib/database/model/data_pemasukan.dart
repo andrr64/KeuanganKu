@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 class SQLModelPemasukan {
   int id = -1;
   int id_wallet;

@@ -8,7 +8,7 @@ class Routes {
 
   void initializePages(BuildContext context) {
     _pagesMaps = {
-      mainPage: (context) => MainPage()
+      mainPage: (context) => const MainPage()
     };
   }
 
