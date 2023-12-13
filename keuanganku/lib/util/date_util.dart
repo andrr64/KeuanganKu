@@ -45,3 +45,16 @@ String enumDataTransaksiInfo(WaktuTransaksi waktuTransaksi){
       return "Ringkasan";
   }
 }
+
+DateTime combineDtTod(DateTime dt, TimeOfDay tod) {
+  // Mendapatkan tanggal dari DateTime dt
+  DateTime date = DateTime(dt.year, dt.month, dt.day);
+
+  // Menggabungkan tanggal dan waktu dari tod
+  DateTime combinedDateTime = date.add(Duration(
+    hours: tod.hour,
+    minutes: tod.minute,
+  ));
+
+  return combinedDateTime;
+}
