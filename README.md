@@ -1,5 +1,5 @@
 <div >
-    <h1> <img style="padding-right:10px;" src="assets/logo_ubsi.png" height=40 align="texttop">KeuanganKu</h1>
+    <h1> <img style="padding-right:15px;" src="assets/logo_ubsi.png" height=35px align="texttop">KeuanganKu</h1>
 </div>
 
 KeuanganKu hadir sebagai platform inovatif yang dirancang khusus untuk memberikan dukungan dalam mengelola keuangan Anda secara lebih efisien. Dengan fitur-fitur andalan yang tersedia, tujuan platform ini adalah untuk memudahkan Anda dalam perencanaan, pemantauan, dan optimalisasi segala aspek keuangan Anda.
