@@ -9,7 +9,9 @@ class KTextField extends StatelessWidget {
     required this.prefixIconColor,
     this.icon,
     this.keyboardType,
-    this.readOnly}
+    this.readOnly,
+    this.onTap
+  }
   );
 
   final String fieldName;
@@ -18,7 +20,8 @@ class KTextField extends StatelessWidget {
   final TextEditingController fieldController;
   final TextInputType? keyboardType;
   final bool? readOnly;
-  
+  final Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
     return  
@@ -26,6 +29,7 @@ class KTextField extends StatelessWidget {
         controller: fieldController,
         keyboardType: keyboardType,
         readOnly: readOnly?? false,
+        onTap: onTap,
         decoration: InputDecoration(
           labelText: fieldName,
           border: const OutlineInputBorder(),
