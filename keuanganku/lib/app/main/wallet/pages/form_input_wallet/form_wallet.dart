@@ -29,7 +29,35 @@ class _FormWalletState extends State<FormWallet> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    
+    // Events
+    void eventSimpanWallet(){
+      if (controllerFieldJudul.text.isEmpty || controllerFieldJumlahUang.text.isEmpty) {
+        return;
+      }
+      Navigator.pop(context);
+      SQLModelWallet newWallet = SQLModelWallet(id: -1, tipe: tipeWallet, judul: controllerFieldJudul.text);
+      SQLHelperWallet().insert(newWallet, db.database).then((int idWallet) {
+        if (idWallet != -1) {
+          SQLModelPemasukan pemasukan = SQLModelPemasukan(
+            id: -1, 
+            id_wallet: idWallet, 
+            id_kategori: -1, 
+            judul: "Wallet Baru - ${newWallet.judul}", 
+            deskripsi: "Inisialisasi Wallet", 
+            nilai: double.parse(controllerFieldJumlahUang.text), 
+            waktu: DateTime.now()
+          );
+          SQLHelperPemasukan().insert(pemasukan, db.database);
+          showSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
+        } else {
+          showSnackBar(context, jenisPesan: Pesan.Error, msg: "Terdapat kesalahan ...");
+        }
+      }).catchError((error) {
+          showSnackBar(context, jenisPesan: Pesan.Error, msg: error.toString());
+      });
+      widget.onFinished();
+    }
+
     // Widgets
     Widget heading(){
       return Row(
@@ -81,36 +109,24 @@ class _FormWalletState extends State<FormWallet> {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: KButton(
-          onTap: () {
-            Navigator.pop(context);
-            SQLModelWallet newWallet = SQLModelWallet(id: -1, tipe: tipeWallet, judul: controllerFieldJudul.text);
-            SQLHelperWallet().insert(newWallet, db.database).then((int idWallet) {
-              if (idWallet != -1) {
-                SQLModelPemasukan pemasukan = SQLModelPemasukan(
-                  id: -1, 
-                  id_wallet: idWallet, 
-                  id_kategori: -1, 
-                  judul: "Wallet Baru - ${newWallet.judul}", 
-                  deskripsi: "Inisialisasi Wallet", 
-                  nilai: double.parse(controllerFieldJumlahUang.text), 
-                  waktu: DateTime.now()
-                );
-                SQLHelperPemasukan().insert(pemasukan, db.database);
-                showSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
-              } else {
-                showSnackBar(context, jenisPesan: Pesan.Error, msg: "Terdapat kesalahan ...");
-              }
-            }).catchError((error) {
-                showSnackBar(context, jenisPesan: Pesan.Error, msg: error.toString());
-            });
-            widget.onFinished();
-          },
+          onTap: eventSimpanWallet,
           title: "Simpan", 
           icon: const Icon(Icons.save, color: Colors.white,),
           color: Colors.white,
-          bgColor: ApplicationColors.primary,
+          bgColor: Colors.green,
         ),
       );
+    }
+    Widget buttonClear(){
+      return KButton(
+        onTap: (){
+          controllerFieldJudul.text = "";
+          controllerFieldJumlahUang.text = "";
+        }, 
+        color: Colors.white, 
+        bgColor: Colors.red, 
+        title: "Bersihkan", 
+        icon: const Icon(Icons.clear, color: Colors.white));
     }
     Widget dropDownTipeWallet() {
       return Padding(
@@ -162,15 +178,7 @@ class _FormWalletState extends State<FormWallet> {
           Row(
             children: [
               buttonSimpan(),
-              KButton(
-                onTap: (){
-                  controllerFieldJudul.text = "";
-                  controllerFieldJumlahUang.text = "";
-                }, 
-                color: Colors.white, 
-                bgColor: Colors.red, 
-                title: "Clear", 
-                icon: const Icon(Icons.clear, color: Colors.white)),
+              buttonClear(),
             ],
           )
         ],
