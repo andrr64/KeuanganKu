@@ -4,7 +4,7 @@ class KDropdownMenu<T> {
   DropdownButtonFormField<T>? dropdownMenu;
   String labelText;
 
-  KDropdownMenu({required List<DropdownMenuItem<T>> items, required void Function(T?) onChanged, required T value, required this.labelText, Icon? icon}) {
+  KDropdownMenu({required List<DropdownMenuItem<T>> items, required void Function(T?) onChanged, required T value, required this.labelText, Widget? icon}) {
     dropdownMenu = DropdownButtonFormField<T>(
       items: items,
       onChanged: onChanged,

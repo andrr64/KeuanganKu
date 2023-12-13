@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/app/main/bottom_bar.dart';
-import 'package:keuanganku/app/main/keep_alive.dart';
-import 'package:keuanganku/app/main/beranda/beranda.dart';
-import 'package:keuanganku/app/main/body.dart';
-import 'package:keuanganku/app/main/drawer.dart';
-import 'package:keuanganku/app/main/pengeluaran/pengeluaran.dart';
-import 'package:keuanganku/app/main/wallet/wallet.dart';
+import 'package:keuanganku/app/routes/main/bottom_bar.dart';
+import 'package:keuanganku/app/routes/main/keep_alive.dart';
+import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
+import 'package:keuanganku/app/routes/main/body.dart';
+import 'package:keuanganku/app/routes/main/drawer.dart';
+import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
+import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 
 
 class Data {

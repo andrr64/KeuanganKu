@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/app/main/main_page.dart';
+import 'package:keuanganku/app/routes/main/main_page.dart';
 
 class Routes {
   final mainPage = "/mainpage";

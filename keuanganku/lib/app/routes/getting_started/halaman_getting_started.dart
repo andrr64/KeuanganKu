@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/main.dart';
-import 'package:keuanganku/app/getting_started/halaman_1.dart';
-import 'package:keuanganku/app/getting_started/halaman_2.dart';
-import 'package:keuanganku/app/getting_started/halaman_akhir.dart';
+import 'package:keuanganku/app/routes/getting_started/halaman_1.dart';
+import 'package:keuanganku/app/routes/getting_started/halaman_2.dart';
+import 'package:keuanganku/app/routes/getting_started/halaman_akhir.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

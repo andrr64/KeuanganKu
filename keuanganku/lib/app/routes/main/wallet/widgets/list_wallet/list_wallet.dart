@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:keuanganku/app/main/wallet/pages/form_input_wallet/form_wallet.dart';
+import 'package:keuanganku/app/routes/main/wallet/pages/form_input_wallet/form_wallet.dart';
 import 'package:keuanganku/app/reusable%20widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/reusable%20widgets/k_card/k_card.dart';
 import 'package:keuanganku/database/helper/data_wallet.dart';

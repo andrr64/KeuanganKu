@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/main/beranda/widgets/distribusi/distribusi_transaksi.dart';
-import 'package:keuanganku/app/main/beranda/widgets/list_wallet/list_wallet.dart';
-import 'package:keuanganku/app/main/beranda/widgets/statistik/statistik.dart';
-import 'package:keuanganku/app/main/pengeluaran/pengeluaran.dart';
-import 'package:keuanganku/app/main/wallet/wallet.dart';
+import 'package:keuanganku/app/routes/main/beranda/widgets/distribusi/distribusi_transaksi.dart';
+import 'package:keuanganku/app/routes/main/wallet/widgets/list_wallet/list_wallet.dart';
+import 'package:keuanganku/app/routes/main/beranda/widgets/statistik/statistik.dart';
+import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
+import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/app/reusable%20widgets/k_app_bar/k_app_bar.dart';
 import 'package:keuanganku/app/state_bridge.dart';
 import 'package:keuanganku/util/dummy.dart';

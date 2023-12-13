@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/reusable%20widgets/heading_text/heading_text.dart';
 import 'package:keuanganku/app/reusable%20widgets/k_button/k_button.dart';
+import 'package:keuanganku/app/reusable%20widgets/k_dropdown_menu/k_drodpown_menu.dart';
 import 'package:keuanganku/app/reusable%20widgets/k_textfield/ktext_field.dart';
 import 'package:keuanganku/app/snack_bar.dart';
 import 'package:keuanganku/database/helper/data_pemasukan.dart';
@@ -131,7 +132,27 @@ class _FormWalletState extends State<FormWallet> {
     Widget dropDownTipeWallet() {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: DropdownButtonFormField<String>(
+        child: KDropdownMenu<String>(
+          items: SQLModelWallet.tipeWallet.map((String item) {
+            return DropdownMenuItem(
+              value: item,
+              child: Text(item, style: kFontStyle(fontSize: 14, family: "QuickSand_Medium")),
+            );
+          }).toList(), 
+          onChanged: (String? value) {
+            if (value != null) {
+              setState(() {
+                tipeWallet = value;
+              });
+            }
+          }, 
+          value: tipeWallet, 
+          labelText: "Tipe Wallet",
+          icon: Icon(tipeWallet == "Wallet"? Icons.wallet: Icons.account_balance),
+        ).getWidget()
+      );
+      /*
+      DropdownButtonFormField<String>(
           items: SQLModelWallet.tipeWallet.map((String item) {
             return DropdownMenuItem(
               value: item,
@@ -152,7 +173,7 @@ class _FormWalletState extends State<FormWallet> {
             prefixIcon: Icon(tipeWallet == "Wallet"? Icons.wallet: Icons.account_balance),
           ),
         ),
-      );
+        */
     }
 
     return Container(

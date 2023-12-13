@@ -21,7 +21,7 @@ class _KWalletItemState extends State<KWalletItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Scaffold()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const Scaffold()));
       },
       child: SizedBox(
         width: widget.size.width,
