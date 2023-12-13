@@ -1,12 +1,11 @@
 name: keuanganku
-description: A new Flutter project.
+description: KeuanganKu is presented as an innovative platform specifically designed to provide support in managing your finances more efficiently. With its flagship features, the goal of this platform is to make it easier for you to plan, monitor, and optimize all aspects of your financial matters
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
 environment:
   sdk: '>=3.1.2 <4.0.0'
-
 
 dependencies:
   flutter:
@@ -43,7 +42,7 @@ flutter:
     - family: Quicksand_Bold
       fonts:
         - asset: assets/fonts/Quicksand-Bold.ttf
-    - family: Quicksand
+    - family: Quicksand 
       fonts:
         - asset: assets/fonts/Quicksand-Regular.ttf
     - family: Inter_Bold
