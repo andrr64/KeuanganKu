@@ -10,6 +10,7 @@ class KAppBar {
     this.shadowColor,
     this.elevation,
     this.fontSize,
+    this.fontColor
   });
 
   Widget? leading;
@@ -17,13 +18,14 @@ class KAppBar {
   bool? centerTitle;
   Color? backgroundColor = Colors.white;
   Color? shadowColor = Colors.transparent;
+  Color? fontColor;
   double? elevation = 0;
   double? fontSize;
 
   AppBar getWidget(){
     return AppBar(
       leading: leading,
-      title: kAppBarTitle(title, fontSz: fontSize),
+      title: kAppBarTitle(title, fontSz: fontSize, fontColor: fontColor),
       centerTitle: centerTitle,
       backgroundColor: backgroundColor,
       shadowColor: shadowColor,

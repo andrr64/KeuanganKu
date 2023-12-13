@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-kAppBarTitle(String title, {double? fontSz, Color? bgColor}){
+kAppBarTitle(String title, {double? fontSz, Color? fontColor}){
   
   return 
   Text(
@@ -7,7 +7,7 @@ kAppBarTitle(String title, {double? fontSz, Color? bgColor}){
     style: TextStyle(
         fontSize: fontSz ?? 24,
         fontFamily: "QuickSand_Bold",
-        color: bgColor ?? Colors.white
+        color: fontColor ?? Colors.white
       ),
     );
 }
