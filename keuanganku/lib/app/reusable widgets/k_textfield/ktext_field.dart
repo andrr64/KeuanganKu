@@ -30,6 +30,9 @@ class KTextField extends StatelessWidget {
         keyboardType: keyboardType,
         readOnly: readOnly?? false,
         onTap: onTap,
+        style: const TextStyle(
+          fontFamily: "QuickSand_Medium",
+        ),
         decoration: InputDecoration(
           labelText: fieldName,
           border: const OutlineInputBorder(),
