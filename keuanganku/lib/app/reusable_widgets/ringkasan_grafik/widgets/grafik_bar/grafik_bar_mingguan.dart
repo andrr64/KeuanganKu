@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/reusable%20widgets/bar_chart/bar_chart.dart';
-import 'package:keuanganku/app/reusable%20widgets/bar_chart/data.dart';
+import 'package:keuanganku/app/reusable_widgets/bar_chart/bar_chart.dart';
+import 'package:keuanganku/app/reusable_widgets/bar_chart/data.dart';
 
 class GrafikBarMingguan extends StatelessWidget {
   const GrafikBarMingguan({super.key, required this.dataBarChart});

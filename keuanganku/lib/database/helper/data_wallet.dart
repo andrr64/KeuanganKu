@@ -1,4 +1,5 @@
 import 'package:keuanganku/database/helper/data_pemasukan.dart';
+import 'package:keuanganku/database/helper/data_pengeluaran.dart';
 import 'package:keuanganku/database/model/data_wallet.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/vector_operation.dart';
@@ -59,7 +60,8 @@ class SQLHelperWallet {
 
   Future<double> readTotalUang(SQLModelWallet wallet) async{
     final dataPemasukan = await SQLHelperPemasukan().readDataByWalletId(wallet.id, db.database);
-    return sumList(dataPemasukan.map((e) => e.nilai).toList());
+    final dataPengeluaran = await SQLHelperPengeluaran().readByWalletId(wallet.id, db.database);
+    return sumList(dataPemasukan.map((e) => e.nilai).toList()) - sumList(dataPengeluaran.map((e) => e.nilai).toList());
   }
 
   // INSERT METHODS

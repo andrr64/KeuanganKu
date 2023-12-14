@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/reusable%20widgets/ringkasan_grafik/ringkasan_grafik.dart' as ringkasan_grafik;
+import 'package:keuanganku/app/reusable_widgets/ringkasan_grafik/ringkasan_grafik.dart' as ringkasan_grafik;
 
 class Properties {
   final List<String> listTabWaktuTransaksi = [

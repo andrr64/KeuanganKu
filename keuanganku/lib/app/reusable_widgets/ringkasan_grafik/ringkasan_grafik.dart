@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/reusable%20widgets/ringkasan_grafik/widgets/grafik_bar/grafik_bar_mingguan.dart';
-import 'package:keuanganku/app/reusable%20widgets/ringkasan_grafik/widgets/grafik_bar/grafik_bar_tiap_bulan.dart';
+import 'package:keuanganku/app/reusable_widgets/ringkasan_grafik/widgets/grafik_bar/grafik_bar_mingguan.dart';
+import 'package:keuanganku/app/reusable_widgets/ringkasan_grafik/widgets/grafik_bar/grafik_bar_tiap_bulan.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
-import 'package:keuanganku/app/reusable%20widgets/ringkasan_grafik/widgets/tab_jenis_transaksi/tab_jenis_transaksi.dart';
-import 'package:keuanganku/app/reusable%20widgets/ringkasan_grafik/widgets/tab_waktu_transaksi/tab_waktu_transaksi.dart';
-import 'package:keuanganku/app/reusable%20widgets/bar_chart/data.dart';
+import 'package:keuanganku/app/reusable_widgets/ringkasan_grafik/widgets/tab_jenis_transaksi/tab_jenis_transaksi.dart';
+import 'package:keuanganku/app/reusable_widgets/ringkasan_grafik/widgets/tab_waktu_transaksi/tab_waktu_transaksi.dart';
+import 'package:keuanganku/app/reusable_widgets/bar_chart/data.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/get_currency.dart';
 import 'package:keuanganku/util/vector_operation.dart';

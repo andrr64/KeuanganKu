@@ -77,6 +77,10 @@ class SQLHelperPengeluaran {
   }
 
   // READ METHODS
+  Future<List<SQLModelPengeluaran>> readByWalletId(int id, Database db) async {
+    return (await db.rawQuery("SELECT * FROM $_tableName WHERE id_wallet = ?", [id])).map((e) => SQLModelPengeluaran.fromMap(e)).toList();
+  }
+
   Future<List<SQLModelPengeluaran>> readWithClause({required String clause, required Database db}) async {
       final List<Map<String, dynamic>> results = await db.query(
         _tableName,

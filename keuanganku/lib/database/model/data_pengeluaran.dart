@@ -21,7 +21,21 @@ class SQLModelPengeluaran {
     required this.rating,
     required this.waktu,
   });
-  
+
+  static String infoRating(double rating) {
+    if (rating >= 1.0 && rating <= 2.0) {
+      return 'Sia-Sia';
+    } else if (rating > 2.0 && rating <= 3.0) {
+      return 'Cukup';
+    } else if (rating > 3.0 && rating <= 4.0) {
+      return 'Baik';
+    } else if (rating > 4.0 && rating <= 5.0) {
+      return 'Sangat Baik';
+    } else {
+      return 'Invalid';
+    }
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,

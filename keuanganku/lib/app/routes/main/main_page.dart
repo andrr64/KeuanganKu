@@ -16,7 +16,9 @@ class Data {
         KeepAlivePage(child: HalamanBeranda(
           parentScaffoldKey: scState,
           updateParentState: updateState,)),
-        const KeepAlivePage(child: HalamanPengeluaran()),
+        KeepAlivePage(child: HalamanPengeluaran(
+          parentScaffoldKey: scState,
+        )),
         KeepAlivePage(child: HalamanWallet(
           parentScaffoldKey: scState,
         )),

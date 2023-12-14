@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:keuanganku/database/helper/data_wallet.dart';
 
 class SQLModelWallet {
@@ -14,12 +13,14 @@ class SQLModelWallet {
     "Wallet",
     "Bank"
   ];
-
   static List<Widget> iconTipeWallet = [
     SvgPicture.asset("assets/icons/wallet_item.svg",height: 20,),
     SvgPicture.asset("assets/icons/bank_item.svg",height: 20,),
   ];
-  
+  static SQLModelWallet fromMap(Map<String, dynamic> map){
+    return SQLModelWallet(id: map['id'],tipe: map['tipe'],  judul: map['judul']);
+  }
+
   Map<String, dynamic> toMap(){
     return {
       'id' : id,
@@ -27,16 +28,9 @@ class SQLModelWallet {
       'judul' : judul
     };
   }
-
-  static SQLModelWallet fromMap(Map<String, dynamic> map){
-    return SQLModelWallet(id: map['id'],tipe: map['tipe'],  judul: map['judul']);
-  }
-
-  // getter
   Future<double> totalUang () async{
     return await SQLHelperWallet().readTotalUang(this);
   }
-
   String get iconPath {
     if (tipe == "Wallet") return "assets/icons/wallet_item.svg";
     return "assets/icons/bank_item.svg";
