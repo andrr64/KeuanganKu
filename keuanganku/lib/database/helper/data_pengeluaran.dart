@@ -6,7 +6,7 @@ class SQLHelperPengeluaran {
     await db.execute(SQLHelperPengeluaran().sqlCreateQuery);
   }
 
-  final Map<String, Map<String, String>> _table = {
+  static final Map<String, Map<String, String>> _table = {
     "id": {
       "name": "id",
       "type": "INTEGER",
@@ -44,7 +44,7 @@ class SQLHelperPengeluaran {
     },
   };
 
-  final _tableName = "data_pengeluaran";
+  static const _tableName = "data_pengeluaran";
   
   String get sqlCreateQuery {
     String columns = "";

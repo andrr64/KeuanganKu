@@ -6,7 +6,7 @@ class SQLHelperPemasukan {
     await db.execute(SQLHelperPemasukan().sqlCreateQuery);
   }
 
-  final Map<String, Map<String, String>> _table = {
+  static final Map<String, Map<String, String>> _table = {
     "id": {
       "name": "id",
       "type": "INTEGER",
