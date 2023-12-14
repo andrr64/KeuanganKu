@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/enum/status.dart';
 import 'package:keuanganku/util/font_style.dart';
 
-void showSnackBar(BuildContext context, {required  Pesan jenisPesan, required String msg}){
+void tampilkanSnackBar(BuildContext context, {required  Pesan jenisPesan, required String msg}){
   late Color color;
   switch (jenisPesan) {
     case Pesan.Success:
