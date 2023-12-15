@@ -19,7 +19,7 @@ class KPengeluaranItem extends StatefulWidget {
 
 class _KPengeluaranItemState extends State<KPengeluaranItem> {
   Color mapValueToColor(double value) {
-    if (value == -1){
+    if (value == -1) {
       return Colors.grey;
     }
     if (value < 1.0 || value > 5.0) {
@@ -27,7 +27,7 @@ class _KPengeluaranItemState extends State<KPengeluaranItem> {
     }
 
     // Hitung nilai Hue untuk gradient dari merah ke hijau
-    double hue = 120.0 - (value - 1.0) / 4.0 * 120.0;
+    double hue = (value - 1.0) / 4.0 * 120.0;
 
     // Ubah nilai Hue menjadi warna menggunakan HSLColor
     HSLColor color = HSLColor.fromAHSL(1.0, hue, 1.0, 0.5);
@@ -35,6 +35,7 @@ class _KPengeluaranItemState extends State<KPengeluaranItem> {
     // Konversi HSLColor menjadi Color
     return color.toColor();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +67,13 @@ class _KPengeluaranItemState extends State<KPengeluaranItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     KFutureBuilder.build(
-                      context: context, 
-                      future: widget.pengeluaran.kategori, 
-                      buildWhenSuccess: (val) => Text(truncateString(val.judul, 16, isEndWith: true, endWith:  "..."), style: kFontStyle(fontSize: 15),), 
-                      buildWhenEmpty: () => const KEmpty(), 
+                      context: context,
+                      future: widget.pengeluaran.kategori,
+                      buildWhenSuccess: (val) => Text(truncateString(val.judul, 16, isEndWith: true, endWith:  "..."), style: kFontStyle(fontSize: 15),),
+                      buildWhenEmpty: () => const KEmpty(),
                       buildWhenError: () => const KEmpty()
                     ),
-                    Text(widget.pengeluaran.judul, style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),),
+                    Text(truncateString(widget.pengeluaran.judul, 15, isEndWith: true, endWith: "..."), style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),),
                   ],
                 ),
               ),
@@ -85,7 +86,7 @@ class _KPengeluaranItemState extends State<KPengeluaranItem> {
               const Icon(
                 CupertinoIcons.arrow_right,
                 color: ApplicationColors.primary,
-                size: 17.5,
+                size: 15,
               )
             ],
           )
