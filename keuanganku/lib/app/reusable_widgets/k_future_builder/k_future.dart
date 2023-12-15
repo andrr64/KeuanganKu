@@ -9,6 +9,7 @@ class KFutureBuilder {
     required Widget Function() buildWhenEmpty,
     required Widget Function() buildWhenError,
     Widget Function()? buildWhenWaiting,
+    bool? isJustVoid,
   }) {
     return FutureBuilder(
       future: future,
@@ -17,8 +18,8 @@ class KFutureBuilder {
           return buildWhenWaiting?.call() ?? const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return buildWhenError();
-        } else if (snapshot.hasData) {
-          if (snapshot.data == null) {
+        } else if (snapshot.hasData || isJustVoid == true) {
+          if (snapshot.data == null && isJustVoid != true) {
             return buildWhenEmpty();
           } else {
             return buildWhenSuccess(snapshot.data as T);
