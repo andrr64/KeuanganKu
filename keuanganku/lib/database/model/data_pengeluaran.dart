@@ -1,5 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:keuanganku/database/helper/data_kategori.dart';
+import 'package:keuanganku/database/model/data_kategori.dart';
+import 'package:keuanganku/main.dart';
+
 class SQLModelPengeluaran {
   final int id;
   final int id_wallet;
@@ -87,5 +91,9 @@ class SQLModelPengeluaran {
       id_kategori: map['id_kategori'] ?? -1,
       rating: map['rating'] ?? -1
     );
+  }
+
+  Future<SQLModelKategoriTransaksi> get kategori async {
+    return await SQLHelperKategori().readById(id, db: db.database);
   }
 }
