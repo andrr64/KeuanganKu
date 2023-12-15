@@ -53,4 +53,9 @@ class SQLHelperKategori {
     Map<String, dynamic> results = (await db.query(_tableName, where: "id = $id"))[0]; // Mengambil data dari database => Map<String, dynamic>
     return SQLModelKategoriTransaksi.fromMap(results);
   }
+
+  // INSERT METHODS
+  Future insert(SQLModelKategoriTransaksi dataBaru, {required Database db}){
+    return db.rawInsert("INSERT INTO $_tableName(judul) VALUES(?)", [dataBaru.judul]);
+  }
 }
