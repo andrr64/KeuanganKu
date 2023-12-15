@@ -78,14 +78,14 @@ class SQLModelPengeluaran {
   // Metode untuk membuat objek DataPengeluaran dari Map (output SQL)
   static SQLModelPengeluaran fromMap(Map<String, dynamic> map){
     return SQLModelPengeluaran(
-      id: map['id'] ?? 0,
+      id: map['id'] ?? -1,
       judul: map['judul'] ?? '',
       deskripsi: map['deskripsi'] ?? '',
-      nilai: map['nilai'] ?? 0.0,
+      nilai: map['nilai'] ?? -1,
       waktu: DateTime.parse(map['waktu'] ?? ''),
-      id_wallet: map['id_wallet'] ?? 0,
-      id_kategori: map['id_kategori'] ?? 0,
-      rating: map['rating'] ?? 0
+      id_wallet: map['id_wallet'] ?? -1,
+      id_kategori: map['id_kategori'] ?? -1,
+      rating: map['rating'] ?? -1
     );
   }
 }

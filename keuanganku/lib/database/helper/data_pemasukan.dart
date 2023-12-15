@@ -10,7 +10,7 @@ class SQLHelperPemasukan {
     "id": {
       "name": "id",
       "type": "INTEGER",
-      "constraint": "AUTO INCREMENT PRIMARY KEY",
+      "constraint": "PRIMARY KEY AUTOINCREMENT",
     },
     "id_kategori": {
       "name": "id_kategori",
@@ -40,7 +40,7 @@ class SQLHelperPemasukan {
     "nilai": {
       "name": "nilai",
       "type": "REAL",
-      "constraint": "",
+      "constraint": "NOT NULL",
     },
   };
 

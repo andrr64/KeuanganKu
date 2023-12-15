@@ -10,7 +10,7 @@ class SQLHelperPengeluaran {
     "id": {
       "name": "id",
       "type": "INTEGER",
-      "constraint": "AUTO INCREMENT PRIMARY KEY",
+      "constraint": "PRIMARY KEY AUTOINCREMENT",
     },
     "id_kategori": {
       "name": "id_kategori",
@@ -32,6 +32,11 @@ class SQLHelperPengeluaran {
       "type": "TEXT",
       "constraint": "",
     },
+    "rating": {
+      "name": "rating",
+      "type": "TEXT",
+      "constraint": "",
+    },
     "deskripsi": {
       "name": "deskripsi",
       "type": "TEXT",
@@ -40,7 +45,7 @@ class SQLHelperPengeluaran {
     "nilai": {
       "name": "nilai",
       "type": "REAL",
-      "constraint": "",
+      "constraint": "NOT NULL",
     },
   };
 
@@ -78,7 +83,8 @@ class SQLHelperPengeluaran {
 
   // READ METHODS
   Future<List<SQLModelPengeluaran>> readByWalletId(int id, Database db) async {
-    return (await db.rawQuery("SELECT * FROM $_tableName WHERE id_wallet = ?", [id])).map((e) => SQLModelPengeluaran.fromMap(e)).toList();
+    final results  = (await db.rawQuery("SELECT * FROM $_tableName WHERE id_wallet = ?", [id]));
+    return results.map((e) => SQLModelPengeluaran.fromMap(e)).toList();
   }
 
   Future<List<SQLModelPengeluaran>> readWithClause({required String clause, required Database db}) async {
