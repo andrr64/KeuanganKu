@@ -47,55 +47,58 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
   TextEditingController controllerWaktu = TextEditingController();
   TextEditingController controllerDeskripsi = TextEditingController();
   TextEditingController controllerInfoRating = TextEditingController();
-
+  
   DateTime tanggalPengeluaran = DateTime.now();
   TimeOfDay jamPengeluaran = TimeOfDay.now();
   double ratingPengeluaran = 3;
 
   // Events
-  void eventSimpanPengeluaran(BuildContext context, Size size) async {
-    // Validator
-    try {
-      double.tryParse(controllerJumlah.text)!;
-    } catch (invalidDouble){
-      KDialogInfo(
-        title: "Invalid", 
-        info: "Masukan sebuah angka...", 
-        jenisPesan: Pesan.Error
-      ).tampilkanDialog(context);
-      return;
+  void eventSimpanPengeluaran(BuildContext context, Size size) {
+    Future memprosesData() async{
+      // Validator
+      try {
+        double.tryParse(controllerJumlah.text)!;
+      } catch (invalidDouble){
+        KDialogInfo(
+          title: "Invalid", 
+          info: "Masukan sebuah angka...", 
+          jenisPesan: Pesan.Error
+        ).tampilkanDialog(context);
+        return;
+      }
+      double jumlahPengeluaran = double.parse(controllerJumlah.text);
+      double jumlahUangPadaWallet = await widget.data.walletTerpilih!.totalUang();
+      if (jumlahUangPadaWallet < jumlahPengeluaran){
+        KDialogInfo(
+          title: "Gagal", 
+          info: "Miskin..", 
+          jenisPesan: Pesan.Warning
+        ).tampilkanDialog(context);
+        return;
+      }
+      // Process
+      SQLModelPengeluaran dataBaru = SQLModelPengeluaran(
+        id: -1, 
+        id_wallet: widget.data.walletTerpilih!.id, 
+        id_kategori: widget.data.kategoriTerplilih!.id, 
+        judul: controllerJudul.text, 
+        deskripsi: controllerDeskripsi.text, 
+        nilai: double.tryParse(controllerJumlah.text)!, 
+        rating: ratingPengeluaran, 
+        waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran),
+      );
+      
+      int exitCode = await SQLHelperPengeluaran().insert(dataBaru, db: db.database);
+      if (exitCode != -1) {
+        tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
+      } else {
+        tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Something wrong...");
+      }
+      Navigator.pop(context);
     }
-    double jumlahPengeluaran = double.parse(controllerJumlah.text);
-    double jumlahUangPadaWallet = await widget.data.walletTerpilih!.totalUang();
-    if (jumlahUangPadaWallet < jumlahPengeluaran){
-      KDialogInfo(
-        title: "Gagal", 
-        info: "Miskin..", 
-        jenisPesan: Pesan.Warning
-      ).tampilkanDialog(context);
-      return;
-    }
-    // Process
-    SQLModelPengeluaran dataBaru = SQLModelPengeluaran(
-      id: -1, 
-      id_wallet: widget.data.walletTerpilih!.id, 
-      id_kategori: widget.data.kategoriTerplilih!.id, 
-      judul: controllerJudul.text, 
-      deskripsi: controllerDeskripsi.text, 
-      nilai: double.tryParse(controllerJumlah.text)!, 
-      rating: ratingPengeluaran, 
-      waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran),
-    );
-    
-    int exitCode = await SQLHelperPengeluaran().insert(dataBaru, db: db.database);
-
-    if (exitCode != -1) {
-      tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
-    } else {
-      tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Something wrong...");
-    }
-    widget.onSaveCallback();
-    Navigator.pop(context);
+    memprosesData().then((value){
+      widget.onSaveCallback();
+    });
   }
 
   // Widgets
@@ -138,6 +141,19 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         icon: Icons.attach_money,
         keyboardType: TextInputType.number,
         prefixIconColor: ApplicationColors.primary),
+    );
+  }
+  Widget fieldDeskripsi() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: TextFormField(
+        controller: controllerDeskripsi,
+        maxLines: 5, // Sesuaikan dengan jumlah baris yang diinginkan
+        decoration: const InputDecoration(
+          label: Text("Deskripsi"),
+          border: OutlineInputBorder()
+        ),
+      ),
     );
   }
   Widget fieldTanggal(BuildContext context, Size size){
@@ -299,6 +315,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
             }).then((value){
               if (newCategoryCreated){
                 tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Kategori baru berhasil ditambahkan");
+                widget.onSaveCallback();
                 Navigator.pop(context);
               }
             });
@@ -386,14 +403,17 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
 
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: KAppBar(title: "Pengeluaran Baru", fontColor: ApplicationColors.primary).getWidget(),
+      appBar: KAppBar(backgroundColor: Colors.white, title: "Pengeluaran Baru", fontColor: ApplicationColors.primary).getWidget(),
       body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: Column(
           children: [
             dummyPadding(height: 15),
             fieldJudul(),
             dummyPadding(height: 20),
             fieldJumlah(),
+            dummyPadding(height: 20),
+            fieldDeskripsi(),
             dummyPadding(height: 20),
             dropDownMenuWallet(),
             dummyPadding(height: 20),
@@ -415,6 +435,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
                 buttonClear(),
               ],
             ),
+            dummyPadding(height: 50)
           ]
         ),
       )
