@@ -2,7 +2,7 @@ import 'package:keuanganku/database/model/data_pemasukan.dart'; // Ganti dengan 
 import 'package:sqflite/sqflite.dart';
 
 class SQLHelperPemasukan {
-  Future createTable(Database db) async {
+  static Future createTable(Database db) async {
     await db.execute(SQLHelperPemasukan().sqlCreateQuery);
   }
 

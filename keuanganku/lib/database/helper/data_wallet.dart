@@ -6,7 +6,7 @@ import 'package:keuanganku/util/vector_operation.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLHelperWallet {
-  Future createTable(Database db) async {
+  static Future createTable(Database db) async {
     await db.execute(SQLHelperWallet().sqlCreateQuery);
   }
 

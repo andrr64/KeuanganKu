@@ -2,7 +2,7 @@ import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLHelperPengeluaran {
-  Future createTable(Database db) async {
+  static Future createTable(Database db) async {
     await db.execute(SQLHelperPengeluaran().sqlCreateQuery);
   }
 
