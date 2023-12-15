@@ -32,9 +32,10 @@ class _FormWalletState extends State<FormWallet> {
     // Events
     void eventSimpanWallet(){
       if (controllerFieldJudul.text.isEmpty || controllerFieldJumlahUang.text.isEmpty) {
+        Navigator.pop(context);
         return;
       }
-      Navigator.pop(context);
+
       SQLModelWallet newWallet = SQLModelWallet(id: -1, tipe: tipeWallet, judul: controllerFieldJudul.text);
       SQLHelperWallet().insert(newWallet, db.database).then((int idWallet) {
         if (idWallet != -1) {
@@ -55,6 +56,7 @@ class _FormWalletState extends State<FormWallet> {
       }).catchError((error) {
           tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: error.toString());
       });
+      Navigator.pop(context);
       widget.onFinished();
     }
 
