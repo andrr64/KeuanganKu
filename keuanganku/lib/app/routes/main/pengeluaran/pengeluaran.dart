@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/reusable_widgets/k_app_bar/k_app_bar.dart';
+import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_pengeluaran/list_pengeluaran.dart';
+import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/app/state_bridge.dart';
 import 'package:keuanganku/util/dummy.dart';
 
 class HalamanPengeluaran extends StatefulWidget {
-  const HalamanPengeluaran({super.key, required this.parentScaffoldKey});
-  static StateBridge state = StateBridge();
   final GlobalKey<ScaffoldState> parentScaffoldKey;
+  static StateBridge state = StateBridge();
+
+  const HalamanPengeluaran({super.key, required this.parentScaffoldKey});
 
   @override
   State<HalamanPengeluaran> createState() => _HalamanPengeluaranState();
 }
 
 class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
-  
+
   void updateState(){
     setState(() {});
   }
@@ -35,7 +38,9 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
 
   @override
   Widget build(BuildContext context) {
-    HalamanPengeluaran.state.init(updateState);
+    HalamanPengeluaran.state.init(() {setState(() {
+      
+    });});
     return Scaffold(
       backgroundColor: ApplicationColors.primary,
       body: SingleChildScrollView(
@@ -49,7 +54,14 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
               menuButton: drawerButton()
             ),
             dummyPadding(height: 25),
-            const ListPengeluaran(),
+            ListPengeluaran(
+              callback: (){
+                setState(() {
+                  
+                });
+                HalamanBeranda.state.update();
+                HalamanWallet.state.update();
+              },),
           ],
         ),
       )
