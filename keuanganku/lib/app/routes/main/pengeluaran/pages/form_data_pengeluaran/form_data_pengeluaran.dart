@@ -11,6 +11,7 @@ import 'package:keuanganku/app/reusable_widgets/k_textfield/ktext_field.dart';
 import 'package:keuanganku/app/reusable_widgets/time_picker/show_time_picker.dart';
 import 'package:keuanganku/app/snack_bar.dart';
 import 'package:keuanganku/database/helper/data_pengeluaran.dart';
+import 'package:keuanganku/database/model/data_kategori.dart';
 import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:keuanganku/database/model/data_wallet.dart';
 import 'package:keuanganku/enum/status.dart';
@@ -21,10 +22,11 @@ import 'package:keuanganku/util/font_style.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class FormDataPengeluaran extends StatefulWidget {
-  const FormDataPengeluaran({super.key, required this.onSaveCallback, required this.listWallet});
+  const FormDataPengeluaran({super.key, required this.onSaveCallback, required this.listWallet, required this.listKategori});
   final VoidCallback onSaveCallback;
   final List<SQLModelWallet> listWallet;
-  
+  final List<SQLModelKategoriTransaksi> listKategori;
+
   @override
   State<FormDataPengeluaran> createState() => _FormDataPengeluaranState();
 }
@@ -41,6 +43,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
   DateTime tanggalPengeluaran = DateTime.now();
   TimeOfDay jamPengeluaran = TimeOfDay.now();
   SQLModelWallet? walletTerpilih;  
+  SQLModelKategoriTransaksi? kategoriTerplilih;
   double ratingPengeluaran = 3;
 
   // Events
@@ -95,14 +98,18 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
     SQLModelPengeluaran dataBaru = SQLModelPengeluaran(
       id: -1, 
       id_wallet: walletTerpilih!.id, 
-      id_kategori: 1, 
+      id_kategori: kategoriTerplilih!.id, 
       judul: controllerJudul.text, 
       deskripsi: controllerDeskripsi.text, 
       nilai: double.tryParse(controllerJumlah.text)!, 
       rating: ratingPengeluaran, 
       waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran),
     );
+    
+    print("Data Baru: ${dataBaru.rating}"); // Periksa dataBaru
     int exitCode = await SQLHelperPengeluaran().insert(dataBaru, db: db.database);
+    print("Exit Code: $exitCode"); // Periksa exitCode'
+
     if (exitCode != -1) {
       tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
     } else {
@@ -207,12 +214,12 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ),
     );
   }
-  Widget dropDownMenuWallet(List<SQLModelWallet> listWallet){
-    walletTerpilih ??= listWallet[0];
+  Widget dropDownMenuWallet(){
+    walletTerpilih ??= widget.listWallet[0];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: KDropdownMenu<SQLModelWallet>(
-        items: listWallet.map((e){
+        items: widget.listWallet.map((e){
           return DropdownMenuItem<SQLModelWallet>(
             value: e,
             child: Row(
@@ -229,6 +236,24 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         }, 
         value: walletTerpilih!, 
         labelText: "Wallet"
+      ).getWidget(),
+    );
+  }
+  Widget dropDownKategori(){
+    kategoriTerplilih ??= widget.listKategori[0];
+    return IntrinsicWidth(
+      child: KDropdownMenu<SQLModelKategoriTransaksi>(
+        items: widget.listKategori.map((kategori){
+          return DropdownMenuItem<SQLModelKategoriTransaksi>(
+            value: kategori,
+            child: Text(kategori.judul, style: kFontStyle(fontSize: 16, family: "QuickSand_Medium"),),
+          );
+        }).toList(), 
+        onChanged: (val){
+          kategoriTerplilih = val;
+        }, 
+        value: kategoriTerplilih!, 
+        labelText: "Kategori",
       ).getWidget(),
     );
   }
@@ -267,7 +292,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            width: 155,
+            width: 120,
             child: KTextField(
               fieldController: controllerInfoRating, 
               fieldName: "Rating", 
@@ -316,11 +341,17 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
             dummyPadding(height: 20),
             fieldJumlah(),
             dummyPadding(height: 20),
-            dropDownMenuWallet(widget.listWallet),
+            dropDownMenuWallet(),
             dummyPadding(height: 20),
             fieldTanggal(context, size),
             dummyPadding(height: 20),
-            fieldJam(context, size),
+            Row(
+              children: [
+                fieldJam(context, size),
+                const SizedBox(width: 15,),
+                dropDownKategori(),
+              ],
+            ),
             dummyPadding(height: 20),
             ratingBar(),
             dummyPadding(height: 20),
