@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:keuanganku/app/reusable_widgets/k_future_builder/k_future.dart';
 import 'package:keuanganku/app/routes/main/wallet/pages/form_input_wallet/form_wallet.dart';
 import 'package:keuanganku/app/reusable_widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/reusable_widgets/k_card/k_card.dart';
@@ -52,13 +53,18 @@ class _ListWalletState extends State<ListWallet> {
    
     // Events
     void tambahData(BuildContext context){
-      Navigator.push(context, MaterialPageRoute(builder: (cntxt){
-        return FormWallet(onFinished: (){
-          updateState();
-          widget.updateState();
-          Navigator.pop(cntxt);
-        });
-      }));
+      Navigator.push(
+        context, 
+        MaterialPageRoute(
+          builder: (_){
+          return FormWallet(
+            onFinished: (){
+              Navigator.pop(_);
+              widget.updateState();
+              updateState();
+          });
+        })
+      );
     }
 
     // Widgets
@@ -99,15 +105,14 @@ class _ListWalletState extends State<ListWallet> {
         },
       );
     }
-    Widget build(){
-      return FutureBuilder(
+    Widget buildBody(){
+      return KFutureBuilder.build(
+        context: context, 
         future: data.wallets, 
-        builder: (context, snapshot){
-          return snapshot.hasData ?
-            snapshot.data!.isNotEmpty ? 
-              futureBuildWhenDataIsNtEmpty(snapshot.data!): 
-              futureBuildWhenDataEmpty():
-            makeCenterWithRow(child: const CircularProgressIndicator());
+        buildWhenSuccess: futureBuildWhenDataIsNtEmpty, 
+        buildWhenEmpty: futureBuildWhenDataEmpty, 
+        buildWhenError: (){
+          return const Text("Something wrong..");
         }
       );
     }
@@ -118,7 +123,7 @@ class _ListWalletState extends State<ListWallet> {
         width: size.width * 0.875,
         icon: icon,
         button: tombolTambahWallet(),
-        child: build() 
+        child: buildBody() 
       ),
     );
   }

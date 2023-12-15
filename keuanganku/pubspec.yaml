@@ -35,7 +35,8 @@ flutter:
     - assets/icons/bank_item.svg
     - assets/icons/statistik.svg
     - assets/icons/distribusi.svg
-
+    - assets/icons/pengeluaran.svg
+  
   fonts:
     - family: Quicksand_Medium
       fonts:

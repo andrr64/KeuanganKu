@@ -31,12 +31,6 @@ class HalamanBeranda extends StatefulWidget {
 
 class _HalamanBerandaState extends State<HalamanBeranda> {
 
-  @override
-  void initState() {
-    super.initState();
-    HalamanBeranda.state.init(updateState);
-  }
-
   void updateState() {
     setState(() {
 
@@ -97,6 +91,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
 
   @override
   Widget build(BuildContext context) {
+    HalamanBeranda.state.init(updateState);
     return Scaffold(
       backgroundColor: ApplicationColors.primary,
       body: buildBody(context)

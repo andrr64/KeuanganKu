@@ -21,7 +21,7 @@ class Statistik extends StatelessWidget {
         width: size.width * 0.875,
         icon: icon, 
         child: const SizedBox(
-          height:300, 
+          height: 200, 
           child: KEmpty()
         )
       ),

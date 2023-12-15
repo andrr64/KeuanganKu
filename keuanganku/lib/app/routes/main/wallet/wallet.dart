@@ -21,16 +21,16 @@ class HalamanWallet extends StatefulWidget {
 }
 
 class _HalamanWalletState extends State<HalamanWallet> {
-  @override
-  void initState() {
-    super.initState();
-    HalamanWallet.state.init(() {setState(() {
+
+  void updateState(){
+    setState(() {
       
-    });});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    HalamanWallet.state.init(updateState);
     // Widgets
     Widget drawerButton(){
       return GestureDetector(

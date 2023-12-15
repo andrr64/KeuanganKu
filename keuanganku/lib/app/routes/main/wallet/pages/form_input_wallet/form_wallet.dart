@@ -56,7 +56,6 @@ class _FormWalletState extends State<FormWallet> {
       }).catchError((error) {
           tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: error.toString());
       });
-      Navigator.pop(context);
       widget.onFinished();
     }
 

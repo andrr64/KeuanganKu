@@ -34,8 +34,8 @@ class SQLHelperPengeluaran {
     },
     "rating": {
       "name": "rating",
-      "type": "TEXT",
-      "constraint": "",
+      "type": "REAL",
+      "constraint": "NOT NULL",
     },
     "deskripsi": {
       "name": "deskripsi",
@@ -135,7 +135,7 @@ class SQLHelperPengeluaran {
   Future<int> insert(SQLModelPengeluaran data, {required Database db}) async {
     return 
     await db.rawInsert(
-      "INSERT INTO $_tableName(id_kategori, id_wallet, waktu, judul, deskripsi, nilai, rating) VALUES(?,?,?,?,?,?)", 
+      "INSERT INTO $_tableName(id_kategori, id_wallet, waktu, judul, deskripsi, nilai, rating) VALUES(?,?,?,?,?,?,? )", 
       [data.id_kategori, data.id_wallet, data.waktu.toIso8601String(), data.judul, data.deskripsi, data.nilai, data.rating]
     );
   }
