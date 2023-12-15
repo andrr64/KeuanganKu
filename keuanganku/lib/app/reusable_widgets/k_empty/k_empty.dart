@@ -10,7 +10,7 @@ class KEmpty extends StatelessWidget {
   Widget build(BuildContext context) {
     return makeCenterWithRow(
       child: Text(
-        "Nothing :(", 
+        "Ocong :(", 
         style: kFontStyle(fontSize: 15, color: ApplicationColors.primary),
       )
     );
