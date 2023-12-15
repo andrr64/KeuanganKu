@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/reusable_widgets/app_bar/app_bar.dart';
-import 'package:keuanganku/app/reusable_widgets/heading_text/heading_text.dart';
 import 'package:keuanganku/app/reusable_widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/reusable_widgets/k_dropdown_menu/k_drodpown_menu.dart';
 import 'package:keuanganku/app/reusable_widgets/k_textfield/ktext_field.dart';
@@ -30,7 +29,6 @@ class _FormWalletState extends State<FormWallet> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
     // Events
     void eventSimpanWallet(){
       if (controllerFieldJudul.text.isEmpty || controllerFieldJumlahUang.text.isEmpty) {
@@ -60,27 +58,6 @@ class _FormWalletState extends State<FormWallet> {
       widget.onFinished();
     }
 
-    // Widgets
-    Widget heading(){
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25,),
-            child: HeadingText().h1("+ Wallet Baru"),
-          ),
-          GestureDetector(
-            child: const  Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: Icon(Icons.close),
-            ),
-            onTap: (){
-              Navigator.pop(context);
-            },
-          )
-        ],
-      );
-    }
     Widget fieldJudul(){
       return 
       Padding(
