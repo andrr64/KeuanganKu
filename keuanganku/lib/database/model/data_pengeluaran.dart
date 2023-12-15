@@ -94,6 +94,7 @@ class SQLModelPengeluaran {
   }
 
   Future<SQLModelKategoriTransaksi> get kategori async {
-    return await SQLHelperKategori().readById(id, db: db.database);
+    SQLModelKategoriTransaksi kategoriTransaksi = await SQLHelperKategori().readById(id_kategori, db: db.database);
+    return kategoriTransaksi;
   }
 }
