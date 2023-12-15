@@ -77,17 +77,16 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
           dummyPadding(height: 25),
           const SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: IntrinsicHeight(
-              child: IntrinsicWidth(
-                child: Row(
-                  children: [
-                    SizedBox(width: 25,),
-                    Statistik(),
-                    SizedBox(width: 15,),
-                    DistribusiTransaksi(),
-                    SizedBox(width: 25,),
-                  ],
-                ),
+            child: IntrinsicWidth(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(width: 25,),
+                  Statistik(),
+                  SizedBox(width: 15,),
+                  DistribusiTransaksi(),
+                  SizedBox(width: 25,),
+                ],
               ),
             )
           ),
