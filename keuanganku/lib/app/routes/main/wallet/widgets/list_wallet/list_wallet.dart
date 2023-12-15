@@ -51,15 +51,14 @@ class _ListWalletState extends State<ListWallet> {
     final width = size.width * 0.875;
    
     // Events
-    void tambahData(){
-      showModalBottomSheet(
-        context: context, 
-        isScrollControlled: true,
-        builder: (context) => FormWallet(onFinished: (){
+    void tambahData(BuildContext context){
+      Navigator.push(context, MaterialPageRoute(builder: (cntxt){
+        return FormWallet(onFinished: (){
           updateState();
           widget.updateState();
-        })
-      );
+          Navigator.pop(cntxt);
+        });
+      }));
     }
 
     // Widgets
@@ -95,7 +94,9 @@ class _ListWalletState extends State<ListWallet> {
           padding: EdgeInsets.only(right: 5),
           child: Icon(CupertinoIcons.add, size: 15,),
         ),
-        onTap: tambahData,
+        onTap: (){
+          tambahData(context);
+        },
       );
     }
     Widget build(){
