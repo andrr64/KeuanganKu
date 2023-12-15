@@ -1,7 +1,12 @@
 class StateBridge {
-  void Function()? update;
+  void Function()? _update;
   StateBridge();
   init (void Function() updateState){
-    update = updateState;
+    _update = updateState;
+  }
+  void update(){
+    if (_update != null){
+      _update!();
+    }
   }
 }
