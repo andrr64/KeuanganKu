@@ -3,23 +3,22 @@ import 'package:keuanganku/app/routes/main/bottom_bar.dart';
 import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
 import 'package:keuanganku/app/routes/main/body.dart';
 import 'package:keuanganku/app/routes/main/drawer.dart';
+import 'package:keuanganku/app/routes/main/keep_alive.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 
 class Data {
   bool _init = false;
-  init(GlobalKey<ScaffoldState> scState, void Function() updateState){
+  init(GlobalKey<ScaffoldState> scState){
     if(_init) return;
     listMainPagePages = [
-        HalamanBeranda(
-          parentScaffoldKey: scState,
-          updateParentState: updateState,),
-        HalamanPengeluaran(
-          parentScaffoldKey: scState,
+        KeepAlivePage(
+          child: HalamanBeranda(parentScaffoldKey: scState,)),
+        KeepAlivePage(
+          child: HalamanPengeluaran(parentScaffoldKey: scState,)
         ),
-        HalamanWallet(
-          parentScaffoldKey: scState,
-        ),
+        KeepAlivePage(
+          child: HalamanWallet(parentScaffoldKey: scState,)),
     ];
     _init = true;
   }
@@ -52,13 +51,6 @@ class _MainPageState extends State<MainPage> {
   /// Kunci scaffold
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  void updateThisState(){
-    setState(() {
-      HalamanBeranda.state.update!();
-      HalamanPengeluaran.state.update!();
-    });
-  }
-
   /// Fungsi yang dipanggil ketika indeks/halaman berubah
   void onPageChanged(int index) {
     setState(() {
@@ -68,7 +60,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    MainPage.data.init(_scaffoldKey, updateThisState);
+    MainPage.data.init(_scaffoldKey);
     return Scaffold(
         key: _scaffoldKey,
         drawer: const AppDrawer(),
