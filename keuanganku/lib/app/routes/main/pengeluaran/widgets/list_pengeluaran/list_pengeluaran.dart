@@ -6,30 +6,36 @@ import 'package:keuanganku/app/reusable_widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/reusable_widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/reusable_widgets/k_dialog/k_dialog_info.dart';
 import 'package:keuanganku/app/reusable_widgets/k_empty/k_empty.dart';
-import 'package:keuanganku/app/reusable_widgets/k_future_builder/k_future.dart';
 import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_data_pengeluaran/form_data_pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/k_pengeluaran_item/k_pengeluaran_item.dart';
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/database/helper/data_kategori.dart';
-import 'package:keuanganku/database/helper/data_pengeluaran.dart';
 import 'package:keuanganku/database/helper/data_wallet.dart';
 import 'package:keuanganku/database/model/data_kategori.dart';
+import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:keuanganku/database/model/data_wallet.dart';
 import 'package:keuanganku/enum/status.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 
 class ListPengeluaran extends StatefulWidget {
-  const ListPengeluaran({super.key, required this.callback});
+  const ListPengeluaran({super.key, required this.listPengeluaran, required this.callback});
   final VoidCallback callback;
+  final List<SQLModelPengeluaran> listPengeluaran;
 
   @override
   State<ListPengeluaran> createState() => _ListPengeluaranState();
 }
 
 class _ListPengeluaranState extends State<ListPengeluaran> {
+  final icon = SvgPicture.asset(
+      "assets/icons/pengeluaran.svg",
+      height: 30,
+  );
+
+  //EVENTS
   void tambahDataBaru(BuildContext context) async {
     List<SQLModelWallet> listWallet = await SQLHelperWallet().readAll(db.database);
     if(listWallet.isEmpty){
@@ -39,6 +45,8 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
         jenisPesan: Pesan.Warning
       ).tampilkanDialog(context);
       return;}
+
+    bool dataBaruDisimpan = false;
     List<SQLModelKategoriTransaksi> listKategori = await SQLHelperKategori().readAll(db: db.database);
     Navigator.push(
       context, 
@@ -47,43 +55,58 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
           FormDataPengeluaran(
             listWallet: listWallet,
             listKategori: listKategori,
+            callback: (){
+              // Ketika databaru udah kesimpen di database..maka lakukan
+              dataBaruDisimpan = true;
+            },
           )
         )
     ).
     then((value) {
-      HalamanPengeluaran.state.update();
-      HalamanBeranda.state.update();
-      HalamanWallet.state.update();
+      if (dataBaruDisimpan){
+        HalamanPengeluaran.state.update();
+        HalamanBeranda.state.update();
+        HalamanWallet.state.update();
+      }
     });
   }
-  final icon = SvgPicture.asset(
-      "assets/icons/pengeluaran.svg",
-      height: 30,
-  );
 
-  Widget buildBody(BuildContext context, Size size){
-    return KFutureBuilder.build(
-      context: context, 
-      future: SQLHelperPengeluaran().readAll(db.database), 
-      buildWhenSuccess: (data){
-        return Column(
-          children: [
-            for(int i=0; i < data.length; i++)
-              SizedBox(
-                width: size.width * 0.875,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: KPengeluaranItem(pengeluaran: data[i]),
-                  ),
-                ),
+  // WIDGETS
+  Widget emptyBuild(){
+    return makeCenterWithRow(
+      child: const Padding(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: KEmpty(),
+      )
+    );
+  }
+  Widget normalBuild(BuildContext context, Size size){
+    return Column(
+      children: [
+        for(int i=0; i < widget.listPengeluaran.length; i++)
+          SizedBox(
+            width: size.width * 0.875,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: KPengeluaranItem(pengeluaran: widget.listPengeluaran[i]),
               ),
-          ],
-        );
+            ),
+          ),
+      ],
+    );
+  }
+  Widget buildBody(BuildContext context, Size size){
+    return widget.listPengeluaran.isEmpty? emptyBuild() : normalBuild(context, size);
+  }
+  Widget tombolTambahData(BuildContext context){
+    return KButton(  
+      onTap: (){
+        tambahDataBaru(context);
       }, 
-      buildWhenEmpty: () => const KEmpty(), 
-      buildWhenError: () => const KEmpty(),
+      title: "Tambah", 
+      icon: const Icon(Icons.add)
     );
   }
 
@@ -95,13 +118,7 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
         title: "Pengeluaran", 
         icon: icon,
         width: size.width * 0.875,
-        button: KButton(  
-          onTap: (){
-            tambahDataBaru(context);
-          }, 
-          title: "Baru", 
-          icon: const Icon(Icons.add),
-        ),
+        button: tombolTambahData(context),
         child: buildBody(context, size),
       ) 
     );
