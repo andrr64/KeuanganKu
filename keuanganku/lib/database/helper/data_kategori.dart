@@ -9,7 +9,7 @@ class SQLHelperKategori {
       "type": "INTEGER PRIMARY KEY",
     },
     "judul" : {
-      "name" : "tipe",
+      "name" : "judul",
       "type" : "TEXT",
       "constraint" : "NOT NULL"
     },
@@ -43,7 +43,7 @@ class SQLHelperKategori {
     await db.execute(sqlCreateQuery);
     int defaultTypeLength = _defaultType.length;
     for (var i = 0; i < defaultTypeLength; i++) {
-      await db.rawQuery("INSERT INTO $_tableName(id,judul) VALUES(?,?)", [_listOfType[i].id, _listOfType[i].judul]);
+      await db.rawQuery("INSERT INTO $_tableName(id, judul) VALUES(?,?)", [_listOfType[i].id, _listOfType[i].judul]);
     }
   }
 
