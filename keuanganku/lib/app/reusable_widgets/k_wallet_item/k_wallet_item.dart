@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keuanganku/app/app_colors.dart';
+import 'package:keuanganku/app/routes/main/wallet/pages/detail_wallet/detail_wallet.dart';
 import 'package:keuanganku/database/model/data_wallet.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/font_style.dart';
@@ -21,7 +22,7 @@ class _KWalletItemState extends State<KWalletItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const Scaffold()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => DetailWallet()));
       },
       child: SizedBox(
         width: widget.size.width,
