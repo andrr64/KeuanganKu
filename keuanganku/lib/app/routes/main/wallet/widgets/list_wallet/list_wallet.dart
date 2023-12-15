@@ -1,35 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:keuanganku/app/reusable_widgets/k_future_builder/k_future.dart';
+import 'package:keuanganku/app/reusable_widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/app/routes/main/wallet/pages/form_input_wallet/form_wallet.dart';
 import 'package:keuanganku/app/reusable_widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/reusable_widgets/k_card/k_card.dart';
-import 'package:keuanganku/database/helper/data_wallet.dart';
 import 'package:keuanganku/database/model/data_wallet.dart';
-import 'package:keuanganku/main.dart';
 import 'package:keuanganku/app/reusable_widgets/k_wallet_item/k_wallet_item.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/font_style.dart';
 import 'package:keuanganku/util/get_currency.dart';
 
-class Data {
-  List<SQLModelWallet> _listWallet = [];
-  double totalDana = 0;
-  
-  Future<List<SQLModelWallet>> get wallets async {
-    _listWallet = await SQLHelperWallet().readAll(db.database);
-    totalDana = 0;
-    for (var i = 0; i < _listWallet.length; i++) {
-      totalDana += await _listWallet[i].totalUang();
+class DataHelper {
+  static Future<double> totalUangWallet(List<SQLModelWallet> wallets) async{
+    double _ = 0;
+    for (var i = 0; i < wallets.length; i++) {
+      _ += (await wallets[i].totalUang());
     }
-    return _listWallet;
+    return _;
   }
 
 }
 
 class ListWallet extends StatefulWidget {
-  const ListWallet({super.key, required this.callback});
+  const ListWallet({
+    super.key, 
+    required this.wallets, 
+    required this.callback
+  });
+  final List<SQLModelWallet> wallets;
   final VoidCallback callback;
 
   @override
@@ -37,7 +36,6 @@ class ListWallet extends StatefulWidget {
 }
 
 class _ListWalletState extends State<ListWallet> {
-  final Data data = Data();
   void updateState(){setState(() {});}
 
   @override
@@ -61,14 +59,28 @@ class _ListWalletState extends State<ListWallet> {
             onFinished: (){
               Navigator.pop(_);
               widget.callback();
-              updateState();
           });
         })
       );
     }
 
     // Widgets
-    Widget futureBuildWhenDataIsNtEmpty(List<SQLModelWallet> wallets){
+    Widget teksTotalUangWallet(){
+      return FutureBuilder(
+        future: DataHelper.totalUangWallet(widget.wallets), 
+        builder: ((_, snapshot){
+          if (snapshot.connectionState == ConnectionState.waiting){
+            return makeCenterWithRow(child: const CircularProgressIndicator());
+          } else if (snapshot.hasError){
+            return makeCenterWithRow(child: const Text("Something wrong..."));
+          } else {
+            return Text(formatCurrency(snapshot.data!), style: kFontStyle(fontSize: 15, color: Colors.blue),);
+          }
+        })
+      );
+    }
+
+    Widget normalBuild(List<SQLModelWallet> wallets){
       return Column(
         children: [
           for(int i = 0; i < wallets.length; i++)
@@ -78,18 +90,18 @@ class _ListWalletState extends State<ListWallet> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("Total", style: kFontStyle(fontSize: 15),),
-              Text(formatCurrency(data.totalDana), style: kFontStyle(fontSize: 17, color: const Color(0xff275EA6)),)
+              teksTotalUangWallet()
             ],
           )
         ],
       );
     }
-    Widget futureBuildWhenDataEmpty(){
+    Widget emptyBuild(){
       return
       makeCenterWithRow(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 50),
-          child: Text("Empty", style: kFontStyle(fontSize: 15),),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(vertical: 15),
+          child: KEmpty()
         ) 
       );
     }  
@@ -106,15 +118,9 @@ class _ListWalletState extends State<ListWallet> {
       );
     }
     Widget buildBody(){
-      return KFutureBuilder.build(
-        context: context, 
-        future: data.wallets, 
-        buildWhenSuccess: futureBuildWhenDataIsNtEmpty, 
-        buildWhenEmpty: futureBuildWhenDataEmpty, 
-        buildWhenError: (){
-          return const Text("Something wrong..");
-        }
-      );
+      return widget.wallets.isEmpty? 
+        emptyBuild() : 
+        normalBuild(widget.wallets);
     }
 
     return makeCenterWithRow(
