@@ -5,6 +5,8 @@ import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_pengeluaran/list_pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/app/state_bridge.dart';
+import 'package:keuanganku/database/helper/data_pengeluaran.dart';
+import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 
 class HalamanPengeluaran extends StatefulWidget {
@@ -35,6 +37,27 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
       ),
     );
   }
+  Widget listPengeluaran(){
+    return FutureBuilder(
+      future: SQLHelperPengeluaran().readAll(db.database), 
+      builder: (_, snapshot){
+        if (snapshot.connectionState == ConnectionState.waiting){
+          return makeCenterWithRow(child: const CircularProgressIndicator());
+        } else if (snapshot.hasError){
+          return makeCenterWithRow(child: const Text("Sadly, something wrong..."));
+        } else {
+          return ListPengeluaran(
+            listPengeluaran: snapshot.data!, 
+            callback: (){
+              setState(() {});
+              HalamanBeranda.state.update();
+              HalamanWallet.state.update();
+            }
+          );
+        }
+      }
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,14 +77,8 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
               menuButton: drawerButton()
             ),
             dummyPadding(height: 25),
-            ListPengeluaran(
-              callback: (){
-                setState(() {
-                  
-                });
-                HalamanBeranda.state.update();
-                HalamanWallet.state.update();
-              },),
+            listPengeluaran(),
+            dummyPadding(height: 50)
           ],
         ),
       )
