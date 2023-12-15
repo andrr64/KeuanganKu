@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
+import 'package:keuanganku/app/reusable_widgets/app_bar/app_bar.dart';
 import 'package:keuanganku/app/reusable_widgets/heading_text/heading_text.dart';
 import 'package:keuanganku/app/reusable_widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/reusable_widgets/k_dropdown_menu/k_drodpown_menu.dart';
@@ -153,19 +154,12 @@ class _FormWalletState extends State<FormWallet> {
       );
     }
 
-    return Container(
-      width: size.width * 0.90,
-      height: size.height * 0.95,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
+    return Scaffold(
+      appBar: KAppBar(title: "Wallet Baru", fontColor: ApplicationColors.primary).getWidget(),
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          dummyPadding(height: 25),
-          heading(),
           dummyPadding(height: 25),
           fieldJudul(),
           dummyPadding(height: 25),
