@@ -110,7 +110,7 @@ class _ListWalletState extends State<ListWallet> {
         title: "Tambah",
         icon: const Padding(
           padding: EdgeInsets.only(right: 5),
-          child: Icon(CupertinoIcons.add, size: 15,),
+          child: Icon(CupertinoIcons.add),
         ),
         onTap: (){
           tambahData(context);
