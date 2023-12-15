@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/reusable_widgets/app_bar/app_bar.dart';
@@ -29,8 +27,7 @@ class Data {
 }
 
 class FormDataPengeluaran extends StatefulWidget {
-  FormDataPengeluaran({super.key, required this.onSaveCallback, required this.listWallet, required this.listKategori});
-  final void Function() onSaveCallback;
+  FormDataPengeluaran({super.key, required this.listWallet, required this.listKategori});
   final List<SQLModelWallet> listWallet;
   final List<SQLModelKategoriTransaksi> listKategori;
   final Data data = Data();
@@ -52,7 +49,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
   TimeOfDay jamPengeluaran = TimeOfDay.now();
   double ratingPengeluaran = 3;
 
-  // Events
+  
   void eventSimpanPengeluaran(BuildContext context, Size size) {
     Future memprosesData() async{
       // Validator
@@ -96,9 +93,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       }
       Navigator.pop(context);
     }
-    memprosesData().then((value){
-      widget.onSaveCallback();
-    });
+    memprosesData().then((value) => {});
   }
 
   // Widgets
@@ -315,7 +310,6 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
             }).then((value){
               if (newCategoryCreated){
                 tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Kategori baru berhasil ditambahkan");
-                widget.onSaveCallback();
                 Navigator.pop(context);
               }
             });

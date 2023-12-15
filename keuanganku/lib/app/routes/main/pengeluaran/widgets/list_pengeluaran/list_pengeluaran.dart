@@ -22,7 +22,8 @@ import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 
 class ListPengeluaran extends StatefulWidget {
-  const ListPengeluaran({super.key});
+  const ListPengeluaran({super.key, required this.callback});
+  final VoidCallback callback;
 
   @override
   State<ListPengeluaran> createState() => _ListPengeluaranState();
@@ -37,20 +38,23 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
         info: "Anda tidak memiliki wallet :(", 
         jenisPesan: Pesan.Warning
       ).tampilkanDialog(context);
-      return;
-    }
+      return;}
     List<SQLModelKategoriTransaksi> listKategori = await SQLHelperKategori().readAll(db: db.database);
-    Navigator.push(context, MaterialPageRoute(builder: (_){
-      return FormDataPengeluaran(
-        onSaveCallback: (){
-          HalamanPengeluaran.state.update!();
-          HalamanBeranda.state.update!();
-          HalamanWallet.state.update!();
-        }, 
-        listWallet: listWallet,
-        listKategori: listKategori,
-      );
-    }));
+    Navigator.push(
+      context, 
+      MaterialPageRoute(
+        builder: (_) => 
+          FormDataPengeluaran(
+            listWallet: listWallet,
+            listKategori: listKategori,
+          )
+        )
+    ).
+    then((value) {
+      HalamanPengeluaran.state.update();
+      HalamanBeranda.state.update();
+      HalamanWallet.state.update();
+    });
   }
   final icon = SvgPicture.asset(
       "assets/icons/pengeluaran.svg",
@@ -65,9 +69,15 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
         return Column(
           children: [
             for(int i=0; i < data.length; i++)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: KPengeluaranItem(pengeluaran: data[i]),
+              SizedBox(
+                width: size.width * 0.875,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: KPengeluaranItem(pengeluaran: data[i]),
+                  ),
+                ),
               ),
           ],
         );

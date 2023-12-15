@@ -29,8 +29,8 @@ class Data {
 }
 
 class ListWallet extends StatefulWidget {
-  const ListWallet({super.key, required this.updateState});
-  final VoidCallback updateState;
+  const ListWallet({super.key, required this.callback});
+  final VoidCallback callback;
 
   @override
   State<ListWallet> createState() => _ListWalletState();
@@ -60,7 +60,7 @@ class _ListWalletState extends State<ListWallet> {
           return FormWallet(
             onFinished: (){
               Navigator.pop(_);
-              widget.updateState();
+              widget.callback();
               updateState();
           });
         })
