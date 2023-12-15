@@ -34,11 +34,9 @@ class SQLHelperKategori {
     "Gaya Hidup",
     "Transportasi",
   ];
-
   static final List<SQLModelKategoriTransaksi> _listOfType = List.generate(_defaultType.length, (index){
     return SQLModelKategoriTransaksi(id: index + 1, judul: _defaultType[index]);
   });
-
   static Future createTable({required Database db}) async{
     await db.execute(sqlCreateQuery);
     int defaultTypeLength = _defaultType.length;
@@ -50,5 +48,9 @@ class SQLHelperKategori {
   // READ METHODS
   Future<List<SQLModelKategoriTransaksi>> readAll({required Database db}) async {
     return (await db.query(_tableName)).map((e) => SQLModelKategoriTransaksi.fromMap(e)).toList();
+  }
+  Future<SQLModelKategoriTransaksi> readById(int id, {required Database db}) async {
+    Map<String, dynamic> results = (await db.query(_tableName, where: "id = $id"))[0]; // Mengambil data dari database => Map<String, dynamic>
+    return SQLModelKategoriTransaksi.fromMap(results);
   }
 }
