@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/routes/main/bottom_bar.dart';
-import 'package:keuanganku/app/routes/main/keep_alive.dart';
 import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
 import 'package:keuanganku/app/routes/main/body.dart';
 import 'package:keuanganku/app/routes/main/drawer.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 
-
 class Data {
   bool _init = false;
   init(GlobalKey<ScaffoldState> scState, void Function() updateState){
     if(_init) return;
     listMainPagePages = [
-        KeepAlivePage(child: HalamanBeranda(
+        HalamanBeranda(
           parentScaffoldKey: scState,
-          updateParentState: updateState,)),
-        KeepAlivePage(child: HalamanPengeluaran(
+          updateParentState: updateState,),
+        HalamanPengeluaran(
           parentScaffoldKey: scState,
-        )),
-        KeepAlivePage(child: HalamanWallet(
+        ),
+        HalamanWallet(
           parentScaffoldKey: scState,
-        )),
+        ),
     ];
     _init = true;
   }
