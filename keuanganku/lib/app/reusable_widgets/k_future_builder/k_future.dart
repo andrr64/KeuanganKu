@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
+/// Class ini digunakan untuk mempermudah penggunaan FutureBuilder
 class KFutureBuilder {
-  static Widget build({
+  static Widget build<T>({
     required BuildContext context,
-    required Future<dynamic> future,
-    required Widget Function() buildWhenSuccess,
+    required Future<T> future,
+    required Widget Function(T) buildWhenSuccess,
     required Widget Function() buildWhenEmpty,
     required Widget Function() buildWhenError,
     Widget Function()? buildWhenWaiting,
@@ -20,7 +21,7 @@ class KFutureBuilder {
           if (snapshot.data == null) {
             return buildWhenEmpty();
           } else {
-            return buildWhenSuccess();
+            return buildWhenSuccess(snapshot.data as T);
           }
         } else {
           return buildWhenEmpty();
