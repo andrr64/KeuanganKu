@@ -11,6 +11,7 @@ import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/distribusi/distribusi_transaksi.dart' as distribusi_tx;
 import 'package:keuanganku/app/routes/main/beranda/widgets/statistik/statistik.dart' as statistik;
+import 'package:keuanganku/util/font_style.dart';
 
 class WidgetData{
   distribusi_tx.WidgetData wxDataDistribusiTransaksi = distribusi_tx.WidgetData();
@@ -77,7 +78,19 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
         children: [
           dummyPadding(height: 50),
           KPageAppBar(title: "Beranda", menuButton: drawerButton(),),
-          dummyPadding(height: 25),
+          dummyPadding(height: 15),
+          Padding(
+            padding: const EdgeInsets.only(left: 25),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Hello,", style: kFontStyle(fontSize: 16, color: Colors.white, family: "QuickSand_Medium"),),
+                Text("Andreas", style: kFontStyle(fontSize: 26, color: Colors.white),),
+              ],
+            ),
+          ),
+          dummyPadding(height: 15),
           listWallet(),
           dummyPadding(height: 25),
           SingleChildScrollView(
