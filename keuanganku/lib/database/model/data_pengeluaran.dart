@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:keuanganku/database/helper/data_kategori.dart';
+import 'package:keuanganku/database/helper/data_kategori_pengeluaran.dart';
 import 'package:keuanganku/database/model/data_kategori.dart';
 import 'package:keuanganku/main.dart';
 
@@ -94,7 +94,7 @@ class SQLModelPengeluaran {
   }
 
   Future<SQLModelKategoriTransaksi> get kategori async {
-    SQLModelKategoriTransaksi kategoriTransaksi = await SQLHelperKategori().readById(id_kategori, db: db.database);
+    SQLModelKategoriTransaksi kategoriTransaksi = await SQLHelperKategoriPengeluaran().readById(id_kategori, db: db.database);
     return kategoriTransaksi;
   }
   static double totalPengeluaranByMonth(int year, int month, List<SQLModelPengeluaran> listPengeluaran) {

@@ -1,7 +1,7 @@
 import 'package:keuanganku/database/model/data_kategori.dart';
 import 'package:sqflite/sqflite.dart';
 
-class SQLHelperKategori {
+class SQLHelperKategoriPengeluaran {
   static const String _tableName = "kategori";
   static final Map<String, Map<String, String>> _table = {
     "id": {

@@ -11,7 +11,7 @@ import 'package:keuanganku/app/reusable_widgets/k_dropdown_menu/k_drodpown_menu.
 import 'package:keuanganku/app/reusable_widgets/k_textfield/ktext_field.dart';
 import 'package:keuanganku/app/reusable_widgets/time_picker/show_time_picker.dart';
 import 'package:keuanganku/app/snack_bar.dart';
-import 'package:keuanganku/database/helper/data_kategori.dart';
+import 'package:keuanganku/database/helper/data_kategori_pengeluaran.dart';
 import 'package:keuanganku/database/helper/data_pengeluaran.dart';
 import 'package:keuanganku/database/model/data_kategori.dart';
 import 'package:keuanganku/database/model/data_pengeluaran.dart';
@@ -289,7 +289,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
                             if (controllerNamaKategori.text.isEmpty){
                               return;
                             }
-                            SQLHelperKategori().insert(
+                            SQLHelperKategoriPengeluaran().insert(
                               SQLModelKategoriTransaksi(
                                 id: -1, 
                                 judul: controllerNamaKategori.text

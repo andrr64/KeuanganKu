@@ -1,4 +1,4 @@
-import 'package:keuanganku/database/helper/data_kategori.dart';
+import 'package:keuanganku/database/helper/data_kategori_pengeluaran.dart';
 import 'package:keuanganku/database/helper/data_pemasukan.dart';
 import 'package:keuanganku/database/helper/data_pengeluaran.dart';
 import 'package:keuanganku/database/helper/data_wallet.dart';
@@ -17,7 +17,7 @@ class DatabaseService {
     SQLHelperPengeluaran.createTable(db);
     SQLHelperPemasukan.createTable(db);
     SQLHelperWallet.createTable(db);
-    SQLHelperKategori.createTable(db: db);
+    SQLHelperKategoriPengeluaran.createTable(db: db);
   }
 
   /// Panggil fungsi ini untuk satu kali saja disaat inisialisasi database
