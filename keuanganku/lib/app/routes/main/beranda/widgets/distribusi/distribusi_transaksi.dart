@@ -29,6 +29,9 @@ class WidgetData{
   Future<dynamic> getData() async {
     return SQLHelperPengeluaran().readByWaktu(waktuTransaksi, db: db.database);
   }
+  Future<dynamic> getDataByWalletId(int id){
+    return SQLHelperPengeluaran().readByWalletId(id, db.database);
+  }
   Color _randomColor() {
     Random random = Random();
     return Color.fromARGB(
@@ -74,8 +77,9 @@ class WidgetData{
 }
 
 class DistribusiTransaksi extends StatelessWidget {
-  const DistribusiTransaksi({super.key, required this.widgetData});
+  const DistribusiTransaksi({super.key, required this.widgetData, required this.getter});
   final WidgetData widgetData;
+  final dynamic Function() getter;
 
   Widget secondStep(List<SQLModelPengeluaran> dataPengeluaran, List<PieChartSectionData> dataSection){
     return Column(
@@ -173,7 +177,7 @@ class DistribusiTransaksi extends StatelessWidget {
   }
   Widget buildBody(){
     return FutureBuilder(
-      future: widgetData.getData(), 
+      future: getter() ,
       builder: (_, snapshot){
         if(snapshot.connectionState == ConnectionState.waiting){
           return const CircularProgressIndicator();
@@ -182,7 +186,7 @@ class DistribusiTransaksi extends StatelessWidget {
           return makeCenterWithRow(child: const Text("SQL Error :("));
         }
         else {
-          return firstStep(snapshot.data!);
+          return firstStep(snapshot.data! as List<SQLModelPengeluaran>);
         }
       }
     );

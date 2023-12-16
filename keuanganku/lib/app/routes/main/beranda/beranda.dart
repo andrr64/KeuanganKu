@@ -106,6 +106,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
                   const SizedBox(width: 15,),
                   DistribusiTransaksi(
                     widgetData: HalamanBeranda.widgetData.wxDataDistribusiTransaksi,
+                    getter: () => HalamanBeranda.widgetData.wxDataDistribusiTransaksi.getData(),
                   ),
                   const SizedBox(width: 25,),
                 ],
