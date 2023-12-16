@@ -16,17 +16,6 @@ import 'package:keuanganku/util/search_algo.dart';
 class WidgetData{
   WaktuTransaksi waktuTransaksi = WaktuTransaksi.Mingguan;
   SortirTransaksi sortirTransaksi = SortirTransaksi.Terbaru;
-
-  Future<List<SQLModelPengeluaran>?> get _dataPengeluaran async {
-    switch (waktuTransaksi) {
-      case WaktuTransaksi.Mingguan:
-        return (await SQLHelperPengeluaran().readWeekly(db: db.database));
-      case WaktuTransaksi.Tahunan:
-        return (await SQLHelperPengeluaran().readDataByYear(DateTime.now().year, db: db.database));
-      default:
-        return null;
-    }
-  }
   
   List<BarChartXY>? _dataBar(List<SQLModelPengeluaran> data){
     List<BarChartXY> barChartMingguan(List<SQLModelPengeluaran> listPengeluaran) {
@@ -55,7 +44,7 @@ class WidgetData{
 
       return result;
     }
-      List<BarChartXY> barChartTahun(List<SQLModelPengeluaran> listPengeluaran) {
+    List<BarChartXY> barChartTahun(List<SQLModelPengeluaran> listPengeluaran) {
         List<BarChartXY> result = [];
         DateTime now = DateTime.now();
 
@@ -91,9 +80,9 @@ class WidgetData{
     }
 
   Future<ListBarChartXY?> get barChart async {
-    var dataPengeluaran = await _dataPengeluaran;
-    if (dataPengeluaran == null){
-      return null;
+    var dataPengeluaran = await SQLHelperPengeluaran().readByWaktu(waktuTransaksi, db: db.database);
+    if (dataPengeluaran.isEmpty){
+      return [];
     }
     return _dataBar(dataPengeluaran)!;
   }
@@ -117,7 +106,7 @@ class Statistik extends StatelessWidget {
     return Text(meta.formattedValue, style: kFontStyle(fontSize: 12),);
   }
 
-  FutureBuilder widgetBarChart(Size size){
+  FutureBuilder firstStep(Size size){
     return FutureBuilder<ListBarChartXY?> (
       future: widgetData.barChart, 
       builder: (_, snapshot){
@@ -126,56 +115,83 @@ class Statistik extends StatelessWidget {
         } else if (snapshot.hasError){
           return makeCenterWithRow(child: const Text("Sadly, something wrong..."));
         } else {
-          if (snapshot.data!.isEmpty){
-            return makeCenterWithRow(child: const KEmpty());     
+          if (snapshot.data!.isEmpty || snapshot.data == null){
+            return makeCenterWithRow(
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: KEmpty(),
+                )
+              );     
           } else {
             final maxY = findLargestValue(snapshot.data!.map((e) => e.yValue).toList());
-            return BarChart(
-              BarChartData(
-                borderData: FlBorderData(show: false),
-                titlesData: FlTitlesData(
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true, 
-                      getTitlesWidget: getBottomTitle,
-                      
-                    )
-                  ),
-                  rightTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      getTitlesWidget: getRightTitle,
-                      reservedSize: 40,
-                      interval: maxY == 0? 1000000 : maxY / 5
-                    )
-                  ),
-                  leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false))
+            return Column(
+              children: [
+                Text(
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nec interdum arcu. In quis erat lacus. Praesent ac cursus arcu, quis congue libero. Praesent viverra laoreet tortor ut sagittis. Nunc iaculis neque ut interdum convallis. ",
+                  textAlign: TextAlign.justify,
+                  style: kFontStyle(fontSize: 14, family: "QuickSand_Medium"),
                 ),
-                gridData: const FlGridData(show: false, drawVerticalLine: false),
-                barGroups: 
-                  snapshot.data!.map(
-                    (e) {
-                      return BarChartGroupData(
-                        x: e.xValue.toInt(), 
-                        barRods: [
-                          BarChartRodData(
-                            color: ApplicationColors.secondaryOrange,
-                            borderRadius: BorderRadius.circular(5),
-                            toY: e.yValue,
-                            width: (size.width * 0.65) / snapshot.data!.length
-                          )  
-                        ]
-                      );
-                    }
-                  ).toList()
-              )
+                dummyPadding(height: 25),
+                SizedBox(
+                  width: size.width * 0.875,
+                  height: 275,
+                  child: barChart(size: size, data: snapshot.data!, maxY: maxY)
+                )
+              ],
             );
           }
         }
       }
     );
   }
+
+  Widget barChart({
+    required Size size, required  ListBarChartXY data, required double maxY
+  }){
+    return BarChart(
+      BarChartData(
+        borderData: FlBorderData(show: false),
+        titlesData: FlTitlesData(
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true, 
+              getTitlesWidget: getBottomTitle,
+              
+            )
+          ),
+          rightTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: getRightTitle,
+              reservedSize: 40,
+              interval: maxY == 0? 1000000 : maxY / 5
+            )
+          ),
+          leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false))
+        ),
+        gridData: const FlGridData(show: false, drawVerticalLine: false),
+        barGroups: 
+         data.map(
+            (e) {
+              return BarChartGroupData(
+                x: e.xValue.toInt(), 
+                barRods: [
+                  BarChartRodData(
+                    color: ApplicationColors.secondaryOrange,
+                    borderRadius: BorderRadius.circular(5),
+                    toY: e.yValue,
+                    width: (size.width * 0.65) /data.length
+                  )  
+                ]
+              );
+            }
+          ).toList()
+      )
+    );
+  }
+
+  Widget buildBody(Size size) => firstStep(size);
 
   @override
   Widget build(BuildContext context) {
@@ -190,21 +206,7 @@ class Statistik extends StatelessWidget {
         title: "Statistik",
         width: size.width * 0.875,
         icon: icon, 
-        child: Column(
-          children: [
-            Text(
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nec interdum arcu. In quis erat lacus. Praesent ac cursus arcu, quis congue libero. Praesent viverra laoreet tortor ut sagittis. Nunc iaculis neque ut interdum convallis. ",
-              textAlign: TextAlign.justify,
-              style: kFontStyle(fontSize: 14, family: "QuickSand_Medium"),
-            ),
-            dummyPadding(height: 25),
-            SizedBox(
-              width: size.width * 0.875,
-              height: 275,
-              child: widgetBarChart(size)
-            )
-          ],
-        )
+        child: buildBody(size)
       ),
     );
   }
