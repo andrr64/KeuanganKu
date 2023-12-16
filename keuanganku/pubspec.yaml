@@ -37,7 +37,10 @@ flutter:
     - assets/icons/statistik.svg
     - assets/icons/distribusi.svg
     - assets/icons/pengeluaran.svg
+    
     - assets/lotties/animation/empty.json
+    - assets/lotties/animation/empty1.json
+    - assets/lotties/animation/empty2.json
 
   fonts:
     - family: Quicksand_Medium
