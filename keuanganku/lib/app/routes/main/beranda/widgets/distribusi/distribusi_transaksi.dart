@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keuanganku/app/reusable_widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/reusable_widgets/k_empty/k_empty.dart';
-import 'package:keuanganku/util/dummy.dart';
+import 'package:keuanganku/enum/data_transaksi.dart';
+
+class WidgetData{
+  JenisTransaksi jenisTransaksi = JenisTransaksi.Pengeluaran;
+}
 
 class DistribusiTransaksi extends StatelessWidget {
-  const DistribusiTransaksi({super.key});
+  const DistribusiTransaksi({super.key, required this.widgetData});
+  final WidgetData widgetData;
 
   @override
   Widget build(BuildContext context) {
@@ -18,16 +23,13 @@ class DistribusiTransaksi extends StatelessWidget {
 
     // Events
 
-    return makeCenterWithRow(
-      child: KCard(
+    return KCard(
         title: "Distribusi",
         width: size.width * 0.875,
         icon: icon,
         child: const SizedBox(
-          height:300, 
           child: KEmpty()
         )
-      ),
     );
   }
 }
