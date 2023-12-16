@@ -1,17 +1,34 @@
 import 'package:flutter/cupertino.dart';
-import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/util/dummy.dart';
-import 'package:keuanganku/util/font_style.dart';
+import 'package:lottie/lottie.dart';
 
 class KEmpty extends StatelessWidget {
-  const KEmpty({super.key});
+  const KEmpty({super.key, this.variant});
+  final int? variant;
+
+  
 
   @override
   Widget build(BuildContext context) {
+    const listVariant = [
+      "assets/lotties/animation/empty.json",
+      "assets/lotties/animation/empty1.json",
+      "assets/lotties/animation/empty2.json",
+      "assets/lotties/animation/empty3.json",
+    ];
+
     return makeCenterWithRow(
-      child: Text(
-        "Ocong :(", 
-        style: kFontStyle(fontSize: 15, color: ApplicationColors.primary),
+      child: SizedBox(
+        height: 200,
+        width: 200,
+        child: Column(
+          children: [
+            Lottie.asset(
+              variant == null? listVariant[2] : listVariant[variant!],
+              repeat: false
+            ),
+          ],
+        ),
       )
     );
   }
