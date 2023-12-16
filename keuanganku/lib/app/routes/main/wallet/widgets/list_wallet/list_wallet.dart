@@ -99,10 +99,7 @@ class _ListWalletState extends State<ListWallet> {
     Widget emptyBuild(){
       return
       makeCenterWithRow(
-        child: const Padding(
-          padding: EdgeInsets.symmetric(vertical: 15),
-          child: KEmpty()
-        ) 
+        child: const KEmpty() 
       );
     }  
     Widget tombolTambahWallet (){
