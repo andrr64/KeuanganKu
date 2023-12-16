@@ -6,3 +6,7 @@ String formatCurrency(double total) {
 
   return formattedTotal;
 }
+
+String percentageFormat(double prc) {
+  return '${prc.toStringAsFixed(1)}%';
+}
