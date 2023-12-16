@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/util/font_style.dart';
 
 class KPageAppBar extends StatefulWidget {
-  const KPageAppBar({super.key, required this.title, required this.menuButton});
+  const KPageAppBar({super.key, required this.title, this.menuButton, this.fontColor});
   final String title;
-  final Widget menuButton;
+  final Widget? menuButton;
+  final Color? fontColor;
 
   @override
   State<KPageAppBar> createState() => _KPageAppBarState();
@@ -18,7 +19,7 @@ class _KPageAppBarState extends State<KPageAppBar> {
       child: SizedBox(
         child: Row(
           children: [
-            SizedBox(
+            widget.menuButton == null? const SizedBox() : SizedBox(
               width: size.width * 0.2,
               child: widget.menuButton,
             ),
@@ -34,7 +35,7 @@ class _KPageAppBarState extends State<KPageAppBar> {
                     widget.title, 
                     style: kFontStyle(
                       fontSize: 24, 
-                      color: Colors.white
+                      color: widget.fontColor?? Colors.white
                     ),
                   ),
                 )

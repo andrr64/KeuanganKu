@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/app/widgets/k_future_builder/k_future.dart';
-import 'package:keuanganku/app/routes/main/wallet/pages/detail_wallet/detail_wallet.dart';
 import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:keuanganku/util/font_style.dart';
 import 'package:keuanganku/util/get_currency.dart';
@@ -40,7 +39,7 @@ class _KPengeluaranItemState extends State<KPengeluaranItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => DetailWallet()));
+
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

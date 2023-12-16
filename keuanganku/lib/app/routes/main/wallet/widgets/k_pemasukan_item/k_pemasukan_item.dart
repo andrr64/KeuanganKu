@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/routes/main/wallet/pages/detail_wallet/detail_wallet.dart';
 import 'package:keuanganku/database/model/data_pemasukan.dart';
 import 'package:keuanganku/util/font_style.dart';
 import 'package:keuanganku/util/get_currency.dart';
+import 'package:keuanganku/util/string_operation.dart';
 
 class KPemasukanItem extends StatelessWidget {
   const KPemasukanItem({super.key, required this.size, required this.pemasukan});
@@ -15,7 +15,7 @@ class KPemasukanItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => DetailWallet()));
+
       },
       child: IntrinsicHeight(
         child: Padding(
@@ -41,7 +41,7 @@ class KPemasukanItem extends StatelessWidget {
                             return Text("...", style: kFontStyle(fontSize: 12, color: Colors.black45),);
                           } 
                         ),
-                        Text(pemasukan.judul, style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),),
+                        Text(truncateString(pemasukan.judul, 18, isEndWith: true, endWith: ".."), style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),),
                       ],
                     ),
                   ],
