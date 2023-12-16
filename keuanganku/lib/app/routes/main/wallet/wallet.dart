@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
+import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
+import 'package:keuanganku/app/routes/main/wallet/widgets/list_pemasukan/k_list_pemasukan.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/list_wallet/list_wallet.dart';
 import 'package:keuanganku/app/reusable_widgets/k_app_bar/k_app_bar.dart';
 import 'package:keuanganku/app/state_bridge.dart';
@@ -72,7 +74,23 @@ class _HalamanWalletState extends State<HalamanWallet> {
         },
       );
     }
-    
+    Widget listPemasukan(){
+      void callback(){
+        setState(() {
+          
+        });
+        HalamanBeranda.state.update();
+        HalamanPengeluaran.state.update();
+      }
+      return Padding(
+        padding: const EdgeInsets.only(left: 25),
+        child: KListPemasukan(
+          listPemasukan: [], 
+          callback: callback
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: ApplicationColors.primary,
       body: SingleChildScrollView(
@@ -84,6 +102,8 @@ class _HalamanWalletState extends State<HalamanWallet> {
             KPageAppBar(title: "Wallet", menuButton: drawerButton()),
             dummyPadding(height: 25),
             listWallet(),
+            dummyPadding(height: 25),
+            listPemasukan(),
             dummyPadding(height: 100),
           ],
         ),
