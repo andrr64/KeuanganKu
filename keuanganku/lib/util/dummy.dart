@@ -5,5 +5,8 @@ dummyPadding({double height = 15}){
 }
 
 makeCenterWithRow({required Widget child}){
-  return Row(mainAxisAlignment: MainAxisAlignment.center, children: [child],);
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center, 
+    children: [child],);
 }
