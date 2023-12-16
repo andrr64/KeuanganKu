@@ -115,7 +115,13 @@ class _FormWalletState extends State<FormWallet> {
           items: SQLModelWallet.tipeWallet.map((String item) {
             return DropdownMenuItem(
               value: item,
-              child: Text(item, style: kFontStyle(fontSize: 14, family: "QuickSand_Medium")),
+              child: Row(
+                children: [
+                  Icon(SQLModelWallet.geIconData(item)),
+                  const SizedBox(width: 5,),
+                  Text(item, style: kFontStyle(fontSize: 14, family: "QuickSand_Medium"))
+                ],
+              ),
             );
           }).toList(), 
           onChanged: (String? value) {
@@ -127,7 +133,6 @@ class _FormWalletState extends State<FormWallet> {
           }, 
           value: tipeWallet, 
           labelText: "Tipe Wallet",
-          icon: Icon(tipeWallet == "Wallet"? Icons.wallet: Icons.account_balance),
         ).getWidget()
       );
     }

@@ -13,6 +13,10 @@ class SQLModelWallet {
     "Wallet",
     "Bank"
   ];
+  static List<IconData> iconDataTipeWallet = [
+    Icons.wallet,
+    Icons.account_balance
+  ];
   static List<Widget> iconTipeWallet = [
     SvgPicture.asset("assets/icons/wallet_item.svg",height: 20,),
     SvgPicture.asset("assets/icons/bank_item.svg",height: 20,),
@@ -34,5 +38,13 @@ class SQLModelWallet {
   String get iconPath {
     if (tipe == "Wallet") return "assets/icons/wallet_item.svg";
     return "assets/icons/bank_item.svg";
+  }
+  static IconData geIconData(String tipe){
+    for (var i = 0; i < iconTipeWallet.length; i++) {
+      if (tipe == tipeWallet[i]){
+        return iconDataTipeWallet[i];
+      }
+    }
+    return Icons.wallet;
   }
 }
