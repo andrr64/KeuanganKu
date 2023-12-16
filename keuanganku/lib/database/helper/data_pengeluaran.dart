@@ -86,6 +86,20 @@ class SQLHelperPengeluaran {
     final results  = (await db.rawQuery("SELECT * FROM $_tableName WHERE id_wallet = ?", [id]));
     return results.map((e) => SQLModelPengeluaran.fromMap(e)).toList();
   }
+  Future<List<SQLModelPengeluaran>> readWeekly({required Database db}) async {
+    DateTime now = DateTime.now();
+    DateTime startDate = now.subtract(Duration(days: now.weekday - 1)); // Minggu ini dimulai dari hari Senin
+    DateTime endDate = startDate.add(const Duration(days: 6)); // Minggu ini berakhir pada hari Minggu
+    String formattedStartDate = startDate.toIso8601String().substring(0, 10);
+    String formattedEndDate = endDate.toIso8601String().substring(0, 10);
+
+    List<Map<String, dynamic>> results = await db.rawQuery(
+      "SELECT * FROM $_tableName WHERE strftime('%Y-%m-%d', waktu) BETWEEN '$formattedStartDate' AND '$formattedEndDate'"
+    );
+
+    List<SQLModelPengeluaran> data = results.map((map) => SQLModelPengeluaran.fromMap(map)).toList();
+    return data;
+  }
 
   Future<List<SQLModelPengeluaran>> readWithClause({required String clause, required Database db}) async {
       final List<Map<String, dynamic>> results = await db.query(

@@ -40,39 +40,34 @@ class ApplicationBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.sizeOf(context);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: SizedBox(
-        height: size.height * 0.3,
-        width: size.width * 0.9 > 700? 700 : size.width * 0.9,
-        child: BarChart(
-          BarChartData(
-            borderData: FlBorderData(show: false),
-            gridData: const FlGridData(show: true, drawVerticalLine: false),
-            titlesData: FlTitlesData(
-              leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              rightTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  getTitlesWidget: getRightTitle,
-                  reservedSize: 45,
-                  interval: maxY == 0? 1000000 : maxY / 5
-                )
-              ),
-              bottomTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  getTitlesWidget: getBottomTitle,
-                  showTitles: true,
-                )
-              ),
+      child: BarChart(
+        BarChartData(
+          borderData: FlBorderData(show: false),
+          gridData: const FlGridData(show: true, drawVerticalLine: false),
+          titlesData: FlTitlesData(
+            leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            rightTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                getTitlesWidget: getRightTitle,
+                reservedSize: 45,
+                interval: maxY == 0? 1000000 : maxY / 5
+              )
             ),
-            minY: minY,
-            maxY: maxY,
-            barGroups: barChartGroupData
-          )
-        ),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                getTitlesWidget: getBottomTitle,
+                showTitles: true,
+              )
+            ),
+          ),
+          minY: minY,
+          maxY: maxY,
+          barGroups: barChartGroupData
+        )
       ),
     );
   }

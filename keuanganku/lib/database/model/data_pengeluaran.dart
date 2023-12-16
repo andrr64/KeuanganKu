@@ -97,4 +97,37 @@ class SQLModelPengeluaran {
     SQLModelKategoriTransaksi kategoriTransaksi = await SQLHelperKategori().readById(id_kategori, db: db.database);
     return kategoriTransaksi;
   }
+  static double totalPengeluaranByMonth(int year, int month, List<SQLModelPengeluaran> listPengeluaran) {
+    // Filter listPengeluaran berdasarkan bulan dan tahun
+    List<SQLModelPengeluaran> filteredList = listPengeluaran
+        .where((pengeluaran) =>
+            pengeluaran.waktu.year == year &&
+            pengeluaran.waktu.month == month)
+        .toList();
+
+    // Hitung total nilai pengeluaran
+    double totalNilai = 0.0;
+    for (var pengeluaran in filteredList) {
+      totalNilai += pengeluaran.nilai;
+    }
+
+    return totalNilai;
+  }
+  static double totalPengeluaranByDate(DateTime tanggal, List<SQLModelPengeluaran> listPengeluaran) {
+    // Filter listPengeluaran berdasarkan tanggal
+    List<SQLModelPengeluaran> filteredList = listPengeluaran
+        .where((pengeluaran) =>
+            pengeluaran.waktu.year == tanggal.year &&
+            pengeluaran.waktu.month == tanggal.month &&
+            pengeluaran.waktu.day == tanggal.day)
+        .toList();
+
+    // Hitung total nilai pengeluaran
+    double totalNilai = 0.0;
+    for (var pengeluaran in filteredList) {
+      totalNilai += pengeluaran.nilai;
+    }
+
+    return totalNilai;
+  }
 }
