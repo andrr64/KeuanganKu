@@ -148,7 +148,16 @@ class DistribusiTransaksi extends StatelessWidget {
       ],
     );
   }
-  Widget firstStep(List<SQLModelPengeluaran> dataPengeluaran){  
+  Widget firstStep(List<SQLModelPengeluaran> dataPengeluaran){ 
+    const double kEmptyVerticalPadding = 50;
+    if(dataPengeluaran.isEmpty){
+      return makeCenterWithRow(
+        child: const Padding(
+          padding: EdgeInsets.symmetric(vertical: kEmptyVerticalPadding),
+          child: KEmpty(),
+        )
+      );
+    } 
     return FutureBuilder(
       future: widgetData.getPieData(dataPengeluaran), 
       builder: (_, snapshot){
@@ -157,7 +166,7 @@ class DistribusiTransaksi extends StatelessWidget {
         } else if (snapshot.hasError){
           return makeCenterWithRow(child: const Text("Sadly, something wrong..."));
         } else {
-          return snapshot.data!.isNotEmpty? secondStep(dataPengeluaran, snapshot.data!) : const KEmpty();
+          return secondStep(dataPengeluaran, snapshot.data!);
         }
       }
     );
@@ -173,9 +182,7 @@ class DistribusiTransaksi extends StatelessWidget {
           return makeCenterWithRow(child: const Text("SQL Error :("));
         }
         else {
-          return (snapshot.data! as List).isNotEmpty?
-          firstStep(snapshot.data!) :
-          const KEmpty();
+          return firstStep(snapshot.data!);
         }
       }
     );

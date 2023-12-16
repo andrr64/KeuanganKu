@@ -107,6 +107,7 @@ class Statistik extends StatelessWidget {
   }
 
   FutureBuilder firstStep(Size size){
+    const double kEmptyVerticalPadding = 50;
     return FutureBuilder<ListBarChartXY?> (
       future: widgetData.barChart, 
       builder: (_, snapshot){
@@ -118,7 +119,7 @@ class Statistik extends StatelessWidget {
           if (snapshot.data!.isEmpty || snapshot.data == null){
             return makeCenterWithRow(
               child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.symmetric(vertical: kEmptyVerticalPadding),
                 child: KEmpty(),
                 )
               );     
