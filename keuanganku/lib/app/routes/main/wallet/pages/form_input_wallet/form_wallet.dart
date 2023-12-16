@@ -134,24 +134,26 @@ class _FormWalletState extends State<FormWallet> {
 
     return Scaffold(
       appBar: KAppBar(title: "Wallet Baru", fontColor: ApplicationColors.primary).getWidget(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          dummyPadding(height: 25),
-          fieldJudul(),
-          dummyPadding(height: 25),
-          fieldJumlahUang(),
-          dummyPadding(height: 25),
-          dropDownTipeWallet(),
-          dummyPadding(height: 25),
-          Row(
-            children: [
-              buttonSimpan(),
-              buttonClear(),
-            ],
-          )
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            dummyPadding(height: 25),
+            fieldJudul(),
+            dummyPadding(height: 25),
+            fieldJumlahUang(),
+            dummyPadding(height: 25),
+            dropDownTipeWallet(),
+            dummyPadding(height: 25),
+            Row(
+              children: [
+                buttonSimpan(),
+                buttonClear(),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
