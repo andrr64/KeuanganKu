@@ -149,7 +149,7 @@ class DistribusiTransaksi extends StatelessWidget {
     );
   }
   Widget firstStep(List<SQLModelPengeluaran> dataPengeluaran){ 
-    const double kEmptyVerticalPadding = 50;
+    const double kEmptyVerticalPadding = 0;
     if(dataPengeluaran.isEmpty){
       return makeCenterWithRow(
         child: const Padding(

@@ -107,7 +107,7 @@ class Statistik extends StatelessWidget {
   }
 
   FutureBuilder firstStep(Size size){
-    const double kEmptyVerticalPadding = 50;
+    const double kEmptyVerticalPadding = 0;
     return FutureBuilder<ListBarChartXY?> (
       future: widgetData.barChart, 
       builder: (_, snapshot){
