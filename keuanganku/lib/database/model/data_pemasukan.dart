@@ -1,5 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:keuanganku/database/helper/data_wallet.dart';
+import 'package:keuanganku/database/model/data_wallet.dart';
+import 'package:keuanganku/main.dart';
+
 class SQLModelPemasukan {
   int id = -1;
   int id_wallet;
@@ -64,7 +68,9 @@ class SQLModelPemasukan {
 
     return '$hari $bulan $tahun, $jam:$menit';
   }
-
+  Future<SQLModelWallet> get wallet async {
+    return await SQLHelperWallet().readById(id_wallet, db: db.database);
+  }
   // Metode untuk membuat objek DataPengeluaran dari Map (output SQL)
   static SQLModelPemasukan fromMap(Map<String, dynamic> map) {
     return SQLModelPemasukan(
