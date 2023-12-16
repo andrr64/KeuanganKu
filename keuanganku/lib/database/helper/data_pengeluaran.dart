@@ -1,11 +1,12 @@
 import 'package:keuanganku/database/model/data_pengeluaran.dart';
+import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLHelperPengeluaran {
   static Future createTable(Database db) async {
     await db.execute(SQLHelperPengeluaran().sqlCreateQuery);
   }
-
+  
   static final Map<String, Map<String, String>> _table = {
     "id": {
       "name": "id",
@@ -51,6 +52,17 @@ class SQLHelperPengeluaran {
 
   static const _tableName = "data_pengeluaran";
   
+  Future<List<SQLModelPengeluaran>> readByWaktu(WaktuTransaksi waktuTransaksi, {required Database db}) async {
+    switch (waktuTransaksi) {
+      case WaktuTransaksi.Mingguan:
+        return (await SQLHelperPengeluaran().readWeekly(db: db.database));
+      case WaktuTransaksi.Tahunan:
+        return (await SQLHelperPengeluaran().readDataByYear(DateTime.now().year, db: db.database));
+      default:
+        return [];
+    }
+  }
+
   String get sqlCreateQuery {
     String columns = "";
     _table.forEach((key, value) {
