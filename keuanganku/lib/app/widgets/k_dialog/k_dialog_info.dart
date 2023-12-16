@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/app/reusable_widgets/k_button/k_button.dart';
+import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/enum/status.dart';
 
 class KDialogInfo{

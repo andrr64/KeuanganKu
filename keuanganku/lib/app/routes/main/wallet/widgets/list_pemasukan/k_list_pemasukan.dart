@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:keuanganku/app/reusable_widgets/k_card/k_card.dart';
-import 'package:keuanganku/app/reusable_widgets/k_empty/k_empty.dart';
+import 'package:keuanganku/app/widgets/k_card/k_card.dart';
+import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/k_pemasukan_item/k_pemasukan_item.dart';
 import 'package:keuanganku/database/model/data_pemasukan.dart';
 

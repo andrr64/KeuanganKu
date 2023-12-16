@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:keuanganku/app/reusable_widgets/k_button/k_button.dart';
-import 'package:keuanganku/app/reusable_widgets/k_card/k_card.dart';
-import 'package:keuanganku/app/reusable_widgets/k_dialog/k_dialog_info.dart';
-import 'package:keuanganku/app/reusable_widgets/k_empty/k_empty.dart';
+import 'package:keuanganku/app/widgets/k_button/k_button.dart';
+import 'package:keuanganku/app/widgets/k_card/k_card.dart';
+import 'package:keuanganku/app/widgets/k_dialog/k_dialog_info.dart';
+import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_data_pengeluaran/form_data_pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';

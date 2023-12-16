@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:keuanganku/app/reusable_widgets/k_empty/k_empty.dart';
+import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/app/routes/main/wallet/pages/form_input_wallet/form_wallet.dart';
-import 'package:keuanganku/app/reusable_widgets/k_button/k_button.dart';
-import 'package:keuanganku/app/reusable_widgets/k_card/k_card.dart';
+import 'package:keuanganku/app/widgets/k_button/k_button.dart';
+import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/database/model/data_wallet.dart';
-import 'package:keuanganku/app/reusable_widgets/k_wallet_item/k_wallet_item.dart';
+import 'package:keuanganku/app/widgets/k_wallet_item/k_wallet_item.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/font_style.dart';
 import 'package:keuanganku/util/get_currency.dart';

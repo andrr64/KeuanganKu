@@ -1,4 +1,4 @@
-import 'package:keuanganku/app/reusable_widgets/bar_chart/data.dart';
+import 'package:keuanganku/app/widgets/bar_chart/data.dart';
 import 'package:keuanganku/database/helper/data_pemasukan.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/main.dart';
