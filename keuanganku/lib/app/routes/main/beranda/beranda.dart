@@ -9,15 +9,20 @@ import 'package:keuanganku/app/state_bridge.dart';
 import 'package:keuanganku/database/helper/data_wallet.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
+import 'package:keuanganku/app/routes/main/beranda/widgets/distribusi/distribusi_transaksi.dart' as distribusi_tx;
+import 'package:keuanganku/app/routes/main/beranda/widgets/statistik/statistik.dart' as statistik;
+
+class WidgetData{
+  distribusi_tx.WidgetData wxDataDistribusiTransaksi = distribusi_tx.WidgetData();
+  statistik.WidgetData wxDataStatistik = statistik.WidgetData();
+}
 
 class HalamanBeranda extends StatefulWidget {
-  const HalamanBeranda({
-    super.key, 
-    required this.parentScaffoldKey
-  });
+  const HalamanBeranda({super.key, required this.parentScaffoldKey});
 
   final GlobalKey<ScaffoldState> parentScaffoldKey;
   static StateBridge state = StateBridge();
+  static WidgetData widgetData = WidgetData();
 
   @override
   State<HalamanBeranda> createState() => _HalamanBerandaState();
@@ -75,17 +80,21 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
           dummyPadding(height: 25),
           listWallet(),
           dummyPadding(height: 25),
-          const SingleChildScrollView(
+          SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: IntrinsicWidth(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(width: 25,),
-                  Statistik(),
-                  SizedBox(width: 15,),
-                  DistribusiTransaksi(),
-                  SizedBox(width: 25,),
+                  const SizedBox(width: 25,),
+                  Statistik(
+                    widgetData: HalamanBeranda.widgetData.wxDataStatistik,
+                  ),
+                  const SizedBox(width: 15,),
+                  DistribusiTransaksi(
+                    widgetData: HalamanBeranda.widgetData.wxDataDistribusiTransaksi,
+                  ),
+                  const SizedBox(width: 25,),
                 ],
               ),
             )
