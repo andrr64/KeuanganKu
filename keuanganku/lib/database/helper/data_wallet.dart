@@ -57,7 +57,10 @@ class SQLHelperWallet {
       );
     });
   }
-
+  Future<SQLModelWallet> readById(int id, {required Database db}) async {
+    final mapWallet = await db.query(_tableName, where: "id == $id");
+    return SQLModelWallet.fromMap(mapWallet[0]);
+  }
   Future<double> readTotalUang(SQLModelWallet wallet) async{
     final dataPemasukan = await SQLHelperPemasukan().readDataByWalletId(wallet.id, db.database);
     final dataPengeluaran = await SQLHelperPengeluaran().readByWalletId(wallet.id, db.database);
