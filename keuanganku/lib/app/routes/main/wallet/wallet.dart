@@ -6,7 +6,9 @@ import 'package:keuanganku/app/routes/main/wallet/widgets/list_pemasukan/k_list_
 import 'package:keuanganku/app/routes/main/wallet/widgets/list_wallet/list_wallet.dart';
 import 'package:keuanganku/app/widgets/k_app_bar/k_app_bar.dart';
 import 'package:keuanganku/app/state_bridge.dart';
+import 'package:keuanganku/database/helper/data_pemasukan.dart';
 import 'package:keuanganku/database/helper/data_wallet.dart';
+import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 
@@ -82,12 +84,20 @@ class _HalamanWalletState extends State<HalamanWallet> {
         HalamanBeranda.state.update();
         HalamanPengeluaran.state.update();
       }
-      return Padding(
-        padding: const EdgeInsets.only(left: 25),
-        child: KListPemasukan(
-          listPemasukan: [], 
-          callback: callback
-        ),
+      return FutureBuilder(
+        future: SQLHelperPemasukan().readWeekly(DateTime.now(), db: db.database, sortirBy: SortirTransaksi.Terbaru), 
+        builder: (_, snapshot){
+          if (snapshot.connectionState == ConnectionState.waiting){
+            return makeCenterWithRow(child: const CircularProgressIndicator());
+          } else if (snapshot.hasError){
+            return makeCenterWithRow(child: const Text("Sadly, something wrong..."));
+          } else {
+            return KListPemasukan(
+              listPemasukan: snapshot.data!, 
+              callback: callback
+            );
+          }
+        }
       );
     }
 
