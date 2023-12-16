@@ -20,7 +20,7 @@ dependencies:
   flutter_svg: 0.22.0
   flutter_rating_bar: 4.0.1
   lottie: 2.7.0
-  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -37,7 +37,8 @@ flutter:
     - assets/icons/statistik.svg
     - assets/icons/distribusi.svg
     - assets/icons/pengeluaran.svg
-  
+    - assets/lotties/animation/empty.json
+
   fonts:
     - family: Quicksand_Medium
       fonts:
