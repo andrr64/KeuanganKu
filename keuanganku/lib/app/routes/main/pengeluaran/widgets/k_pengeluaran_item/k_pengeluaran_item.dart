@@ -78,7 +78,6 @@ class _KPengeluaranItemState extends State<KPengeluaranItem> {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(formatCurrency(widget.pengeluaran.nilai), style: kFontStyle(fontSize: 15),),
               const SizedBox(width: 5,),

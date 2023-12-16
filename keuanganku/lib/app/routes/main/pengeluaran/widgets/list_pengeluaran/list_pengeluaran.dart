@@ -84,13 +84,13 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
     return Column(
       children: [
         for(int i=0; i < widget.listPengeluaran.length; i++)
-          SizedBox(
-            width: size.width * 0.875,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: KPengeluaranItem(pengeluaran: widget.listPengeluaran[i]),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: SizedBox(
+              width: size.width  * 0.875,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal, 
+                child: KPengeluaranItem(pengeluaran: widget.listPengeluaran[i])
               ),
             ),
           ),
