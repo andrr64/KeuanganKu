@@ -1,4 +1,5 @@
 import 'package:keuanganku/database/model/data_pemasukan.dart'; // Ganti dengan lokasi file yang benar
+import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:sqflite/sqflite.dart';
 typedef FutureListPemasukan = Future<List<SQLModelPemasukan>>;
 
@@ -112,7 +113,7 @@ class SQLHelperPemasukan {
   FutureListPemasukan readAll({required Database db}) async {
     return (await db.query(_tableName)).map((e) => SQLModelPemasukan.fromMap(e)).toList();
   }
-  FutureListPemasukan readWeekly(DateTime startDate, {required Database db}) async {
+  FutureListPemasukan readWeekly(DateTime startDate, {required Database db, required SortirTransaksi sortirBy}) async {
     // Hitung tanggal akhir, seminggu setelah tanggal awal
     DateTime endDate = startDate.add(Duration(days: 6));
     
@@ -120,9 +121,28 @@ class SQLHelperPemasukan {
     String formattedStartDate = startDate.toIso8601String().substring(0, 10);
     String formattedEndDate = endDate.toIso8601String().substring(0, 10);
 
+    // Gunakan enum SortirTransaksi untuk menentukan klausa ORDER BY
+    String sortirByClause;
+    switch (sortirBy) {
+      case SortirTransaksi.Terbaru:
+        sortirByClause = " ORDER BY waktu DESC";
+        break;
+      case SortirTransaksi.Terlama:
+        sortirByClause = " ORDER BY waktu ASC";
+        break;
+      case SortirTransaksi.Tertinggi:
+        sortirByClause = " ORDER BY waktu ASC";
+        break;
+      case SortirTransaksi.Terendah:
+        sortirByClause = " ORDER BY nilai DESC";
+        break;
+      default:
+        sortirByClause = ""; // Default tidak ada pengurutan
+    }
+
     // Query database untuk mendapatkan data pemasukan dalam rentang waktu seminggu
     List<Map<String, dynamic>> results = await db.rawQuery(
-      "SELECT * FROM $_tableName WHERE strftime('%Y-%m-%d', waktu) BETWEEN '$formattedStartDate' AND '$formattedEndDate'"
+      "SELECT * FROM $_tableName WHERE strftime('%Y-%m-%d', waktu) BETWEEN '$formattedStartDate' AND '$formattedEndDate'$sortirByClause"
     );
 
     // Konversi hasil query menjadi list model SQLModelPemasukan
