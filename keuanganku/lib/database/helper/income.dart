@@ -115,7 +115,7 @@ class SQLHelperIncome {
   }
   FutureListPemasukan readWeekly(DateTime startDate, {required Database db, required SortirTransaksi sortirBy}) async {
     // Hitung tanggal akhir, seminggu setelah tanggal awal
-    DateTime endDate = startDate.add(Duration(days: 6));
+    DateTime endDate = startDate.add(const Duration(days: 6));
     
     // Format tanggal ke format yang sesuai dengan format tanggal di database
     String formattedStartDate = startDate.toIso8601String().substring(0, 10);
