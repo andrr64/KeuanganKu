@@ -12,6 +12,10 @@ class SQLHelperExpenseLimiter {
       "type" : "TEXT",
       "constraint" : ""
     },
+    "Waktu" : {
+      'name' : 'waktu',
+      'type' : 'TEXT',
+    },
     "Nilai Batas Pengeluaran" : {
       "name" : "nilai",
       "type" : "REAL",
