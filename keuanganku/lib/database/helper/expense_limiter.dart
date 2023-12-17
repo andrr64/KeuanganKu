@@ -14,7 +14,11 @@ class SQLHelperExpenseLimiter {
     'nilai': {
       'name' : 'nilai',
       'type' : 'REAL'
-    }
+    },
+    'waktu': {
+      'nama': 'waktu',
+      'type': 'TEXT'
+    } 
   };
   static String get sqlCreateQuery {
     String columns = "";
