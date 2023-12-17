@@ -1,6 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:keuanganku/database/helper/data_kategori_pemasukan.dart';
+import 'package:keuanganku/database/helper/data_kategori_pengeluaran.dart';
 import 'package:keuanganku/database/helper/data_wallet.dart';
+import 'package:keuanganku/database/model/data_kategori.dart';
 import 'package:keuanganku/database/model/data_wallet.dart';
 import 'package:keuanganku/main.dart';
 
@@ -71,7 +74,9 @@ class SQLModelPemasukan {
   Future<SQLModelWallet> get wallet async {
     return await SQLHelperWallet().readById(id_wallet, db: db.database);
   }
-  // Metode untuk membuat objek DataPengeluaran dari Map (output SQL)
+  Future<SQLModelKategoriTransaksi> get kategori async {
+    return await SQLHelperKategoriPemasukan().readById(id_kategori, db: db.database);
+  }
   static SQLModelPemasukan fromMap(Map<String, dynamic> map) {
     return SQLModelPemasukan(
       id: map['id'] ?? -1,
