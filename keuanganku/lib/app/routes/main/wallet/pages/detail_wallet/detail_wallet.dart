@@ -33,10 +33,11 @@ class Data {
 }
 
 class DetailWallet extends StatefulWidget {
-  DetailWallet({super.key, required this.wallet});
+  DetailWallet({super.key, required this.wallet, required this.callback});
   final SQLModelWallet wallet;
   final Data data = Data();
-
+  final VoidCallback callback;
+  
   @override
   State<DetailWallet> createState() => _DetailWalletState();
 }
@@ -83,43 +84,26 @@ class _DetailWalletState extends State<DetailWallet> {
       ),
     );
   }
-
+  void callback(){
+    widget.callback();
+    setState(() {
+      
+    });
+  }
   Widget buildListPemasukan(BuildContext context, List<SQLModelPemasukan> listPemasukan){
-    final icon = SvgPicture.asset("assets/icons/pemasukan.svg");
     if (listPemasukan.isEmpty){
       return makeCenterWithRow(child: const KEmpty());
     }
-    return KCard(
-        width: MediaQuery.sizeOf(context).width * 0.875,
-        title: "Pemasukan",
-        icon: icon,
-        button: KButton(
-            onTap: () async {
-              List<SQLModelWallet> listWallet = [widget.wallet];
-              List<SQLModelKategoriTransaksi> listKategoriPemasukan = await SQLHelperKategoriPemasukan().readAll(db: db.database);
-              Navigator.push(context, MaterialPageRoute(builder: (_) => FormInputPemasukan(
-                  listKategori: listKategoriPemasukan,
-                  listWallet: listWallet,
-                  callback: (){
-                    setState(() {
-
-                    });
-                    HalamanPengeluaran.state.update();
-                    HalamanWallet.state.update();
-                    HalamanBeranda.state.update();
-                  }
-              )));
-            },
-            title: "Tambah",
-            icon: Icon(Icons.add)
-        ),
-        child: Column(
+    return Column(
           children: [
             for(int i=0;i < listPemasukan.length; i++)
-              KPemasukanItem(size: Size(MediaQuery.sizeOf(context).width * 0.875, 40), pemasukan: listPemasukan[i]),
+              KPemasukanItem(
+                callback: callback,
+                size: Size(MediaQuery.sizeOf(context).width * 0.875, 40), 
+                pemasukan: listPemasukan[i]
+              ),
           ],
-        )
-    );
+        );
   }
   Widget buildListPengeluaran(BuildContext context, List<SQLModelPengeluaran> listPengeluaran){
     if (listPengeluaran.isEmpty){
@@ -130,14 +114,8 @@ class _DetailWalletState extends State<DetailWallet> {
       children: [
         for(int i=0;i < listPengeluaran.length; i++)
           KPengeluaranItem(pengeluaran: listPengeluaran[i],
-          callback: () {
-            setState(() {
-              
-            });
-            HalamanBeranda.state.update();
-            HalamanWallet.state.update();
-            HalamanPengeluaran.state.update();
-          },),
+          callback: callback
+        ),
       ],
     );
   }
@@ -195,18 +173,38 @@ class _DetailWalletState extends State<DetailWallet> {
     );
   }
   Widget listPemasukan(BuildContext context){
-    return makeCenterWithRow(
-      child: FutureBuilder(
-          future: SQLHelperPemasukan().readDataByWalletId(widget.wallet.id, db.database),
-          builder: (_, snapshot){
-            if (snapshot.connectionState == ConnectionState.waiting){
-              return makeCenterWithRow(child: const CircularProgressIndicator());
-            } else if (snapshot.hasError){
-              return makeCenterWithRow(child: const Text("Sadly, something wrong..."));
-            } else {
-              return buildListPemasukan(context, snapshot.data!);
+    final icon = SvgPicture.asset("assets/icons/pemasukan.svg");
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: KCard(
+          width: MediaQuery.sizeOf(context).width * 0.875,
+          title: "Pemasukan",
+          icon: icon,
+          button: KButton(
+              onTap: () async {
+                List<SQLModelWallet> listWallet = [widget.wallet];
+                List<SQLModelKategoriTransaksi> listKategoriPemasukan = await SQLHelperKategoriPemasukan().readAll(db: db.database);
+                Navigator.push(context, MaterialPageRoute(builder: (_) => FormInputPemasukan(
+                    listKategori: listKategoriPemasukan,
+                    listWallet: listWallet,
+                    callback: callback
+                )));
+              },
+              title: "Tambah",
+              icon: const Icon(Icons.add)
+          ),
+          child: FutureBuilder(
+            future: SQLHelperPemasukan().readDataByWalletId(widget.wallet.id, db.database),
+            builder: (_, snapshot){
+              if (snapshot.connectionState == ConnectionState.waiting){
+                return makeCenterWithRow(child: const CircularProgressIndicator());
+              } else if (snapshot.hasError){
+                return makeCenterWithRow(child: const Text("Sadly, something wrong..."));
+              } else {
+                return buildListPemasukan(context, snapshot.data!);
+              }
             }
-          }
+        ),
       ),
     );
   }
@@ -216,29 +214,27 @@ class _DetailWalletState extends State<DetailWallet> {
     return Scaffold(
       backgroundColor: ApplicationColors.primary,
       body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              dummyPadding(height: 50),
-              KPageAppBar(
-                title: "Detail Wallet",
-                menuButton: GestureDetector(
-                  onTap: (){
-                    Navigator.pop(context);
-                  },
-                  child: Icon(Icons.arrow_back_ios, color: Colors.white,),
-                ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            dummyPadding(height: 50),
+            KPageAppBar(
+              title: "Detail Wallet",
+              menuButton: GestureDetector(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: const Icon(Icons.arrow_back_ios, color: Colors.white,),
               ),
-              heading(context),
-              listPemasukan(context),
-              dummyPadding(height: 25),
-              listPengeluaran(context),
-              dummyPadding(height: 25),
-              buildDistribusiPengeluaran(context),
-              dummyPadding(height: 100)
-            ],
-          ),
+            ),
+            heading(context),
+            listPemasukan(context),
+            dummyPadding(height: 25),
+            listPengeluaran(context),
+            dummyPadding(height: 25),
+            buildDistribusiPengeluaran(context),
+            dummyPadding(height: 100)
+          ],
         ),
       ),
     );

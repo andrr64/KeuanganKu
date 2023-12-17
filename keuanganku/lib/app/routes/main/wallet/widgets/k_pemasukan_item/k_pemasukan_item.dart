@@ -1,21 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
+import 'package:keuanganku/app/routes/main/wallet/pages/detail_pemasukan/detail_pemasukan.dart';
 import 'package:keuanganku/database/model/data_pemasukan.dart';
 import 'package:keuanganku/util/font_style.dart';
 import 'package:keuanganku/util/get_currency.dart';
 import 'package:keuanganku/util/string_operation.dart';
 
 class KPemasukanItem extends StatelessWidget {
-  const KPemasukanItem({super.key, required this.size, required this.pemasukan});
+  const KPemasukanItem({super.key, required this.size, required this.pemasukan, required this.callback});
   final Size size;
   final SQLModelPemasukan pemasukan;
+  final VoidCallback callback;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => DetailPemasukan(pemasukan: pemasukan, callback: callback))
+        );
       },
       child: IntrinsicHeight(
         child: Padding(
@@ -33,10 +39,12 @@ class KPemasukanItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FutureBuilder(
-                          future: pemasukan.wallet, 
+                          future: pemasukan.kategori, 
                           builder: (_, snapshot){
                             if (snapshot.hasData && snapshot.connectionState == ConnectionState.done){
-                              return Text(snapshot.data!.judul, style: kFontStyle(fontSize: 16));
+                              return Text(
+                                truncateString(snapshot.data!.judul, 16, isEndWith: true, endWith: "..."), 
+                                style: kFontStyle(fontSize: 16));
                             }
                             return Text("...", style: kFontStyle(fontSize: 12, color: Colors.black45),);
                           } 

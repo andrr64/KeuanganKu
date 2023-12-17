@@ -42,7 +42,7 @@ class _FormWalletState extends State<FormWallet> {
           SQLModelPemasukan pemasukan = SQLModelPemasukan(
             id: -1, 
             id_wallet: idWallet, 
-            id_kategori: -1, 
+            id_kategori: 1, 
             judul: "Wallet Baru - ${newWallet.judul}", 
             deskripsi: "Inisialisasi Wallet", 
             nilai: double.parse(controllerFieldJumlahUang.text), 

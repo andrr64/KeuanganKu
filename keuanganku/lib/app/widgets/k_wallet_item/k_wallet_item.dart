@@ -9,9 +9,10 @@ import 'package:keuanganku/util/font_style.dart';
 import 'package:keuanganku/util/get_currency.dart';
 
 class KWalletItem extends StatefulWidget {
-  const KWalletItem({super.key, required this.size, required this.wallet});
+  const KWalletItem({super.key, required this.size, required this.wallet, required this.callback});
   final Size size;
   final SQLModelWallet wallet;
+  final VoidCallback callback;
 
   @override
   State<KWalletItem> createState() => _KWalletItemState();
@@ -22,7 +23,7 @@ class _KWalletItemState extends State<KWalletItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => DetailWallet(wallet: widget.wallet,)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => DetailWallet(callback: widget.callback, wallet: widget.wallet,)));
       },
       child: SizedBox(
         width: widget.size.width,

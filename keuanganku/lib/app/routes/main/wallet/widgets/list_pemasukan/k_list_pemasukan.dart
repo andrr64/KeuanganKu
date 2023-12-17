@@ -1,6 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
@@ -41,7 +39,12 @@ class KListPemasukanState extends State<KListPemasukan> {
     final dataLength = moreThanMaxItems? maxItems : widget.listPemasukan.length;
     return Column(
       children: [
-        for(int i = 0; i < dataLength; i++) KPemasukanItem(size: Size(size.width * 0.875, 40), pemasukan: widget.listPemasukan[i]),
+        for(int i = 0; i < dataLength; i++) 
+          KPemasukanItem(
+            size: Size(size.width * 0.875, 40), 
+            pemasukan: widget.listPemasukan[i],
+            callback: widget.callback,
+          ),
         makeCenterWithRow(
           child: Column(
             children: [

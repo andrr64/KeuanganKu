@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/snack_bar.dart';
@@ -33,19 +34,23 @@ class FormInputPemasukan extends StatefulWidget {
     super.key, 
     required this.callback,
     required this.listWallet,
-    required this.listKategori
+    required this.listKategori,
+    this.isWithData,
+    this.pemasukan
   });
   final KEventHandler Function() callback;
   final List<SQLModelWallet> listWallet;
   final List<SQLModelKategoriTransaksi> listKategori;
   final Data data = Data();
+  final bool? isWithData;
+  final SQLModelPemasukan? pemasukan;
 
   @override
   State<FormInputPemasukan> createState() => _FormInputPemasukanState();
 }
 
 class _FormInputPemasukanState extends State<FormInputPemasukan> {
-final formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
   TextEditingController controllerJudul = TextEditingController();
   TextEditingController controllerJumlah = TextEditingController();
   TextEditingController controllerTanggal = TextEditingController();
@@ -58,7 +63,7 @@ final formKey = GlobalKey<FormState>();
   double ratingPengeluaran = 3;
 
   // Events
-  KEventHandler eventSimpanPengeluaran(BuildContext context, Size size) {
+  KEventHandler simpanData(BuildContext context, Size size) {
     Future memprosesData() async{
       // Validator
       try {
@@ -102,7 +107,78 @@ final formKey = GlobalKey<FormState>();
     }
     memprosesData().then((value) => {});
   }
+  KEventHandler updateData(BuildContext context){
+    try {
+      double.tryParse(controllerJumlah.text)!;
+    } catch (invalidDouble){
+      KDialogInfo(
+        title: "Invalid", 
+        info: "Masukan sebuah angka...", 
+        jenisPesan: Pesan.Error
+      ).tampilkanDialog(context);
+      return;
+    }
+    double jumlahPengeluaran = double.parse(controllerJumlah.text);
+    SQLModelPemasukan dataBaru = SQLModelPemasukan(
+      id: widget.pemasukan!.id, 
+      id_wallet: widget.data.walletTerpilih!.id, 
+      id_kategori: widget.data.kategoriTerpilih!.id, 
+      judul: controllerJudul.text, 
+      deskripsi: controllerDeskripsi.text, 
+      nilai: jumlahPengeluaran, 
+      waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran));
+    Future updateDataKeDatabase() async {
+      return await SQLHelperPemasukan().update(dataBaru, db.database);
+    }
+    updateDataKeDatabase().then((value){
+      if (value != -1){
+        tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data Berhasil Diperbaharui");
+      } else {
+        tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Something wrong...");
+      }
+      widget.callback();
+    });
+  }
+  KEventHandler hapusData(BuildContext context) {
+    if (widget.pemasukan == null) {
+      // Pemasukan tidak tersedia, tidak dapat dihapus
+      return;
+    }
 
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text("Konfirmasi Hapus"),
+          content: const Text("Apakah Anda yakin ingin menghapus data ini?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext); // Tutup dialog konfirmasi
+              },
+              child: const Text("Batal"),
+            ),
+            TextButton(
+              onPressed: () async {
+                // Hapus data
+                int result = await SQLHelperPemasukan().delete(widget.pemasukan!.id, db.database);
+
+                if (result != -1) {
+                  tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data Berhasil Dihapus");
+                } else {
+                  tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Something wrong...");
+                }
+                widget.callback();
+                Navigator.pop(dialogContext); // Tutup dialog konfirmasi
+                Navigator.pop(context); // Tutup halaman form setelah menghapus data
+              },
+              child: const Text("Hapus"),
+            ),
+          ],
+        );
+      },
+    );
+  }
   // Widgets
   Widget heading(){
     return Row(
@@ -212,7 +288,17 @@ final formKey = GlobalKey<FormState>();
     );
   }
   Widget dropDownMenuWallet(){
-    widget.data.walletTerpilih ??= widget.listWallet[0];
+    if (widget.isWithData == true){
+      for (var wallet in widget.listWallet) {
+        if (wallet.id == widget.pemasukan!.id_wallet){
+          widget.data.walletTerpilih = wallet;
+          break;
+        }
+      }
+    }
+    else {
+      widget.data.walletTerpilih = widget.listWallet[0];
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: KDropdownMenu<SQLModelWallet>(
@@ -237,6 +323,16 @@ final formKey = GlobalKey<FormState>();
     );
   }
   Widget dropDownKategori(BuildContext context){
+    if (widget.isWithData == true){
+      for(var x in widget.listKategori){
+        if (x.id == widget.pemasukan!.id_kategori){
+          widget.data.kategoriTerpilih = x;
+          break;
+        }
+      }
+    } else {
+      widget.data.kategoriTerpilih = widget.listKategori[0];
+    }
     List<DropdownMenuItem<SQLModelKategoriTransaksi>> items (){
       List<DropdownMenuItem<SQLModelKategoriTransaksi>> listItem = widget.listKategori.map((kategori){
           return DropdownMenuItem<SQLModelKategoriTransaksi>(
@@ -348,7 +444,7 @@ final formKey = GlobalKey<FormState>();
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: KButton(
         onTap: (){
-          eventSimpanPengeluaran(context, size);
+          simpanData(context, size);
         },
         title: "Simpan", 
         icon: const Icon(Icons.save, color: Colors.white,),
@@ -358,15 +454,62 @@ final formKey = GlobalKey<FormState>();
     );
   }
 
+  void isWithDataValidator(){
+    if (widget.isWithData == true){
+      controllerDeskripsi.text = widget.pemasukan!.deskripsi;
+      controllerJudul.text = widget.pemasukan!.judul;
+      controllerJumlah.text = widget.pemasukan!.nilai.toString();
+      tanggalPengeluaran = widget.pemasukan!.waktu;
+      jamPengeluaran = TimeOfDay.fromDateTime(widget.pemasukan!.waktu);
+
+      // Set value for dropdown menus
+      controllerTanggal.text = formatTanggal(tanggalPengeluaran);
+      controllerWaktu.text = formatWaktu(jamPengeluaran);
+    }
+  }
+  List<Widget> action(BuildContext context){
+    return [
+      GestureDetector(
+        onTap: (){
+          hapusData(context);
+        },
+        child: const Icon(CupertinoIcons.delete),
+      ),
+      const SizedBox(width: 25,)
+    ];
+  }
+
+  
+
+  Widget buttonUpdate(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.only(left: 25, right: 10),
+      child: KButton(
+        onTap: (){
+          updateData(context);
+        }, 
+        title: "Update", 
+        color: Colors.white,
+        bgColor: ApplicationColors.primary,
+        icon: const Icon(CupertinoIcons.upload_circle, color: Colors.white,),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     controllerTanggal.text = formatTanggal(tanggalPengeluaran);
     controllerWaktu.text = formatWaktu(jamPengeluaran);
     controllerInfoRating.text = SQLModelPengeluaran.infoRating(ratingPengeluaran);
+    isWithDataValidator();
 
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: KAppBar(backgroundColor: Colors.white, title: "Pemasukan Baru", fontColor: ApplicationColors.primary).getWidget(),
+      appBar: KAppBar(
+        backgroundColor: Colors.white, 
+        title: widget.isWithData == true ? "Detail Pemasukan" : "Pemasukan Baru", 
+        fontColor: ApplicationColors.primary,
+        action: widget.isWithData == true? action(context) : null
+      ).getWidget(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -392,8 +535,7 @@ final formKey = GlobalKey<FormState>();
             dummyPadding(height: 20),
             Row(
               children: [
-                buttonSimpan(context, size),
-                buttonClear(),
+                widget.isWithData == true? buttonUpdate(context) : buttonSimpan(context, size),
               ],
             ),
             dummyPadding(height: 50)
