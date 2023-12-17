@@ -1,7 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:keuanganku/database/helper/data_kategori_pengeluaran.dart';
+import 'package:keuanganku/database/helper/data_wallet.dart';
 import 'package:keuanganku/database/model/data_kategori.dart';
+import 'package:keuanganku/database/model/data_wallet.dart';
 import 'package:keuanganku/main.dart';
 
 class SQLModelPengeluaran {
@@ -94,9 +96,13 @@ class SQLModelPengeluaran {
   }
 
   Future<SQLModelKategoriTransaksi> get kategori async {
-    SQLModelKategoriTransaksi kategoriTransaksi = await SQLHelperKategoriPengeluaran().readById(id_kategori, db: db.database);
-    return kategoriTransaksi;
+    return await SQLHelperKategoriPengeluaran().readById(id_kategori, db: db.database);
   }
+
+  Future<SQLModelWallet> get wallet async {
+    return await SQLHelperWallet().readById(id_wallet, db: db.database);
+  }
+
   static double totalPengeluaranByMonth(int year, int month, List<SQLModelPengeluaran> listPengeluaran) {
     // Filter listPengeluaran berdasarkan bulan dan tahun
     List<SQLModelPengeluaran> filteredList = listPengeluaran
