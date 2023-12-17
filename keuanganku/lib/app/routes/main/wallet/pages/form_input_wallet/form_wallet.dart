@@ -5,10 +5,10 @@ import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_dropdown_menu/k_drodpown_menu.dart';
 import 'package:keuanganku/app/widgets/k_textfield/ktext_field.dart';
 import 'package:keuanganku/app/snack_bar.dart';
-import 'package:keuanganku/database/helper/data_pemasukan.dart';
-import 'package:keuanganku/database/helper/data_wallet.dart';
-import 'package:keuanganku/database/model/data_pemasukan.dart';
-import 'package:keuanganku/database/model/data_wallet.dart';
+import 'package:keuanganku/database/helper/income.dart';
+import 'package:keuanganku/database/helper/wallet.dart';
+import 'package:keuanganku/database/model/income.dart';
+import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/enum/status.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
@@ -39,7 +39,7 @@ class _FormWalletState extends State<FormWallet> {
       SQLModelWallet newWallet = SQLModelWallet(id: -1, tipe: tipeWallet, judul: controllerFieldJudul.text);
       SQLHelperWallet().insert(newWallet, db.database).then((int idWallet) {
         if (idWallet != -1) {
-          SQLModelPemasukan pemasukan = SQLModelPemasukan(
+          SQLModelIncome pemasukan = SQLModelIncome(
             id: -1, 
             id_wallet: idWallet, 
             id_kategori: 1, 
@@ -48,7 +48,7 @@ class _FormWalletState extends State<FormWallet> {
             nilai: double.parse(controllerFieldJumlahUang.text), 
             waktu: DateTime.now()
           );
-          SQLHelperPemasukan().insert(pemasukan, db.database);
+          SQLHelperIncome().insert(pemasukan, db.database);
           tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
         } else {
           tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Terdapat kesalahan ...");

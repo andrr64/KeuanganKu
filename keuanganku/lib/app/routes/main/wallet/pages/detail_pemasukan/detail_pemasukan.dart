@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/routes/main/wallet/pages/form_data_pemasukan/form_data_pemasukan.dart';
-import 'package:keuanganku/database/helper/data_kategori_pemasukan.dart';
-import 'package:keuanganku/database/helper/data_wallet.dart';
-import 'package:keuanganku/database/model/data_pemasukan.dart';
+import 'package:keuanganku/database/helper/expense_category.dart';
+import 'package:keuanganku/database/helper/wallet.dart';
+import 'package:keuanganku/database/model/income.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 
@@ -10,14 +10,14 @@ class Data {
   Future<Map<String, dynamic>> getWalletDanKategori() async {
     return {
       'listWallet' : await SQLHelperWallet().readAll(db.database),
-      'listKategori': await SQLHelperKategoriPemasukan().readAll(db: db.database),
+      'listKategori': await SQLHelperExpenseCategory().readAll(db: db.database),
     };
   }
 }
 
 class DetailPemasukan extends StatefulWidget {
   DetailPemasukan({super.key, required this.pemasukan, required this.callback});
-  final SQLModelPemasukan pemasukan;
+  final SQLModelIncome pemasukan;
   final Data data = Data();
   final VoidCallback callback;
 

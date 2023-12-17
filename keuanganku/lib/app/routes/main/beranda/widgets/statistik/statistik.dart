@@ -5,8 +5,8 @@ import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/widgets/bar_chart/data.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
-import 'package:keuanganku/database/helper/data_pengeluaran.dart';
-import 'package:keuanganku/database/model/data_pengeluaran.dart';
+import 'package:keuanganku/database/helper/expense.dart';
+import 'package:keuanganku/database/model/expense.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
@@ -17,8 +17,8 @@ class WidgetData{
   WaktuTransaksi waktuTransaksi = WaktuTransaksi.Mingguan;
   SortirTransaksi sortirTransaksi = SortirTransaksi.Terbaru;
   
-  List<BarChartXY>? _dataBar(List<SQLModelPengeluaran> data){
-    List<BarChartXY> barChartMingguan(List<SQLModelPengeluaran> listPengeluaran) {
+  List<BarChartXY>? _dataBar(List<SQLModelExpense> data){
+    List<BarChartXY> barChartMingguan(List<SQLModelExpense> listPengeluaran) {
       List<BarChartXY> result = [];
       DateTime now = DateTime.now();
 
@@ -31,7 +31,7 @@ class WidgetData{
         DateTime currentDate = monday.add(Duration(days: i));
 
         // Memanggil fungsi totalPengeluaranByDate untuk setiap hari
-        double totalNilaiPengeluaran = SQLModelPengeluaran.totalPengeluaranByDate(currentDate, listPengeluaran);
+        double totalNilaiPengeluaran = SQLModelExpense.totalPengeluaranByDate(currentDate, listPengeluaran);
 
         // Menambahkan data ke list result
         result.add(
@@ -44,14 +44,14 @@ class WidgetData{
 
       return result;
     }
-    List<BarChartXY> barChartTahun(List<SQLModelPengeluaran> listPengeluaran) {
+    List<BarChartXY> barChartTahun(List<SQLModelExpense> listPengeluaran) {
         List<BarChartXY> result = [];
         DateTime now = DateTime.now();
 
         // Iterasi untuk 12 bulan
         for (var i = 1; i <= 12; i++) {
           // Memanggil fungsi totalPengeluaranByDate untuk setiap bulan dalam tahun ini
-          double totalNilaiPengeluaran = SQLModelPengeluaran.totalPengeluaranByMonth(
+          double totalNilaiPengeluaran = SQLModelExpense.totalPengeluaranByMonth(
             now.year, 
             i,
             listPengeluaran,
@@ -80,7 +80,7 @@ class WidgetData{
     }
 
   Future<ListBarChartXY?> get barChart async {
-    var dataPengeluaran = await SQLHelperPengeluaran().readByWaktu(waktuTransaksi, db: db.database);
+    var dataPengeluaran = await SQLHelperExpense().readByWaktu(waktuTransaksi, db: db.database);
     if (dataPengeluaran.isEmpty){
       return [];
     }

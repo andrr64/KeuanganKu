@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_data_pengeluaran/form_data_pengeluaran.dart';
-import 'package:keuanganku/database/helper/data_kategori_pengeluaran.dart';
-import 'package:keuanganku/database/helper/data_wallet.dart';
-import 'package:keuanganku/database/model/data_kategori.dart';
-import 'package:keuanganku/database/model/data_pengeluaran.dart';
-import 'package:keuanganku/database/model/data_wallet.dart';
+import 'package:keuanganku/database/helper/income_category.dart';
+import 'package:keuanganku/database/helper/wallet.dart';
+import 'package:keuanganku/database/model/category.dart';
+import 'package:keuanganku/database/model/expense.dart';
+import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/main.dart';
 
 class DetailPengeluaran extends StatefulWidget {
   const DetailPengeluaran({super.key, required this.pengeluaran, required this.callback});
-  final SQLModelPengeluaran pengeluaran;
+  final SQLModelExpense pengeluaran;
   final VoidCallback callback;
   @override
   State<DetailPengeluaran> createState() => _DetailPengeluaranState();
@@ -19,7 +19,7 @@ class _DetailPengeluaranState extends State<DetailPengeluaran> {
   Widget buildBody(BuildContext context){
     Future getData()  async {
       List<SQLModelWallet> wallet = await SQLHelperWallet().readAll(db.database);
-      List<SQLModelKategoriTransaksi> kategori = await SQLHelperKategoriPengeluaran().readAll(db: db.database);
+      List<SQLModelCategory> kategori = await SQLHelperIncomeCategory().readAll(db: db.database);
       return {
         'wallet': wallet,
         'kategori': kategori,

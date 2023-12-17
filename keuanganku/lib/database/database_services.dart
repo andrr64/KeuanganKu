@@ -1,8 +1,8 @@
-import 'package:keuanganku/database/helper/data_kategori_pemasukan.dart';
-import 'package:keuanganku/database/helper/data_kategori_pengeluaran.dart';
-import 'package:keuanganku/database/helper/data_pemasukan.dart';
-import 'package:keuanganku/database/helper/data_pengeluaran.dart';
-import 'package:keuanganku/database/helper/data_wallet.dart';
+import 'package:keuanganku/database/helper/expense_category.dart';
+import 'package:keuanganku/database/helper/income.dart';
+import 'package:keuanganku/database/helper/expense.dart';
+import 'package:keuanganku/database/helper/income_category.dart';
+import 'package:keuanganku/database/helper/wallet.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -15,11 +15,11 @@ class DatabaseService {
 
   /// Fungsi saat file database dibuat
   createTable(Database db, version){
-    SQLHelperPengeluaran.createTable(db);
-    SQLHelperPemasukan.createTable(db);
+    SQLHelperExpense.createTable(db);
+    SQLHelperIncome.createTable(db);
     SQLHelperWallet.createTable(db);
-    SQLHelperKategoriPengeluaran.createTable(db: db);
-    SQLHelperKategoriPemasukan.createTable(db: db);
+    SQLHelperIncomeCategory.createTable(db: db);
+    SQLHelperExpenseCategory.createTable(db: db);
   }
 
   /// Panggil fungsi ini untuk satu kali saja disaat inisialisasi database

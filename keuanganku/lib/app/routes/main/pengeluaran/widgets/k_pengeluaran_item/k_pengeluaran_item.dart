@@ -4,14 +4,14 @@ import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pages/detail_pengeluaran/detail_pengeluaran.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/app/widgets/k_future_builder/k_future.dart';
-import 'package:keuanganku/database/model/data_pengeluaran.dart';
+import 'package:keuanganku/database/model/expense.dart';
 import 'package:keuanganku/util/font_style.dart';
 import 'package:keuanganku/util/get_currency.dart';
 import 'package:keuanganku/util/string_operation.dart';
 
 class KPengeluaranItem extends StatefulWidget {
   const KPengeluaranItem({super.key, required this.pengeluaran, required this.callback});
-  final SQLModelPengeluaran pengeluaran;
+  final SQLModelExpense pengeluaran;
   final VoidCallback callback;
 
   @override

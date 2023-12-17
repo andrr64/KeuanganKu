@@ -1,6 +1,6 @@
-import 'package:keuanganku/database/helper/data_pemasukan.dart';
-import 'package:keuanganku/database/helper/data_pengeluaran.dart';
-import 'package:keuanganku/database/model/data_wallet.dart';
+import 'package:keuanganku/database/helper/income.dart';
+import 'package:keuanganku/database/helper/expense.dart';
+import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/vector_operation.dart';
 import 'package:sqflite/sqflite.dart';
@@ -62,8 +62,8 @@ class SQLHelperWallet {
     return SQLModelWallet.fromMap(mapWallet[0]);
   }
   Future<double> readTotalUang(SQLModelWallet wallet) async{
-    final dataPemasukan = await SQLHelperPemasukan().readDataByWalletId(wallet.id, db.database);
-    final dataPengeluaran = await SQLHelperPengeluaran().readByWalletId(wallet.id, db.database);
+    final dataPemasukan = await SQLHelperIncome().readDataByWalletId(wallet.id, db.database);
+    final dataPengeluaran = await SQLHelperExpense().readByWalletId(wallet.id, db.database);
     return sumList(dataPemasukan.map((e) => e.nilai).toList()) - sumList(dataPengeluaran.map((e) => e.nilai).toList());
   }
 

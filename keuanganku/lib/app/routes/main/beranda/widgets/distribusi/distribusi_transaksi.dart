@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
-import 'package:keuanganku/database/helper/data_pengeluaran.dart';
-import 'package:keuanganku/database/model/data_kategori.dart';
-import 'package:keuanganku/database/model/data_pengeluaran.dart';
+import 'package:keuanganku/database/helper/expense.dart';
+import 'package:keuanganku/database/model/category.dart';
+import 'package:keuanganku/database/model/expense.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
@@ -27,10 +27,10 @@ class WidgetData{
     }
   ];
   Future<dynamic> getData() async {
-    return SQLHelperPengeluaran().readByWaktu(waktuTransaksi, db: db.database);
+    return SQLHelperExpense().readByWaktu(waktuTransaksi, db: db.database);
   }
   Future<dynamic> getDataByWalletId(int id){
-    return SQLHelperPengeluaran().readByWalletId(id, db.database);
+    return SQLHelperExpense().readByWalletId(id, db.database);
   }
   Color _randomColor() {
     Random random = Random();
@@ -42,13 +42,13 @@ class WidgetData{
     );
   }
     
-  Future<List<PieChartSectionData>> getPieData(List<SQLModelPengeluaran> pengeluaran) async {
+  Future<List<PieChartSectionData>> getPieData(List<SQLModelExpense> pengeluaran) async {
     Map<String, double> pieMap = {};
     double totalPengeluaran = sumList(pengeluaran.map((e) => e.nilai).toList());
     infoPieChar = [];
 
     for (var i = 0; i < pengeluaran.length; i++) {
-      SQLModelKategoriTransaksi? ktg = await pengeluaran[i].kategori;
+      SQLModelCategory? ktg = await pengeluaran[i].kategori;
       
       if (pieMap.containsKey(ktg.judul)) {
         pieMap[ktg.judul] = pieMap[ktg.judul]! + pengeluaran[i].nilai;
@@ -81,7 +81,7 @@ class DistribusiTransaksi extends StatelessWidget {
   final WidgetData widgetData;
   final dynamic Function() getter;
 
-  Widget secondStep(List<SQLModelPengeluaran> dataPengeluaran, List<PieChartSectionData> dataSection){
+  Widget secondStep(List<SQLModelExpense> dataPengeluaran, List<PieChartSectionData> dataSection){
     return Column(
       children: [
         Container(
@@ -152,7 +152,7 @@ class DistribusiTransaksi extends StatelessWidget {
       ],
     );
   }
-  Widget firstStep(List<SQLModelPengeluaran> dataPengeluaran){ 
+  Widget firstStep(List<SQLModelExpense> dataPengeluaran){ 
     const double kEmptyVerticalPadding = 0;
     if(dataPengeluaran.isEmpty){
       return makeCenterWithRow(
@@ -186,7 +186,7 @@ class DistribusiTransaksi extends StatelessWidget {
           return makeCenterWithRow(child: const Text("SQL Error :("));
         }
         else {
-          return firstStep(snapshot.data! as List<SQLModelPengeluaran>);
+          return firstStep(snapshot.data! as List<SQLModelExpense>);
         }
       }
     );

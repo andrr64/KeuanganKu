@@ -11,11 +11,11 @@ import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_data_pengeluar
 import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/k_pengeluaran_item/k_pengeluaran_item.dart';
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
-import 'package:keuanganku/database/helper/data_kategori_pengeluaran.dart';
-import 'package:keuanganku/database/helper/data_wallet.dart';
-import 'package:keuanganku/database/model/data_kategori.dart';
-import 'package:keuanganku/database/model/data_pengeluaran.dart';
-import 'package:keuanganku/database/model/data_wallet.dart';
+import 'package:keuanganku/database/helper/income_category.dart';
+import 'package:keuanganku/database/helper/wallet.dart';
+import 'package:keuanganku/database/model/category.dart';
+import 'package:keuanganku/database/model/expense.dart';
+import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/enum/status.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
@@ -23,7 +23,7 @@ import 'package:keuanganku/util/dummy.dart';
 class ListPengeluaran extends StatefulWidget {
   const ListPengeluaran({super.key, required this.listPengeluaran, required this.callback});
   final VoidCallback callback;
-  final List<SQLModelPengeluaran> listPengeluaran;
+  final List<SQLModelExpense> listPengeluaran;
 
   @override
   State<ListPengeluaran> createState() => _ListPengeluaranState();
@@ -47,7 +47,7 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
       return;}
 
     bool dataBaruDisimpan = false;
-    List<SQLModelKategoriTransaksi> listKategori = await SQLHelperKategoriPengeluaran().readAll(db: db.database);
+    List<SQLModelCategory> listKategori = await SQLHelperIncomeCategory().readAll(db: db.database);
     Navigator.push(
       context, 
       MaterialPageRoute(

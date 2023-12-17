@@ -1,12 +1,12 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:keuanganku/database/helper/data_kategori_pengeluaran.dart';
-import 'package:keuanganku/database/helper/data_wallet.dart';
-import 'package:keuanganku/database/model/data_kategori.dart';
-import 'package:keuanganku/database/model/data_wallet.dart';
+import 'package:keuanganku/database/helper/income_category.dart';
+import 'package:keuanganku/database/helper/wallet.dart';
+import 'package:keuanganku/database/model/category.dart';
+import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/main.dart';
 
-class SQLModelPengeluaran {
+class SQLModelExpense {
   final int id;
   final int id_wallet;
   final int id_kategori;
@@ -17,7 +17,7 @@ class SQLModelPengeluaran {
   final DateTime waktu;
 
 
-  SQLModelPengeluaran({
+  SQLModelExpense({
     required this.id,
     required this.id_wallet,
     required this.id_kategori,
@@ -82,8 +82,8 @@ class SQLModelPengeluaran {
   }
 
   // Metode untuk membuat objek DataPengeluaran dari Map (output SQL)
-  static SQLModelPengeluaran fromMap(Map<String, dynamic> map){
-    return SQLModelPengeluaran(
+  static SQLModelExpense fromMap(Map<String, dynamic> map){
+    return SQLModelExpense(
       id: map['id'] ?? -1,
       judul: map['judul'] ?? '',
       deskripsi: map['deskripsi'] ?? '',
@@ -95,17 +95,17 @@ class SQLModelPengeluaran {
     );
   }
 
-  Future<SQLModelKategoriTransaksi> get kategori async {
-    return await SQLHelperKategoriPengeluaran().readById(id_kategori, db: db.database);
+  Future<SQLModelCategory> get kategori async {
+    return await SQLHelperIncomeCategory().readById(id_kategori, db: db.database);
   }
 
   Future<SQLModelWallet> get wallet async {
     return await SQLHelperWallet().readById(id_wallet, db: db.database);
   }
 
-  static double totalPengeluaranByMonth(int year, int month, List<SQLModelPengeluaran> listPengeluaran) {
+  static double totalPengeluaranByMonth(int year, int month, List<SQLModelExpense> listPengeluaran) {
     // Filter listPengeluaran berdasarkan bulan dan tahun
-    List<SQLModelPengeluaran> filteredList = listPengeluaran
+    List<SQLModelExpense> filteredList = listPengeluaran
         .where((pengeluaran) =>
             pengeluaran.waktu.year == year &&
             pengeluaran.waktu.month == month)
@@ -119,9 +119,9 @@ class SQLModelPengeluaran {
 
     return totalNilai;
   }
-  static double totalPengeluaranByDate(DateTime tanggal, List<SQLModelPengeluaran> listPengeluaran) {
+  static double totalPengeluaranByDate(DateTime tanggal, List<SQLModelExpense> listPengeluaran) {
     // Filter listPengeluaran berdasarkan tanggal
-    List<SQLModelPengeluaran> filteredList = listPengeluaran
+    List<SQLModelExpense> filteredList = listPengeluaran
         .where((pengeluaran) =>
             pengeluaran.waktu.year == tanggal.year &&
             pengeluaran.waktu.month == tanggal.month &&

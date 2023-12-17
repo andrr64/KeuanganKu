@@ -1,5 +1,5 @@
 import 'package:keuanganku/app/widgets/bar_chart/data.dart';
-import 'package:keuanganku/database/helper/data_pemasukan.dart';
+import 'package:keuanganku/database/helper/income.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/date_util.dart';
@@ -14,7 +14,7 @@ class WidgetHelperDataPemasukan {
           BarChartXY(
             xValue: i.toDouble(),
             yValue: sumList(
-              (await SQLHelperPemasukan()
+              (await SQLHelperIncome()
                       .readDataByDate(listHari[i], db: db.database))
                   .map((e) => e.nilai)
                   .toList(),
@@ -31,7 +31,7 @@ class WidgetHelperDataPemasukan {
           BarChartXY(
             xValue: i.toDouble(),
             yValue: sumList(
-              (await SQLHelperPemasukan()
+              (await SQLHelperIncome()
                       .readDataByMonth(tahun, i + 1, db: db.database))
                   .map((e) => e.nilai)
                   .toList(),

@@ -1,12 +1,12 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:keuanganku/database/helper/data_kategori_pemasukan.dart';
-import 'package:keuanganku/database/helper/data_wallet.dart';
-import 'package:keuanganku/database/model/data_kategori.dart';
-import 'package:keuanganku/database/model/data_wallet.dart';
+import 'package:keuanganku/database/helper/expense_category.dart';
+import 'package:keuanganku/database/helper/wallet.dart';
+import 'package:keuanganku/database/model/category.dart';
+import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/main.dart';
 
-class SQLModelPemasukan {
+class SQLModelIncome {
   int id = -1;
   int id_wallet;
   int id_kategori;
@@ -15,7 +15,7 @@ class SQLModelPemasukan {
   double nilai;
   DateTime waktu;
 
-  SQLModelPemasukan({
+  SQLModelIncome({
     required this.id,
     required this.id_wallet,
     required this.id_kategori,
@@ -73,11 +73,11 @@ class SQLModelPemasukan {
   Future<SQLModelWallet> get wallet async {
     return await SQLHelperWallet().readById(id_wallet, db: db.database);
   }
-  Future<SQLModelKategoriTransaksi> get kategori async {
-    return await SQLHelperKategoriPemasukan().readById(id_kategori, db: db.database);
+  Future<SQLModelCategory> get kategori async {
+    return await SQLHelperExpenseCategory().readById(id_kategori, db: db.database);
   }
-  static SQLModelPemasukan fromMap(Map<String, dynamic> map) {
-    return SQLModelPemasukan(
+  static SQLModelIncome fromMap(Map<String, dynamic> map) {
+    return SQLModelIncome(
       id: map['id'] ?? -1,
       id_wallet: map['id_wallet'] ?? -1,
       id_kategori: map['id_kategori'] ?? -1,

@@ -1,11 +1,11 @@
-import 'package:keuanganku/database/model/data_pemasukan.dart'; // Ganti dengan lokasi file yang benar
+import 'package:keuanganku/database/model/income.dart'; // Ganti dengan lokasi file yang benar
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:sqflite/sqflite.dart';
-typedef FutureListPemasukan = Future<List<SQLModelPemasukan>>;
+typedef FutureListPemasukan = Future<List<SQLModelIncome>>;
 
-class SQLHelperPemasukan {
+class SQLHelperIncome {
   static Future createTable(Database db) async {
-    await db.execute(SQLHelperPemasukan().sqlCreateQuery);
+    await db.execute(SQLHelperIncome().sqlCreateQuery);
   }
 
   static final Map<String, Map<String, String>> _table = {
@@ -71,9 +71,9 @@ class SQLHelperPemasukan {
       _tableName,
       where: clause,
     );
-    List<SQLModelPemasukan> data = [];
+    List<SQLModelIncome> data = [];
     for (final result in results) {
-      data.add(SQLModelPemasukan.fromMap(result));
+      data.add(SQLModelIncome.fromMap(result));
     }
     return data;
   }
@@ -86,7 +86,7 @@ class SQLHelperPemasukan {
       "SELECT * FROM $_tableName WHERE strftime('%Y-%m-%d', waktu) BETWEEN '$startDate' AND '$endDate'"
     );
 
-    List<SQLModelPemasukan> data = results.map((map) => SQLModelPemasukan.fromMap(map)).toList();
+    List<SQLModelIncome> data = results.map((map) => SQLModelIncome.fromMap(map)).toList();
     return data;
   }
   FutureListPemasukan readDataByDate(DateTime tanggal, {required Database db}) async {
@@ -95,7 +95,7 @@ class SQLHelperPemasukan {
       "SELECT * FROM $_tableName WHERE waktu LIKE '$formattedDate%'"
     );
 
-    List<SQLModelPemasukan> data = results.map((map) => SQLModelPemasukan.fromMap(map)).toList();
+    List<SQLModelIncome> data = results.map((map) => SQLModelIncome.fromMap(map)).toList();
     return data;
   }
   FutureListPemasukan readDataByYear(int year, {required Database db}) async {
@@ -103,15 +103,15 @@ class SQLHelperPemasukan {
       "SELECT * FROM $_tableName WHERE strftime('%Y', waktu) = '$year'"
     );
 
-    List<SQLModelPemasukan> data = results.map((map) => SQLModelPemasukan.fromMap(map)).toList();
+    List<SQLModelIncome> data = results.map((map) => SQLModelIncome.fromMap(map)).toList();
     return data;
   }
   FutureListPemasukan readDataByWalletId(int walletId, Database db) async {
     final data = await db.query(_tableName, where: "id_wallet = $walletId");
-    return data.map((e) => SQLModelPemasukan.fromMap(e)).toList();
+    return data.map((e) => SQLModelIncome.fromMap(e)).toList();
   }
   FutureListPemasukan readAll({required Database db}) async {
-    return (await db.query(_tableName)).map((e) => SQLModelPemasukan.fromMap(e)).toList();
+    return (await db.query(_tableName)).map((e) => SQLModelIncome.fromMap(e)).toList();
   }
   FutureListPemasukan readWeekly(DateTime startDate, {required Database db, required SortirTransaksi sortirBy}) async {
     // Hitung tanggal akhir, seminggu setelah tanggal awal
@@ -146,12 +146,12 @@ class SQLHelperPemasukan {
     );
 
     // Konversi hasil query menjadi list model SQLModelPemasukan
-    List<SQLModelPemasukan> data = results.map((map) => SQLModelPemasukan.fromMap(map)).toList();
+    List<SQLModelIncome> data = results.map((map) => SQLModelIncome.fromMap(map)).toList();
     return data;
   }
   
   // CREATE METHODS
-  Future<int> insert(SQLModelPemasukan data, Database db) async {
+  Future<int> insert(SQLModelIncome data, Database db) async {
     return 
     await db.rawInsert(
       "INSERT INTO $_tableName(id_kategori, id_wallet, waktu, judul, deskripsi, nilai) VALUES(?,?,?,?,?,?)", 
@@ -165,7 +165,7 @@ class SQLHelperPemasukan {
   }
 
   // UPDATE METHOD
-  Future<int> update(SQLModelPemasukan data, Database db) async {
+  Future<int> update(SQLModelIncome data, Database db) async {
     return await db.update(
       _tableName,
       data.toMap(),

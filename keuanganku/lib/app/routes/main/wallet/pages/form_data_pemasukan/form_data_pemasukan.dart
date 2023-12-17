@@ -12,12 +12,12 @@ import 'package:keuanganku/app/widgets/k_dialog/k_dialog_info.dart';
 import 'package:keuanganku/app/widgets/k_dropdown_menu/k_drodpown_menu.dart';
 import 'package:keuanganku/app/widgets/k_textfield/ktext_field.dart';
 import 'package:keuanganku/app/widgets/time_picker/show_time_picker.dart';
-import 'package:keuanganku/database/helper/data_kategori_pemasukan.dart';
-import 'package:keuanganku/database/helper/data_pemasukan.dart';
-import 'package:keuanganku/database/model/data_kategori.dart';
-import 'package:keuanganku/database/model/data_pemasukan.dart';
-import 'package:keuanganku/database/model/data_pengeluaran.dart';
-import 'package:keuanganku/database/model/data_wallet.dart';
+import 'package:keuanganku/database/helper/expense_category.dart';
+import 'package:keuanganku/database/helper/income.dart';
+import 'package:keuanganku/database/model/category.dart';
+import 'package:keuanganku/database/model/income.dart';
+import 'package:keuanganku/database/model/expense.dart';
+import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/enum/status.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/date_util.dart';
@@ -26,7 +26,7 @@ import 'package:keuanganku/util/font_style.dart';
 
 class Data {
   SQLModelWallet? walletTerpilih;
-  SQLModelKategoriTransaksi? kategoriTerpilih;
+  SQLModelCategory? kategoriTerpilih;
 }
 
 class FormInputPemasukan extends StatefulWidget {
@@ -40,10 +40,10 @@ class FormInputPemasukan extends StatefulWidget {
   });
   final KEventHandler Function() callback;
   final List<SQLModelWallet> listWallet;
-  final List<SQLModelKategoriTransaksi> listKategori;
+  final List<SQLModelCategory> listKategori;
   final Data data = Data();
   final bool? isWithData;
-  final SQLModelPemasukan? pemasukan;
+  final SQLModelIncome? pemasukan;
 
   @override
   State<FormInputPemasukan> createState() => _FormInputPemasukanState();
@@ -87,7 +87,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
       }
 
       // Process
-      SQLModelPemasukan dataBaru = SQLModelPemasukan(
+      SQLModelIncome dataBaru = SQLModelIncome(
         id: -1, 
         id_wallet: widget.data.walletTerpilih!.id, 
         id_kategori: widget.data.kategoriTerpilih!.id, 
@@ -97,7 +97,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
         waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran),
       );
 
-      if ((await SQLHelperPemasukan().insert(dataBaru, db.database)) != -1) {
+      if ((await SQLHelperIncome().insert(dataBaru, db.database)) != -1) {
         tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
         widget.callback();
       } else {
@@ -119,7 +119,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
       return;
     }
     double jumlahPengeluaran = double.parse(controllerJumlah.text);
-    SQLModelPemasukan dataBaru = SQLModelPemasukan(
+    SQLModelIncome dataBaru = SQLModelIncome(
       id: widget.pemasukan!.id, 
       id_wallet: widget.data.walletTerpilih!.id, 
       id_kategori: widget.data.kategoriTerpilih!.id, 
@@ -128,7 +128,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
       nilai: jumlahPengeluaran, 
       waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran));
     Future updateDataKeDatabase() async {
-      return await SQLHelperPemasukan().update(dataBaru, db.database);
+      return await SQLHelperIncome().update(dataBaru, db.database);
     }
     updateDataKeDatabase().then((value){
       if (value != -1){
@@ -161,7 +161,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
             TextButton(
               onPressed: () async {
                 // Hapus data
-                int result = await SQLHelperPemasukan().delete(widget.pemasukan!.id, db.database);
+                int result = await SQLHelperIncome().delete(widget.pemasukan!.id, db.database);
 
                 if (result != -1) {
                   tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data Berhasil Dihapus");
@@ -333,16 +333,16 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
     } else {
       widget.data.kategoriTerpilih = widget.listKategori[0];
     }
-    List<DropdownMenuItem<SQLModelKategoriTransaksi>> items (){
-      List<DropdownMenuItem<SQLModelKategoriTransaksi>> listItem = widget.listKategori.map((kategori){
-          return DropdownMenuItem<SQLModelKategoriTransaksi>(
+    List<DropdownMenuItem<SQLModelCategory>> items (){
+      List<DropdownMenuItem<SQLModelCategory>> listItem = widget.listKategori.map((kategori){
+          return DropdownMenuItem<SQLModelCategory>(
             value: kategori,
             child: Text(kategori.judul, style: kFontStyle(fontSize: 16, family: "QuickSand_Medium"),),
           );
         }).toList();
       listItem.add(
-        DropdownMenuItem<SQLModelKategoriTransaksi>(
-          value: SQLModelKategoriTransaksi(id: 0, judul: "Tambah Kategori"),
+        DropdownMenuItem<SQLModelCategory>(
+          value: SQLModelCategory(id: 0, judul: "Tambah Kategori"),
           child: Row(
             children: [
               const Icon(Icons.add), 
@@ -361,7 +361,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
     widget.data.kategoriTerpilih ??= widget.listKategori[0];
     
     return IntrinsicWidth(
-      child: KDropdownMenu<SQLModelKategoriTransaksi>(
+      child: KDropdownMenu<SQLModelCategory>(
         items: items(), 
         onChanged: (val){
           if (val!.id == 0){
@@ -390,8 +390,8 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
                             if (controllerNamaKategori.text.isEmpty){
                               return;
                             }
-                            SQLHelperKategoriPemasukan().insert(
-                              SQLModelKategoriTransaksi(
+                            SQLHelperExpenseCategory().insert(
+                              SQLModelCategory(
                                 id: -1, 
                                 judul: controllerNamaKategori.text
                               ), 
@@ -499,7 +499,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
   Widget build(BuildContext context) {
     controllerTanggal.text = formatTanggal(tanggalPengeluaran);
     controllerWaktu.text = formatWaktu(jamPengeluaran);
-    controllerInfoRating.text = SQLModelPengeluaran.infoRating(ratingPengeluaran);
+    controllerInfoRating.text = SQLModelExpense.infoRating(ratingPengeluaran);
     isWithDataValidator();
 
     final size = MediaQuery.sizeOf(context);

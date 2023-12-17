@@ -1,15 +1,15 @@
-class SQLModelKategoriTransaksi {
+class SQLModelCategory {
   String judul;
   int id;
 
-  SQLModelKategoriTransaksi({
+  SQLModelCategory({
     required this.id,
     required this.judul,
   });
 
   // Fungsi untuk membuat objek dari Map
-  factory SQLModelKategoriTransaksi.fromMap(Map<String, dynamic> map) {
-    return SQLModelKategoriTransaksi(
+  factory SQLModelCategory.fromMap(Map<String, dynamic> map) {
+    return SQLModelCategory(
       id: map['id'],
       judul: map['judul'],
     );

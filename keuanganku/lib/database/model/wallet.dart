@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:keuanganku/database/helper/data_wallet.dart';
+import 'package:keuanganku/database/helper/wallet.dart';
 
 class SQLModelWallet {
   SQLModelWallet({required this.id,required this.tipe,required this.judul});

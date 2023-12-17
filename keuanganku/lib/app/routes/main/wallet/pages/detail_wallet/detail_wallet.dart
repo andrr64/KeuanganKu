@@ -15,14 +15,14 @@ import 'package:keuanganku/app/widgets/k_app_bar/k_app_bar.dart';
 import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
-import 'package:keuanganku/database/helper/data_kategori_pemasukan.dart';
-import 'package:keuanganku/database/helper/data_kategori_pengeluaran.dart';
-import 'package:keuanganku/database/helper/data_pemasukan.dart';
-import 'package:keuanganku/database/helper/data_pengeluaran.dart';
-import 'package:keuanganku/database/model/data_kategori.dart';
-import 'package:keuanganku/database/model/data_pemasukan.dart';
-import 'package:keuanganku/database/model/data_pengeluaran.dart';
-import 'package:keuanganku/database/model/data_wallet.dart';
+import 'package:keuanganku/database/helper/expense_category.dart';
+import 'package:keuanganku/database/helper/income.dart';
+import 'package:keuanganku/database/helper/expense.dart';
+import 'package:keuanganku/database/helper/income_category.dart';
+import 'package:keuanganku/database/model/category.dart';
+import 'package:keuanganku/database/model/income.dart';
+import 'package:keuanganku/database/model/expense.dart';
+import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/font_style.dart';
@@ -90,7 +90,7 @@ class _DetailWalletState extends State<DetailWallet> {
       
     });
   }
-  Widget buildListPemasukan(BuildContext context, List<SQLModelPemasukan> listPemasukan){
+  Widget buildListPemasukan(BuildContext context, List<SQLModelIncome> listPemasukan){
     if (listPemasukan.isEmpty){
       return makeCenterWithRow(child: const KEmpty());
     }
@@ -105,7 +105,7 @@ class _DetailWalletState extends State<DetailWallet> {
           ],
         );
   }
-  Widget buildListPengeluaran(BuildContext context, List<SQLModelPengeluaran> listPengeluaran){
+  Widget buildListPengeluaran(BuildContext context, List<SQLModelExpense> listPengeluaran){
     if (listPengeluaran.isEmpty){
       return makeCenterWithRow(child: const KEmpty());
     }
@@ -134,7 +134,7 @@ class _DetailWalletState extends State<DetailWallet> {
     final icon = SvgPicture.asset("assets/icons/pengeluaran.svg");
     return makeCenterWithRow(
         child: FutureBuilder(
-            future: SQLHelperPengeluaran().readByWalletId(widget.wallet.id, db.database),
+            future: SQLHelperExpense().readByWalletId(widget.wallet.id, db.database),
             builder: (_, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
@@ -148,7 +148,7 @@ class _DetailWalletState extends State<DetailWallet> {
                     button: KButton(
                         onTap: () async {
                           List<SQLModelWallet> listWallet = [widget.wallet];
-                          List<SQLModelKategoriTransaksi> listKategoriPemasukan = await SQLHelperKategoriPengeluaran().readAll(db: db.database);
+                          List<SQLModelCategory> listKategoriPemasukan = await SQLHelperIncomeCategory().readAll(db: db.database);
                           Navigator.push(context, MaterialPageRoute(builder: (_) => FormDataPengeluaran(
                               listKategori: listKategoriPemasukan,
                               listWallet: listWallet,
@@ -183,7 +183,7 @@ class _DetailWalletState extends State<DetailWallet> {
           button: KButton(
               onTap: () async {
                 List<SQLModelWallet> listWallet = [widget.wallet];
-                List<SQLModelKategoriTransaksi> listKategoriPemasukan = await SQLHelperKategoriPemasukan().readAll(db: db.database);
+                List<SQLModelCategory> listKategoriPemasukan = await SQLHelperExpenseCategory().readAll(db: db.database);
                 Navigator.push(context, MaterialPageRoute(builder: (_) => FormInputPemasukan(
                     listKategori: listKategoriPemasukan,
                     listWallet: listWallet,
@@ -194,7 +194,7 @@ class _DetailWalletState extends State<DetailWallet> {
               icon: const Icon(Icons.add)
           ),
           child: FutureBuilder(
-            future: SQLHelperPemasukan().readDataByWalletId(widget.wallet.id, db.database),
+            future: SQLHelperIncome().readDataByWalletId(widget.wallet.id, db.database),
             builder: (_, snapshot){
               if (snapshot.connectionState == ConnectionState.waiting){
                 return makeCenterWithRow(child: const CircularProgressIndicator());

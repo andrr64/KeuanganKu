@@ -6,7 +6,7 @@ import 'package:keuanganku/app/routes/main/wallet/widgets/list_wallet/list_walle
 import 'package:keuanganku/app/routes/main/beranda/widgets/statistik/statistik.dart';
 import 'package:keuanganku/app/widgets/k_app_bar/k_app_bar.dart';
 import 'package:keuanganku/app/state_bridge.dart';
-import 'package:keuanganku/database/helper/data_wallet.dart';
+import 'package:keuanganku/database/helper/wallet.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/distribusi/distribusi_transaksi.dart' as distribusi_tx;

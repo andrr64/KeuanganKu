@@ -12,11 +12,11 @@ import 'package:keuanganku/app/widgets/k_dropdown_menu/k_drodpown_menu.dart';
 import 'package:keuanganku/app/widgets/k_textfield/ktext_field.dart';
 import 'package:keuanganku/app/widgets/time_picker/show_time_picker.dart';
 import 'package:keuanganku/app/snack_bar.dart';
-import 'package:keuanganku/database/helper/data_kategori_pengeluaran.dart';
-import 'package:keuanganku/database/helper/data_pengeluaran.dart';
-import 'package:keuanganku/database/model/data_kategori.dart';
-import 'package:keuanganku/database/model/data_pengeluaran.dart';
-import 'package:keuanganku/database/model/data_wallet.dart';
+import 'package:keuanganku/database/helper/expense.dart';
+import 'package:keuanganku/database/helper/income_category.dart';
+import 'package:keuanganku/database/model/category.dart';
+import 'package:keuanganku/database/model/expense.dart';
+import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/enum/status.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/date_util.dart';
@@ -26,7 +26,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class Data {
   SQLModelWallet? walletTerpilih;  
-  SQLModelKategoriTransaksi? kategoriTerplilih;
+  SQLModelCategory? kategoriTerplilih;
 }
 
 class FormDataPengeluaran extends StatefulWidget {
@@ -41,10 +41,10 @@ class FormDataPengeluaran extends StatefulWidget {
     this.walletAndKategori
   });
   final List<SQLModelWallet> listWallet;
-  final List<SQLModelKategoriTransaksi> listKategori;
+  final List<SQLModelCategory> listKategori;
   final Data data = Data();
   final VoidCallback callback;
-  final SQLModelPengeluaran? pengeluaran;
+  final SQLModelExpense? pengeluaran;
   final bool? withData;
   final bool? readOnly;
   final Map<String,dynamic>? walletAndKategori;
@@ -91,7 +91,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         return;
       }
       // Process
-      SQLModelPengeluaran dataBaru = SQLModelPengeluaran(
+      SQLModelExpense dataBaru = SQLModelExpense(
         id: -1, 
         id_wallet: widget.data.walletTerpilih!.id, 
         id_kategori: widget.data.kategoriTerplilih!.id, 
@@ -102,7 +102,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran),
       );
 
-      if ((await SQLHelperPengeluaran().insert(dataBaru, db: db.database)) != -1) {
+      if ((await SQLHelperExpense().insert(dataBaru, db: db.database)) != -1) {
         tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
         widget.callback();
       } else {
@@ -262,16 +262,16 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
     );
   }
   Widget dropDownKategori(BuildContext context){
-    List<DropdownMenuItem<SQLModelKategoriTransaksi>> items (){
-      List<DropdownMenuItem<SQLModelKategoriTransaksi>> listItem = widget.listKategori.map((kategori){
-          return DropdownMenuItem<SQLModelKategoriTransaksi>(
+    List<DropdownMenuItem<SQLModelCategory>> items (){
+      List<DropdownMenuItem<SQLModelCategory>> listItem = widget.listKategori.map((kategori){
+          return DropdownMenuItem<SQLModelCategory>(
             value: kategori,
             child: Text(kategori.judul, style: kFontStyle(fontSize: 16, family: "QuickSand_Medium"),),
           );
         }).toList();
       listItem.add(
-        DropdownMenuItem<SQLModelKategoriTransaksi>(
-          value: SQLModelKategoriTransaksi(id: 0, judul: "Tambah Kategori"),
+        DropdownMenuItem<SQLModelCategory>(
+          value: SQLModelCategory(id: 0, judul: "Tambah Kategori"),
           child: Row(
             children: [
               const Icon(Icons.add), 
@@ -299,7 +299,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
     widget.data.kategoriTerplilih ??= widget.listKategori[0];
     
     return IntrinsicWidth(
-      child: KDropdownMenu<SQLModelKategoriTransaksi>(
+      child: KDropdownMenu<SQLModelCategory>(
         items: items(), 
         onChanged: (val){
           if (val!.id == 0){
@@ -328,8 +328,8 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
                             if (controllerNamaKategori.text.isEmpty){
                               return;
                             }
-                            SQLHelperKategoriPengeluaran().insert(
-                              SQLModelKategoriTransaksi(
+                            SQLHelperIncomeCategory().insert(
+                              SQLModelCategory(
                                 id: -1, 
                                 judul: controllerNamaKategori.text
                               ), 
@@ -422,7 +422,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
             itemSize: 32.5,
             onRatingUpdate: (rating) {
               ratingPengeluaran = rating;
-              controllerInfoRating.text = SQLModelPengeluaran.infoRating(rating);
+              controllerInfoRating.text = SQLModelExpense.infoRating(rating);
             },
           ),
         ],
@@ -444,7 +444,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
                     children: [
                       FilledButton(
                         onPressed: () async {
-                          int exitCode = await SQLHelperPengeluaran().delete(widget.pengeluaran!.id, db: db.database);
+                          int exitCode = await SQLHelperExpense().delete(widget.pengeluaran!.id, db: db.database);
                           if (exitCode != -1){
                             widget.callback();
                             Navigator.pop(context);
@@ -502,13 +502,13 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       controllerTanggal.text = formatTanggal(widget.pengeluaran!.waktu);
       controllerWaktu.text = formatWaktu(TimeOfDay(hour: widget.pengeluaran!.waktu.hour, minute: widget.pengeluaran!.waktu.minute));
       controllerJumlah.text = widget.pengeluaran!.nilai.toString();
-      controllerInfoRating.text = SQLModelPengeluaran.infoRating(widget.pengeluaran!.rating);
+      controllerInfoRating.text = SQLModelExpense.infoRating(widget.pengeluaran!.rating);
       ratingPengeluaran = widget.pengeluaran!.rating;
     }
     else {
       controllerTanggal.text = formatTanggal(tanggalPengeluaran);
       controllerWaktu.text = formatWaktu(jamPengeluaran);
-      controllerInfoRating.text = SQLModelPengeluaran.infoRating(ratingPengeluaran);
+      controllerInfoRating.text = SQLModelExpense.infoRating(ratingPengeluaran);
       ratingPengeluaran = 3;
     }
 

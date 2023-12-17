@@ -1,7 +1,7 @@
-import 'package:keuanganku/database/model/data_kategori.dart';
+import 'package:keuanganku/database/model/category.dart';
 import 'package:sqflite/sqflite.dart';
 
-class SQLHelperKategoriPengeluaran {
+class SQLHelperIncomeCategory {
   static const String _tableName = "kategori_pengeluaran";
   static final Map<String, Map<String, String>> _table = {
     "id": {
@@ -34,8 +34,8 @@ class SQLHelperKategoriPengeluaran {
     "Gaya Hidup",
     "Transportasi",
   ];
-  static final List<SQLModelKategoriTransaksi> _listOfType = List.generate(_defaultType.length, (index){
-    return SQLModelKategoriTransaksi(id: index + 1, judul: _defaultType[index]);
+  static final List<SQLModelCategory> _listOfType = List.generate(_defaultType.length, (index){
+    return SQLModelCategory(id: index + 1, judul: _defaultType[index]);
   });
   static Future createTable({required Database db}) async{
     await db.execute(sqlCreateQuery);
@@ -46,16 +46,16 @@ class SQLHelperKategoriPengeluaran {
   }
 
   // READ METHODS
-  Future<List<SQLModelKategoriTransaksi>> readAll({required Database db}) async {
-    return (await db.query(_tableName)).map((e) => SQLModelKategoriTransaksi.fromMap(e)).toList();
+  Future<List<SQLModelCategory>> readAll({required Database db}) async {
+    return (await db.query(_tableName)).map((e) => SQLModelCategory.fromMap(e)).toList();
   }
-  Future<SQLModelKategoriTransaksi> readById(int id, {required Database db}) async {
+  Future<SQLModelCategory> readById(int id, {required Database db}) async {
     Map<String, dynamic> results = (await db.query(_tableName, where: "id = $id"))[0]; // Mengambil data dari database => Map<String, dynamic>
-    return SQLModelKategoriTransaksi.fromMap(results);
+    return SQLModelCategory.fromMap(results);
   }
 
   // INSERT METHODS
-  Future insert(SQLModelKategoriTransaksi dataBaru, {required Database db}){
+  Future insert(SQLModelCategory dataBaru, {required Database db}){
     return db.rawInsert("INSERT INTO $_tableName(judul) VALUES(?)", [dataBaru.judul]);
   }
 }

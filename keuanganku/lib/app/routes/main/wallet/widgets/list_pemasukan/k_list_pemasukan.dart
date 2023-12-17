@@ -10,18 +10,18 @@ import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_dialog/k_dialog_info.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/k_pemasukan_item/k_pemasukan_item.dart';
-import 'package:keuanganku/database/helper/data_kategori_pemasukan.dart';
-import 'package:keuanganku/database/helper/data_wallet.dart';
-import 'package:keuanganku/database/model/data_kategori.dart';
-import 'package:keuanganku/database/model/data_pemasukan.dart';
-import 'package:keuanganku/database/model/data_wallet.dart';
+import 'package:keuanganku/database/helper/expense_category.dart';
+import 'package:keuanganku/database/helper/wallet.dart';
+import 'package:keuanganku/database/model/category.dart';
+import 'package:keuanganku/database/model/income.dart';
+import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/enum/status.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 
 class KListPemasukan extends StatefulWidget {
   const KListPemasukan({super.key, required this.listPemasukan, required this.callback});
-  final List<SQLModelPemasukan> listPemasukan;
+  final List<SQLModelIncome> listPemasukan;
   final VoidCallback callback;
   
   @override
@@ -77,7 +77,7 @@ class KListPemasukanState extends State<KListPemasukan> {
       ).tampilkanDialog(context);
       return;
     }
-    List<SQLModelKategoriTransaksi> listKategori  = await SQLHelperKategoriPemasukan().readAll(db: db.database);
+    List<SQLModelCategory> listKategori  = await SQLHelperExpenseCategory().readAll(db: db.database);
 
     Navigator.push(
       context,

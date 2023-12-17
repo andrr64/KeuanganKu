@@ -5,7 +5,7 @@ import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_pengeluaran/list_pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/app/state_bridge.dart';
-import 'package:keuanganku/database/helper/data_pengeluaran.dart';
+import 'package:keuanganku/database/helper/expense.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 
@@ -39,7 +39,7 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
   }
   Widget listPengeluaran(){
     return FutureBuilder(
-      future: SQLHelperPengeluaran().readAll(db.database), 
+      future: SQLHelperExpense().readAll(db.database), 
       builder: (_, snapshot){
         if (snapshot.connectionState == ConnectionState.waiting){
           return makeCenterWithRow(child: const CircularProgressIndicator());
