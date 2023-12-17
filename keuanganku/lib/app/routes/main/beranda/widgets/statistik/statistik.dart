@@ -134,7 +134,6 @@ class Statistik extends StatelessWidget {
             final dataPengeluaran = snapshot.data!['dataPengeluaran'] as List<SQLModelExpense>;
             final dataBarChart = snapshot.data!['barChartData'] as List<BarChartXY>;
 
-
             final maxY = findLargestValue(dataBarChart.map((e) => e.yValue).toList());
             final ratingAvg = sumList(dataPengeluaran.map((e) => e.rating).toList()) / dataPengeluaran.length;
             final totalPengeluaran = sumList(dataPengeluaran.map((e) => e.nilai).toList());
@@ -142,9 +141,14 @@ class Statistik extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                dummyPadding(height: 25),
-                Text("Rating Rata-Rata: ${ratingAvg.toString()}", style: kFontStyle(fontSize: 14),),
-                Text("Total Pengeluaran: ${formatCurrency(totalPengeluaran)}", style: kFontStyle(fontSize: 15),),
+                Text(
+                  SQLModelExpense.getInfoBasedOnRating(ratingAvg), 
+                  style: kFontStyle(
+                    fontSize: 14,),
+                ),
+                dummyPadding(height: 15),
+                Text("Rating Rata-Rata: ${ratingAvg.toStringAsFixed(1)}", style: kFontStyle(fontSize: 14,family: "QuickSand_Mediu"),),
+                Text("Total Pengeluaran: ${formatCurrency(totalPengeluaran)}", style: kFontStyle(fontSize: 14,family: "QuickSand_Mediu"),),
                 dummyPadding(height: 20),
                 SizedBox(
                   width: size.width * 0.875,

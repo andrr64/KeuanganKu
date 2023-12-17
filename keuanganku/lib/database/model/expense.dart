@@ -41,7 +41,24 @@ class SQLModelExpense {
       return 'Invalid';
     }
   }
+  static String getInfoBasedOnRating(double rating) {
+    String info = infoRating(rating);
 
+    switch (info) {
+      case 'Sia-Sia':
+        return 'Pengeluaranmu sangat buruk. Sebaiknya perhatikan pengelolaan keuanganmu dengan lebih baik.';
+      case 'Cukup':
+        return 'Pengeluaranmu cukup baik, namun masih ada ruang untuk peningkatan.';
+      case 'Baik':
+        return 'Pengeluaranmu baik. Tetap pertahankan dan perbaiki aspek-aspek yang perlu ditingkatkan.';
+      case 'Sangat Baik':
+        return 'Pengeluaranmu sangat baik. Selamat! Tetap konsisten dalam pengelolaan keuanganmu.';
+      case 'Invalid':
+        return 'Nilai rating tidak valid.';
+      default:
+        return 'Informasi tidak tersedia.';
+    }
+  }
   Map<String, dynamic> toMap() {
     return {
       'id': id,
