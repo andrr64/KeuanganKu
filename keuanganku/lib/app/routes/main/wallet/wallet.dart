@@ -113,11 +113,11 @@ class _HalamanWalletState extends State<HalamanWallet> {
           children: [
             dummyPadding(height: 50),
             KPageAppBar(title: "Wallet", menuButton: drawerButton()),
-            dummyPadding(height: 25),
+            dummyPadding(height: 15),
             listWallet(),
-            dummyPadding(height: 25),
+            dummyPadding(height: 15),
             listPemasukan(),
-            dummyPadding(height: 100),
+            dummyPadding(height: 15),
           ],
         ),
       )

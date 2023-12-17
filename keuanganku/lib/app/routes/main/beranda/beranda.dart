@@ -94,7 +94,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
           ),
           dummyPadding(height: 15),
           listWallet(),
-          dummyPadding(height: 25),
+          dummyPadding(height: 15),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: IntrinsicWidth(
@@ -115,7 +115,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
               ),
             )
           ),
-          dummyPadding(height: 100),
+          dummyPadding(height: 25),
         ]
       ),
     );

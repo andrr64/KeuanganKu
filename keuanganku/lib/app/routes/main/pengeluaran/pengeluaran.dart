@@ -89,11 +89,11 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
               title: "Pengeluaran", 
               menuButton: drawerButton()
             ),
-            dummyPadding(height: 25),
+            dummyPadding(height: 15),
             listPengeluaran(),
-            dummyPadding(height: 25),
+            dummyPadding(height: 15),
             listExpenseLimiter(),
-            dummyPadding(height: 50)
+            dummyPadding(height: 15)
           ],
         ),
       )
