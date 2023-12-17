@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app_info.dart';
+import 'package:keuanganku/util/font_style.dart';
 
 class AppDrawer extends StatelessWidget {
   /// Drawer aplikasi
@@ -14,6 +15,8 @@ class AppDrawer extends StatelessWidget {
 
     return Drawer(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             color: ApplicationColors.primary,
@@ -46,7 +49,23 @@ class AppDrawer extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
+          ListTile(
+            leading: const Icon(Icons.info), // Ikon di sebelah kiri
+            title: const Text('Tentang'),
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(
+                builder: (_) => const Scaffold()));
+            },
+          ),
+          const ListTile(
+            leading: Icon(Icons.system_security_update), // Ikon di sebelah kiri
+            title: Text('Pembaharuan'),
+          ),
+          const ListTile(
+              leading: Icon(Icons.favorite), // Ikon di sebelah kiri
+              title: Text('Donasi'),
+          ),
         ],
       ),
     );
