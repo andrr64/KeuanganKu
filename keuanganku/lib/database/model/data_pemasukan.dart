@@ -1,7 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:keuanganku/database/helper/data_kategori_pemasukan.dart';
-import 'package:keuanganku/database/helper/data_kategori_pengeluaran.dart';
 import 'package:keuanganku/database/helper/data_wallet.dart';
 import 'package:keuanganku/database/model/data_kategori.dart';
 import 'package:keuanganku/database/model/data_wallet.dart';
