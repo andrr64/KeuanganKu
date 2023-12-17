@@ -50,7 +50,7 @@ class SQLHelperExpense {
     },
   };
 
-  static const _tableName = "data_pengeluaran";
+  static const _tableName = "expense";
   
   Future<List<SQLModelExpense>> readByWaktu(WaktuTransaksi waktuTransaksi, {required Database db}) async {
     switch (waktuTransaksi) {

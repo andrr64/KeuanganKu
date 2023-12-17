@@ -2,7 +2,7 @@ import 'package:keuanganku/database/model/category.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLHelperIncomeCategory {
-  static const String _tableName = "kategori_pengeluaran";
+  static const String _tableName = "income_category";
   static final Map<String, Map<String, String>> _table = {
     "id": {
       "name": "id",

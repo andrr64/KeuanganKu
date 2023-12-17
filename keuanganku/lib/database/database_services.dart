@@ -1,4 +1,5 @@
 import 'package:keuanganku/database/helper/expense_category.dart';
+import 'package:keuanganku/database/helper/expense_limiter.dart';
 import 'package:keuanganku/database/helper/income.dart';
 import 'package:keuanganku/database/helper/expense.dart';
 import 'package:keuanganku/database/helper/income_category.dart';
@@ -20,6 +21,7 @@ class DatabaseService {
     SQLHelperWallet.createTable(db);
     SQLHelperIncomeCategory.createTable(db: db);
     SQLHelperExpenseCategory.createTable(db: db);
+    SQLHelperExpenseLimiter.createTable(db.database);
   }
 
   /// Panggil fungsi ini untuk satu kali saja disaat inisialisasi database

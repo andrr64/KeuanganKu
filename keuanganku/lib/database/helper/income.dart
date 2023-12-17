@@ -46,7 +46,7 @@ class SQLHelperIncome {
     },
   };
 
-  final _tableName = "data_pemasukan";
+  final _tableName = "income";
   
   String get sqlCreateQuery {
     String columns = "";
