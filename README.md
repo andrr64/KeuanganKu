@@ -49,9 +49,8 @@ Pengguna yang dapat memakai sistem ini adalah User.
 ## 👨‍💻 Skenario Kebutuhan Pengguna
 ### User
 <ol>
-  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lobortis tortor dictum</li>
-  <li>Semper quam ut, vestibulum nisi. Fusce posuere erat vitae sodales tincidunt</li>
-  <li>Duis rhoncus orci nec nisi fringilla, vitae aliquam tellus facilisis</li>
+  <li>User dapat menambahkan data seperti pengeluaran, pemasukan, dan limiter</li>
+  <li>User dapat mengubah dan menghapus data pengeluaran, pemasukan, limiter dan data user</li>
 </ol>
 
 ## 🖼️ Screenshot Aplikasi
@@ -59,16 +58,12 @@ Pengguna yang dapat memakai sistem ini adalah User.
   <tbody>
     <tr>
       <td width="33%">
-        <h5>Login Form</h5>
-        <img src="assets/img/login_page.jpg"><br>
+        <h5>Wallet</h5>
+        <img src="assets/screenshot_aplikasi/wallet.png"><br>
       </td>
       <td width="33%">
-        <h5>Form Tambah Pegawai</h5>
-        <img src="assets/img/pegawai_page.jpg">
-      </td>
-      <td width="33%">
-        <h5>Form Detail Pegawai</h5>
-        <img src="assets/img/detail_pegawai_page.jpg">
+        <h5>Beranda</h5>
+        <img src="assets/screenshot_aplikasi/beranda.png">
       </td>
     </tr>
   </tbody>
@@ -81,7 +76,7 @@ Untuk menjalankan aplikasi ini disarankan untuk menyiapkan aplikasi berikut ini 
   - [x] Flutter <code>3.16.2</code>
   - [x] Dart <code>3.2.2</code>
   - [x] Java JDK <code>19.0.0</code>
-  - [x] Git <code>2.35.1</code>
+  - [x] Git <code>2.42.1</code>
 
 ## :coffee: Credit
 Project ini mengacu pada modul praktik dari mata kuliah Mobile Programming Universitas Bina Sarana Informatika (UBSI) yang diampu oleh Bpk. <a href="https://github.com/yuris60">Yuris Alkhalifi, M.Kom., CPDSA</a> selaku Dosen.
