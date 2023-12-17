@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keuanganku/app/app_colors.dart';
@@ -151,7 +153,7 @@ class _DetailWalletState extends State<DetailWallet> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
               } else if (snapshot.hasError) {
-                return Text("Sadly, something wrong...");
+                return const Text("Sadly, something wrong...");
               } else {
                 return KCard(
                     width: MediaQuery.sizeOf(context).width * 0.875,
