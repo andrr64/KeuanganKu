@@ -7,19 +7,23 @@ class SQLHelperExpenseLimiter {
       "name": "id",
       "type": "INTEGER PRIMARY KEY",
     },
-    'id_kategori': {
-      'name': 'id_kategori',
-      'type': 'INTEGER NOT NULL',
+    "deskripsi" : {
+      "name" : "judul",
+      "type" : "TEXT",
+      "constraint" : ""
     },
-    'nilai': {
-      'name' : 'nilai',
-      'type' : 'REAL'
+    "Nilai Batas Pengeluaran" : {
+      "name" : "nilai",
+      "type" : "REAL",
+      "constraint" : "NOT NULL"
     },
-    'waktu': {
-      'nama': 'waktu',
-      'type': 'TEXT'
-    } 
+    "Id Kategori" : {
+      "name" : "id_kategori",
+      "type" : "INTEGER",
+      "constraint": "NOT NULL"
+    }
   };
+  
   static String get sqlCreateQuery {
     String columns = "";
     _table.forEach((key, value) {
