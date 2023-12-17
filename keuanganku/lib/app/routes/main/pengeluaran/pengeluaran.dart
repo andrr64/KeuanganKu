@@ -5,6 +5,8 @@ import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_pengeluaran/list_pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/app/state_bridge.dart';
+import 'package:keuanganku/app/widgets/k_card/k_card.dart';
+import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/database/helper/expense.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
@@ -21,7 +23,7 @@ class HalamanPengeluaran extends StatefulWidget {
 
 class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
 
-  void updateState(){
+  KEventHandler updateState(){
     setState(() {});
   }
   
@@ -60,6 +62,15 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
       }
     );
   }
+  Widget listExpenseLimiter(){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: KCard(
+        title: "Expense Limiter", 
+        child: KEmpty()
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +91,8 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
             ),
             dummyPadding(height: 25),
             listPengeluaran(),
+            dummyPadding(height: 25),
+            listExpenseLimiter(),
             dummyPadding(height: 50)
           ],
         ),

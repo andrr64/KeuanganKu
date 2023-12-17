@@ -3,19 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/distribusi/distribusi_transaksi.dart' as distribusiTx;
 import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_data_pengeluaran/form_data_pengeluaran.dart';
-import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/k_pengeluaran_item/k_pengeluaran_item.dart';
-import 'package:keuanganku/app/routes/main/wallet/pages/form_data_pemasukan/form_data_pemasukan.dart';
-import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/k_pemasukan_item/k_pemasukan_item.dart';
+import 'package:keuanganku/app/routes/main/wallet/widgets/list_pemasukan/k_list_pemasukan.dart';
 import 'package:keuanganku/app/widgets/k_app_bar/k_app_bar.dart';
 import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
-import 'package:keuanganku/database/helper/expense_category.dart';
 import 'package:keuanganku/database/helper/income.dart';
 import 'package:keuanganku/database/helper/expense.dart';
 import 'package:keuanganku/database/helper/income_category.dart';
@@ -85,10 +81,10 @@ class _DetailWalletState extends State<DetailWallet> {
     );
   }
   void callback(){
-    widget.callback();
     setState(() {
       
     });
+    widget.callback();
   }
   Widget buildListPemasukan(BuildContext context, List<SQLModelIncome> listPemasukan){
     if (listPemasukan.isEmpty){
@@ -152,14 +148,7 @@ class _DetailWalletState extends State<DetailWallet> {
                           Navigator.push(context, MaterialPageRoute(builder: (_) => FormDataPengeluaran(
                               listKategori: listKategoriPemasukan,
                               listWallet: listWallet,
-                              callback: (){
-                                setState(() {
-
-                                });
-                                HalamanPengeluaran.state.update();
-                                HalamanWallet.state.update();
-                                HalamanBeranda.state.update();
-                              }
+                              callback: callback
                           )));
                         },
                         title: "Tambah",
@@ -173,27 +162,9 @@ class _DetailWalletState extends State<DetailWallet> {
     );
   }
   Widget listPemasukan(BuildContext context){
-    final icon = SvgPicture.asset("assets/icons/pemasukan.svg");
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: KCard(
-          width: MediaQuery.sizeOf(context).width * 0.875,
-          title: "Pemasukan",
-          icon: icon,
-          button: KButton(
-              onTap: () async {
-                List<SQLModelWallet> listWallet = [widget.wallet];
-                List<SQLModelCategory> listKategoriPemasukan = await SQLHelperExpenseCategory().readAll(db: db.database);
-                Navigator.push(context, MaterialPageRoute(builder: (_) => FormInputPemasukan(
-                    listKategori: listKategoriPemasukan,
-                    listWallet: listWallet,
-                    callback: callback
-                )));
-              },
-              title: "Tambah",
-              icon: const Icon(Icons.add)
-          ),
-          child: FutureBuilder(
+      child: FutureBuilder(
             future: SQLHelperIncome().readDataByWalletId(widget.wallet.id, db.database),
             builder: (_, snapshot){
               if (snapshot.connectionState == ConnectionState.waiting){
@@ -201,11 +172,13 @@ class _DetailWalletState extends State<DetailWallet> {
               } else if (snapshot.hasError){
                 return makeCenterWithRow(child: const Text("Sadly, something wrong..."));
               } else {
-                return buildListPemasukan(context, snapshot.data!);
+                return KListPemasukan(
+                  listPemasukan: snapshot.data!, 
+                  callback: callback
+                );
               }
             }
         ),
-      ),
     );
   }
 

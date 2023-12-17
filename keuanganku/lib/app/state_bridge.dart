@@ -7,6 +7,8 @@ class StateBridge {
   void update(){
     if (_update != null){
       _update!();
+    } else {
+      
     }
   }
 }

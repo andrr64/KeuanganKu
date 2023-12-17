@@ -80,9 +80,7 @@ class _HalamanWalletState extends State<HalamanWallet> {
     }
     Widget listPemasukan(){
       void callback(){
-        setState(() {
-          
-        });
+        HalamanWallet.state.update();
         HalamanBeranda.state.update();
         HalamanPengeluaran.state.update();
       }

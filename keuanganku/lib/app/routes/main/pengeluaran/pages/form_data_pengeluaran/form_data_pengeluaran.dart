@@ -3,6 +3,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
+import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
+import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
+import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/app/widgets/app_bar/app_bar.dart';
 import 'package:keuanganku/app/widgets/date_picker/show_date_picker.dart';
 import 'package:keuanganku/app/widgets/heading_text/heading_text.dart';
@@ -105,6 +108,9 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       if ((await SQLHelperExpense().insert(dataBaru, db: db.database)) != -1) {
         tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
         widget.callback();
+        HalamanPengeluaran.state.update();
+        HalamanWallet.state.update();
+        HalamanBeranda.state.update();
       } else {
         tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Something wrong...");
       }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app_info.dart';
-import 'package:keuanganku/util/font_style.dart';
 
 class AppDrawer extends StatelessWidget {
   /// Drawer aplikasi
