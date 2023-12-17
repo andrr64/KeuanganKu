@@ -7,11 +7,13 @@ class KDialogInfo{
   final String info;
   final Pesan jenisPesan;
   BuildContext? dialogContext;
+  List<Widget>? action;
 
   KDialogInfo({
     required this.title,
     required this.info,
-    required this.jenisPesan
+    required this.jenisPesan,
+    this.action
   });
 
 
@@ -21,7 +23,7 @@ class KDialogInfo{
       return  AlertDialog(
         title: Text(title),
         content: Text(info),
-        actions: [
+        actions: action?? [
           KButton(onTap: (){Navigator.pop(_);}, title: "Ok", icon: const SizedBox())
         ],
       );

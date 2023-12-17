@@ -14,6 +14,9 @@ void tampilkanSnackBar(BuildContext context, {required  Pesan jenisPesan, requir
     case Pesan.Warning:
       color = Colors.yellow;
       break;
+    case Pesan.Konfirmasi:
+      color = Colors.blue;
+      break;
   }
 
   ScaffoldMessenger.of(context).showSnackBar(

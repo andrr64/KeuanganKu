@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/widgets/app_bar/app_bar.dart';
@@ -29,11 +30,25 @@ class Data {
 }
 
 class FormDataPengeluaran extends StatefulWidget {
-  FormDataPengeluaran({super.key, required this.listWallet, required this.listKategori, required this.callback});
+  FormDataPengeluaran({
+    super.key, 
+    required this.listWallet, 
+    required this.listKategori, 
+    required this.callback,
+    this.pengeluaran,
+    this.withData,
+    this.readOnly,
+    this.walletAndKategori
+  });
   final List<SQLModelWallet> listWallet;
   final List<SQLModelKategoriTransaksi> listKategori;
   final Data data = Data();
   final VoidCallback callback;
+  final SQLModelPengeluaran? pengeluaran;
+  final bool? withData;
+  final bool? readOnly;
+  final Map<String,dynamic>? walletAndKategori;
+
   @override
   State<FormDataPengeluaran> createState() => _FormDataPengeluaranState();
 }
@@ -207,11 +222,26 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
     );
   }
   Widget dropDownMenuWallet(){
+    if (widget.withData == true){
+      for (var wallet  in widget.listWallet) {
+        if (wallet.id == widget.walletAndKategori!['wallet'].id){
+          widget.data.walletTerpilih = wallet;
+          break;
+        }
+        widget.data.walletTerpilih = null;
+      }
+    }
+
+    // Hapus pemilihan default
     widget.data.walletTerpilih ??= widget.listWallet[0];
+
+    // Menggunakan Set untuk menyimpan nilai unik
+    Set<SQLModelWallet> uniqueWallets = widget.listWallet.toSet();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: KDropdownMenu<SQLModelWallet>(
-        items: widget.listWallet.map((e){
+        items: uniqueWallets.map((e){
           return DropdownMenuItem<SQLModelWallet>(
             value: e,
             child: Row(
@@ -256,6 +286,15 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         ),
       );
       return listItem;
+    }
+    if (widget.withData == true){
+      for (var ktg in widget.listKategori) {
+        if (ktg.id == widget.walletAndKategori!['kategori'].id){
+          widget.data.kategoriTerplilih = ktg;
+          break;
+        }
+        widget.data.kategoriTerplilih = null;
+      }
     }
     widget.data.kategoriTerplilih ??= widget.listKategori[0];
     
@@ -370,7 +409,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
           ),
           const SizedBox(width: 10,),
           RatingBar.builder(
-            initialRating: 3,
+            initialRating: ratingPengeluaran,
             minRating: 1,
             direction: Axis.horizontal,
             allowHalfRating: true,
@@ -391,15 +430,97 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
     );
   }
 
+  List<Widget>? action (BuildContext context){
+    if (widget.withData == true){
+      return [
+          GestureDetector(
+            onTap: (){
+              KDialogInfo(
+                title: "Anda yakin?", 
+                info: "Data tidak bisa dikembalikan dan uang akan dikembalikan ke wallet", 
+                jenisPesan: Pesan.Konfirmasi,
+                action: [
+                  Row(
+                    children: [
+                      FilledButton(
+                        onPressed: () async {
+                          int exitCode = await SQLHelperPengeluaran().delete(widget.pengeluaran!.id, db: db.database);
+                          if (exitCode != -1){
+                            widget.callback();
+                            Navigator.pop(context);
+                            tampilkanSnackBar(context, jenisPesan: Pesan.Konfirmasi, msg: "data berhasil dihapus");
+                          } else {
+                            tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "something wrong...");
+                          }
+                        }, 
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Colors.red
+                        ),
+                        child: const Row(
+                          children: [
+                            Icon(Icons.check, color: Colors.white,),
+                            Text("Ok"),
+                          ],
+                        )
+                      ),
+                      const SizedBox(width: 10,),
+                      FilledButton(
+                        onPressed: (){
+                          Navigator.pop(context);
+                        }, 
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Colors.green
+                        ),
+                        child: const Row(
+                          children: [
+                            Icon(Icons.cancel, color: Colors.white,),
+                            Text("Batal"),
+                          ],
+                        )
+                      ),
+                    ],
+                  )
+                ]
+              ).tampilkanDialog(context);
+            },
+            child: const Padding(
+              padding: EdgeInsets.only(right: 25),
+              child: Icon(CupertinoIcons.delete),
+            ),
+          )
+        ];
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    controllerTanggal.text = formatTanggal(tanggalPengeluaran);
-    controllerWaktu.text = formatWaktu(jamPengeluaran);
-    controllerInfoRating.text = SQLModelPengeluaran.infoRating(ratingPengeluaran);
+    if (widget.withData == true){
+      controllerJudul.text = widget.pengeluaran!.judul;
+      controllerDeskripsi.text = widget.pengeluaran!.deskripsi;
+      controllerTanggal.text = formatTanggal(widget.pengeluaran!.waktu);
+      controllerWaktu.text = formatWaktu(TimeOfDay(hour: widget.pengeluaran!.waktu.hour, minute: widget.pengeluaran!.waktu.minute));
+      controllerJumlah.text = widget.pengeluaran!.nilai.toString();
+      controllerInfoRating.text = SQLModelPengeluaran.infoRating(widget.pengeluaran!.rating);
+      ratingPengeluaran = widget.pengeluaran!.rating;
+    }
+    else {
+      controllerTanggal.text = formatTanggal(tanggalPengeluaran);
+      controllerWaktu.text = formatWaktu(jamPengeluaran);
+      controllerInfoRating.text = SQLModelPengeluaran.infoRating(ratingPengeluaran);
+      ratingPengeluaran = 3;
+    }
 
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: KAppBar(backgroundColor: Colors.white, title: "Pengeluaran Baru", fontColor: ApplicationColors.primary).getWidget(),
+      backgroundColor: Colors.white,
+      appBar: KAppBar(
+        backgroundColor: Colors.white, 
+        title: widget.withData == true? "Detail Pengeluaran" : "Pengeluaran Baru", 
+        fontColor: ApplicationColors.primary,
+        action: action(context)
+      ).getWidget(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(

@@ -112,7 +112,6 @@ class SQLHelperPengeluaran {
     List<SQLModelPengeluaran> data = results.map((map) => SQLModelPengeluaran.fromMap(map)).toList();
     return data;
   }
-
   Future<List<SQLModelPengeluaran>> readWithClause({required String clause, required Database db}) async {
       final List<Map<String, dynamic>> results = await db.query(
         _tableName,
@@ -124,7 +123,6 @@ class SQLHelperPengeluaran {
       }
       return data;
   }
-
   Future<List<SQLModelPengeluaran>> readDataByMonth(int year, int month, {required Database db}) async {
     String formattedMonth = month < 10 ? '0$month' : '$month';
     String startDate = '$year-$formattedMonth-01';
@@ -137,7 +135,6 @@ class SQLHelperPengeluaran {
     List<SQLModelPengeluaran> data = results.map((map) => SQLModelPengeluaran.fromMap(map)).toList();
     return data;
   }
-
   Future<List<SQLModelPengeluaran>> readDataByDate(DateTime tanggal, {required Database db}) async {
     String formattedDate = tanggal.toIso8601String().substring(0, 10);
     List<Map<String, dynamic>> results = await db.rawQuery(
@@ -147,7 +144,6 @@ class SQLHelperPengeluaran {
     List<SQLModelPengeluaran> data = results.map((map) => SQLModelPengeluaran.fromMap(map)).toList();
     return data;
   }
-
   Future<List<SQLModelPengeluaran>> readDataByYear(int year, {required Database db}) async {
     List<Map<String, dynamic>> results = await db.rawQuery(
       "SELECT * FROM $_tableName WHERE strftime('%Y', waktu) = '$year'"
@@ -164,5 +160,16 @@ class SQLHelperPengeluaran {
       "INSERT INTO $_tableName(id_kategori, id_wallet, waktu, judul, deskripsi, nilai, rating) VALUES(?,?,?,?,?,?,? )", 
       [data.id_kategori, data.id_wallet, data.waktu.toIso8601String(), data.judul, data.deskripsi, data.nilai, data.rating]
     );
+  }
+
+  // DELETE METHOD
+  Future<int> delete(int id, {required Database db}) async {
+    return await db.delete(_tableName, where: "id = ?", whereArgs: [id]);
+  }
+
+  // UPDATE METHOD
+  Future<int> update(SQLModelPengeluaran newData, {required Database db}) async {
+    return await db.update(_tableName, newData.toMap(),
+        where: "id = ?", whereArgs: [newData.id]);
   }
 }

@@ -46,13 +46,15 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
         } else if (snapshot.hasError){
           return makeCenterWithRow(child: const Text("Sadly, something wrong..."));
         } else {
+          void callback(){
+            updateState();
+            HalamanBeranda.state.update();
+            HalamanPengeluaran.state.update();
+            HalamanWallet.state.update();
+          }
           return ListPengeluaran(
             listPengeluaran: snapshot.data!, 
-            callback: (){
-              setState(() {});
-              HalamanBeranda.state.update();
-              HalamanWallet.state.update();
-            }
+            callback: callback
           );
         }
       }

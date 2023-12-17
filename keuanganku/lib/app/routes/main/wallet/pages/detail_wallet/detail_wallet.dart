@@ -129,7 +129,15 @@ class _DetailWalletState extends State<DetailWallet> {
     return Column(
       children: [
         for(int i=0;i < listPengeluaran.length; i++)
-          KPengeluaranItem(pengeluaran: listPengeluaran[i]),
+          KPengeluaranItem(pengeluaran: listPengeluaran[i],
+          callback: () {
+            setState(() {
+              
+            });
+            HalamanBeranda.state.update();
+            HalamanWallet.state.update();
+            HalamanPengeluaran.state.update();
+          },),
       ],
     );
   }

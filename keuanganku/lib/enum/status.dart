@@ -3,5 +3,6 @@
 enum Pesan {
   Success,
   Error,
-  Warning
+  Warning,
+  Konfirmasi
 }

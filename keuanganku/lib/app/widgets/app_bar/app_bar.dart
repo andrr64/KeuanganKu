@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/widgets/app_bar/app_bar_title.dart';
 
@@ -10,7 +11,8 @@ class KAppBar {
     this.shadowColor,
     this.elevation,
     this.fontSize,
-    this.fontColor
+    this.fontColor,
+    this.action
   });
 
   Widget? leading;
@@ -21,6 +23,7 @@ class KAppBar {
   Color? fontColor;
   double? elevation = 0;
   double? fontSize;
+  List<Widget>? action;
 
   AppBar getWidget(){
     return AppBar(
@@ -30,6 +33,7 @@ class KAppBar {
       backgroundColor: backgroundColor,
       shadowColor: shadowColor,
       elevation: elevation,
+      actions: action,
     );
   }
 }

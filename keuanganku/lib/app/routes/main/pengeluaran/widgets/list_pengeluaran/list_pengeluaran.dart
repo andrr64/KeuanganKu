@@ -90,7 +90,7 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
               width: size.width  * 0.875,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal, 
-                child: KPengeluaranItem(pengeluaran: widget.listPengeluaran[i])
+                child: KPengeluaranItem(pengeluaran: widget.listPengeluaran[i], callback: widget.callback,)
               ),
             ),
           ),

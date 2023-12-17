@@ -57,6 +57,8 @@ class _HalamanWalletState extends State<HalamanWallet> {
       void callback(){
         updateState();
         HalamanBeranda.state.update();
+        HalamanPengeluaran.state.update();
+        HalamanWallet.state.update();
       }
       return FutureBuilder(
         future: SQLHelperWallet().readAll(db.database), 
