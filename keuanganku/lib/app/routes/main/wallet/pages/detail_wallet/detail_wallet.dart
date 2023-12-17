@@ -163,7 +163,7 @@ class _DetailWalletState extends State<DetailWallet> {
                           )));
                         },
                         title: "Tambah",
-                        icon: Icon(Icons.add)
+                        icon: const Icon(Icons.add)
                     ),
                     child: buildListPengeluaran(context, snapshot.data!)
                 );
