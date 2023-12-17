@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/distribusi/distribusi_transaksi.dart';
+import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/list_wallet/list_wallet.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/statistik/statistik.dart';
@@ -54,6 +55,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
     void callback(){
       updateState();
       HalamanWallet.state.update();
+      HalamanPengeluaran.state.update();
     }
 
     return FutureBuilder(
@@ -109,7 +111,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
                     getter: () => HalamanBeranda.widgetData.wxDataDistribusiTransaksi.getData(),
                   ),
                   const SizedBox(width: 25,),
-                ],
+                ],  
               ),
             )
           ),

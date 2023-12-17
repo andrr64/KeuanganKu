@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/widgets/bar_chart/data.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
@@ -11,12 +10,14 @@ import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/util/font_style.dart';
+import 'package:keuanganku/util/get_currency.dart';
 import 'package:keuanganku/util/search_algo.dart';
+import 'package:keuanganku/util/vector_operation.dart';
 
 class WidgetData{
   WaktuTransaksi waktuTransaksi = WaktuTransaksi.Mingguan;
   SortirTransaksi sortirTransaksi = SortirTransaksi.Terbaru;
-  
+  List<SQLModelExpense> dataPengeluaran = [];
   List<BarChartXY>? _dataBar(List<SQLModelExpense> data){
     List<BarChartXY> barChartMingguan(List<SQLModelExpense> listPengeluaran) {
       List<BarChartXY> result = [];
@@ -80,7 +81,7 @@ class WidgetData{
     }
 
   Future<ListBarChartXY?> get barChart async {
-    var dataPengeluaran = await SQLHelperExpense().readByWaktu(waktuTransaksi, db: db.database);
+    dataPengeluaran = await SQLHelperExpense().readByWaktu(waktuTransaksi, db: db.database);
     if (dataPengeluaran.isEmpty){
       return [];
     }
@@ -108,8 +109,14 @@ class Statistik extends StatelessWidget {
 
   FutureBuilder firstStep(Size size){
     const double kEmptyVerticalPadding = 0;
-    return FutureBuilder<ListBarChartXY?> (
-      future: widgetData.barChart, 
+    Future<Map<String, dynamic>> getData() async {
+      return {
+        'barChartData' : await widgetData.barChart,
+        'dataPengeluaran' : widgetData.dataPengeluaran
+      };
+    }
+    return FutureBuilder(
+      future: getData(), 
       builder: (_, snapshot){
         if (snapshot.connectionState == ConnectionState.waiting){
           return makeCenterWithRow(child: const CircularProgressIndicator());
@@ -124,19 +131,25 @@ class Statistik extends StatelessWidget {
                 )
               );     
           } else {
-            final maxY = findLargestValue(snapshot.data!.map((e) => e.yValue).toList());
+            final dataPengeluaran = snapshot.data!['dataPengeluaran'] as List<SQLModelExpense>;
+            final dataBarChart = snapshot.data!['barChartData'] as List<BarChartXY>;
+
+
+            final maxY = findLargestValue(dataBarChart.map((e) => e.yValue).toList());
+            final ratingAvg = sumList(dataPengeluaran.map((e) => e.rating).toList()) / dataPengeluaran.length;
+            final totalPengeluaran = sumList(dataPengeluaran.map((e) => e.nilai).toList());
+
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nec interdum arcu. In quis erat lacus. Praesent ac cursus arcu, quis congue libero. Praesent viverra laoreet tortor ut sagittis. Nunc iaculis neque ut interdum convallis. ",
-                  textAlign: TextAlign.justify,
-                  style: kFontStyle(fontSize: 14, family: "QuickSand_Medium"),
-                ),
                 dummyPadding(height: 25),
+                Text("Rating Rata-Rata: ${ratingAvg.toString()}", style: kFontStyle(fontSize: 14),),
+                Text("Total Pengeluaran: ${formatCurrency(totalPengeluaran)}", style: kFontStyle(fontSize: 15),),
+                dummyPadding(height: 20),
                 SizedBox(
                   width: size.width * 0.875,
                   height: 275,
-                  child: barChart(size: size, data: snapshot.data!, maxY: maxY)
+                  child: barChart(size: size, data: dataBarChart, maxY: maxY)
                 )
               ],
             );
@@ -179,7 +192,7 @@ class Statistik extends StatelessWidget {
                 x: e.xValue.toInt(), 
                 barRods: [
                   BarChartRodData(
-                    color: ApplicationColors.secondaryOrange,
+                    color: Colors.red,
                     borderRadius: BorderRadius.circular(5),
                     toY: e.yValue,
                     width: (size.width * 0.65) /data.length
