@@ -30,13 +30,12 @@ class KListPemasukan extends StatefulWidget {
 
 class KListPemasukanState extends State<KListPemasukan> {
   Widget buildBody(BuildContext context){
-    const int maxItems = 5;
     final size = MediaQuery.sizeOf(context);
     if (widget.listPemasukan.isEmpty){
       return const KEmpty();
     }
-    final moreThanMaxItems = widget.listPemasukan.length > maxItems;
-    final dataLength = moreThanMaxItems? maxItems : widget.listPemasukan.length;
+    final dataLength = widget.listPemasukan.length;
+
     return Column(
       children: [
         for(int i = 0; i < dataLength; i++) 
@@ -49,11 +48,6 @@ class KListPemasukanState extends State<KListPemasukan> {
           child: Column(
             children: [
               dummyPadding(height: 10),
-              KButton(
-                onTap: (){}, 
-                title: "Lihat Selengkapnya", 
-                icon: const Icon(Icons.more_horiz_outlined)
-              ),
             ],
           )
         )
@@ -97,17 +91,12 @@ class KListPemasukanState extends State<KListPemasukan> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
     final icon = SvgPicture.asset("assets/icons/pemasukan.svg");
-    return Padding(
-      padding: const EdgeInsets.only(left: 25),
-      child: KCard(
-        title: "Pemasukan",
-        icon: icon,
-        width: size.width * 0.875,
-        button: tombolTambahPemasukan(),
-        child: buildBody(context),
-      ),
+    return KCard(
+      title: "Pemasukan",
+      icon: icon,
+      button: tombolTambahPemasukan(),
+      child: buildBody(context),
     );
   }
 }
