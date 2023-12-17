@@ -94,9 +94,12 @@ class _HalamanWalletState extends State<HalamanWallet> {
           } else if (snapshot.hasError){
             return makeCenterWithRow(child: const Text("Sadly, something wrong..."));
           } else {
-            return KListPemasukan(
-              listPemasukan: snapshot.data!, 
-              callback: callback
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: KListPemasukan(
+                listPemasukan: snapshot.data!, 
+                callback: callback
+              ),
             );
           }
         }
