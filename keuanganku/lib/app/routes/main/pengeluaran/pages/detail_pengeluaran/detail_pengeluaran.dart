@@ -1,20 +1,18 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_data_pengeluaran/form_data_pengeluaran.dart';
 import 'package:keuanganku/database/model/data_kategori.dart';
 import 'package:keuanganku/database/model/data_pengeluaran.dart';
 import 'package:keuanganku/database/model/data_wallet.dart';
 
-class DialogDetailPengeluaran extends StatefulWidget {
-  const DialogDetailPengeluaran({super.key, required this.pengeluaran});
+class DetailPengeluaran extends StatefulWidget {
+  const DetailPengeluaran({super.key, required this.pengeluaran});
   final SQLModelPengeluaran pengeluaran;
 
   @override
-  State<DialogDetailPengeluaran> createState() => DetailDataPengeluaran();
+  State<DetailPengeluaran> createState() => _DetailPengeluaranState();
 }
 
-class DetailDataPengeluaran extends State<DialogDetailPengeluaran> {
+class _DetailPengeluaranState extends State<DetailPengeluaran> {
   Widget buildBody(BuildContext context){
     Future getData()  async {
       SQLModelWallet wallet = await widget.pengeluaran.wallet;
@@ -31,7 +29,7 @@ class DetailDataPengeluaran extends State<DialogDetailPengeluaran> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return Center(child: Text("Sadly, something wrong"));
+          return const Center(child: Text("Sadly, something wrong"));
         } else {
           return FormDataPengeluaran(
             listWallet: [snapshot.data!['wallet']],
