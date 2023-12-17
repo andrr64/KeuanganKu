@@ -149,12 +149,28 @@ class SQLHelperPemasukan {
     List<SQLModelPemasukan> data = results.map((map) => SQLModelPemasukan.fromMap(map)).toList();
     return data;
   }
+  
   // CREATE METHODS
   Future<int> insert(SQLModelPemasukan data, Database db) async {
     return 
     await db.rawInsert(
       "INSERT INTO $_tableName(id_kategori, id_wallet, waktu, judul, deskripsi, nilai) VALUES(?,?,?,?,?,?)", 
       [data.id_kategori, data.id_wallet, data.waktu.toIso8601String(), data.judul, data.deskripsi, data.nilai]
+    );
+  }
+
+  // DELETE METHOD
+  Future<int> delete(int id, Database db) async {
+    return await db.delete(_tableName, where: "id = ?", whereArgs: [id]);
+  }
+
+  // UPDATE METHOD
+  Future<int> update(SQLModelPemasukan data, Database db) async {
+    return await db.update(
+      _tableName,
+      data.toMap(),
+      where: "id = ?",
+      whereArgs: [data.id],
     );
   }
 }
