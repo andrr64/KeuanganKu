@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/font_style.dart';
