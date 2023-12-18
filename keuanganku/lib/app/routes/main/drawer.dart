@@ -57,14 +57,17 @@ class AppDrawer extends StatelessWidget {
                 builder: (_) => const Scaffold()));
             },
           ),
+          Divider(),
           const ListTile(
             leading: Icon(Icons.system_security_update), // Ikon di sebelah kiri
             title: Text('Pembaharuan'),
           ),
+          Divider(),
           const ListTile(
               leading: Icon(Icons.favorite), // Ikon di sebelah kiri
               title: Text('Donasi'),
           ),
+          Divider(),
         ],
       ),
     );
