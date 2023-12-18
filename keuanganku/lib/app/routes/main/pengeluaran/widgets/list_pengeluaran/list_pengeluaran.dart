@@ -88,10 +88,7 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
             padding: const EdgeInsets.only(bottom: 10),
             child: SizedBox(
               width: size.width  * 0.875,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal, 
-                child: KPengeluaranItem(pengeluaran: widget.listPengeluaran[i], callback: widget.callback,)
-              ),
+              child: KPengeluaranItem(pengeluaran: widget.listPengeluaran[i], callback: widget.callback,),
             ),
           ),
       ],
