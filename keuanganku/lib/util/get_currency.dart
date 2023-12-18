@@ -10,3 +10,12 @@ String formatCurrency(double total) {
 String percentageFormat(double prc) {
   return '${prc.toStringAsFixed(1)}%';
 }
+
+String toThousandK(double amount) {
+  if (amount >= 1000) {
+    double amountInK = amount / 1000;
+    return 'IDR ${amountInK.toString()}K';
+  } else {
+    return 'IDR ${amount.toString()}';
+  }
+}
