@@ -50,6 +50,7 @@ class KPemasukanItem extends StatelessWidget {
                           } 
                         ),
                         Text(truncateString(pemasukan.judul, 18, isEndWith: true, endWith: ".."), style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),),
+                        Text(pemasukan.formatWaktu(), style: kFontStyle(fontSize: 12, family: "QuickSand_Medium"),)
                       ],
                     ),
                   ],
@@ -62,7 +63,6 @@ class KPemasukanItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(formatCurrency(pemasukan.nilai), style: kFontStyle(fontSize: 15),),
-                        Text(pemasukan.formatWaktu(), style: kFontStyle(fontSize: 12, family: "QuickSand_Medium"),)
                       ],
                     ),
                     const SizedBox(width: 5,),
