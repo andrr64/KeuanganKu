@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_expense_limiter/form_expense_limiter.dart';
 import 'package:keuanganku/database/helper/expense.dart';
 import 'package:keuanganku/database/helper/expense_category.dart';
@@ -10,6 +9,7 @@ import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/font_style.dart';
+import 'package:keuanganku/util/generate_color.dart';
 import 'package:keuanganku/util/get_currency.dart';
 import 'package:keuanganku/util/vector_operation.dart';
 
@@ -70,7 +70,7 @@ class _ExpenseLimiterItemState extends State<ExpenseLimiterItem> {
                     ],
                   ),
                   Text(
-                      percentageFormat(snapshot.data['perbandingan'] * 100),
+                      percentageFormat(snapshot.data['perbandingan'] < 1.0 ? snapshot.data['perbandingan']  * 100 : 100),
                     style: kFontStyle(fontSize: 18),
                   )
                 ],
@@ -79,7 +79,15 @@ class _ExpenseLimiterItemState extends State<ExpenseLimiterItem> {
               LinearProgressIndicator(
                 value: snapshot.data!['perbandingan'],
                 backgroundColor: Colors.black26,
-                valueColor: const AlwaysStoppedAnimation<Color>(ApplicationColors.primary),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  mapValueToColor(
+                      snapshot.data['perbandingan'] < 1.0?
+                        snapshot.data['perbandingan'] <= 0?
+                          5.0 : (snapshot.data['perbandingan'] * 5)
+                          :
+                        1.0
+                  )
+                ),
               ),
             ],
           );
