@@ -15,13 +15,13 @@ class SQLModelExpenseLimiter {
     required this.kategori
   });
 
-  factory SQLModelExpenseLimiter.fromJson(Map<String, dynamic> json) {
+  factory SQLModelExpenseLimiter.fromJson(Map<String, dynamic> json, SQLModelCategory kategori) {
     return SQLModelExpenseLimiter(
       id: json['id'] as int,
       deskripsi: json['deskripsi'] as String,
       nilai: json['nilai'] as double,
       waktu: json['waktu'] as String,
-      kategori: SQLModelCategory.fromMap(json['kategori'] as Map<String, dynamic>),
+      kategori: kategori
     );
   }
 }

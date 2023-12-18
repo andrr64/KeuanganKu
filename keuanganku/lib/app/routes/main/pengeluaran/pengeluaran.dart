@@ -62,9 +62,16 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
     );
   }
   Widget listExpenseLimiter(){
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25),
-      child: ListExpenseLimiter()
+    void callback(){
+      setState(() {});
+      HalamanBeranda.state.update();
+      HalamanPengeluaran.state.update();
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: ListExpenseLimiter(
+        callback: callback,
+      )
     );
   }
 

@@ -149,7 +149,43 @@ class SQLHelperIncome {
     List<SQLModelIncome> data = results.map((map) => SQLModelIncome.fromMap(map)).toList();
     return data;
   }
-  
+  FutureListPemasukan readWeeklyByCategoryId(int categoryId, DateTime startDate, {required Database db, required SortirTransaksi sortirBy}) async {
+    // Hitung tanggal akhir, seminggu setelah tanggal awal
+    DateTime endDate = startDate.add(const Duration(days: 6));
+    
+    // Format tanggal ke format yang sesuai dengan format tanggal di database
+    String formattedStartDate = startDate.toIso8601String().substring(0, 10);
+    String formattedEndDate = endDate.toIso8601String().substring(0, 10);
+
+    // Gunakan enum SortirTransaksi untuk menentukan klausa ORDER BY
+    String sortirByClause;
+    switch (sortirBy) {
+      case SortirTransaksi.Terbaru:
+        sortirByClause = " ORDER BY waktu DESC";
+        break;
+      case SortirTransaksi.Terlama:
+        sortirByClause = " ORDER BY waktu ASC";
+        break;
+      case SortirTransaksi.Tertinggi:
+        sortirByClause = " ORDER BY waktu ASC";
+        break;
+      case SortirTransaksi.Terendah:
+        sortirByClause = " ORDER BY nilai DESC";
+        break;
+      default:
+        sortirByClause = ""; // Default tidak ada pengurutan
+    }
+
+    // Query database untuk mendapatkan data pemasukan dalam rentang waktu seminggu berdasarkan ID kategori
+    List<Map<String, dynamic>> results = await db.rawQuery(
+      "SELECT * FROM $_tableName WHERE id_kategori = $categoryId AND strftime('%Y-%m-%d', waktu) BETWEEN '$formattedStartDate' AND '$formattedEndDate'$sortirByClause"
+    );
+
+    // Konversi hasil query menjadi list model SQLModelPemasukan
+    List<SQLModelIncome> data = results.map((map) => SQLModelIncome.fromMap(map)).toList();
+    return data;
+  }
+
   // CREATE METHODS
   Future<int> insert(SQLModelIncome data, Database db) async {
     return 

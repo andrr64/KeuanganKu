@@ -94,6 +94,43 @@ class SQLHelperExpense {
   }
 
   // READ METHODS
+  Future<List<SQLModelExpense>> readWeeklyByCategoryId(int categoryId, DateTime startDate, {required Database db, required SortirTransaksi sortirBy}) async {
+    // Hitung tanggal akhir, seminggu setelah tanggal awal
+    DateTime endDate = startDate.add(const Duration(days: 6));
+    
+    // Format tanggal ke format yang sesuai dengan format tanggal di database
+    String formattedStartDate = startDate.toIso8601String().substring(0, 10);
+    String formattedEndDate = endDate.toIso8601String().substring(0, 10);
+
+    // Gunakan enum SortirTransaksi untuk menentukan klausa ORDER BY
+    String sortirByClause;
+    switch (sortirBy) {
+      case SortirTransaksi.Terbaru:
+        sortirByClause = " ORDER BY waktu DESC";
+        break;
+      case SortirTransaksi.Terlama:
+        sortirByClause = " ORDER BY waktu ASC";
+        break;
+      case SortirTransaksi.Tertinggi:
+        sortirByClause = " ORDER BY waktu ASC";
+        break;
+      case SortirTransaksi.Terendah:
+        sortirByClause = " ORDER BY nilai DESC";
+        break;
+      default:
+        sortirByClause = "ORDER BY id DESC"; // Default tidak ada pengurutan
+    }
+
+  // Query database untuk mendapatkan data pengeluaran dalam rentang waktu seminggu berdasarkan ID kategori
+  List<Map<String, dynamic>> results = await db.rawQuery(
+    "SELECT * FROM $_tableName WHERE id_kategori = $categoryId AND strftime('%Y-%m-%d', waktu) BETWEEN '$formattedStartDate' AND '$formattedEndDate'$sortirByClause"
+  );
+
+  // Konversi hasil query menjadi list model SQLModelPengeluaran
+  List<SQLModelExpense> data = results.map((map) => SQLModelExpense.fromMap(map)).toList();
+  return data;
+}
+
   Future<List<SQLModelExpense>> readByWalletId(int id, Database db) async {
     final results  = (await db.rawQuery("SELECT * FROM $_tableName WHERE id_wallet = ?", [id]));
     return results.map((e) => SQLModelExpense.fromMap(e)).toList();
@@ -104,7 +141,6 @@ class SQLHelperExpense {
     DateTime endDate = startDate.add(const Duration(days: 6)); // Minggu ini berakhir pada hari Minggu
     String formattedStartDate = startDate.toIso8601String().substring(0, 10);
     String formattedEndDate = endDate.toIso8601String().substring(0, 10);
-
     List<Map<String, dynamic>> results = await db.rawQuery(
       "SELECT * FROM $_tableName WHERE strftime('%Y-%m-%d', waktu) BETWEEN '$formattedStartDate' AND '$formattedEndDate'"
     );

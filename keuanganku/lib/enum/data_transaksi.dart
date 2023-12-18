@@ -15,6 +15,7 @@ enum WaktuTransaksi {
 }
 
 enum SortirTransaksi {
+  Default,
   Terbaru,
   Terlama,
   Tertinggi,

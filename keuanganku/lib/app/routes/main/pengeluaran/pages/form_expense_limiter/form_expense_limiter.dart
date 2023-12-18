@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/snack_bar.dart';
@@ -6,6 +8,7 @@ import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_dropdown_menu/k_drodpown_menu.dart';
 import 'package:keuanganku/app/widgets/k_textfield/ktext_field.dart';
 import 'package:keuanganku/database/helper/expense_category.dart';
+import 'package:keuanganku/database/helper/expense_limiter.dart';
 import 'package:keuanganku/database/model/category.dart';
 import 'package:keuanganku/database/model/expense_limiter.dart';
 import 'package:keuanganku/enum/status.dart';
@@ -17,10 +20,12 @@ class FormExpenseLimiter extends StatefulWidget {
   const FormExpenseLimiter({
     super.key, 
     required this.listCategory,
+    required this.callback,
     this.isWithData, 
-    this.expenseLimiter
+    this.expenseLimiter,
   });
-
+  
+  final VoidCallback callback;
   final bool? isWithData;
   final SQLModelExpenseLimiter? expenseLimiter;
   final List<SQLModelCategory> listCategory;
@@ -137,6 +142,36 @@ class _FormExpenseLimiterState extends State<FormExpenseLimiter> {
     );
   }
   Widget buttonAction(BuildContext context){
+  KEventHandler simpanData() async {
+    void validator(){
+      try {
+        double.tryParse(controllerNilai.text);
+      }  catch (invalidDouble){
+        
+      }
+    }
+    
+    validator();
+    
+    SQLModelExpenseLimiter limiterBaru = SQLModelExpenseLimiter(
+      id: -1, 
+      deskripsi: controllerDeskripsi.text, 
+      nilai: double.parse(controllerNilai.text), 
+      waktu: "Mingguan", 
+      kategori: kategoriTerpilih!
+    );
+    int exitCode = await SQLHelperExpenseLimiter().insert(limiterBaru, db: db.database);
+    if (exitCode != -1){
+      widget.callback();
+      Navigator.pop(context);
+      String pesan = "Data berhasil disimpan";
+      tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: pesan);
+    } else {
+      String pesan = "Sadly,something wrong...";
+      tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: pesan);
+    }
+  }
+   
     List<Widget> withDataButton(){
       return [
         KButton(
@@ -148,11 +183,10 @@ class _FormExpenseLimiterState extends State<FormExpenseLimiter> {
         )
       ];
     }
-
     List<Widget> withoutDataButton(){
       return [
         KButton(
-          onTap: (){}, 
+          onTap: simpanData, 
           title: "Simpan", 
           icon: const Icon(Icons.save, color: Colors.white,),
           color: Colors.white,
@@ -160,8 +194,8 @@ class _FormExpenseLimiterState extends State<FormExpenseLimiter> {
         )
       ];
     }
-
-    return Row(
+    
+   return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: widget.isWithData == true? withDataButton() : withoutDataButton()
@@ -173,31 +207,36 @@ class _FormExpenseLimiterState extends State<FormExpenseLimiter> {
     return Scaffold(
       appBar: KAppBar(title: "Limiter Baru", fontColor: ApplicationColors.primary, backgroundColor: Colors.white).getWidget(),
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 25,),
-            KTextField(
-              fieldController: controllerDeskripsi, 
-              fieldName: "Deskripsi",
-              icon: Icons.description, 
-              prefixIconColor: ApplicationColors.primary
-            ),
-            dummyPadding(height: 15),
-            KTextField(
-              fieldController: controllerDeskripsi, 
-              fieldName: "Jumlah",
-              icon: Icons.attach_money, 
-              prefixIconColor: ApplicationColors.primary,
-              keyboardType: TextInputType.number,
-            ),
-            dummyPadding(height: 15),
-            dropDownKategori(context),
-            dummyPadding(height: 15),
-            buttonAction(context)
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 25,),
+              TextFormField(
+                maxLines: 5,
+                controller: controllerDeskripsi,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  label: Text("Deskripsi"),
+                  border: OutlineInputBorder()
+                ),
+              ),
+              dummyPadding(height: 15),
+              KTextField(
+                fieldController: controllerNilai, 
+                fieldName: "Jumlah",
+                icon: Icons.attach_money, 
+                prefixIconColor: ApplicationColors.primary,
+                keyboardType: TextInputType.number,
+              ),
+              dummyPadding(height: 15),
+              dropDownKategori(context),
+              dummyPadding(height: 15),
+              buttonAction(context)
+            ],
+          ),
         ),
       ),
     );
