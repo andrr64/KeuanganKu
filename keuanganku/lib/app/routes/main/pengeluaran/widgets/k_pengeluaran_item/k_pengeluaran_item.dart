@@ -6,6 +6,7 @@ import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/app/widgets/k_future_builder/k_future.dart';
 import 'package:keuanganku/database/model/expense.dart';
 import 'package:keuanganku/util/font_style.dart';
+import 'package:keuanganku/util/generate_color.dart';
 import 'package:keuanganku/util/get_currency.dart';
 import 'package:keuanganku/util/string_operation.dart';
 
@@ -19,23 +20,6 @@ class KPengeluaranItem extends StatefulWidget {
 }
 
 class _KPengeluaranItemState extends State<KPengeluaranItem> {
-  Color mapValueToColor(double value) {
-    if (value == -1) {
-      return Colors.grey;
-    }
-    if (value < 1.0 || value > 5.0) {
-      throw ArgumentError('Nilai harus di antara 1 dan 5');
-    }
-
-    // Hitung nilai Hue untuk gradient dari merah ke hijau
-    double hue = (value - 1.0) / 4.0 * 120.0;
-
-    // Ubah nilai Hue menjadi warna menggunakan HSLColor
-    HSLColor color = HSLColor.fromAHSL(1.0, hue, 1.0, 0.5);
-
-    // Konversi HSLColor menjadi Color
-    return color.toColor();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +66,9 @@ class _KPengeluaranItemState extends State<KPengeluaranItem> {
                       buildWhenEmpty: () => const KEmpty(),
                       buildWhenError: () => const KEmpty()
                     ),
-                    Text(truncateString(widget.pengeluaran.judul, 15, isEndWith: true, endWith: "..."), style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),),
+                    Text(truncateString(widget.pengeluaran.judul, 15, isEndWith: true, endWith: "..."), style: kFontStyle(fontSize: 14, family: "QuickSand_Medium"),),
+                    Text(widget.pengeluaran.formatWaktu(), style: kFontStyle(fontSize: 12, family: "QuickSand_Medium"),)
+
                   ],
                 ),
               ),
@@ -93,7 +79,7 @@ class _KPengeluaranItemState extends State<KPengeluaranItem> {
               Text(formatCurrency(widget.pengeluaran.nilai), style: kFontStyle(fontSize: 15),),
               const SizedBox(width: 5,),
               const Icon(
-                CupertinoIcons.arrow_right,
+                Icons.arrow_forward_ios,
                 color: ApplicationColors.primary,
                 size: 15,
               )

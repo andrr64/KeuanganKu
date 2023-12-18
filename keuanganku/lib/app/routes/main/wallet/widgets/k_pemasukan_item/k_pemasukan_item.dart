@@ -49,7 +49,7 @@ class KPemasukanItem extends StatelessWidget {
                             return Text("...", style: kFontStyle(fontSize: 12, color: Colors.black45),);
                           } 
                         ),
-                        Text(truncateString(pemasukan.judul, 18, isEndWith: true, endWith: ".."), style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),),
+                        Text(truncateString(pemasukan.judul, 18, isEndWith: true, endWith: ".."), style: kFontStyle(fontSize: 14, family: "QuickSand_Medium"),),
                         Text(pemasukan.formatWaktu(), style: kFontStyle(fontSize: 12, family: "QuickSand_Medium"),)
                       ],
                     ),
@@ -67,7 +67,7 @@ class KPemasukanItem extends StatelessWidget {
                     ),
                     const SizedBox(width: 5,),
                     const Icon(
-                      CupertinoIcons.arrow_right,
+                      Icons.arrow_forward_ios,
                       color: ApplicationColors.primary,
                       size: 17.5,
                     )
