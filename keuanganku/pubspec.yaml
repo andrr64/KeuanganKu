@@ -38,6 +38,7 @@ flutter:
     - assets/icons/distribusi.svg
     - assets/icons/pengeluaran.svg
     - assets/icons/pemasukan.svg
+    - assets/icons/expense_limiter.svg
     
     - assets/lotties/animation/empty.json
     - assets/lotties/animation/empty1.json
