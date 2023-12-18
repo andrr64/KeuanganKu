@@ -19,8 +19,8 @@ class DatabaseService {
     SQLHelperExpense.createTable(db);
     SQLHelperIncome.createTable(db);
     SQLHelperWallet.createTable(db);
-    SQLHelperIncomeCategory.createTable(db: db);
     SQLHelperExpenseCategory.createTable(db: db);
+    SQLHelperIncomeCategory.createTable(db: db);
     SQLHelperExpenseLimiter.createTable(db.database);
   }
 

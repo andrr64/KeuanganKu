@@ -71,7 +71,7 @@ class KListPemasukanState extends State<KListPemasukan> {
       ).tampilkanDialog(context);
       return;
     }
-    List<SQLModelCategory> listKategori  = await SQLHelperExpenseCategory().readAll(db: db.database);
+    List<SQLModelCategory> listKategori  = await SQLHelperIncomeCategory().readAll(db: db.database);
 
     Navigator.push(
       context,

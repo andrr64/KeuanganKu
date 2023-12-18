@@ -144,7 +144,7 @@ class _DetailWalletState extends State<DetailWallet> {
                     button: KButton(
                         onTap: () async {
                           List<SQLModelWallet> listWallet = [widget.wallet];
-                          List<SQLModelCategory> listKategoriPemasukan = await SQLHelperIncomeCategory().readAll(db: db.database);
+                          List<SQLModelCategory> listKategoriPemasukan = await SQLHelperExpenseCategory().readAll(db: db.database);
                           Navigator.push(context, MaterialPageRoute(builder: (_) => FormDataPengeluaran(
                               listKategori: listKategoriPemasukan,
                               listWallet: listWallet,

@@ -392,7 +392,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
                               if (controllerNamaKategori.text.isEmpty){
                                 return;
                               }
-                              SQLHelperExpenseCategory().insert(
+                              SQLHelperIncomeCategory().insert(
                                 SQLModelCategory(
                                   id: -1, 
                                   judul: controllerNamaKategori.text

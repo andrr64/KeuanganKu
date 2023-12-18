@@ -334,7 +334,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
                             if (controllerNamaKategori.text.isEmpty){
                               return;
                             }
-                            SQLHelperIncomeCategory().insert(
+                            SQLHelperExpenseCategory().insert(
                               SQLModelCategory(
                                 id: -1, 
                                 judul: controllerNamaKategori.text

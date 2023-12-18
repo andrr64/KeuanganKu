@@ -10,7 +10,7 @@ class Data {
   Future<Map<String, dynamic>> getWalletDanKategori() async {
     return {
       'listWallet' : await SQLHelperWallet().readAll(db.database),
-      'listKategori': await SQLHelperExpenseCategory().readAll(db: db.database),
+      'listKategori': await SQLHelperIncomeCategory().readAll(db: db.database),
     };
   }
 }

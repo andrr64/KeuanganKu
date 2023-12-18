@@ -123,7 +123,7 @@ class Statistik extends StatelessWidget {
         } else if (snapshot.hasError){
           return makeCenterWithRow(child: const Text("Sadly, something wrong..."));
         } else {
-          if (snapshot.data!.isEmpty || snapshot.data == null){
+          if (snapshot.data!['barChartData'].isEmpty || snapshot.data == null){
             return makeCenterWithRow(
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: kEmptyVerticalPadding),

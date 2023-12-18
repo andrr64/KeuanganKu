@@ -113,7 +113,7 @@ class SQLModelExpense {
   }
 
   Future<SQLModelCategory> get kategori async {
-    return await SQLHelperIncomeCategory().readById(id_kategori, db: db.database);
+    return await SQLHelperExpenseCategory().readById(id_kategori, db: db.database);
   }
 
   Future<SQLModelWallet> get wallet async {

@@ -74,7 +74,7 @@ class SQLModelIncome {
     return await SQLHelperWallet().readById(id_wallet, db: db.database);
   }
   Future<SQLModelCategory> get kategori async {
-    return await SQLHelperExpenseCategory().readById(id_kategori, db: db.database);
+    return await SQLHelperIncomeCategory().readById(id_kategori, db: db.database);
   }
   static SQLModelIncome fromMap(Map<String, dynamic> map) {
     return SQLModelIncome(

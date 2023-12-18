@@ -47,7 +47,7 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
       return;}
 
     bool dataBaruDisimpan = false;
-    List<SQLModelCategory> listKategori = await SQLHelperIncomeCategory().readAll(db: db.database);
+    List<SQLModelCategory> listKategori = await SQLHelperExpenseCategory().readAll(db: db.database);
     Navigator.push(
       context, 
       MaterialPageRoute(

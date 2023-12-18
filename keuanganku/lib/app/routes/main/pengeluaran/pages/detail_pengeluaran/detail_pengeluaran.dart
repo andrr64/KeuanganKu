@@ -19,7 +19,7 @@ class _DetailPengeluaranState extends State<DetailPengeluaran> {
   Widget buildBody(BuildContext context){
     Future getData()  async {
       List<SQLModelWallet> wallet = await SQLHelperWallet().readAll(db.database);
-      List<SQLModelCategory> kategori = await SQLHelperIncomeCategory().readAll(db: db.database);
+      List<SQLModelCategory> kategori = await SQLHelperExpenseCategory().readAll(db: db.database);
       return {
         'wallet': wallet,
         'kategori': kategori,
