@@ -3,6 +3,7 @@ import 'package:keuanganku/database/helper/expense_limiter.dart';
 import 'package:keuanganku/database/helper/income.dart';
 import 'package:keuanganku/database/helper/expense.dart';
 import 'package:keuanganku/database/helper/income_category.dart';
+import 'package:keuanganku/database/helper/user_data.dart';
 import 'package:keuanganku/database/helper/wallet.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -22,6 +23,7 @@ class DatabaseService {
     SQLHelperExpenseCategory.createTable(db: db);
     SQLHelperIncomeCategory.createTable(db: db);
     SQLHelperExpenseLimiter.createTable(db.database);
+    SQLHelperUserData.createTable(db.database);
   }
 
   /// Panggil fungsi ini untuk satu kali saja disaat inisialisasi database
