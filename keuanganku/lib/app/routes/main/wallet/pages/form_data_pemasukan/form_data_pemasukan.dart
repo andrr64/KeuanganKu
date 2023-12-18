@@ -360,69 +360,72 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
     }
     widget.data.kategoriTerpilih ??= widget.listKategori[0];
     
-    return IntrinsicWidth(
-      child: KDropdownMenu<SQLModelCategory>(
-        items: items(), 
-        onChanged: (val){
-          if (val!.id == 0){
-            bool newCategoryCreated = false;
-            showDialog(context: context, builder: (dialogContext){
-              TextEditingController controllerNamaKategori = TextEditingController();
-              return AlertDialog(
-                contentPadding: const EdgeInsets.all(25.0), // Sesuaikan dengan kebutuhan Anda
-                backgroundColor: Colors.white,
-                title: const Text("Kategori Baru"),
-                content: IntrinsicHeight(
-                  child: SizedBox(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        KTextField(
-                          fieldController: controllerNamaKategori, 
-                          fieldName: "Judul", 
-                          prefixIconColor: ApplicationColors.primary,
-                          icon: Icons.title,
-                        ),
-                        dummyPadding(height: 15),
-                        KButton(
-                          onTap: () {
-                            if (controllerNamaKategori.text.isEmpty){
-                              return;
-                            }
-                            SQLHelperExpenseCategory().insert(
-                              SQLModelCategory(
-                                id: -1, 
-                                judul: controllerNamaKategori.text
-                              ), 
-                              db: db.database
-                            );
-                            newCategoryCreated = true;
-                            Navigator.pop(dialogContext);
-                          }, 
-                          color: Colors.white,
-                          bgColor: Colors.green,
-                          title: "Simpan", 
-                          icon: const Icon(Icons.save, color: Colors.white,)
-                        ),
-                      ],
+    return Padding(
+      padding: const EdgeInsets.only(left: 25),
+      child: IntrinsicWidth(
+        child: KDropdownMenu<SQLModelCategory>(
+          items: items(), 
+          onChanged: (val){
+            if (val!.id == 0){
+              bool newCategoryCreated = false;
+              showDialog(context: context, builder: (dialogContext){
+                TextEditingController controllerNamaKategori = TextEditingController();
+                return AlertDialog(
+                  contentPadding: const EdgeInsets.all(25.0), // Sesuaikan dengan kebutuhan Anda
+                  backgroundColor: Colors.white,
+                  title: const Text("Kategori Baru"),
+                  content: IntrinsicHeight(
+                    child: SizedBox(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          KTextField(
+                            fieldController: controllerNamaKategori, 
+                            fieldName: "Judul", 
+                            prefixIconColor: ApplicationColors.primary,
+                            icon: Icons.title,
+                          ),
+                          dummyPadding(height: 15),
+                          KButton(
+                            onTap: () {
+                              if (controllerNamaKategori.text.isEmpty){
+                                return;
+                              }
+                              SQLHelperExpenseCategory().insert(
+                                SQLModelCategory(
+                                  id: -1, 
+                                  judul: controllerNamaKategori.text
+                                ), 
+                                db: db.database
+                              );
+                              newCategoryCreated = true;
+                              Navigator.pop(dialogContext);
+                            }, 
+                            color: Colors.white,
+                            bgColor: Colors.green,
+                            title: "Simpan", 
+                            icon: const Icon(Icons.save, color: Colors.white,)
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            }).then((value){
-              if (newCategoryCreated){
-                tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Kategori baru berhasil ditambahkan");
-                Navigator.pop(context);
-              }
-            });
-            return;
-          }
-          widget.data.kategoriTerpilih = val;
-        }, 
-        value: widget.data.kategoriTerpilih!, 
-        labelText: "Kategori",
-      ).getWidget(),
+                );
+              }).then((value){
+                if (newCategoryCreated){
+                  tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Kategori baru berhasil ditambahkan");
+                  Navigator.pop(context);
+                }
+              });
+              return;
+            }
+            widget.data.kategoriTerpilih = val;
+          }, 
+          value: widget.data.kategoriTerpilih!, 
+          labelText: "Kategori",
+        ).getWidget(),
+      ),
     );
   }
   Widget buttonClear(){
@@ -513,6 +516,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             dummyPadding(height: 15),
             fieldJudul(),
@@ -529,9 +533,10 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
               children: [
                 fieldJam(context, size),
                 const SizedBox(width: 15,),
-                dropDownKategori(context),
               ],
             ),
+            dummyPadding(height: 20),
+            dropDownKategori(context),
             dummyPadding(height: 20),
             Row(
               children: [
