@@ -47,4 +47,21 @@ class SQLHelperExpenseLimiter {
     await db.execute(sqlCreateQuery);
   }
   static List<Map<String, dynamic>> defaultData = [];
+
+
+  Future<List<Map<String, dynamic>>> readAll(Database db) async {
+    return await db.query(_tableName);
+  }
+
+  Future<int> insert(Map<String, dynamic> data, {required Database db}) async {
+    return await db.insert(_tableName, data);
+  }
+
+  Future<int> update(Map<String, dynamic> newData, int id, {required Database db}) async {
+    return await db.update(_tableName, newData, where: "id = ?", whereArgs: [id]);
+  }
+
+  Future<int> delete(int id, {required Database db}) async {
+    return await db.delete(_tableName, where: "id = ?", whereArgs: [id]);
+  }
 }
