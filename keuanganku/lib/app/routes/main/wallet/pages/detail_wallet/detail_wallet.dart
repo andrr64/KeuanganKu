@@ -222,7 +222,7 @@ class _DetailWalletState extends State<DetailWallet> {
             listPengeluaran(context),
             dummyPadding(height: 25),
             buildDistribusiPengeluaran(context),
-            dummyPadding(height: 100)
+            dummyPadding(height: 25)
           ],
         ),
       ),
