@@ -35,12 +35,25 @@ class _ExpenseLimiterItemState extends State<ExpenseLimiterItem> {
         DateTime.now(), db: db.database, sortirBy: SortirTransaksi.Default
       );
     double totalPengeluaran = sumList(listPengeluaranKategoriIni.map((e) => e.nilai).toList());
+    double perbandingan = ((totalPengeluaran == 0) ? 0:  totalPengeluaran / widget.limiter.nilai).toDouble();
     return {
       'listPengeluaran': listPengeluaranKategoriIni,
       'totalPengeluaran': totalPengeluaran,
-      'perbandingan': ((totalPengeluaran == 0) ? 0:  totalPengeluaran / widget.limiter.nilai).toDouble(),
+      'perbandingan': perbandingan,
     };
   }
+
+double getMapColorValue(double perbandingan) {
+  if (perbandingan == 0){
+    return 5;
+  } else if (perbandingan >= 1){
+    return 1;
+  } else {
+    double x = perbandingan * 5;
+    print(x);
+    return 5 - x;
+  }
+}
 
   Widget  getItem(){
     return FutureBuilder(
@@ -49,7 +62,7 @@ class _ExpenseLimiterItemState extends State<ExpenseLimiterItem> {
         if (snapshot.connectionState == ConnectionState.waiting){
           return makeCenterWithRow(child: const CircularProgressIndicator());
         } else if (snapshot.hasError){
-          return makeCenterWithRow(child: Text("Sadly somethign wrong"));
+          return makeCenterWithRow(child: Text("Sadly something wrong"));
         } else {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,13 +93,7 @@ class _ExpenseLimiterItemState extends State<ExpenseLimiterItem> {
                 value: snapshot.data!['perbandingan'],
                 backgroundColor: Colors.black26,
                 valueColor: AlwaysStoppedAnimation<Color>(
-                  mapValueToColor(
-                      snapshot.data['perbandingan'] < 1.0?
-                        snapshot.data['perbandingan'] <= 0?
-                          5.0 : (snapshot.data['perbandingan'] * 5)
-                          :
-                        1.0
-                  )
+                  mapValueToColor(getMapColorValue(snapshot.data!['perbandingan']))
                 ),
               ),
             ],
