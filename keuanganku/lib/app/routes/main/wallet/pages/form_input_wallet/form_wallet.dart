@@ -144,13 +144,13 @@ class _FormWalletState extends State<FormWallet> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            dummyPadding(height: 25),
+            dummyHeight(height: 25),
             fieldJudul(),
-            dummyPadding(height: 25),
+            dummyHeight(height: 25),
             fieldJumlahUang(),
-            dummyPadding(height: 25),
+            dummyHeight(height: 25),
             dropDownTipeWallet(),
-            dummyPadding(height: 25),
+            dummyHeight(height: 25),
             Row(
               children: [
                 buttonSimpan(),

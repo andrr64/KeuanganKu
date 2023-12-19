@@ -218,11 +218,11 @@ class _DetailWalletState extends State<DetailWallet> {
           children: [
             ringkasanWallet(context),
             listPemasukan(context),
-            dummyPadding(height: 25),
+            dummyHeight(height: 25),
             listPengeluaran(context),
-            dummyPadding(height: 25),
+            dummyHeight(height: 25),
             buildDistribusiPengeluaran(context),
-            dummyPadding(height: 25)
+            dummyHeight(height: 25)
           ],
         ),
       ),

@@ -101,7 +101,7 @@ class _FormExpenseLimiterState extends State<FormExpenseLimiter> {
                           prefixIconColor: ApplicationColors.primary,
                           icon: Icons.title,
                         ),
-                        dummyPadding(height: 15),
+                        dummyHeight(height: 15),
                         KButton(
                           onTap: () {
                             if (controllerNamaKategori.text.isEmpty){
@@ -224,7 +224,7 @@ class _FormExpenseLimiterState extends State<FormExpenseLimiter> {
                   border: OutlineInputBorder()
                 ),
               ),
-              dummyPadding(height: 15),
+              dummyHeight(height: 15),
               KTextField(
                 fieldController: controllerNilai, 
                 fieldName: "Jumlah",
@@ -232,9 +232,9 @@ class _FormExpenseLimiterState extends State<FormExpenseLimiter> {
                 prefixIconColor: ApplicationColors.primary,
                 keyboardType: TextInputType.number,
               ),
-              dummyPadding(height: 15),
+              dummyHeight(height: 15),
               dropDownKategori(context),
-              dummyPadding(height: 15),
+              dummyHeight(height: 15),
               buttonAction(context)
             ],
           ),

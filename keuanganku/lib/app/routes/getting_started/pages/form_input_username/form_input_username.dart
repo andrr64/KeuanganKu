@@ -35,14 +35,14 @@ class _FormInputUsernameState extends State<FormInputUsername> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Hai, boleh kenalan gak?", style: kFontStyle(fontSize: 20),),
-            dummyPadding(height: 15),
+            dummyHeight(height: 15),
             KTextField(
               fieldController: controllerUsername, 
               fieldName: "Nama", 
               prefixIconColor: ApplicationColors.primary,
               icon: CupertinoIcons.person_crop_circle,
             ),
-            dummyPadding(height: 15),
+            dummyHeight(height: 15),
             KButton(
               onTap: () async {
                 if (controllerUsername.text.isEmpty){

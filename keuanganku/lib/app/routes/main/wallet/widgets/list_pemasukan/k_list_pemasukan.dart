@@ -44,7 +44,7 @@ class KListPemasukanState extends State<KListPemasukan> {
         makeCenterWithRow(
           child: Column(
             children: [
-              dummyPadding(height: 10),
+              dummyHeight(height: 10),
             ],
           )
         )

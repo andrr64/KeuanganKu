@@ -87,16 +87,16 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            dummyPadding(height: 50),
+            dummyHeight(height: 50),
             KPageAppBar(
               title: "Pengeluaran", 
               menuButton: drawerButton()
             ),
-            dummyPadding(height: 15),
+            dummyHeight(height: 15),
             listPengeluaran(),
-            dummyPadding(height: 15),
+            dummyHeight(height: 15),
             listExpenseLimiter(),
-            dummyPadding(height: 15)
+            dummyHeight(height: 15)
           ],
         ),
       )

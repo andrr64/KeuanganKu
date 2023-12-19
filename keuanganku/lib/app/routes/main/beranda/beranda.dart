@@ -116,13 +116,13 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          dummyPadding(height: 50),
+          dummyHeight(height: 50),
           KPageAppBar(title: "Beranda", menuButton: drawerButton(),),
-          dummyPadding(height: paddingBottom),
+          dummyHeight(height: paddingBottom),
           getUsername(),
-          dummyPadding(height: paddingBottom),
+          dummyHeight(height: paddingBottom),
           listWallet(),
-          dummyPadding(height: paddingBottom),
+          dummyHeight(height: paddingBottom),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: IntrinsicWidth(
@@ -143,12 +143,12 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
               ),
             )
           ),
-          dummyPadding(height: paddingBottom),
+          dummyHeight(height: paddingBottom),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: ListExpenseLimiter(callback: callback),
           ),
-          dummyPadding(height: 25),
+          dummyHeight(height: 25),
         ]
       ),
     );

@@ -56,7 +56,7 @@ class KCard extends StatelessWidget {
                   button?? const SizedBox()
                 ],
               ),
-              dummyPadding(),
+              dummyHeight(),
               child
             ],
           ),

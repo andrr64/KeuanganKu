@@ -387,7 +387,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
                             prefixIconColor: ApplicationColors.primary,
                             icon: Icons.title,
                           ),
-                          dummyPadding(height: 15),
+                          dummyHeight(height: 15),
                           KButton(
                             onTap: () {
                               if (controllerNamaKategori.text.isEmpty){
@@ -519,32 +519,32 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            dummyPadding(height: 15),
+            dummyHeight(height: 15),
             fieldJudul(),
-            dummyPadding(height: 20),
+            dummyHeight(height: 20),
             fieldJumlah(),
-            dummyPadding(height: 20),
+            dummyHeight(height: 20),
             fieldDeskripsi(),
-            dummyPadding(height: 20),
+            dummyHeight(height: 20),
             dropDownMenuWallet(),
-            dummyPadding(height: 20),
+            dummyHeight(height: 20),
             fieldTanggal(context, size),
-            dummyPadding(height: 20),
+            dummyHeight(height: 20),
             Row(
               children: [
                 fieldJam(context, size),
                 const SizedBox(width: 15,),
               ],
             ),
-            dummyPadding(height: 20),
+            dummyHeight(height: 20),
             dropDownKategori(context),
-            dummyPadding(height: 20),
+            dummyHeight(height: 20),
             Row(
               children: [
                 widget.isWithData == true? buttonUpdate(context) : buttonSimpan(context, size),
               ],
             ),
-            dummyPadding(height: 50)
+            dummyHeight(height: 50)
           ]
         ),
       )

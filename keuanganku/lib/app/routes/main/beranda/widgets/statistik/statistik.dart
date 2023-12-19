@@ -146,10 +146,10 @@ class Statistik extends StatelessWidget {
                   style: kFontStyle(
                     fontSize: 14,),
                 ),
-                dummyPadding(height: 15),
+                dummyHeight(height: 15),
                 Text("Rating Rata-Rata: ${ratingAvg.toStringAsFixed(1)}", style: kFontStyle(fontSize: 14,family: "QuickSand_Mediu"),),
                 Text("Total Pengeluaran: ${formatCurrency(totalPengeluaran)}", style: kFontStyle(fontSize: 14,family: "QuickSand_Mediu"),),
-                dummyPadding(height: 20),
+                dummyHeight(height: 20),
                 SizedBox(
                   width: size.width * 0.875,
                   height: 275,
