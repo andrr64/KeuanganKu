@@ -76,4 +76,12 @@ class SQLHelperUserData {
       whereArgs: [userId],
     );
   }
+  Future<int> updateById(Database db, int userId, SQLModelUserdata updatedUserData) async {
+  return await db.update(
+    _tableName,
+    updatedUserData.toJson(),
+    where: "id = ?",
+    whereArgs: [userId],
+  );
+}
 }
