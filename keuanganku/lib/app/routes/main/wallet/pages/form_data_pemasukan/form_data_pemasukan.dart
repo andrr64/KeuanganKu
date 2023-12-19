@@ -19,6 +19,7 @@ import 'package:keuanganku/database/model/income.dart';
 import 'package:keuanganku/database/model/expense.dart';
 import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/enum/status.dart';
+import 'package:keuanganku/k_typedef.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/date_util.dart';
 import 'package:keuanganku/util/dummy.dart';
@@ -58,12 +59,12 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
   TextEditingController controllerDeskripsi = TextEditingController();
   TextEditingController controllerInfoRating = TextEditingController();
   
-  DateTime tanggalPengeluaran = DateTime.now();
+  DateTime  tanggalPengeluaran = DateTime.now();
   TimeOfDay jamPengeluaran = TimeOfDay.now();
-  double ratingPengeluaran = 3;
+  double    ratingPengeluaran = 3;
 
   // Events
-  KEventHandler simpanData(BuildContext context, Size size) {
+  KEventHandler   simpanData          (BuildContext context, Size size) {
     Future memprosesData() async{
       // Validator
       try {
@@ -108,7 +109,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
       widget.callback();
     });
   }
-  KEventHandler updateData(BuildContext context){
+  KEventHandler   updateData          (BuildContext context){
     try {
       double.tryParse(controllerJumlah.text)!;
     } catch (invalidDouble){
@@ -140,7 +141,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
       widget.callback();
     });
   }
-  KEventHandler hapusData(BuildContext context) {
+  KEventHandler   hapusData           (BuildContext context) {
     if (widget.pemasukan == null) {
       return;
     }
@@ -179,9 +180,62 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
       },
     );
   }
+  KVoidValidator  isWithDataValidator (){
+    if (widget.isWithData == true){
+      controllerDeskripsi.text = widget.pemasukan!.deskripsi;
+      controllerJudul.text = widget.pemasukan!.judul;
+      controllerJumlah.text = widget.pemasukan!.nilai.toString();
+      tanggalPengeluaran = widget.pemasukan!.waktu;
+      jamPengeluaran = TimeOfDay.fromDateTime(widget.pemasukan!.waktu);
+
+      // Set value for dropdown menus
+      controllerTanggal.text = formatTanggal(tanggalPengeluaran);
+      controllerWaktu.text = formatWaktu(jamPengeluaran);
+    }
+  }
   
   // Widgets
-  Widget heading(){
+  List<KWidget>   buttonAction        (BuildContext context){
+    return [
+      GestureDetector(
+        onTap: (){
+          hapusData(context);
+        },
+        child: const Icon(CupertinoIcons.delete),
+      ),
+      const SizedBox(width: 25,)
+    ];
+  }
+  KWidget         buttonUpdate        (BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.only(left: 25, right: 10),
+      child: KButton(
+        onTap: (){
+          updateData(context);
+        }, 
+        title: "Update", 
+        color: Colors.white,
+        bgColor: ApplicationColors.primary,
+        icon: const Icon(CupertinoIcons.upload_circle, color: Colors.white,),
+      ),
+    );
+  }
+  KWidget         buttonSimpan        (BuildContext context, Size size){
+    return
+    Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: KButton(
+        onTap: (){
+          simpanData(context, size);
+        },
+        title: "Simpan", 
+        icon: const Icon(Icons.save, color: Colors.white,),
+        color: Colors.white,
+        bgColor: Colors.green,
+      ),
+    );
+  }
+  KWidget         heading             (){
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -201,94 +255,113 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
       ],
     );
   }
-  Widget fieldJudul(){
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: KTextField(
-        fieldController: controllerJudul, 
-        fieldName: "Judul", 
-        icon: Icons.title_sharp,
-        prefixIconColor: ApplicationColors.primary  ),
-    );
-  }
-  Widget fieldJumlah(){
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: KTextField(
-        fieldController: controllerJumlah, 
-        fieldName: "Jumlah", 
-        icon: Icons.attach_money,
-        keyboardType: TextInputType.number,
-        prefixIconColor: ApplicationColors.primary),
-    );
-  }
-  Widget fieldDeskripsi() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: TextFormField(
-        controller: controllerDeskripsi,
-        maxLines: 5, // Sesuaikan dengan jumlah baris yang diinginkan
-        decoration: const InputDecoration(
-          label: Text("Deskripsi"),
-          border: OutlineInputBorder()
+  KFormWidget     dropDownKategori    (BuildContext context){
+      if (widget.isWithData == true){
+        for(var x in widget.listKategori){
+          if (x.id == widget.pemasukan!.id_kategori){
+            widget.data.kategoriTerpilih = x;
+            break;
+          }
+        }
+      } else {
+        widget.data.kategoriTerpilih = widget.listKategori[0];
+      }
+      List<DropdownMenuItem<SQLModelCategory>> items (){
+        List<DropdownMenuItem<SQLModelCategory>> listItem = widget.listKategori.map((kategori){
+            return DropdownMenuItem<SQLModelCategory>(
+              value: kategori,
+              child: Text(kategori.judul, style: kFontStyle(fontSize: 16, family: "QuickSand_Medium"),),
+            );
+          }).toList();
+        listItem.add(
+          DropdownMenuItem<SQLModelCategory>(
+            value: SQLModelCategory(id: 0, judul: "Tambah Kategori"),
+            child: Row(
+              children: [
+                const Icon(Icons.add), 
+                const SizedBox(width: 10,), 
+                Text("Tambah Kategori", 
+                style: kFontStyle(
+                  fontSize: 16, 
+                  family: "QuickSand_Medium"),
+                )
+              ],
+            )
+          ),
+        );
+        return listItem;
+      }
+      widget.data.kategoriTerpilih ??= widget.listKategori[0];
+      
+      return Padding(
+        padding: const EdgeInsets.only(left: 25),
+        child: IntrinsicWidth(
+          child: KDropdownMenu<SQLModelCategory>(
+            items: items(), 
+            onChanged: (val){
+              if (val!.id == 0){
+                bool newCategoryCreated = false;
+                showDialog(context: context, builder: (dialogContext){
+                  TextEditingController controllerNamaKategori = TextEditingController();
+                  return AlertDialog(
+                    contentPadding: const EdgeInsets.all(25.0), // Sesuaikan dengan kebutuhan Anda
+                    backgroundColor: Colors.white,
+                    title: const Text("Kategori Baru"),
+                    content: IntrinsicHeight(
+                      child: SizedBox(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            KTextField(
+                              fieldController: controllerNamaKategori, 
+                              fieldName: "Judul", 
+                              prefixIconColor: ApplicationColors.primary,
+                              icon: Icons.title,
+                            ),
+                            dummyHeight(height: 15),
+                            KButton(
+                              onTap: () {
+                                if (controllerNamaKategori.text.isEmpty){
+                                  return;
+                                }
+                                SQLHelperIncomeCategory().insert(
+                                  SQLModelCategory(
+                                    id: -1, 
+                                    judul: controllerNamaKategori.text
+                                  ), 
+                                  db: db.database
+                                );
+                                newCategoryCreated = true;
+                                Navigator.pop(dialogContext);
+                              }, 
+                              color: Colors.white,
+                              bgColor: Colors.green,
+                              title: "Simpan", 
+                              icon: const Icon(Icons.save, color: Colors.white,)
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }).then((value){
+                  if (newCategoryCreated){
+                    tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Kategori baru berhasil ditambahkan");
+                    Navigator.pop(context);
+                  }
+                });
+                return;
+              }
+              widget.data.kategoriTerpilih = val;
+            }, 
+            value: widget.data.kategoriTerpilih!, 
+            labelText: "Kategori",
+          ).getWidget(),
         ),
-      ),
-    );
-  }
-  Widget fieldTanggal(BuildContext context, Size size){
-    return Padding(
-      padding: const EdgeInsets.only(left: 25),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 240,
-            child: KTextField(
-              fieldController: controllerTanggal, 
-              fieldName: "Tanggal", 
-              readOnly: true,
-              prefixIconColor: ApplicationColors.primary,
-              icon: Icons.calendar_month,
-              onTap: () async {
-                tanggalPengeluaran = await tampilkanDatePicker(
-                  context: context,
-                  waktuAwal: DateTime(2000),
-                  waktuAkhir: DateTime.now(),
-                  waktuInisialisasi: tanggalPengeluaran
-                );
-                controllerTanggal.text = formatTanggal(tanggalPengeluaran);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-  Widget fieldJam(BuildContext context, Size size){
-    return Padding(
-      padding: const EdgeInsets.only(left: 25),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 125,
-            child: KTextField(
-              fieldController: controllerWaktu, 
-              fieldName: "Jam", 
-              readOnly: true,
-              prefixIconColor: ApplicationColors.primary,
-              icon: Icons.alarm,
-              onTap: () async {
-                jamPengeluaran = await tampilkanTimePicker(context: context, waktu: jamPengeluaran);
-                controllerWaktu.text = formatWaktu(jamPengeluaran);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-  Widget dropDownMenuWallet(){
+      );
+    }
+  KFormWidget     dropDownMenuWallet  (){
     if (widget.isWithData == true){
       for (var wallet in widget.listWallet) {
         if (wallet.id == widget.pemasukan!.id_wallet){
@@ -323,182 +396,102 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
       ).getWidget(),
     );
   }
-  Widget dropDownKategori(BuildContext context){
-    if (widget.isWithData == true){
-      for(var x in widget.listKategori){
-        if (x.id == widget.pemasukan!.id_kategori){
-          widget.data.kategoriTerpilih = x;
-          break;
-        }
-      }
-    } else {
-      widget.data.kategoriTerpilih = widget.listKategori[0];
-    }
-    List<DropdownMenuItem<SQLModelCategory>> items (){
-      List<DropdownMenuItem<SQLModelCategory>> listItem = widget.listKategori.map((kategori){
-          return DropdownMenuItem<SQLModelCategory>(
-            value: kategori,
-            child: Text(kategori.judul, style: kFontStyle(fontSize: 16, family: "QuickSand_Medium"),),
-          );
-        }).toList();
-      listItem.add(
-        DropdownMenuItem<SQLModelCategory>(
-          value: SQLModelCategory(id: 0, judul: "Tambah Kategori"),
-          child: Row(
-            children: [
-              const Icon(Icons.add), 
-              const SizedBox(width: 10,), 
-              Text("Tambah Kategori", 
-              style: kFontStyle(
-                fontSize: 16, 
-                family: "QuickSand_Medium"),
-              )
-            ],
-          )
+  KFormWidget     fieldJudul          (){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: KTextField(
+        fieldController: controllerJudul, 
+        fieldName: "Judul", 
+        icon: Icons.title_sharp,
+        prefixIconColor: ApplicationColors.primary  ),
+    );
+  }
+  KFormWidget     fieldJumlah         (){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: KTextField(
+        fieldController: controllerJumlah, 
+        fieldName: "Jumlah", 
+        icon: Icons.attach_money,
+        keyboardType: TextInputType.number,
+        prefixIconColor: ApplicationColors.primary),
+    );
+  }
+  KFormWidget     fieldDeskripsi      () {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: TextFormField(
+        controller: controllerDeskripsi,
+        maxLines: 5, // Sesuaikan dengan jumlah baris yang diinginkan
+        decoration: const InputDecoration(
+          label: Text("Deskripsi"),
+          border: OutlineInputBorder()
         ),
-      );
-      return listItem;
-    }
-    widget.data.kategoriTerpilih ??= widget.listKategori[0];
-    
+      ),
+    );
+  }
+  KFormWidget     fieldTanggal        (BuildContext context, Size size){
     return Padding(
       padding: const EdgeInsets.only(left: 25),
-      child: IntrinsicWidth(
-        child: KDropdownMenu<SQLModelCategory>(
-          items: items(), 
-          onChanged: (val){
-            if (val!.id == 0){
-              bool newCategoryCreated = false;
-              showDialog(context: context, builder: (dialogContext){
-                TextEditingController controllerNamaKategori = TextEditingController();
-                return AlertDialog(
-                  contentPadding: const EdgeInsets.all(25.0), // Sesuaikan dengan kebutuhan Anda
-                  backgroundColor: Colors.white,
-                  title: const Text("Kategori Baru"),
-                  content: IntrinsicHeight(
-                    child: SizedBox(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          KTextField(
-                            fieldController: controllerNamaKategori, 
-                            fieldName: "Judul", 
-                            prefixIconColor: ApplicationColors.primary,
-                            icon: Icons.title,
-                          ),
-                          dummyHeight(height: 15),
-                          KButton(
-                            onTap: () {
-                              if (controllerNamaKategori.text.isEmpty){
-                                return;
-                              }
-                              SQLHelperIncomeCategory().insert(
-                                SQLModelCategory(
-                                  id: -1, 
-                                  judul: controllerNamaKategori.text
-                                ), 
-                                db: db.database
-                              );
-                              newCategoryCreated = true;
-                              Navigator.pop(dialogContext);
-                            }, 
-                            color: Colors.white,
-                            bgColor: Colors.green,
-                            title: "Simpan", 
-                            icon: const Icon(Icons.save, color: Colors.white,)
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 240,
+            child: KTextField(
+              fieldController: controllerTanggal, 
+              fieldName: "Tanggal", 
+              readOnly: true,
+              prefixIconColor: ApplicationColors.primary,
+              icon: Icons.calendar_month,
+              onTap: () async {
+                tanggalPengeluaran = await tampilkanDatePicker(
+                  context: context,
+                  waktuAwal: DateTime(2000),
+                  waktuAkhir: DateTime.now(),
+                  waktuInisialisasi: tanggalPengeluaran
                 );
-              }).then((value){
-                if (newCategoryCreated){
-                  tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Kategori baru berhasil ditambahkan");
-                  Navigator.pop(context);
-                }
-              });
-              return;
-            }
-            widget.data.kategoriTerpilih = val;
-          }, 
-          value: widget.data.kategoriTerpilih!, 
-          labelText: "Kategori",
-        ).getWidget(),
+                controllerTanggal.text = formatTanggal(tanggalPengeluaran);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
-  Widget buttonClear(){
-    return KButton(
-      onTap: (){
-        controllerJudul.text = "";
-        controllerJumlah.text = "";
-        widget.data.walletTerpilih = widget.listWallet[0];
-        setState(() {});
-      }, 
-      color: Colors.white, 
-      bgColor: Colors.red, 
-      title: "Bersihkan", 
-      icon: const Icon(Icons.clear, color: Colors.white));
-    }
-  Widget buttonSimpan(BuildContext context, Size size){
-    return
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: KButton(
-        onTap: (){
-          simpanData(context, size);
-        },
-        title: "Simpan", 
-        icon: const Icon(Icons.save, color: Colors.white,),
-        color: Colors.white,
-        bgColor: Colors.green,
-      ),
-    );
-  }
-
-  void isWithDataValidator(){
-    if (widget.isWithData == true){
-      controllerDeskripsi.text = widget.pemasukan!.deskripsi;
-      controllerJudul.text = widget.pemasukan!.judul;
-      controllerJumlah.text = widget.pemasukan!.nilai.toString();
-      tanggalPengeluaran = widget.pemasukan!.waktu;
-      jamPengeluaran = TimeOfDay.fromDateTime(widget.pemasukan!.waktu);
-
-      // Set value for dropdown menus
-      controllerTanggal.text = formatTanggal(tanggalPengeluaran);
-      controllerWaktu.text = formatWaktu(jamPengeluaran);
-    }
-  }
-  List<Widget> action(BuildContext context){
-    return [
-      GestureDetector(
-        onTap: (){
-          hapusData(context);
-        },
-        child: const Icon(CupertinoIcons.delete),
-      ),
-      const SizedBox(width: 25,)
-    ];
-  }
-
-  
-
-  Widget buttonUpdate(BuildContext context){
+  KFormWidget     fieldJam            (BuildContext context, Size size){
     return Padding(
-      padding: const EdgeInsets.only(left: 25, right: 10),
-      child: KButton(
-        onTap: (){
-          updateData(context);
-        }, 
-        title: "Update", 
-        color: Colors.white,
-        bgColor: ApplicationColors.primary,
-        icon: const Icon(CupertinoIcons.upload_circle, color: Colors.white,),
+      padding: const EdgeInsets.only(left: 25),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 125,
+            child: KTextField(
+              fieldController: controllerWaktu, 
+              fieldName: "Jam", 
+              readOnly: true,
+              prefixIconColor: ApplicationColors.primary,
+              icon: Icons.alarm,
+              onTap: () async {
+                jamPengeluaran = await tampilkanTimePicker(context: context, waktu: jamPengeluaran);
+                controllerWaktu.text = formatWaktu(jamPengeluaran);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
+  KApplicationBar appBar              (BuildContext context){
+    return KAppBar(
+      backgroundColor: Colors.white, 
+      title: widget.isWithData == true ? "Detail Pemasukan" : "Pemasukan Baru", 
+      fontColor: ApplicationColors.primary,
+      action: widget.isWithData == true? buttonAction(context) : null
+    ).getWidget();
+  }
+
   @override
   Widget build(BuildContext context) {
     controllerTanggal.text = formatTanggal(tanggalPengeluaran);
@@ -508,12 +501,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
 
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: KAppBar(
-        backgroundColor: Colors.white, 
-        title: widget.isWithData == true ? "Detail Pemasukan" : "Pemasukan Baru", 
-        fontColor: ApplicationColors.primary,
-        action: widget.isWithData == true? action(context) : null
-      ).getWidget(),
+      appBar: appBar(context),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
