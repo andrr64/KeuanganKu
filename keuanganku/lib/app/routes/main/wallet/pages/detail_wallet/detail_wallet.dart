@@ -8,7 +8,7 @@ import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_data_pengeluar
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/k_pengeluaran_item/k_pengeluaran_item.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/k_pemasukan_item/k_pemasukan_item.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/list_pemasukan/k_list_pemasukan.dart';
-import 'package:keuanganku/app/widgets/k_app_bar/k_app_bar.dart';
+import 'package:keuanganku/app/widgets/app_bar/app_bar.dart';
 import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
@@ -19,6 +19,7 @@ import 'package:keuanganku/database/model/category.dart';
 import 'package:keuanganku/database/model/income.dart';
 import 'package:keuanganku/database/model/expense.dart';
 import 'package:keuanganku/database/model/wallet.dart';
+import 'package:keuanganku/k_typedef.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/font_style.dart';
@@ -39,53 +40,18 @@ class DetailWallet extends StatefulWidget {
 }
 
 class _DetailWalletState extends State<DetailWallet> {
-  Widget heading(BuildContext context){
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-      child: IntrinsicHeight(
-        child: Container(
-            alignment: Alignment.topLeft,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(widget.wallet.tipe, style: kFontStyle(fontSize: 15, color: Colors.white, family: "QuickSand_Medium"),),
-                        Text(widget.wallet.judul, style: kFontStyle(fontSize: 20, color: Colors.white, family: "QuickSand_Medium"),),
-                      ],
-                    ),
-                    FutureBuilder(
-                        future: widget.wallet.totalUang(),
-                        builder: (_, snapshot){
-                          if (snapshot.connectionState == ConnectionState.waiting){
-                            return const CircularProgressIndicator();
-                          } else if (snapshot.hasError){
-                            return const Text("Sadly, something wrong");
-                          } else {
-                            return Text(formatCurrency(snapshot.data!), style: kFontStyle(fontSize: 25, color: Colors.white),);
-                          }
-                        }
-                    )
-                  ],
-                )
-              ],
-          )
-        ),
-      ),
-    );
-  }
-  void callback(){
+  // Events
+  KEventHandler updateState(){
     setState(() {
       
     });
+  }
+  KEventHandler callback(){
+    updateState();
     widget.callback();
   }
+  
+  // Builder
   Widget buildListPemasukan(BuildContext context, List<SQLModelIncome> listPemasukan){
     if (listPemasukan.isEmpty){
       return makeCenterWithRow(child: const KEmpty());
@@ -126,7 +92,8 @@ class _DetailWalletState extends State<DetailWallet> {
     );
   }
   
-  Widget listPengeluaran(BuildContext context){
+  // Widgets
+  KWidget         listPengeluaran(BuildContext context){
     final icon = SvgPicture.asset("assets/icons/pengeluaran.svg");
     return makeCenterWithRow(
         child: FutureBuilder(
@@ -161,7 +128,7 @@ class _DetailWalletState extends State<DetailWallet> {
         )
     );
   }
-  Widget listPemasukan(BuildContext context){
+  KWidget         listPemasukan(BuildContext context){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: FutureBuilder(
@@ -181,26 +148,75 @@ class _DetailWalletState extends State<DetailWallet> {
         ),
     );
   }
-
+  KWidget         ringkasanWallet(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+      child: IntrinsicHeight(
+        child: Container(
+            alignment: Alignment.topLeft,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(widget.wallet.tipe, style: kFontStyle(fontSize: 15, color: Colors.white, family: "QuickSand_Medium"),),
+                        Text(widget.wallet.judul, style: kFontStyle(fontSize: 20, color: Colors.white, family: "QuickSand_Medium"),),
+                      ],
+                    ),
+                    FutureBuilder(
+                        future: widget.wallet.totalUang(),
+                        builder: (_, snapshot){
+                          if (snapshot.connectionState == ConnectionState.waiting){
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.hasError){
+                            return const Text("Sadly, something wrong");
+                          } else {
+                            return Text(formatCurrency(snapshot.data!), style: kFontStyle(fontSize: 25, color: Colors.white),);
+                          }
+                        }
+                    ),
+                  ],
+                )
+              ],
+          )
+        ),
+      ),
+    );
+  }
+  KApplicationBar appBar(BuildContext context){
+    return KAppBar(
+      title: "Detail Wallet", 
+      centerTitle: true, 
+      fontColor: Colors.white, 
+      backgroundColor: ApplicationColors.primary,
+      leading: appBarLeading(context)
+    ).getWidget();
+  }
+  KWidget         appBarLeading(BuildContext context){
+    return GestureDetector(
+      onTap: (){
+        Navigator.pop(context);
+      },
+      child: const Icon(Icons.arrow_back_ios_new, color: Colors.white,),
+    );
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ApplicationColors.primary,
+      appBar: appBar(context),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            dummyPadding(height: 50),
-            KPageAppBar(
-              title: "Detail Wallet",
-              menuButton: GestureDetector(
-                onTap: (){
-                  Navigator.pop(context);
-                },
-                child: const Icon(Icons.arrow_back_ios, color: Colors.white,),
-              ),
-            ),
-            heading(context),
+            ringkasanWallet(context),
             listPemasukan(context),
             dummyPadding(height: 25),
             listPengeluaran(context),
