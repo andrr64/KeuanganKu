@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_expense_limiter/form_expense_limiter.dart';
 import 'package:keuanganku/database/helper/expense.dart';
@@ -27,7 +26,6 @@ class ExpenseLimiterItem extends StatefulWidget {
 }
 
 class _ExpenseLimiterItemState extends State<ExpenseLimiterItem> {
-  //TODO: Something wrong in here
   Future getData() async{
     List<SQLModelExpense> listPengeluaranKategoriIni = 
       await SQLHelperExpense().readWeeklyByCategoryId (
@@ -50,7 +48,6 @@ double getMapColorValue(double perbandingan) {
     return 1;
   } else {
     double x = perbandingan * 5;
-    print(x);
     return 5 - x;
   }
 }
@@ -62,7 +59,7 @@ double getMapColorValue(double perbandingan) {
         if (snapshot.connectionState == ConnectionState.waiting){
           return makeCenterWithRow(child: const CircularProgressIndicator());
         } else if (snapshot.hasError){
-          return makeCenterWithRow(child: Text("Sadly something wrong"));
+          return makeCenterWithRow(child: const Text("Sadly something wrong"));
         } else {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

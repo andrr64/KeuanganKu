@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 
 class KButton extends StatelessWidget {
-  const KButton({super.key, required this.onTap, required this.title, required this.icon, this.color, this.bgColor});
+  const KButton({super.key, required this.onTap, required this.title, this.icon, this.color, this.bgColor});
   final void Function() onTap;
-  final Widget icon;
+  final Widget? icon;
   final String title;
   final Color? color;
   final Color? bgColor;
@@ -24,7 +24,7 @@ class KButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
             child: Row(
               children: [
-                Padding(
+                icon == null? const SizedBox() : Padding(
                   padding: const EdgeInsets.only(right: 7.5),
                   child: icon,
                 ),

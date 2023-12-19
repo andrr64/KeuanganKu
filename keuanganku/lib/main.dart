@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/database/database_services.dart';
 import 'package:keuanganku/android_system.dart';
 import 'package:keuanganku/app/routes.dart';
+import 'package:keuanganku/database/helper/user_data.dart';
 
 typedef KEventHandler = void;
 
@@ -31,15 +32,29 @@ class KeuanganKu extends StatelessWidget {
     appBarTheme: const AppBarTheme(elevation: 0),
   );
 
+  Future<String> inisialisasiRute() async {
+    final listUsername = await SQLHelperUserData().readAll(db.database);
+    if (listUsername[0].username == null){
+      return routes.gettingStarted;
+    } 
+    return routes.mainPage;
+  }
+
   @override
   Widget build(BuildContext context) {
+    
     routes.initializePages(context);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'KeuanganKu',
-      routes: routes.routeMap, 
-      initialRoute: routes.mainPage,
-      theme: tema,
+    return FutureBuilder(
+      future: inisialisasiRute(), 
+      builder: (_, snapshot){
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'KeuanganKu',
+          routes: routes.routeMap, 
+          initialRoute: snapshot.data!,
+          theme: tema,
+        );
+      }
     );
   }
 }

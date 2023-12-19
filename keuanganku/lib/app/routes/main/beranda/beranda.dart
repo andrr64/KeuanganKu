@@ -8,6 +8,7 @@ import 'package:keuanganku/app/routes/main/wallet/widgets/list_wallet/list_walle
 import 'package:keuanganku/app/routes/main/beranda/widgets/statistik/statistik.dart';
 import 'package:keuanganku/app/widgets/k_app_bar/k_app_bar.dart';
 import 'package:keuanganku/app/state_bridge.dart';
+import 'package:keuanganku/database/helper/user_data.dart';
 import 'package:keuanganku/database/helper/wallet.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
@@ -77,6 +78,36 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
       },
     );
   }
+  Widget getUsername() {
+    return FutureBuilder(
+      future: SQLHelperUserData().readAll(db.database), 
+      builder: (_, snapshot){
+        if (snapshot.connectionState == ConnectionState.waiting){
+          return makeCenterWithRow(child: const CircularProgressIndicator());
+        } else {
+          String username = "";
+          const String defaultUserName = "User";
+          if (snapshot.hasError){
+            username = defaultUserName;
+          } else {
+            username = snapshot.data![0].username ?? defaultUserName;
+          }
+          
+          return Padding(
+            padding: const EdgeInsets.only(left: 25),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Hello,", style: kFontStyle(fontSize: 16, color: Colors.white, family: "QuickSand_Medium"),),
+                Text(username, style: kFontStyle(fontSize: 26, color: Colors.white),),
+              ],
+            ),
+          );
+        }
+      }
+    );
+  }
 
   Widget buildBody(BuildContext context){
     const double paddingBottom = 20;
@@ -88,17 +119,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
           dummyPadding(height: 50),
           KPageAppBar(title: "Beranda", menuButton: drawerButton(),),
           dummyPadding(height: paddingBottom),
-          Padding(
-            padding: const EdgeInsets.only(left: 25),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Hello,", style: kFontStyle(fontSize: 16, color: Colors.white, family: "QuickSand_Medium"),),
-                Text("Andreas", style: kFontStyle(fontSize: 26, color: Colors.white),),
-              ],
-            ),
-          ),
+          getUsername(),
           dummyPadding(height: paddingBottom),
           listWallet(),
           dummyPadding(height: paddingBottom),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/main.dart';
+import 'package:keuanganku/app/routes/getting_started/pages/form_input_username/form_input_username.dart';
 import 'package:keuanganku/app/routes/getting_started/halaman_1.dart';
 import 'package:keuanganku/app/routes/getting_started/halaman_2.dart';
 import 'package:keuanganku/app/routes/getting_started/halaman_akhir.dart';
@@ -101,7 +101,9 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, routes.mainPage);
+                          Navigator.pushReplacement(context, (
+                            MaterialPageRoute(builder: (context) => const FormInputUsername())
+                          ));
                         },
                       ),
                     )

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pages/detail_pengeluaran/detail_pengeluaran.dart';
