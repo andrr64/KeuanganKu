@@ -76,6 +76,19 @@ class SQLHelperUserData {
       whereArgs: [userId],
     );
   }
+  Future<SQLModelUserdata?> readById(Database db, int userId) async {
+    List<Map<String, dynamic>> result = await db.query(
+      _tableName,
+      where: "id = ?",
+      whereArgs: [userId],
+    );
+
+    if (result.isNotEmpty) {
+      return SQLModelUserdata.fromJson(result.first);
+    } else {
+      return null;
+    }
+  }
   Future<int> updateById(Database db, int userId, SQLModelUserdata updatedUserData) async {
   return await db.update(
     _tableName,
