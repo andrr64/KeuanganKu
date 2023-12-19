@@ -126,7 +126,6 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       );
 
       if ((await SQLHelperExpense().insert(dataBaru, db: db.database)) != -1) {
-        Navigator.pop(context);
         tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
         widget.callback();
         HalamanPengeluaran.state.update();
@@ -135,9 +134,10 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       } else {
         tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Something wrong...");
       }
-      Navigator.pop(context);
     }
-    memprosesData().then((value) => {});
+    memprosesData().then((value)  {
+      Navigator.pop(context); 
+    });
   }
   KEventHandler updateData(BuildContext context) async {
     bool validatorStatus = await inputValidator(context);
@@ -161,7 +161,9 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       }
     }
   }
-
+  Future<int> deleteData() async {
+    return await SQLHelperExpense().delete(widget.pengeluaran!.id, db: db.database);
+  }
   // Widgets
   Widget heading(){
     return Row(
@@ -514,16 +516,18 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
               KDialogInfo(
                 title: "Anda yakin?", 
                 info: "Data tidak bisa dikembalikan dan uang akan dikembalikan ke wallet", 
-                onOk: () async {
+                onOk: () {
                   Navigator.pop(context);
-                  int exitCode = await SQLHelperExpense().delete(widget.pengeluaran!.id, db: db.database);
-                  if (exitCode != -1){
-                    widget.callback();
-                    tampilkanSnackBar(context, jenisPesan: Pesan.Konfirmasi, msg: "data berhasil dihapus");
-                    Navigator.pop(context);
-                  } else {
-                    tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "something wrong...");
-                  }
+                  deleteData().then((value){
+                    if (value != -1){
+                      widget.callback();
+                      tampilkanSnackBar(context, jenisPesan: Pesan.Konfirmasi, msg: "data berhasil dihapus");
+                      Navigator.pop(context);
+                    } else {
+                      tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "something wrong...");
+                    }
+                  });
+                  
                 },
                 onCancel: (){
                   Navigator.pop(context);
