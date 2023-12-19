@@ -11,7 +11,7 @@ class AppDrawer extends StatelessWidget {
     
     const double besarPadding = 40;
     const double besarPaddingKiri = 10;
-
+    const Divider divider = Divider();
     return Drawer(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -57,17 +57,17 @@ class AppDrawer extends StatelessWidget {
                 builder: (_) => const Scaffold()));
             },
           ),
-          Divider(),
+          divider,
           const ListTile(
             leading: Icon(Icons.system_security_update), // Ikon di sebelah kiri
             title: Text('Pembaharuan'),
           ),
-          Divider(),
+          divider,
           const ListTile(
               leading: Icon(Icons.favorite), // Ikon di sebelah kiri
               title: Text('Donasi'),
           ),
-          Divider(),
+          divider,
         ],
       ),
     );

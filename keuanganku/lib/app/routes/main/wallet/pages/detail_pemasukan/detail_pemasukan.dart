@@ -36,7 +36,9 @@ class _DetailPemasukanState extends State<DetailPemasukan> {
           return makeCenterWithRow(child: const Text("Sadly, someting wrong..."));
         } else {
           return FormInputPemasukan(
-            callback: widget.callback, 
+            callback: (){
+              widget.callback();
+            }, 
             listWallet: snapshot.data!['listWallet'], 
             listKategori: snapshot.data!['listKategori'],
             isWithData: true,

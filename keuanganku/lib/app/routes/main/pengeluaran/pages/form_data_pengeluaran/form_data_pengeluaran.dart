@@ -78,7 +78,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       } catch (invalidDouble){
         KDialogInfo(
           title: "Invalid", 
-          info: "Masukan sebuah angka...", 
+          info: "Masukan sebuah angka", 
           jenisPesan: Pesan.Error
         ).tampilkanDialog(context);
         return;
@@ -88,7 +88,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       if (jumlahUangPadaWallet < jumlahPengeluaran){
         KDialogInfo(
           title: "Gagal", 
-          info: "Miskin..", 
+          info: "Uang anda tidak cukup", 
           jenisPesan: Pesan.Warning
         ).tampilkanDialog(context);
         return;

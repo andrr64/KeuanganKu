@@ -96,16 +96,17 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
         nilai: double.tryParse(controllerJumlah.text)!, 
         waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran),
       );
-
+      widget.callback();
       if ((await SQLHelperIncome().insert(dataBaru, db.database)) != -1) {
         tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
-        widget.callback();
       } else {
         tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Something wrong...");
       }
       Navigator.pop(context);
     }
-    memprosesData().then((value) => {});
+    memprosesData().then((value){
+      widget.callback();
+    });
   }
   KEventHandler updateData(BuildContext context){
     try {
@@ -141,7 +142,6 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
   }
   KEventHandler hapusData(BuildContext context) {
     if (widget.pemasukan == null) {
-      // Pemasukan tidak tersedia, tidak dapat dihapus
       return;
     }
 
@@ -179,6 +179,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
       },
     );
   }
+  
   // Widgets
   Widget heading(){
     return Row(

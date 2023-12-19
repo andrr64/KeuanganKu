@@ -1,10 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
-import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/wallet/pages/form_data_pemasukan/form_data_pemasukan.dart';
-import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_dialog/k_dialog_info.dart';
@@ -80,9 +77,7 @@ class KListPemasukanState extends State<KListPemasukan> {
           listWallet: listWallet,
           listKategori: listKategori,
           callback: (){
-            HalamanWallet.state.update();
-            HalamanPengeluaran.state.update();
-            HalamanBeranda.state.update();
+            widget.callback();
           },
         );
       })
