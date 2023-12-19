@@ -80,7 +80,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
   }
   Widget getUsername() {
     return FutureBuilder(
-      future: SQLHelperUserData().readAll(db.database), 
+      future: SQLHelperUserData().readById(db.database, 1), 
       builder: (_, snapshot){
         if (snapshot.connectionState == ConnectionState.waiting){
           return makeCenterWithRow(child: const CircularProgressIndicator());
@@ -90,7 +90,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
           if (snapshot.hasError){
             username = defaultUserName;
           } else {
-            username = snapshot.data![0].username ?? defaultUserName;
+            username = snapshot.data!.username ?? defaultUserName;
           }
           
           return Padding(

@@ -50,7 +50,7 @@ class _FormInputUsernameState extends State<FormInputUsername> {
                     title: "Hmmm...", info: "Masukin nama dulu dong :(", jenisPesan: Pesan.Warning).tampilkanDialog(context);
                 } else {
                   SQLModelUserdata userdataBaru = SQLModelUserdata(id: -1, username: controllerUsername.text);
-                  int exitCode = await SQLHelperUserData().insert(db.database, userdataBaru);
+                  int exitCode = await SQLHelperUserData().updateById(db.database,1, userdataBaru);
                   if (exitCode != -1){
                     Navigator.pushReplacementNamed(context, routes.mainPage);
                   } else {
