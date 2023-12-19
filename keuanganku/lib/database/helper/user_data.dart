@@ -56,6 +56,10 @@ class SQLHelperUserData {
     return result.map((data) => SQLModelUserdata.fromJson(data)).toList();
   }
 
+  Future<int> insert(Database db, SQLModelUserdata userdata) async {
+    return await db.rawInsert("INSERT INTO $_tableName(username) VALUES(?)", [userdata.username]);
+  }
+
   Future<int> update(Database db, SQLModelUserdata userData) async {
     return await db.update(
       _tableName,
