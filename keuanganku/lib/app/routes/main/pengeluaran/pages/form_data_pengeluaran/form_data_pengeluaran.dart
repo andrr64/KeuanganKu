@@ -70,7 +70,27 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
   double ratingPengeluaran = 3;
 
   // Events
-  void eventSimpanPengeluaran(BuildContext context, Size size) {
+  Future<bool> inputValidator(BuildContext context) async {
+    SQLModelWallet wallet = await widget.pengeluaran!.wallet;
+    double totalUangWalletFree = await wallet.totalUang() + widget.pengeluaran!.nilai;
+    double nilaiPengeluaran = 0;
+    
+    try{
+      nilaiPengeluaran = double.tryParse(controllerJumlah.text)!; 
+      if (nilaiPengeluaran > totalUangWalletFree){
+        KDialogInfo(
+        title: "Invalid", info: "Masukan angka dengan benar.", 
+        jenisPesan: Pesan.Error).tampilkanDialog(context);
+      }
+    } catch(invalidDouble){
+      KDialogInfo(
+        title: "Invalid", info: "Masukan angka dengan benar.", 
+        jenisPesan: Pesan.Error).tampilkanDialog(context);
+      return false;
+    }
+    return true;
+  }
+  KEventHandler eventSimpanPengeluaran(BuildContext context, Size size) {
     Future memprosesData() async{
       // Validator
       try {
@@ -106,6 +126,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       );
 
       if ((await SQLHelperExpense().insert(dataBaru, db: db.database)) != -1) {
+        Navigator.pop(context);
         tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
         widget.callback();
         HalamanPengeluaran.state.update();
@@ -117,6 +138,28 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       Navigator.pop(context);
     }
     memprosesData().then((value) => {});
+  }
+  KEventHandler updateData(BuildContext context) async {
+    bool validatorStatus = await inputValidator(context);
+    if (validatorStatus){
+      SQLModelExpense dataBaru = SQLModelExpense(
+        id: widget.pengeluaran!.id, 
+        id_wallet: widget.data.walletTerpilih!.id, 
+        id_kategori: widget.data.kategoriTerplilih!.id, 
+        judul: controllerJudul.text, 
+        deskripsi: controllerDeskripsi.text, 
+        nilai: double.tryParse(controllerJumlah.text)!, 
+        rating: ratingPengeluaran, 
+        waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran),
+      );
+        int exitCde = await SQLHelperExpense().update(dataBaru, db: db.database);
+       if (exitCde != -1) {
+        tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
+        widget.callback();
+      } else {
+        tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Something wrong...");
+      }
+    }
   }
 
   // Widgets
@@ -397,6 +440,20 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ),
     );
   }
+  Widget buttonUpdate(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.only(left: 25, right: 10),
+      child: KButton(
+        onTap: (){
+          updateData(context);
+        }, 
+        title: "Update", 
+        color: Colors.white,
+        bgColor: ApplicationColors.primary,
+        icon: const Icon(CupertinoIcons.upload_circle, color: Colors.white,),
+      ),
+    );
+  }
   Widget ratingBar(){
     return Padding(
       padding: const EdgeInsets.only(left: 25),
@@ -436,6 +493,19 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
     );
   }
 
+  List<Widget> buttonAction(BuildContext context, size){
+    if (widget.withData == true){
+      return [
+        buttonUpdate(context)
+      ];
+    } else {
+      
+      return [
+        buttonSimpan(context, size),
+        buttonClear(),
+      ];
+    }
+  }
   List<Widget>? action (BuildContext context){
     if (widget.withData == true){
       return [
@@ -444,49 +514,21 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
               KDialogInfo(
                 title: "Anda yakin?", 
                 info: "Data tidak bisa dikembalikan dan uang akan dikembalikan ke wallet", 
+                onOk: () async {
+                  Navigator.pop(context);
+                  int exitCode = await SQLHelperExpense().delete(widget.pengeluaran!.id, db: db.database);
+                  if (exitCode != -1){
+                    widget.callback();
+                    tampilkanSnackBar(context, jenisPesan: Pesan.Konfirmasi, msg: "data berhasil dihapus");
+                    Navigator.pop(context);
+                  } else {
+                    tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "something wrong...");
+                  }
+                },
+                onCancel: (){
+                  Navigator.pop(context);
+                },
                 jenisPesan: Pesan.Konfirmasi,
-                action: [
-                  Row(
-                    children: [
-                      FilledButton(
-                        onPressed: () async {
-                          int exitCode = await SQLHelperExpense().delete(widget.pengeluaran!.id, db: db.database);
-                          if (exitCode != -1){
-                            widget.callback();
-                            Navigator.pop(context);
-                            tampilkanSnackBar(context, jenisPesan: Pesan.Konfirmasi, msg: "data berhasil dihapus");
-                          } else {
-                            tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "something wrong...");
-                          }
-                        }, 
-                        style: FilledButton.styleFrom(
-                          backgroundColor: Colors.red
-                        ),
-                        child: const Row(
-                          children: [
-                            Icon(Icons.check, color: Colors.white,),
-                            Text("Ok"),
-                          ],
-                        )
-                      ),
-                      const SizedBox(width: 10,),
-                      FilledButton(
-                        onPressed: (){
-                          Navigator.pop(context);
-                        }, 
-                        style: FilledButton.styleFrom(
-                          backgroundColor: Colors.green
-                        ),
-                        child: const Row(
-                          children: [
-                            Icon(Icons.cancel, color: Colors.white,),
-                            Text("Batal"),
-                          ],
-                        )
-                      ),
-                    ],
-                  )
-                ]
               ).tampilkanDialog(context);
             },
             child: const Padding(
@@ -553,10 +595,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
             ratingBar(),
             dummyPadding(height: 20),
             Row(
-              children: [
-                buttonSimpan(context, size),
-                buttonClear(),
-              ],
+              children: buttonAction(context, size),
             ),
             dummyPadding(height: 50)
           ]
