@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/distribusi/distribusi_transaksi.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
+import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_expenselimiter/list_expenselimiter.dart';
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/list_wallet/list_wallet.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/statistik/statistik.dart';
@@ -31,6 +32,11 @@ class HalamanBeranda extends StatefulWidget {
 }
 
 class _HalamanBerandaState extends State<HalamanBeranda> {
+
+  KEventHandler callback(){
+    updateState();
+    HalamanPengeluaran.state.update();
+  }
 
   void updateState() {
     setState(() {
@@ -73,6 +79,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
   }
 
   Widget buildBody(BuildContext context){
+    const double paddingBottom = 20;
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
@@ -80,7 +87,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
         children: [
           dummyPadding(height: 50),
           KPageAppBar(title: "Beranda", menuButton: drawerButton(),),
-          dummyPadding(height: 15),
+          dummyPadding(height: paddingBottom),
           Padding(
             padding: const EdgeInsets.only(left: 25),
             child: Column(
@@ -92,9 +99,9 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
               ],
             ),
           ),
-          dummyPadding(height: 15),
+          dummyPadding(height: paddingBottom),
           listWallet(),
-          dummyPadding(height: 15),
+          dummyPadding(height: paddingBottom),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: IntrinsicWidth(
@@ -114,6 +121,11 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
                 ],  
               ),
             )
+          ),
+          dummyPadding(height: paddingBottom),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: ListExpenseLimiter(callback: callback),
           ),
           dummyPadding(height: 25),
         ]
