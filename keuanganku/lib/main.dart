@@ -47,13 +47,21 @@ class KeuanganKu extends StatelessWidget {
     return FutureBuilder(
       future: inisialisasiRute(), 
       builder: (_, snapshot){
-        return MaterialApp(
+       if (snapshot.connectionState == ConnectionState.waiting){
+        return const SizedBox();
+       }
+       if (snapshot.hasError){
+        return const SizedBox();
+       }
+       else {
+         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'KeuanganKu',
           routes: routes.routeMap, 
           initialRoute: snapshot.data!,
           theme: tema,
         );
+       }
       }
     );
   }
