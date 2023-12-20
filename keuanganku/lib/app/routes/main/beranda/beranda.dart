@@ -35,18 +35,19 @@ class HalamanBeranda extends StatefulWidget {
 }
 
 class _HalamanBerandaState extends State<HalamanBeranda> {
-
-  KEventHandler callback    () {
-    updateState();
-    HalamanPengeluaran.state.update();
-    HalamanWallet.state.update();
-  }
+  // Events
   KEventHandler updateState () {
     setState(() {
 
     });
   }
+  KEventHandler callback    () {
+    updateState();
+    HalamanPengeluaran.state.update();
+    HalamanWallet.state.update();
+  }
 
+  // Widgets
   KWidget   ringkasanGrafik     () {
     return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
