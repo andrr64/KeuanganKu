@@ -16,7 +16,7 @@ class KFutureBuilder {
           } else if (snapshot.hasError){
             return whenError;
           } else {
-            return whenSuccess(snapshot.data!);
+            return whenSuccess(snapshot.data as T);
           }
         });
   }
