@@ -31,7 +31,7 @@ class _KPengeluaranItemState extends State<KPengeluaranItem> {
       ),
     );
   }
-  KWidget     ringkasanWallet   (){
+  KWidget     ringkasanWallet   (Size size){
     return SizedBox(
       width: 150,
       child: Column(
@@ -57,6 +57,8 @@ class _KPengeluaranItemState extends State<KPengeluaranItem> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+
     return GestureDetector(
       onTap: (){
         Navigator.push(
@@ -78,12 +80,17 @@ class _KPengeluaranItemState extends State<KPengeluaranItem> {
             children: [
               lingkaranRating(),
               dummyWidth(10),
-              ringkasanWallet()
+              ringkasanWallet(size)
             ],
           ),
           Row(
             children: [
-              Text(formatCurrency(widget.pengeluaran.nilai), style: kFontStyle(fontSize: 15),),
+              SizedBox(
+                  child: Text(
+                    truncateString(formatCurrency(widget.pengeluaran.nilai), 13, isEndWith: true, endWith: "..."),
+                    style: kFontStyle(fontSize: 15),
+                  )
+              ),
               const SizedBox(width: 5,),
               const Icon(
                 Icons.arrow_forward_ios,
