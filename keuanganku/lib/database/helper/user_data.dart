@@ -33,25 +33,25 @@ class SQLHelperUserData {
   }
   static Future createTable(Database db) async {
     await db.execute(SQLHelperUserData().sqlCreateQuery);
-    await db.rawInsert("INSERT INTO $_tableName(username) VALUES(?)", [null]);
+    await db.rawInsert("INSERT INTO $_tableName(id, username) VALUES(?,?)", [1, null]);
   }
 
   Future<SQLModelUserdata?> read(Database db, int userId) async {
-    List<Map<String, dynamic>> result = await db.query(
-      _tableName,
-      where: "id = ?",
-      whereArgs: [userId],
+    List<Map<String, dynamic>> result = await db.rawQuery(
+      "SELECT * FROM $_tableName WHERE id = $userId"
     );
 
     if (result.isNotEmpty) {
-      return SQLModelUserdata.fromJson(result.first);
+      return SQLModelUserdata.fromJson(result[0]);
     } else {
       return null;
     }
   }
 
   Future<List<SQLModelUserdata>> readAll(Database db) async {
-    List<Map<String, dynamic>> result = await db.query(_tableName);
+    List<Map<String, dynamic>> result = await db.rawQuery(
+      "SELECT * FROM $_tableName ORDER BY id"
+    );
 
     return result.map((data) => SQLModelUserdata.fromJson(data)).toList();
   }
@@ -90,11 +90,9 @@ class SQLHelperUserData {
     }
   }
   Future<int> updateById(Database db, int userId, SQLModelUserdata updatedUserData) async {
-  return await db.update(
-    _tableName,
-    updatedUserData.toJson(),
-    where: "id = ?",
-    whereArgs: [userId],
-  );
-}
+    return await db.rawUpdate(
+      'UPDATE $_tableName SET username = ? WHERE id = ?',
+      [updatedUserData.username, userId],
+    );
+  }
 }
