@@ -13,7 +13,7 @@ extension EnumToString on Enum {
 Routes routes = Routes();
 DatabaseService db = DatabaseService();
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   AndroidSys.setNotificationBarColor(
     bgColor: Colors.transparent,
@@ -21,8 +21,9 @@ void main() async {
     navbarColor: Colors.black,
     navBarIconColor: Brightness.light
   ); // Berfungsi untuk mengubah warna bar notifikasi android
-  await db.openDB();
-  runApp(const KeuanganKu());
+  db.openDB().then((value){
+    runApp(const KeuanganKu());
+  });
 }
 
 class KeuanganKu extends StatelessWidget {
