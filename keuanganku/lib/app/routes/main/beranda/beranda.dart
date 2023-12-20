@@ -99,7 +99,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Hello,", style: kFontStyle(fontSize: 16, color: Colors.white, family: "QuickSand_Medium"),),
+                Text("Hai,", style: kFontStyle(fontSize: 16, color: Colors.white, family: "QuickSand_Medium"),),
                 Text(username, style: kFontStyle(fontSize: 26, color: Colors.white),),
               ],
             ),
