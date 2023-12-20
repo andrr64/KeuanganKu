@@ -14,7 +14,7 @@ extension EnumToString on Enum {
 Routes routes = Routes();
 DatabaseService db = DatabaseService();
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   AndroidSys.setNotificationBarColor(
       bgColor: Colors.transparent,
