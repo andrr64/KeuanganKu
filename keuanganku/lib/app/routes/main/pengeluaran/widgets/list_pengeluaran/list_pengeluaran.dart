@@ -50,10 +50,14 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
         ).tampilkanDialog(context);
         return;}
       Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_){
-          return FormDataPengeluaran(listWallet: listWallet!, listKategori: listKategori!, callback: widget.callback);
-        })
+          context,
+          MaterialPageRoute(builder: (_){
+            return FormDataPengeluaran(
+                listWallet: listWallet!,
+                listKategori: listKategori!,
+                callback: widget.callback
+            );
+          })
       );
     });
   }
