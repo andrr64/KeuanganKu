@@ -180,7 +180,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
       },
     );
   }
-  KVoidValidator  isWithDataValidator (){
+  KValidator  isWithDataValidator (){
     if (widget.isWithData == true){
       controllerDeskripsi.text = widget.pemasukan!.deskripsi;
       controllerJudul.text = widget.pemasukan!.judul;

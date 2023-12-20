@@ -19,7 +19,7 @@ class KDialogInfo{
     this.onOk
   });
 
-  TextButton buttonCancel(BuildContext context){
+  Widget buttonCancel(BuildContext context){
     return TextButton(
       onPressed: (){
         if (onCancel != null){
@@ -29,7 +29,7 @@ class KDialogInfo{
       }, child: const Text("Cancel")
     );
   }
-  TextButton buttonOk(BuildContext context){
+  Widget buttonOk(BuildContext context){
     return TextButton(
       onPressed: (){
         if (onOk != null){
@@ -59,7 +59,7 @@ class KDialogInfo{
       return  AlertDialog(
         title: Text(title),
         content: Text(info),
-        actions: getActionButton(context)
+        actions: getActionButton(_)
       );
     });
   }

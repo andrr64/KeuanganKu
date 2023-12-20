@@ -1,11 +1,6 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
-import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
-import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/app/widgets/app_bar/app_bar.dart';
 import 'package:keuanganku/app/widgets/date_picker/show_date_picker.dart';
 import 'package:keuanganku/app/widgets/heading_text/heading_text.dart';
@@ -18,14 +13,18 @@ import 'package:keuanganku/app/snack_bar.dart';
 import 'package:keuanganku/database/helper/expense.dart';
 import 'package:keuanganku/database/helper/income_category.dart';
 import 'package:keuanganku/database/model/category.dart';
+import 'package:keuanganku/database/model/const_value.dart';
 import 'package:keuanganku/database/model/expense.dart';
 import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/enum/status.dart';
+import 'package:keuanganku/k_typedef.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/date_util.dart';
 import 'package:keuanganku/util/dummy.dart';
+import 'package:keuanganku/util/error.dart';
 import 'package:keuanganku/util/font_style.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:keuanganku/util/get_currency.dart';
 
 class Data {
   SQLModelWallet? walletTerpilih;  
@@ -70,79 +69,111 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
   double ratingPengeluaran = 3;
 
   // Events
-  Future<bool> inputValidator(BuildContext context) async {
+  Future<dynamic> validator         (BuildContext context) async {
     SQLModelWallet wallet = await widget.pengeluaran!.wallet;
-    double totalUangWalletFree = await wallet.totalUang() + widget.pengeluaran!.nilai;
     double nilaiPengeluaran = 0;
     
     try{
+      double totalUangWalletFree = 0;
+      if (widget.withData == true) {
+        totalUangWalletFree = await wallet.totalUang() + widget.pengeluaran!.nilai;
+      } else {
+        totalUangWalletFree = await wallet.totalUang();
+      }
       nilaiPengeluaran = double.tryParse(controllerJumlah.text)!; 
       if (nilaiPengeluaran > totalUangWalletFree){
-        KDialogInfo(
-        title: "Invalid", info: "Masukan angka dengan benar.", 
-        jenisPesan: Pesan.Error).tampilkanDialog(context);
-      }
+        return ValidatorError.IfCondition;
+      } else if (nilaiPengeluaran <= 0){
+        return ValidatorError.LessThanOrEqualZero;
+      } 
     } catch(invalidDouble){
-      KDialogInfo(
-        title: "Invalid", info: "Masukan angka dengan benar.", 
-        jenisPesan: Pesan.Error).tampilkanDialog(context);
-      return false;
+      return ValidatorError.InvalidInput;
     }
-    return true;
+    return Condition.OK;
   }
-  KEventHandler eventSimpanPengeluaran(BuildContext context, Size size) {
-    Future memprosesData() async{
-      // Validator
-      try {
-        double.tryParse(controllerJumlah.text)!;
-      } catch (invalidDouble){
+  KValidator      validatorHandler  (BuildContext context, dynamic value){
+    if (value == ValidatorError.InvalidInput){
         KDialogInfo(
           title: "Invalid", 
           info: "Masukan sebuah angka", 
           jenisPesan: Pesan.Error
         ).tampilkanDialog(context);
-        return;
-      }
-      double jumlahPengeluaran = double.parse(controllerJumlah.text);
-      double jumlahUangPadaWallet = await widget.data.walletTerpilih!.totalUang();
-      if (jumlahUangPadaWallet < jumlahPengeluaran){
+      } else if (value == ValidatorError.IfCondition){
         KDialogInfo(
-          title: "Gagal", 
-          info: "Uang anda tidak cukup", 
+          title: "Uang Kurang", 
+          info: "Sayangnya uang di wallet anda tidak cukup (miskin)", 
           jenisPesan: Pesan.Warning
         ).tampilkanDialog(context);
-        return;
+      } else if (value == ValidatorError.LessThanOrEqualZero){
+        KDialogInfo(
+          title: "Invalid", 
+          info: "Masukan angka dengan benar", 
+          jenisPesan: Pesan.Error).tampilkanDialog(context);
+      } else if(value == ValidatorError.OverflowNumber){
+        KDialogInfo(
+          title: "Overflow Number",
+          info: "Sayangnya aplikasi ini hanya bisa memproses nilai ${formatCurrency(MAX_VALUE)}",
+          jenisPesan: Pesan.Error
+        ).tampilkanDialog(context);
+      } 
+      else if (value is SQLError){
+        tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Terdapat kesalahan saat menyimpan data");
+      } 
+      else if (value == Condition.OK){
+        tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
+        Navigator.pop(context); // Pop form data pengeluaran
+        widget.callback();
       }
-      // Process
-      SQLModelExpense dataBaru = SQLModelExpense(
+      else {
+        KDialogInfo(
+          title: "Exception", 
+          info: "Terdapat kesalahan :(", 
+          jenisPesan: Pesan.Error
+        ).tampilkanDialog(context);
+      }
+  }
+  KEventHandler   simpanData        (BuildContext context, Size size) {
+    Future memprosesData() async{
+      double nilaiPengeluaran = 0;
+      try {
+        nilaiPengeluaran = double.parse(controllerJumlah.text);
+        double totalUangPadaWallet = await widget.data.walletTerpilih!.totalUang();
+        if (nilaiPengeluaran > MAX_VALUE || nilaiPengeluaran <= 0){
+          return ValidatorError.OverflowNumber;
+        }
+        else if (nilaiPengeluaran > totalUangPadaWallet){
+          return ValidatorError.IfCondition;
+        }
+      }  catch(formatException){
+        return ValidatorError.InvalidInput;
+      }
+      SQLModelExpense data = SQLModelExpense(
         id: -1, 
         id_wallet: widget.data.walletTerpilih!.id, 
         id_kategori: widget.data.kategoriTerplilih!.id, 
         judul: controllerJudul.text, 
         deskripsi: controllerDeskripsi.text, 
-        nilai: double.tryParse(controllerJumlah.text)!, 
+        nilai: nilaiPengeluaran, 
         rating: ratingPengeluaran, 
-        waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran),
-      );
-
-      if ((await SQLHelperExpense().insert(dataBaru, db: db.database)) != -1) {
-        tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
-        widget.callback();
-        HalamanPengeluaran.state.update();
-        HalamanWallet.state.update();
-        HalamanBeranda.state.update();
-      } else {
-        tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Something wrong...");
+        waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran));
+      if (await SQLHelperExpense().insert(data, db: db.database) == -1){
+        return SQLError.Insert;
       }
+      return Condition.OK;
     }
-    memprosesData().then((value)  {
-      Navigator.pop(context); 
-    });
+    memprosesData().then((value) => validatorHandler(context, value));
   }
-  KEventHandler updateData(BuildContext context) async {
-    bool validatorStatus = await inputValidator(context);
-    if (validatorStatus){
-      SQLModelExpense dataBaru = SQLModelExpense(
+
+  KEventHandler   updateData        (BuildContext context) {
+    Future<dynamic> memprosesData() async{
+      validator(context).then(
+        (value){
+          if (value != Condition.OK){
+            return value;
+          }
+        });
+
+        SQLModelExpense dataBaru = SQLModelExpense(
         id: widget.pengeluaran!.id, 
         id_wallet: widget.data.walletTerpilih!.id, 
         id_kategori: widget.data.kategoriTerplilih!.id, 
@@ -152,18 +183,30 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         rating: ratingPengeluaran, 
         waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran),
       );
-        int exitCde = await SQLHelperExpense().update(dataBaru, db: db.database);
-       if (exitCde != -1) {
-        tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
+      int exitCde = await SQLHelperExpense().update(dataBaru, db: db.database);
+      if (exitCde != -1) {
+        return Condition.OK;
+      } 
+      return SQLError.Update;
+    }  
+    memprosesData().then((value) {
+      validatorHandler(context, value);
+    });
+  }
+  KEventHandler   deleteData        (BuildContext context) {
+    Future<int> memprosesData() async {
+      return await SQLHelperExpense().delete(widget.pengeluaran!.id, db: db.database);
+    }
+    memprosesData().then((value){
+      if (value != -1){
+        tampilkanSnackBar(context, jenisPesan: Pesan.Konfirmasi, msg: "data berhasil dihapus"); 
         widget.callback();
       } else {
-        tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Something wrong...");
+        tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "something wrong...");
       }
-    }
+    });
   }
-  Future<int> deleteData() async {
-    return await SQLHelperExpense().delete(widget.pengeluaran!.id, db: db.database);
-  }
+  
   // Widgets
   Widget heading(){
     return Row(
@@ -432,8 +475,8 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
     Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: KButton(
-        onTap: (){
-          eventSimpanPengeluaran(context, size);
+        onTap: () {
+          simpanData(context, size);
         },
         title: "Simpan", 
         icon: const Icon(Icons.save, color: Colors.white,),
@@ -517,19 +560,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
                 title: "Anda yakin?", 
                 info: "Data tidak bisa dikembalikan dan uang akan dikembalikan ke wallet", 
                 onOk: () {
-                  Navigator.pop(context);
-                  deleteData().then((value){
-                    if (value != -1){
-                      widget.callback();
-                      tampilkanSnackBar(context, jenisPesan: Pesan.Konfirmasi, msg: "data berhasil dihapus");
-                      Navigator.pop(context);
-                    } else {
-                      tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "something wrong...");
-                    }
-                  });
-                  
-                },
-                onCancel: (){
+                  deleteData(context);
                   Navigator.pop(context);
                 },
                 jenisPesan: Pesan.Konfirmasi,

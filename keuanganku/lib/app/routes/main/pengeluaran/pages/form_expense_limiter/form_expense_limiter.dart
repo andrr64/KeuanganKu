@@ -173,29 +173,29 @@ class _FormExpenseLimiterState extends State<FormExpenseLimiter> {
     }
   }
    
-    List<Widget> withDataButton(){
-      return [
-        KButton(
-          onTap: (){}, 
-          title: "Update", 
-          icon: const Icon(Icons.update, color: Colors.white,),
-          color: Colors.white,
-          bgColor: Colors.green,
-        )
-      ];
-    }
-    List<Widget> withoutDataButton(){
-      return [
-        KButton(
-          onTap: simpanData, 
-          title: "Simpan", 
-          icon: const Icon(Icons.save, color: Colors.white,),
-          color: Colors.white,
-          bgColor: Colors.green,
-        )
-      ];
-    }
-    
+  List<Widget> withDataButton(){
+    return [
+      KButton(
+        onTap: (){}, 
+        title: "Update", 
+        icon: const Icon(Icons.update, color: Colors.white,),
+        color: Colors.white,
+        bgColor: Colors.green,
+      )
+    ];
+  }
+  List<Widget> withoutDataButton(){
+    return [
+      KButton(
+        onTap: simpanData, 
+        title: "Simpan", 
+        icon: const Icon(Icons.save, color: Colors.white,),
+        color: Colors.white,
+        bgColor: Colors.green,
+      )
+    ];
+  }
+  
    return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
