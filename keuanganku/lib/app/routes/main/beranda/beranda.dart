@@ -6,7 +6,6 @@ import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_expenselimit
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/list_wallet/list_wallet.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/statistik/statistik.dart';
-import 'package:keuanganku/app/widgets/k_app_bar/k_app_bar.dart';
 import 'package:keuanganku/app/state_bridge.dart';
 import 'package:keuanganku/database/helper/user_data.dart';
 import 'package:keuanganku/database/helper/wallet.dart';
@@ -37,6 +36,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
   KEventHandler callback(){
     updateState();
     HalamanPengeluaran.state.update();
+    HalamanWallet.state.update();
   }
 
   void updateState() {
@@ -116,9 +116,6 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          dummyHeight(height: 50),
-          KPageAppBar(title: "Beranda", menuButton: drawerButton(),),
-          dummyHeight(height: paddingBottom),
           getUsername(),
           dummyHeight(height: paddingBottom),
           listWallet(),
