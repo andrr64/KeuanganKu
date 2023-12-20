@@ -1,0 +1,1 @@
+const double MAX_VALUE = 100000000000.0;
