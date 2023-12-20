@@ -2,21 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_data_pengeluaran/form_data_pengeluaran.dart';
 import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_dialog/k_dialog_info.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
-import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
-import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_data_pengeluaran/form_data_pengeluaran.dart';
-import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/k_pengeluaran_item/k_pengeluaran_item.dart';
-import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/database/helper/income_category.dart';
 import 'package:keuanganku/database/helper/wallet.dart';
 import 'package:keuanganku/database/model/category.dart';
 import 'package:keuanganku/database/model/expense.dart';
 import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/enum/status.dart';
+import 'package:keuanganku/k_typedef.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 
@@ -35,44 +33,33 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
       height: 30,
   );
 
-  //EVENTS
-  void tambahDataBaru(BuildContext context) async {
-    List<SQLModelWallet> listWallet = await SQLHelperWallet().readAll(db.database);
-    if(listWallet.isEmpty){
-      KDialogInfo(
-        title: "Wallet Kosong", 
-        info: "Anda tidak memiliki wallet :(", 
-        jenisPesan: Pesan.Warning
-      ).tampilkanDialog(context);
-      return;}
-
-    bool dataBaruDisimpan = false;
-    List<SQLModelCategory> listKategori = await SQLHelperExpenseCategory().readAll(db: db.database);
-    Navigator.push(
-      context, 
-      MaterialPageRoute(
-        builder: (_) => 
-          FormDataPengeluaran(
-            listWallet: listWallet,
-            listKategori: listKategori,
-            callback: (){
-              // Ketika databaru udah kesimpen di database..maka lakukan
-              dataBaruDisimpan = true;
-            },
-          )
-        )
-    ).
-    then((value) {
-      if (dataBaruDisimpan){
-        HalamanPengeluaran.state.update();
-        HalamanBeranda.state.update();
-        HalamanWallet.state.update();
-      }
+  // EVENTS
+  KEventHandler tambahDataBaru    (BuildContext context) {
+    List<SQLModelWallet>? listWallet;
+    List<SQLModelCategory>? listKategori;
+    Future memprosesData() async {
+      listWallet = await SQLHelperWallet().readAll(db.database);
+      listKategori = await SQLHelperExpenseCategory().readAll(db: db.database);
+    }
+    memprosesData().then((value) {
+      if(listWallet!.isEmpty){
+        KDialogInfo(
+          title: "Wallet Kosong", 
+          info: "Anda tidak memiliki wallet :(", 
+          jenisPesan: Pesan.Warning
+        ).tampilkanDialog(context);
+        return;}
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_){
+          return FormDataPengeluaran(listWallet: listWallet!, listKategori: listKategori!, callback: widget.callback);
+        })
+      );
     });
   }
 
   // WIDGETS
-  Widget emptyBuild(){
+  Widget        emptyBuild        (){
     return makeCenterWithRow(
       child: const Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
@@ -80,7 +67,7 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
       )
     );
   }
-  Widget normalBuild(BuildContext context, Size size){
+  Widget        normalBuild       (BuildContext context, Size size){
     return Column(
       children: [
         for(int i=0; i < widget.listPengeluaran.length; i++)
@@ -94,10 +81,14 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
       ],
     );
   }
-  Widget buildBody(BuildContext context, Size size){
-    return widget.listPengeluaran.isEmpty? emptyBuild() : normalBuild(context, size);
+  KWidget       buildBody         (BuildContext context, Size size){
+    if (widget.listPengeluaran.isEmpty){
+      return emptyBuild();
+    } else {
+      return normalBuild(context, size);
+    }
   }
-  Widget tombolTambahData(BuildContext context){
+  KButton       tombolTambahData  (BuildContext context){
     return KButton(  
       onTap: (){
         tambahDataBaru(context);
