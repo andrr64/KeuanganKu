@@ -1,20 +1,19 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/snack_bar.dart';
 import 'package:keuanganku/app/widgets/app_bar/app_bar.dart';
 import 'package:keuanganku/app/widgets/date_picker/show_date_picker.dart';
-import 'package:keuanganku/app/widgets/heading_text/heading_text.dart';
 import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_dialog/k_dialog_info.dart';
 import 'package:keuanganku/app/widgets/k_dropdown_menu/k_drodpown_menu.dart';
 import 'package:keuanganku/app/widgets/k_textfield/ktext_field.dart';
 import 'package:keuanganku/app/widgets/time_picker/show_time_picker.dart';
+import 'package:keuanganku/database/helper/expense.dart';
 import 'package:keuanganku/database/helper/expense_category.dart';
 import 'package:keuanganku/database/helper/income.dart';
 import 'package:keuanganku/database/model/category.dart';
+import 'package:keuanganku/database/model/const_value.dart';
 import 'package:keuanganku/database/model/income.dart';
 import 'package:keuanganku/database/model/expense.dart';
 import 'package:keuanganku/database/model/wallet.dart';
@@ -23,7 +22,14 @@ import 'package:keuanganku/k_typedef.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/date_util.dart';
 import 'package:keuanganku/util/dummy.dart';
+import 'package:keuanganku/util/error.dart';
 import 'package:keuanganku/util/font_style.dart';
+import 'package:keuanganku/util/vector_operation.dart';
+
+enum FormError {
+  NamaKosong,
+  OverflowMaxValue
+}
 
 class Data {
   SQLModelWallet? walletTerpilih;
@@ -64,7 +70,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
   double    ratingPengeluaran = 3;
 
   // Events
-  KEventHandler   simpanData          (BuildContext context, Size size) {
+  KEventHandler   simpanData (BuildContext context, Size size) {
     Future memprosesData() async{
       // Validator
       try {
@@ -109,38 +115,63 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
       widget.callback();
     });
   }
-  KEventHandler   updateData          (BuildContext context){
+  KValidator      validatorUpdateData         (BuildContext context) async {
+    double jumlahPemasukan = 0;
     try {
-      double.tryParse(controllerJumlah.text)!;
+      jumlahPemasukan = double.parse(controllerJumlah.text);
     } catch (invalidDouble){
-      KDialogInfo(
-        title: "Invalid", 
-        info: "Masukan sebuah angka...", 
-        jenisPesan: Pesan.Error
-      ).tampilkanDialog(context);
-      return;
+      return ValidatorError.InvalidInput;
     }
-    double jumlahPengeluaran = double.parse(controllerJumlah.text);
-    SQLModelIncome dataBaru = SQLModelIncome(
-      id: widget.pemasukan!.id, 
-      id_wallet: widget.data.walletTerpilih!.id, 
-      id_kategori: widget.data.kategoriTerpilih!.id, 
-      judul: controllerJudul.text, 
-      deskripsi: controllerDeskripsi.text, 
-      nilai: jumlahPengeluaran, 
-      waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran));
-    Future updateDataKeDatabase() async {
-      return await SQLHelperIncome().update(dataBaru, db.database);
+    SQLModelWallet wallet = await widget.pemasukan!.wallet;
+    List<SQLModelExpense> listPengeluaran = await SQLHelperExpense().readByWalletId(wallet.id, db.database);
+    double totalUangPadaWallet = await wallet.totalUang();
+    double totalPengeluaranPadaWallet = sumList(listPengeluaran.map((e) => e.nilai).toList());
+    double totalNilaiTransaksiPadaWallet = totalUangPadaWallet + totalPengeluaranPadaWallet;
+    if (totalNilaiTransaksiPadaWallet + jumlahPemasukan > MAX_VALUE){
+      return ValidatorError.OverflowNumber;
     }
-    updateDataKeDatabase().then((value){
-      if (value != -1){
-        tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data Berhasil Diperbaharui");
-      } else {
-        tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Something wrong...");
-      }
+    else if (jumlahPemasukan <= 0){
+      return ValidatorError.LessThanOrEqualZero;
+    }
+    return Condition.OK;
+  }
+  KValidator      validatorUpdateDataHandler  (BuildContext context, dynamic value){
+    if (value == Condition.OK){
+      tampilkanSnackBar(
+        context, 
+        jenisPesan: Pesan.Success, 
+        msg: "Data berhasil diperbaharui"
+      );
+      Navigator.pop(context); // pop form pemasukan
       widget.callback();
+    }
+  }
+  KEventHandler   updateData                  (BuildContext context){
+    Future memprosesData() async {
+      dynamic validatorResult = await validatorUpdateData(context);
+      if (validatorResult != Condition.OK){
+        return validatorResult;
+      }
+      SQLModelIncome dataBaru = SQLModelIncome(
+        id: widget.pemasukan!.id, 
+        id_wallet: widget.data.walletTerpilih!.id, 
+        id_kategori: widget.data.kategoriTerpilih!.id, 
+        judul: controllerJudul.text, 
+        deskripsi: controllerDeskripsi.text, 
+        nilai: double.parse(controllerJumlah.text), 
+        waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran
+      ));
+      if (await SQLHelperIncome().update(dataBaru, db.database) != -1){
+        return Condition.OK;
+      }
+      return SQLError.Update;
+    }
+    
+    memprosesData().then((value){
+      validatorUpdateDataHandler(context, value);
     });
   }
+  
   KEventHandler   hapusData           (BuildContext context) {
     if (widget.pemasukan == null) {
       return;
@@ -180,7 +211,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
       },
     );
   }
-  KValidator  isWithDataValidator (){
+  KEventHandler   isWithDataCheck     (){
     if (widget.isWithData == true){
       controllerDeskripsi.text = widget.pemasukan!.deskripsi;
       controllerJudul.text = widget.pemasukan!.judul;
@@ -233,26 +264,6 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
         color: Colors.white,
         bgColor: Colors.green,
       ),
-    );
-  }
-  KWidget         heading             (){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25,),
-          child: HeadingText().h1("+ Pengeluaran Baru"),
-        ),
-        GestureDetector(
-          child: const  Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25),
-            child: Icon(Icons.close),
-          ),
-          onTap: (){
-            Navigator.pop(context);
-          },
-        )
-      ],
     );
   }
   KFormWidget     dropDownKategori    (BuildContext context){
@@ -497,7 +508,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
     controllerTanggal.text = formatTanggal(tanggalPengeluaran);
     controllerWaktu.text = formatWaktu(jamPengeluaran);
     controllerInfoRating.text = SQLModelExpense.infoRating(ratingPengeluaran);
-    isWithDataValidator();
+    isWithDataCheck();
 
     final size = MediaQuery.sizeOf(context);
     return Scaffold(

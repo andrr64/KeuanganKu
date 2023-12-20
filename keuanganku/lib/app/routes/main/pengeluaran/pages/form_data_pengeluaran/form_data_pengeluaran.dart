@@ -1,11 +1,8 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/widgets/app_bar/app_bar.dart';
 import 'package:keuanganku/app/widgets/date_picker/show_date_picker.dart';
-import 'package:keuanganku/app/widgets/heading_text/heading_text.dart';
 import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_dialog/k_dialog_info.dart';
 import 'package:keuanganku/app/widgets/k_dropdown_menu/k_drodpown_menu.dart';
@@ -233,29 +230,26 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       }
     });
   }
-  
-  // Widgets
-  Widget heading(){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25,),
-          child: HeadingText().h1("+ Pengeluaran Baru"),
-        ),
-        GestureDetector(
-          child: const  Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25),
-            child: Icon(Icons.close),
-          ),
-          onTap: (){
-            Navigator.pop(context);
-          },
-        )
-      ],
-    );
+  KEventHandler   isWithDataCheck           () {
+    if (widget.withData == true){
+      controllerJudul.text = widget.pengeluaran!.judul;
+      controllerDeskripsi.text = widget.pengeluaran!.deskripsi;
+      controllerTanggal.text = formatTanggal(widget.pengeluaran!.waktu);
+      controllerWaktu.text = formatWaktu(TimeOfDay(hour: widget.pengeluaran!.waktu.hour, minute: widget.pengeluaran!.waktu.minute));
+      controllerJumlah.text = widget.pengeluaran!.nilai.toString();
+      controllerInfoRating.text = SQLModelExpense.infoRating(widget.pengeluaran!.rating);
+      ratingPengeluaran = widget.pengeluaran!.rating;
+    }
+    else {
+      controllerTanggal.text = formatTanggal(tanggalPengeluaran);
+      controllerWaktu.text = formatWaktu(jamPengeluaran);
+      controllerInfoRating.text = SQLModelExpense.infoRating(ratingPengeluaran);
+      ratingPengeluaran = 3;
+    }
   }
-  Widget fieldJudul(){
+
+  // Widgets
+  KFormWidget   fieldJudul          () {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: KTextField(
@@ -265,7 +259,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         prefixIconColor: ApplicationColors.primary  ),
     );
   }
-  Widget fieldJumlah(){
+  KFormWidget   fieldJumlah         () {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: KTextField(
@@ -276,7 +270,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         prefixIconColor: ApplicationColors.primary),
     );
   }
-  Widget fieldDeskripsi() {
+  KFormWidget   fieldDeskripsi      () {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: TextFormField(
@@ -289,7 +283,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ),
     );
   }
-  Widget fieldTanggal(BuildContext context, Size size){
+  KFormWidget   fieldTanggal        (BuildContext context, Size size) {
     return Padding(
       padding: const EdgeInsets.only(left: 25),
       child: Row(
@@ -318,31 +312,28 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ),
     );
   }
-  Widget fieldJam(BuildContext context, Size size){
-    return Padding(
-      padding: const EdgeInsets.only(left: 25),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 125,
-            child: KTextField(
-              fieldController: controllerWaktu, 
-              fieldName: "Jam", 
-              readOnly: true,
-              prefixIconColor: ApplicationColors.primary,
-              icon: Icons.alarm,
-              onTap: () async {
-                jamPengeluaran = await tampilkanTimePicker(context: context, waktu: jamPengeluaran);
-                controllerWaktu.text = formatWaktu(jamPengeluaran);
-              },
-            ),
+  KFormWidget   fieldJam            (BuildContext context, Size size) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: size.width * 0.3,
+          child: KTextField(
+            fieldController: controllerWaktu,
+            fieldName: "Jam",
+            readOnly: true,
+            prefixIconColor: ApplicationColors.primary,
+            icon: Icons.alarm,
+            onTap: () async {
+              jamPengeluaran = await tampilkanTimePicker(context: context, waktu: jamPengeluaran);
+              controllerWaktu.text = formatWaktu(jamPengeluaran);
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
-  Widget dropDownMenuWallet(){
+  KFormWidget   dropDownMenuWallet  () {
     if (widget.withData == true){
       for (var wallet  in widget.listWallet) {
         if (wallet.id == widget.walletAndKategori!['wallet'].id){
@@ -382,7 +373,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ).getWidget(),
     );
   }
-  Widget dropDownKategori(BuildContext context){
+  KFormWidget   dropDownKategori    (BuildContext context) {
     List<DropdownMenuItem<SQLModelCategory>> items (){
       List<DropdownMenuItem<SQLModelCategory>> listItem = widget.listKategori.map((kategori){
           return DropdownMenuItem<SQLModelCategory>(
@@ -484,7 +475,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ).getWidget(),
     );
   }
-  Widget buttonClear(){
+  KFormWidget   buttonClear         () {
     return KButton(
       onTap: (){
         controllerJudul.text = "";
@@ -497,7 +488,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       title: "Bersihkan", 
       icon: const Icon(Icons.clear, color: Colors.white));
     }
-  Widget buttonSimpan(BuildContext context, Size size){
+  KFormWidget   buttonSimpan        (BuildContext context, Size size) {
     return
     Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -512,7 +503,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ),
     );
   }
-  Widget buttonUpdate(BuildContext context){
+  KFormWidget   buttonUpdate        (BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 25, right: 10),
       child: KButton(
@@ -526,17 +517,17 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ),
     );
   }
-  Widget ratingBar(){
+  KFormWidget   ratingBar           (){
     return Padding(
       padding: const EdgeInsets.only(left: 25),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            width: 120,
+            width: 0.4 * MediaQuery.sizeOf(context).width,
             child: KTextField(
-              fieldController: controllerInfoRating, 
-              fieldName: "Rating", 
+              fieldController: controllerInfoRating,
+              fieldName: "Rating",
               prefixIconColor: ApplicationColors.primary,
               icon: Icons.star,
               readOnly: true,
@@ -565,20 +556,27 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
     );
   }
 
-  List<Widget> buttonAction(BuildContext context, size){
+  KApplicationBar appBar              () {
+    return KAppBar(
+        backgroundColor: Colors.white,
+        title: widget.withData == true? "Detail Pengeluaran" : "Pengeluaran Baru",
+        fontColor: ApplicationColors.primary,
+        action: rightLeadingAction(context)
+    ).getWidget();
+  }
+  List<Widget>    buttonAction        (BuildContext context, size) {
     if (widget.withData == true){
       return [
         buttonUpdate(context)
       ];
     } else {
-      
       return [
         buttonSimpan(context, size),
         buttonClear(),
       ];
     }
   }
-  List<Widget>? action (BuildContext context){
+  List<Widget>?   rightLeadingAction  (BuildContext context) {
     if (widget.withData == true){
       return [
           GestureDetector(
@@ -605,56 +603,42 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.withData == true){
-      controllerJudul.text = widget.pengeluaran!.judul;
-      controllerDeskripsi.text = widget.pengeluaran!.deskripsi;
-      controllerTanggal.text = formatTanggal(widget.pengeluaran!.waktu);
-      controllerWaktu.text = formatWaktu(TimeOfDay(hour: widget.pengeluaran!.waktu.hour, minute: widget.pengeluaran!.waktu.minute));
-      controllerJumlah.text = widget.pengeluaran!.nilai.toString();
-      controllerInfoRating.text = SQLModelExpense.infoRating(widget.pengeluaran!.rating);
-      ratingPengeluaran = widget.pengeluaran!.rating;
-    }
-    else {
-      controllerTanggal.text = formatTanggal(tanggalPengeluaran);
-      controllerWaktu.text = formatWaktu(jamPengeluaran);
-      controllerInfoRating.text = SQLModelExpense.infoRating(ratingPengeluaran);
-      ratingPengeluaran = 3;
-    }
-
     final size = MediaQuery.sizeOf(context);
+    isWithDataCheck();
+    const double paddingBottom = 15;
+
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: KAppBar(
-        backgroundColor: Colors.white, 
-        title: widget.withData == true? "Detail Pengeluaran" : "Pengeluaran Baru", 
-        fontColor: ApplicationColors.primary,
-        action: action(context)
-      ).getWidget(),
+      appBar: appBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            dummyHeight(height: 15),
+            dummyHeight(height: paddingBottom),
             fieldJudul(),
-            dummyHeight(height: 20),
+            dummyHeight(height: paddingBottom),
             fieldJumlah(),
-            dummyHeight(height: 20),
+            dummyHeight(height: paddingBottom),
             fieldDeskripsi(),
-            dummyHeight(height: 20),
+            dummyHeight(height: paddingBottom),
             dropDownMenuWallet(),
-            dummyHeight(height: 20),
+            dummyHeight(height: paddingBottom),
             fieldTanggal(context, size),
-            dummyHeight(height: 20),
-            Row(
-              children: [
-                fieldJam(context, size),
-                const SizedBox(width: 15,),
-                dropDownKategori(context),
-              ],
+            dummyHeight(height: paddingBottom),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  fieldJam(context, size),
+                  dropDownKategori(context),
+                ],
+              ),
             ),
-            dummyHeight(height: 20),
+            dummyHeight(height: paddingBottom),
             ratingBar(),
-            dummyHeight(height: 20),
+            dummyHeight(height: paddingBottom),
             Row(
               children: buttonAction(context, size),
             ),
