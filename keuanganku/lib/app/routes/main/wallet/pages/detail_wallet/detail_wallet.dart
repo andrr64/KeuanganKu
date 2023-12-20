@@ -1,21 +1,15 @@
-// ignore_for_file: use_build_context_synchronously, library_prefixes
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/distribusi/distribusi_transaksi.dart' as distribusiTx;
-import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_data_pengeluaran/form_data_pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/k_pengeluaran_item/k_pengeluaran_item.dart';
+import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_pengeluaran/list_pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/k_pemasukan_item/k_pemasukan_item.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/list_pemasukan/k_list_pemasukan.dart';
 import 'package:keuanganku/app/widgets/app_bar/app_bar.dart';
-import 'package:keuanganku/app/widgets/k_button/k_button.dart';
-import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
+import 'package:keuanganku/app/widgets/k_future_builder/k_future.dart';
 import 'package:keuanganku/database/helper/income.dart';
 import 'package:keuanganku/database/helper/expense.dart';
-import 'package:keuanganku/database/helper/income_category.dart';
-import 'package:keuanganku/database/model/category.dart';
 import 'package:keuanganku/database/model/income.dart';
 import 'package:keuanganku/database/model/expense.dart';
 import 'package:keuanganku/database/model/wallet.dart';
@@ -94,38 +88,18 @@ class _DetailWalletState extends State<DetailWallet> {
   
   // Widgets
   KWidget         listPengeluaran(BuildContext context){
-    final icon = SvgPicture.asset("assets/icons/pengeluaran.svg");
-    return makeCenterWithRow(
-        child: FutureBuilder(
-            future: SQLHelperExpense().readByWalletId(widget.wallet.id, db.database),
-            builder: (_, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return const Text("Sadly, something wrong...");
-              } else {
-                return KCard(
-                    width: MediaQuery.sizeOf(context).width * 0.875,
-                    title: "Pengeluaran",
-                    icon: icon,
-                    button: KButton(
-                        onTap: () async {
-                          List<SQLModelWallet> listWallet = [widget.wallet];
-                          List<SQLModelCategory> listKategoriPemasukan = await SQLHelperExpenseCategory().readAll(db: db.database);
-                          Navigator.push(context, MaterialPageRoute(builder: (_) => FormDataPengeluaran(
-                              listKategori: listKategoriPemasukan,
-                              listWallet: listWallet,
-                              callback: callback
-                          )));
-                        },
-                        title: "Tambah",
-                        icon: const Icon(Icons.add)
-                    ),
-                    child: buildListPengeluaran(context, snapshot.data!)
-                );
-              }
-            }
-        )
+    return KFutureBuilder.build<List<SQLModelExpense>>(
+      future: SQLHelperExpense().readByWalletId(widget.wallet.id, db.database), 
+      whenError: ListPengeluaran(
+        listPengeluaran: const [], 
+        callback: callback
+      ), 
+      whenSuccess: (data){
+        return ListPengeluaran(
+          listPengeluaran: data, 
+          callback: callback
+        );
+      }
     );
   }
   KWidget         listPemasukan(BuildContext context){
