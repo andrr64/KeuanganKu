@@ -50,7 +50,6 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
           void callback(){
             updateState();
             HalamanBeranda.state.update();
-            HalamanPengeluaran.state.update();
             HalamanWallet.state.update();
           }
           return ListPengeluaran(
