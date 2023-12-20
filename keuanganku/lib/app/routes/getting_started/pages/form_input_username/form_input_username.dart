@@ -9,6 +9,7 @@ import 'package:keuanganku/app/widgets/k_textfield/ktext_field.dart';
 import 'package:keuanganku/database/helper/user_data.dart';
 import 'package:keuanganku/database/model/user_data.dart';
 import 'package:keuanganku/enum/status.dart';
+import 'package:keuanganku/k_typedef.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/font_style.dart';
@@ -23,9 +24,43 @@ class FormInputUsername extends StatefulWidget {
 class _FormInputUsernameState extends State<FormInputUsername> {
   TextEditingController controllerUsername = TextEditingController();
 
+  KFormWidget   fieldNama (){
+    return KTextField(
+      fieldController: controllerUsername,
+      fieldName: "Nama",
+      prefixIconColor: ApplicationColors.primary,
+      icon: CupertinoIcons.person_crop_circle,
+    );
+  }
+  KButton       tombolOk  (){
+    return KButton(
+      onTap: () async {
+        if (controllerUsername.text.isEmpty){
+          KDialogInfo(
+              title: "Hmmm...", info: "Masukin nama dulu dong :(", jenisPesan: Pesan.Warning).tampilkanDialog(context);
+        } else {
+          SQLModelUserdata userdataBaru = SQLModelUserdata(id: -1, username: controllerUsername.text);
+          int exitCode = await SQLHelperUserData().updateById(db.database,1, userdataBaru);
+          if (exitCode != -1){
+            Navigator.pushReplacementNamed(context, routes.mainPage);
+          } else {
+            KDialogInfo(
+                title: "Exception",
+                info: "Terjadi kesalahan saat menyimpan data",
+                jenisPesan: Pesan.Warning
+            ).tampilkanDialog(context);
+            Navigator.pop(context);
+          }
+        }
+      },
+      title: "Ok",
+      icon: null,
+      bgColor: ApplicationColors.primary, color: Colors.white,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    controllerUsername.text = "Aku biasa dipanggil...";
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -36,34 +71,9 @@ class _FormInputUsernameState extends State<FormInputUsername> {
           children: [
             Text("Hai, boleh kenalan gak?", style: kFontStyle(fontSize: 20),),
             dummyHeight(height: 15),
-            KTextField(
-              fieldController: controllerUsername, 
-              fieldName: "Nama", 
-              prefixIconColor: ApplicationColors.primary,
-              icon: CupertinoIcons.person_crop_circle,
-            ),
+            fieldNama(),
             dummyHeight(height: 15),
-            KButton(
-              onTap: () async {
-                if (controllerUsername.text.isEmpty){
-                  KDialogInfo(
-                    title: "Hmmm...", info: "Masukin nama dulu dong :(", jenisPesan: Pesan.Warning).tampilkanDialog(context);
-                } else {
-                  SQLModelUserdata userdataBaru = SQLModelUserdata(id: -1, username: controllerUsername.text);
-                  int exitCode = await SQLHelperUserData().updateById(db.database,1, userdataBaru);
-                  if (exitCode != -1){
-                    Navigator.pushReplacementNamed(context, routes.mainPage);
-                  } else {
-                    KDialogInfo(
-                      title: "Exception", 
-                      info: "Terjadi kesalahan saat menyimpan data", 
-                      jenisPesan: Pesan.Warning
-                    ).tampilkanDialog(context);
-                    Navigator.pop(context);
-                  }
-                }
-              }, 
-              title: "Ok", icon: null, bgColor: ApplicationColors.primary, color: Colors.white,)
+            tombolOk(),
           ],
         ),
       ),

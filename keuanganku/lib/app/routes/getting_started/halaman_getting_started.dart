@@ -18,14 +18,25 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
   final Duration _animationDuration = const Duration(milliseconds: 1000);
   final Curve _animationCurve = Curves.easeOutQuint;
   bool halamanAkhir = false;
-
+  final listHalaman = [
+    const Halaman1(), 
+    const Halaman2(), 
+    const HalamanAkhir()
+  ];
+  
   @override
   Widget build(BuildContext context) {
+  final halamanTerakhir = listHalaman.length-1;
+
     return Scaffold(
       body: Stack(children: [
         PageView(
           controller: _pageController,
-          children: const [Halaman1(), Halaman2(), HalamanAkhir()],
+          children: const [
+            Halaman1(), 
+            Halaman2(), 
+            HalamanAkhir()
+          ],
           onPageChanged: (value) {
             setState(() {
               halamanAkhir = value == 2;
@@ -44,7 +55,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                       height: 30,
                       child: GestureDetector(
                         onTap: () {
-                          _pageController.animateToPage(2,
+                          _pageController.animateToPage(halamanTerakhir,
                               duration: _animationDuration,
                               curve: _animationCurve);
                         },
@@ -72,7 +83,6 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
               ),
               !halamanAkhir
                   ? SizedBox(
-                      width: 70,
                       height: 30,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -90,14 +100,13 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                       ),
                     )
                   : SizedBox(
-                      width: 70,
                       height: 30,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ApplicationColors.primary,
                         ),
                         child: const Text(
-                          "Done",
+                          "Let's go",
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () {

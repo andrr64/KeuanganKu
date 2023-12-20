@@ -46,8 +46,7 @@ Column getSplashInfo({required judul, required info, required pathImage}) {
         }
         ),
       ),
-      Container(
-          alignment: Alignment.center, height: 50, child: getJudul(judul)),
+      Container(alignment: Alignment.center, height: 50, child: getJudul(judul)),
       Container(alignment: Alignment.center, width: 300, child: _getInfo(info))
     ],
   );
