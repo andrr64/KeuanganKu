@@ -4,7 +4,6 @@ import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/list_pemasukan/k_list_pemasukan.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/list_wallet/list_wallet.dart';
-import 'package:keuanganku/app/widgets/k_app_bar/k_app_bar.dart';
 import 'package:keuanganku/app/state_bridge.dart';
 import 'package:keuanganku/database/helper/income.dart';
 import 'package:keuanganku/database/helper/wallet.dart';
@@ -35,24 +34,7 @@ class _HalamanWalletState extends State<HalamanWallet> {
 
   @override
   Widget build(BuildContext context) {
-    HalamanWallet.state.init(() {
-      setState(() {
-        
-      });
-    });
-    // Widgets
-    Widget drawerButton(){
-      return GestureDetector(
-        onTap: (){
-          widget.parentScaffoldKey.currentState!.openDrawer();
-        },
-        child: const Icon(
-          Icons.menu, 
-          size: 30, 
-          color: Colors.white,
-        ),
-      );
-    }
+    HalamanWallet.state.init(updateState);
     Widget listWallet() {
       void callback(){
         updateState();
@@ -103,6 +85,7 @@ class _HalamanWalletState extends State<HalamanWallet> {
         }
       );
     }
+    const double paddingBottom = 15;
 
     return Scaffold(
       backgroundColor: ApplicationColors.primary,
@@ -111,13 +94,11 @@ class _HalamanWalletState extends State<HalamanWallet> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            dummyHeight(height: 50),
-            KPageAppBar(title: "Wallet", menuButton: drawerButton()),
-            dummyHeight(height: 15),
+            dummyHeight(height: paddingBottom),
             listWallet(),
-            dummyHeight(height: 15),
+            dummyHeight(height: paddingBottom),
             listPemasukan(),
-            dummyHeight(height: 15),
+            dummyHeight(height: paddingBottom),
           ],
         ),
       )

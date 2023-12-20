@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_expenselimiter/list_expenselimiter.dart';
-import 'package:keuanganku/app/widgets/k_app_bar/k_app_bar.dart';
 import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_pengeluaran/list_pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
@@ -62,7 +61,7 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
   }
   Widget listExpenseLimiter(){
     void callback(){
-      setState(() {});
+      HalamanWallet.state.update();
       HalamanBeranda.state.update();
       HalamanPengeluaran.state.update();
     }
@@ -76,9 +75,8 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
 
   @override
   Widget build(BuildContext context) {
-    HalamanPengeluaran.state.init(() {setState(() {
-      
-    });});
+    HalamanPengeluaran.state.init(updateState);
+    const double paddingBottom = 15;
     return Scaffold(
       backgroundColor: ApplicationColors.primary,
       body: SingleChildScrollView(
@@ -86,16 +84,11 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            dummyHeight(height: 50),
-            KPageAppBar(
-              title: "Pengeluaran", 
-              menuButton: drawerButton()
-            ),
-            dummyHeight(height: 15),
+            dummyHeight(height: paddingBottom),
             listPengeluaran(),
-            dummyHeight(height: 15),
+            dummyHeight(height: paddingBottom),
             listExpenseLimiter(),
-            dummyHeight(height: 15)
+            dummyHeight(height: paddingBottom)
           ],
         ),
       )
