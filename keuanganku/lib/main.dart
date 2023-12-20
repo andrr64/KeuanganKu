@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keuanganku/app/widgets/k_future_builder/k_future.dart';
 import 'package:keuanganku/database/database_services.dart';
 import 'package:keuanganku/android_system.dart';
 import 'package:keuanganku/app/routes.dart';
@@ -13,13 +14,13 @@ extension EnumToString on Enum {
 Routes routes = Routes();
 DatabaseService db = DatabaseService();
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AndroidSys.setNotificationBarColor(
-    bgColor: Colors.transparent,
-    iconColor: Brightness.light,
-    navbarColor: Colors.black,
-    navBarIconColor: Brightness.light
+      bgColor: Colors.transparent,
+      iconColor: Brightness.light,
+      navbarColor: Colors.black,
+      navBarIconColor: Brightness.light
   ); // Berfungsi untuk mengubah warna bar notifikasi android
   db.openDB().then((value){
     runApp(const KeuanganKu());
@@ -34,36 +35,27 @@ class KeuanganKu extends StatelessWidget {
   );
 
   Future<String> inisialisasiRute() async {
-    final listUsername = await SQLHelperUserData().readAll(db.database);
-    if (listUsername[0].username == null){
+    final userData = await SQLHelperUserData().readById(db.database, 1);
+    if (userData?.username == null){
       return routes.gettingStarted;
-    } 
+    }
     return routes.mainPage;
   }
 
   @override
   Widget build(BuildContext context) {
-    
     routes.initializePages(context);
-    return FutureBuilder(
-      future: inisialisasiRute(), 
-      builder: (_, snapshot){
-       if (snapshot.connectionState == ConnectionState.waiting){
-        return const SizedBox();
-       }
-       if (snapshot.hasError){
-        return const SizedBox();
-       }
-       else {
-         return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'KeuanganKu',
-          routes: routes.routeMap, 
-          initialRoute: snapshot.data!,
-          theme: tema,
-        );
-       }
-      }
-    );
+    return KFutureBuilder.build(
+        future: inisialisasiRute(),
+        whenError: const CircularProgressIndicator(),
+        whenSuccess: (rute){
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'KeuanganKu',
+            routes: routes.routeMap,
+            initialRoute: rute,
+            theme: tema,
+          );
+        });
   }
 }
