@@ -25,11 +25,6 @@ class ListExpenseLimiter extends StatefulWidget {
 }
 
 class _ListExpenseLimiterState extends State<ListExpenseLimiter> {
-  void callback(){
-    setState(() {});
-    widget.callback();
-  }
-
   Widget tombolTambah(BuildContext context){
     return KButton(
       onTap: (){
@@ -39,7 +34,7 @@ class _ListExpenseLimiterState extends State<ListExpenseLimiter> {
         getListKategori().then(
           (listKategori){
             Navigator.push(context, MaterialPageRoute(builder: (_) => FormExpenseLimiter(
-              callback: callback,
+              callback: widget.callback,
               listCategory: listKategori,
             )));
           });
@@ -58,8 +53,8 @@ class _ListExpenseLimiterState extends State<ListExpenseLimiter> {
           for (var data in listLimiter)
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: ExpenseLimiterItem(
-                callback: callback,
+              child: KExpenseLimiterItem(
+                callback: widget.callback,
                 limiter: data,
               ),
             ),
