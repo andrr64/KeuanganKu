@@ -83,7 +83,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
         } else if (snapshot.hasError) {
           return makeCenterWithRow(child: const Text("Something wrong..."));
         } else {
-          return ListWallet(wallets: snapshot.data!, callback: callback);
+          return KListWallet(wallets: snapshot.data!, callback: callback);
         }
       },
     );
