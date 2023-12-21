@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
+import 'package:keuanganku/app/routes/main/tentang/tentang.dart';
 import 'package:keuanganku/app_info.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -56,7 +57,7 @@ class AppDrawer extends StatelessWidget {
             title: const Text('Tentang'),
             onTap: (){
               Navigator.push(context, MaterialPageRoute(
-                builder: (_) => const Scaffold()));
+                builder: (_) => const TentangAplikasi()));
             },
           ),
           divider,
