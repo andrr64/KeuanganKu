@@ -8,7 +8,7 @@ import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_dialog/k_dialog_info.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/k_pengeluaran_item/k_pengeluaran_item.dart';
-import 'package:keuanganku/database/helper/income_category.dart';
+import 'package:keuanganku/database/helper/expense_category.dart';
 import 'package:keuanganku/database/helper/wallet.dart';
 import 'package:keuanganku/database/model/category.dart';
 import 'package:keuanganku/database/model/expense.dart';

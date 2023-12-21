@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/routes/main/wallet/pages/form_data_pemasukan/form_data_pemasukan.dart';
-import 'package:keuanganku/database/helper/expense_category.dart';
+import 'package:keuanganku/database/helper/income_category.dart';
 import 'package:keuanganku/database/helper/wallet.dart';
 import 'package:keuanganku/database/model/income.dart';
 import 'package:keuanganku/main.dart';

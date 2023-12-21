@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_expense_limiter/form_expense_limiter.dart';
 import 'package:keuanganku/database/helper/expense.dart';
-import 'package:keuanganku/database/helper/expense_category.dart';
+import 'package:keuanganku/database/helper/income_category.dart';
 import 'package:keuanganku/database/model/expense.dart';
 import 'package:keuanganku/database/model/expense_limiter.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';

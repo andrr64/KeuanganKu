@@ -1,4 +1,4 @@
-import 'package:keuanganku/database/helper/income_category.dart';
+import 'package:keuanganku/database/helper/expense_category.dart';
 import 'package:keuanganku/database/model/expense_limiter.dart';
 import 'package:sqflite/sqflite.dart';
 

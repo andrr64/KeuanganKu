@@ -8,7 +8,7 @@ import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_dialog/k_dialog_info.dart';
 import 'package:keuanganku/app/widgets/k_dropdown_menu/k_drodpown_menu.dart';
 import 'package:keuanganku/app/widgets/k_textfield/ktext_field.dart';
-import 'package:keuanganku/database/helper/expense_category.dart';
+import 'package:keuanganku/database/helper/income_category.dart';
 import 'package:keuanganku/database/helper/expense_limiter.dart';
 import 'package:keuanganku/database/model/category.dart';
 import 'package:keuanganku/database/model/expense_limiter.dart';

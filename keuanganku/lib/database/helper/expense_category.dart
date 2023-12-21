@@ -1,8 +1,8 @@
 import 'package:keuanganku/database/model/category.dart';
 import 'package:sqflite/sqflite.dart';
 
-class SQLHelperIncomeCategory {
-  static const String _tableName = "expense_category";
+class SQLHelperExpenseCategory {
+  static const String _tableName = "income_category";
   static final Map<String, Map<String, String>> _table = {
     "id": {
       "name": "id",
@@ -30,8 +30,9 @@ class SQLHelperIncomeCategory {
     """;
   }
   static final List<String> _defaultType = [
-    "Penghasilan",
-    "Penghasilan Sampingan",
+    "Makan dan Minum",
+    "Gaya Hidup",
+    "Transportasi",
   ];
   static final List<SQLModelCategory> _listOfType = List.generate(_defaultType.length, (index){
     return SQLModelCategory(id: index + 1, judul: _defaultType[index]);
@@ -52,7 +53,7 @@ class SQLHelperIncomeCategory {
     Map<String, dynamic> results = (await db.query(_tableName, where: "id = $id"))[0]; // Mengambil data dari database => Map<String, dynamic>
     return SQLModelCategory.fromMap(results);
   }
-  
+
   // INSERT METHODS
   Future insert(SQLModelCategory dataBaru, {required Database db}){
     return db.rawInsert("INSERT INTO $_tableName(judul) VALUES(?)", [dataBaru.judul]);

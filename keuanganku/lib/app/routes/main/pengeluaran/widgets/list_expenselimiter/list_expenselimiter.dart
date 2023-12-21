@@ -7,7 +7,7 @@ import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/database/helper/expense_limiter.dart';
-import 'package:keuanganku/database/helper/income_category.dart';
+import 'package:keuanganku/database/helper/expense_category.dart';
 import 'package:keuanganku/database/model/expense_limiter.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';

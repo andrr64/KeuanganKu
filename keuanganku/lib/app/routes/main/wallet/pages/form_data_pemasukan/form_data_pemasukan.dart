@@ -10,7 +10,7 @@ import 'package:keuanganku/app/widgets/k_dropdown_menu/k_drodpown_menu.dart';
 import 'package:keuanganku/app/widgets/k_textfield/ktext_field.dart';
 import 'package:keuanganku/app/widgets/time_picker/show_time_picker.dart';
 import 'package:keuanganku/database/helper/expense.dart';
-import 'package:keuanganku/database/helper/expense_category.dart';
+import 'package:keuanganku/database/helper/income_category.dart';
 import 'package:keuanganku/database/helper/income.dart';
 import 'package:keuanganku/database/model/category.dart';
 import 'package:keuanganku/database/model/const_value.dart';
