@@ -11,7 +11,9 @@ class AppDrawer extends StatelessWidget {
     
     const double besarPadding = 40;
     const double besarPaddingKiri = 10;
-    const Divider divider = Divider();
+    const Divider divider = Divider(
+      height: 0,
+    );
     return Drawer(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
