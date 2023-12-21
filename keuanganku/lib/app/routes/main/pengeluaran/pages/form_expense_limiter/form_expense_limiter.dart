@@ -218,7 +218,7 @@ class _FormExpenseLimiterState extends State<FormExpenseLimiter> {
               TextFormField(
                 maxLines: 5,
                 controller: controllerDeskripsi,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
                   label: Text("Deskripsi"),
                   border: OutlineInputBorder()
