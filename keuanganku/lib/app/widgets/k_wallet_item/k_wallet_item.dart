@@ -51,12 +51,22 @@ class _KWalletItemState extends State<KWalletItem> {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 FutureBuilder(
                   future: widget.wallet.totalUang(), 
                   builder: ((context, snapshot) {
                     if (snapshot.hasData){
-                      return Text(formatCurrency(snapshot.data!), style: kFontStyle(fontSize: 15),);
+                      return Container(
+                        alignment: Alignment.centerRight,
+                        height: 30,
+                        width: MediaQuery.sizeOf(context).width * 0.4,
+                        child: Text(
+                          formatCurrency(snapshot.data!),
+                          style: kFontStyle(fontSize: 15),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      );
                     } else {
                       return makeCenterWithRow(child: const SizedBox(height: 35, child: CircularProgressIndicator(),));
                     }

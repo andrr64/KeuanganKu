@@ -61,7 +61,16 @@ class KPemasukanItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(formatCurrency(pemasukan.nilai), style: kFontStyle(fontSize: 15),),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          height: 20,
+                          width: size.width * 0.3,
+                          child: Text(
+                            formatCurrency(pemasukan.nilai),
+                            style: kFontStyle(fontSize: 15),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(width: 5,),

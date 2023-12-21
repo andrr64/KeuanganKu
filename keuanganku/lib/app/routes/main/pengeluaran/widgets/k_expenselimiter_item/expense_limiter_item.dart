@@ -12,8 +12,8 @@ import 'package:keuanganku/util/generate_color.dart';
 import 'package:keuanganku/util/get_currency.dart';
 import 'package:keuanganku/util/vector_operation.dart';
 
-class ExpenseLimiterItem extends StatefulWidget {
-  const ExpenseLimiterItem({
+class KExpenseLimiterItem extends StatefulWidget {
+  const KExpenseLimiterItem({
     super.key, 
     required this.limiter,
     required  this.callback  
@@ -22,10 +22,10 @@ class ExpenseLimiterItem extends StatefulWidget {
   final VoidCallback callback;
 
   @override
-  State<ExpenseLimiterItem> createState() => _ExpenseLimiterItemState();
+  State<KExpenseLimiterItem> createState() => _KExpenseLimiterItemState();
 }
 
-class _ExpenseLimiterItemState extends State<ExpenseLimiterItem> {
+class _KExpenseLimiterItemState extends State<KExpenseLimiterItem> {
   Future getData() async{
     List<SQLModelExpense> listPengeluaranKategoriIni = 
       await SQLHelperExpense().readWeeklyByCategoryId (
@@ -72,10 +72,14 @@ double getMapColorValue(double perbandingan) {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.limiter.kategori.judul, // Ganti dengan judul limiter yang sesuai
+                        widget.limiter.kategori.judul,
                         style: kFontStyle(fontSize: 16),
                       ),
-                      Text("${toThousandK(snapshot.data!['totalPengeluaran'])}/${toThousandK(widget.limiter.nilai)}", style: kFontStyle(fontSize: 14, family: "QuickSand_Medium"),),
+                      Container(
+                          alignment: Alignment.centerLeft,
+                          height: 15,
+                          width: MediaQuery.sizeOf(context).width * 0.3,
+                          child: Text("${toThousandK(snapshot.data!['totalPengeluaran'])}/${toThousandK(widget.limiter.nilai)}", style: kFontStyle(fontSize: 14, family: "QuickSand_Medium"),)),
                       Text(widget.limiter.waktu, style: kFontStyle(fontSize: 13, family: "QuickSand_Medium"),),
                     ],
                   ),
