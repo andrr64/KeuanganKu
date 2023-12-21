@@ -6,12 +6,16 @@ class KLeadingBackIOS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Icon(
-        Icons.arrow_back_ios,
-        color: color,
-      ),
+    return FilledButton(
+        onPressed: onTap,
+        style: FilledButton.styleFrom(
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.transparent,
+        ),
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: color,
+        ),
     );
   }
 }
