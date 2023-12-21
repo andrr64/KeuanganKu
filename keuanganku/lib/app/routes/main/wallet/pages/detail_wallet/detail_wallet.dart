@@ -125,41 +125,39 @@ class _DetailWalletState extends State<DetailWallet> {
   KWidget         ringkasanWallet(BuildContext context){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-      child: IntrinsicHeight(
-        child: Container(
-            alignment: Alignment.topLeft,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(widget.wallet.tipe, style: kFontStyle(fontSize: 15, color: Colors.white, family: "QuickSand_Medium"),),
-                        Text(widget.wallet.judul, style: kFontStyle(fontSize: 20, color: Colors.white, family: "QuickSand_Medium"),),
-                      ],
-                    ),
-                    FutureBuilder(
-                        future: widget.wallet.totalUang(),
-                        builder: (_, snapshot){
-                          if (snapshot.connectionState == ConnectionState.waiting){
-                            return const CircularProgressIndicator();
-                          } else if (snapshot.hasError){
-                            return const Text("Sadly, something wrong");
-                          } else {
-                            return Text(formatCurrency(snapshot.data!), style: kFontStyle(fontSize: 25, color: Colors.white),);
-                          }
+      child: Container(
+          alignment: Alignment.topLeft,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(widget.wallet.tipe, style: kFontStyle(fontSize: 15, color: Colors.white, family: "QuickSand_Medium"),),
+                      Text(widget.wallet.judul, style: kFontStyle(fontSize: 20, color: Colors.white, family: "QuickSand_Medium"),),
+                    ],
+                  ),
+                  FutureBuilder(
+                      future: widget.wallet.totalUang(),
+                      builder: (_, snapshot){
+                        if (snapshot.connectionState == ConnectionState.waiting){
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError){
+                          return const Text("Sadly, something wrong");
+                        } else {
+                          return Text(formatCurrency(snapshot.data!), style: kFontStyle(fontSize: 25, color: Colors.white),);
                         }
-                    ),
-                  ],
-                )
-              ],
-          )
-        ),
+                      }
+                  ),
+                ],
+              )
+            ],
+        )
       ),
     );
   }
