@@ -6,7 +6,7 @@ import 'package:keuanganku/app/routes/main/wallet/pages/form_input_wallet/form_w
 import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/database/model/wallet.dart';
-import 'package:keuanganku/app/widgets/k_wallet_item/k_wallet_item.dart';
+import 'package:keuanganku/app/routes/main/wallet/widgets/k_wallet_item/k_wallet_item.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/font_style.dart';
 import 'package:keuanganku/util/get_currency.dart';
@@ -22,8 +22,8 @@ class DataHelper {
 
 }
 
-class ListWallet extends StatefulWidget {
-  const ListWallet({
+class KListWallet extends StatefulWidget {
+  const KListWallet({
     super.key, 
     required this.wallets, 
     required this.callback
@@ -32,22 +32,20 @@ class ListWallet extends StatefulWidget {
   final VoidCallback callback;
 
   @override
-  State<ListWallet> createState() => _ListWalletState();
+  State<KListWallet> createState() => _KListWalletState();
 }
 
-class _ListWalletState extends State<ListWallet> {
+class _KListWalletState extends State<KListWallet> {
   void updateState(){setState(() {});}
 
   @override
   Widget build(BuildContext context) {
-    
     // Variable
     final icon = SvgPicture.asset(
       "assets/icons/wallet.svg",
       height: 35,
     );
     final size = MediaQuery.sizeOf(context);
-    final width = size.width * 0.875;
    
     // Events
     void tambahData(BuildContext context){
@@ -67,7 +65,7 @@ class _ListWalletState extends State<ListWallet> {
     // Widgets
     Widget teksTotalUangWallet(){
       return FutureBuilder(
-        future: DataHelper.totalUangWallet(widget.wallets), 
+        future: DataHelper.totalUangWallet(widget.wallets),
         builder: ((_, snapshot){
           if (snapshot.connectionState == ConnectionState.waiting){
             return makeCenterWithRow(child: const CircularProgressIndicator());
@@ -84,9 +82,10 @@ class _ListWalletState extends State<ListWallet> {
       return Column(
         children: [
           for(int i = 0; i < wallets.length; i++)
-            KWalletItem(size: Size(width, 55), wallet: wallets[i], callback: (){
-              widget.callback();
-            },),
+            KWalletItem(
+              wallet: wallets[i],
+              callback: widget.callback
+            ),
           const Divider(color: Colors.black26,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
