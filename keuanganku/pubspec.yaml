@@ -40,9 +40,7 @@ flutter:
     - assets/icons/pemasukan.svg
     - assets/icons/expense_limiter.svg
     
-    - assets/lotties/animation/empty.json
-    - assets/lotties/animation/empty1.json
-    - assets/lotties/animation/empty2.json
+    - assets/svg/not_found.svg
 
   fonts:
     - family: Quicksand_Medium
