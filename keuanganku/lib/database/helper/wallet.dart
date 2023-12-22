@@ -67,6 +67,16 @@ class SQLHelperWallet {
     return sumList(dataPemasukan.map((e) => e.nilai).toList()) - sumList(dataPengeluaran.map((e) => e.nilai).toList());
   }
 
+  Future<double> readSeluruhTotalUangTersedia()  async {
+    List<SQLModelWallet> seluruhWallet = await SQLHelperWallet().readAll(db.database);
+    double totalUang = 0;
+    for(var wallet in seluruhWallet){
+      totalUang += await wallet.totalUang();
+    }
+
+    return totalUang;
+  }
+
   // INSERT METHODS
   Future<int> insert(SQLModelWallet wallet, Database db) async {
     return await db.rawInsert(
