@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/font_style.dart';
 
@@ -17,20 +18,17 @@ class KEmpty extends StatelessWidget {
     //   "assets/lotties/animation/empty3.json",
     // ];
 
-    return makeCenterWithRow(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 25),
-        child: IntrinsicHeight(
-          child: SizedBox(
-            width: 200,
-            child: Column(
-              children: [
-                Text("Nothing in here...", style: kFontStyle(fontSize: 15, color: Colors.black45),),
-              ],
-            ),
-          ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: makeCenterWithRow(
+        child: Column(
+          children: [
+            Text("Kosong", style: kFontStyle(fontSize: 15, color: Colors.black45),),
+            const SizedBox(height: 15,),
+            makeCenterWithRow(child: SvgPicture.asset("assets/svg/not_found.svg", height: 175,)),
+          ],
         ),
-      )
+      ),
     );
   }
 }
