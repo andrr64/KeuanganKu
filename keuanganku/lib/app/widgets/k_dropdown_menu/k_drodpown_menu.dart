@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:keuanganku/app/app_colors.dart';
+import 'package:keuanganku/util/font_style.dart';
 
 class KDropdownMenu<T> {
   DropdownButtonFormField<T>? dropdownMenu;
   String labelText;
+  bool? activeColor;
 
-  KDropdownMenu({required List<DropdownMenuItem<T>> items, required void Function(T?) onChanged, required T value, required this.labelText, Widget? icon}) {
+  KDropdownMenu({required List<DropdownMenuItem<T>> items, required void Function(T?) onChanged, required T value, required this.labelText, Widget? icon, this.activeColor}) {
     dropdownMenu = DropdownButtonFormField<T>(
       items: items,
       onChanged: onChanged,
       value: value,
       decoration: InputDecoration(
         labelText: labelText,
-        border: const OutlineInputBorder(),
+        labelStyle: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: ApplicationColors.primary, width: 1),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: ApplicationColors.primary, width: 1),
+        ),
         prefixIcon: icon,
       )
     );
