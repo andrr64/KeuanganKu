@@ -54,7 +54,6 @@ class KeuanganKu extends StatelessWidget {
             title: 'KeuanganKu',
             routes: routes.routeMap,
             initialRoute: rute,
-            theme: tema,
           );
         });
   }
