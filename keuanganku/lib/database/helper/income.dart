@@ -185,7 +185,48 @@ class SQLHelperIncome {
     List<SQLModelIncome> data = results.map((map) => SQLModelIncome.fromMap(map)).toList();
     return data;
   }
+  FutureListPemasukan readByWaktuAndSortir(WaktuTransaksi waktuTransaksi, SortirTransaksi sortirTransaksi, {required Database db}) async {
+    String query = "";
+    String sortirByClause = "";
 
+    switch (waktuTransaksi) {
+      case WaktuTransaksi.Mingguan:
+        DateTime startDate = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
+        query = "SELECT * FROM $_tableName WHERE strftime('%Y-%m-%d', waktu) BETWEEN '${startDate.toIso8601String().substring(0, 10)}' AND '${DateTime.now().toIso8601String().substring(0, 10)}'";
+        break;
+      case WaktuTransaksi.Bulanan:
+        DateTime firstDayOfMonth = DateTime(DateTime.now().year, DateTime.now().month, 1);
+        query = "SELECT * FROM $_tableName WHERE strftime('%Y-%m-%d', waktu) BETWEEN '${firstDayOfMonth.toIso8601String().substring(0, 10)}' AND '${DateTime.now().toIso8601String().substring(0, 10)}'";
+        break;
+      case WaktuTransaksi.Tahunan:
+        DateTime firstDayOfYear = DateTime(DateTime.now().year, 1, 1);
+        query = "SELECT * FROM $_tableName WHERE strftime('%Y-%m-%d', waktu) BETWEEN '${firstDayOfYear.toIso8601String().substring(0, 10)}' AND '${DateTime.now().toIso8601String().substring(0, 10)}'";
+        break;
+    }
+
+    switch (sortirTransaksi) {
+      case SortirTransaksi.Terbaru:
+        sortirByClause = " ORDER BY waktu DESC";
+        break;
+      case SortirTransaksi.Terlama:
+        sortirByClause = " ORDER BY waktu ASC";
+        break;
+      case SortirTransaksi.Tertinggi:
+        sortirByClause = " ORDER BY waktu ASC";
+        break;
+      case SortirTransaksi.Terendah:
+        sortirByClause = " ORDER BY nilai DESC";
+        break;
+      default:
+        sortirByClause = ""; // Default tidak ada pengurutan
+    }
+
+    query += sortirByClause;
+
+    List<Map<String, dynamic>> results = await db.rawQuery(query);
+    List<SQLModelIncome> data = results.map((map) => SQLModelIncome.fromMap(map)).toList();
+    return data;
+  }
   // CREATE METHODS
   Future<int> insert(SQLModelIncome data, Database db) async {
     return 
