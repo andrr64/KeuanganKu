@@ -9,7 +9,8 @@ enum JenisTransaksi {
 enum WaktuTransaksi {
   /// Dari hari senin ampe minggu
   Mingguan,
-
+  /// Bulanan dari tanggal 1 sampe 31
+  Bulanan,
   /// Dari Januari sampe Desember
   Tahunan,
 }
