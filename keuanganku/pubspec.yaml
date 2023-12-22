@@ -39,8 +39,9 @@ flutter:
     - assets/icons/pengeluaran.svg
     - assets/icons/pemasukan.svg
     - assets/icons/expense_limiter.svg
-    
+
     - assets/svg/not_found.svg
+    - assets/svg/error.svg
 
   fonts:
     - family: Quicksand_Medium
