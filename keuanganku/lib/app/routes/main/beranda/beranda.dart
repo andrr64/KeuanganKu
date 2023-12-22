@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/distribusi/distribusi_transaksi.dart';
+import 'package:keuanganku/app/routes/main/beranda/widgets/ringkasan/k_ringkasan.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_expenselimiter/list_expenselimiter.dart';
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
@@ -16,11 +17,14 @@ import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/distribusi/distribusi_transaksi.dart' as distribusi_tx;
 import 'package:keuanganku/app/routes/main/beranda/widgets/statistik/statistik.dart' as statistik;
+import 'package:keuanganku/app/routes/main/beranda/widgets/ringkasan/k_ringkasan.dart' as ringkasan;
+
 import 'package:keuanganku/util/font_style.dart';
 
 class WidgetData{
   distribusi_tx.WidgetData wxDataDistribusiTransaksi = distribusi_tx.WidgetData();
   statistik.WidgetData wxDataStatistik = statistik.WidgetData();
+  ringkasan.Data wxDataRingkasan = ringkasan.Data();
 }
 
 class HalamanBeranda extends StatefulWidget {
@@ -51,20 +55,18 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
   KWidget   ringkasanGrafik     () {
     return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: IntrinsicWidth(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              dummyWidth(25,),
-              Statistik(widgetData: HalamanBeranda.widgetData.wxDataStatistik,),
-              dummyWidth(15),
-              DistribusiTransaksi(
-                widgetData: HalamanBeranda.widgetData.wxDataDistribusiTransaksi,
-                getter: () => HalamanBeranda.widgetData.wxDataDistribusiTransaksi.getData(),
-              ),
-              dummyWidth(25,),
-            ],
-          ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            dummyWidth(25,),
+            Statistik(widgetData: HalamanBeranda.widgetData.wxDataStatistik,),
+            dummyWidth(15),
+            DistribusiTransaksi(
+              widgetData: HalamanBeranda.widgetData.wxDataDistribusiTransaksi,
+              getter: () => HalamanBeranda.widgetData.wxDataDistribusiTransaksi.getData(),
+            ),
+            dummyWidth(25,),
+          ],
         )
     );
   }
@@ -121,6 +123,18 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
       child: ListExpenseLimiter(callback: callback),
     );
   }
+  KWidget   ringkasan           (){
+    void callback(){
+      updateState();
+      HalamanPengeluaran.state.update();
+      HalamanWallet.state.update();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: KRingkasan(callback: callback, widgetData: HalamanBeranda.widgetData.wxDataRingkasan),
+    );
+  }
 
   Widget buildBody(BuildContext context){
     const double paddingBottom = 20;
@@ -131,11 +145,9 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
         children: [
           headingUsername(),
           dummyHeight(height: paddingBottom),
-          listWallet(),
+          ringkasan(),
           dummyHeight(height: paddingBottom),
           listExpenseLimiter(),
-          dummyHeight(height: paddingBottom),
-          ringkasanGrafik(),
           dummyHeight(height: 25),
         ]
       ),
