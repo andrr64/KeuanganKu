@@ -45,13 +45,13 @@ class SQLModelExpense {
     String info = infoRating(rating);
 
     switch (info) {
-      case 'Sia-Sia':
+      case 'Sangat tidak penting':
         return 'Pengeluaranmu sangat buruk. Sebaiknya perhatikan pengelolaan keuanganmu dengan lebih baik.';
       case 'Cukup':
         return 'Pengeluaranmu cukup baik, namun masih ada ruang untuk peningkatan.';
-      case 'Baik':
+      case 'Lumayan Hemat':
         return 'Pengeluaranmu baik. Tetap pertahankan dan perbaiki aspek-aspek yang perlu ditingkatkan.';
-      case 'Sangat Baik':
+      case 'Hemat Uang':
         return 'Pengeluaranmu sangat baik. Selamat! Tetap konsisten dalam pengelolaan keuanganmu.';
       case 'Invalid':
         return 'Nilai rating tidak valid.';
