@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
@@ -27,7 +29,6 @@ import 'package:keuanganku/util/get_currency.dart';
 
 enum FormError {
   UangKurang,
-  
 }
 
 class Data {

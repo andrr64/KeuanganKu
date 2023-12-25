@@ -65,7 +65,7 @@ class _MainPageState extends State<MainPage> {
           onTap: (){
             _scaffoldKey.currentState!.openDrawer();
           },
-          child: Icon(Icons.menu, color: Colors.white,),
+          child: const Icon(Icons.menu, color: Colors.white,),
         )
     ).getWidget();
   }

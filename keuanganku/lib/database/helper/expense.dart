@@ -56,6 +56,9 @@ class SQLHelperExpense {
     switch (waktuTransaksi) {
       case WaktuTransaksi.Mingguan:
         return (await SQLHelperExpense().readWeekly(db: db.database));
+      case WaktuTransaksi.Bulanan:
+        DateTime now = DateTime.now();
+        return (await SQLHelperExpense().readDataByMonth(now.year, now.month, db: db));
       case WaktuTransaksi.Tahunan:
         return (await SQLHelperExpense().readDataByYear(DateTime.now().year, db: db.database));
       default:
@@ -79,6 +82,12 @@ class SQLHelperExpense {
     """;
   }
 
+  String waktuClauseTanggal(DateTime time){
+      String formattedDate = time.toIso8601String().substring(0, 10);
+      return "waktu LIKE '$formattedDate%'";
+  }
+
+  // READ METHODS
   Future<List<SQLModelExpense>> readAll(Database db) async {
     final List<Map<String, dynamic>> results = await db.query(_tableName);
     List<SQLModelExpense> data = [];
@@ -87,13 +96,6 @@ class SQLHelperExpense {
     }
     return data;
   }
-
-  String waktuClauseTanggal(DateTime time){
-      String formattedDate = time.toIso8601String().substring(0, 10);
-      return "waktu LIKE '$formattedDate%'";
-  }
-
-  // READ METHODS
   Future<List<SQLModelExpense>> readWeeklyByCategoryId(int categoryId, DateTime startDate, {required Database db, required SortirTransaksi sortirBy}) async {
     // Hitung tanggal akhir, seminggu setelah tanggal awal
     DateTime endDate = startDate.add(const Duration(days: 6));
@@ -130,7 +132,48 @@ class SQLHelperExpense {
   List<SQLModelExpense> data = results.map((map) => SQLModelExpense.fromMap(map)).toList();
   return data;
 }
+  Future<List<SQLModelExpense>> readByWaktuAndSortir(WaktuTransaksi waktuTransaksi, SortirTransaksi sortirTransaksi, {required Database db}) async {
+      String query = "";
+      String sortirByClause = "";
 
+      switch (waktuTransaksi) {
+        case WaktuTransaksi.Mingguan:
+          DateTime startDate = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
+          query = "SELECT * FROM $_tableName WHERE strftime('%Y-%m-%d', waktu) BETWEEN '${startDate.toIso8601String().substring(0, 10)}' AND '${DateTime.now().toIso8601String().substring(0, 10)}'";
+          break;
+        case WaktuTransaksi.Bulanan:
+          DateTime firstDayOfMonth = DateTime(DateTime.now().year, DateTime.now().month, 1);
+          query = "SELECT * FROM $_tableName WHERE strftime('%Y-%m-%d', waktu) BETWEEN '${firstDayOfMonth.toIso8601String().substring(0, 10)}' AND '${DateTime.now().toIso8601String().substring(0, 10)}'";
+          break;
+        case WaktuTransaksi.Tahunan:
+          DateTime firstDayOfYear = DateTime(DateTime.now().year, 1, 1);
+          query = "SELECT * FROM $_tableName WHERE strftime('%Y-%m-%d', waktu) BETWEEN '${firstDayOfYear.toIso8601String().substring(0, 10)}' AND '${DateTime.now().toIso8601String().substring(0, 10)}'";
+          break;
+      }
+
+      switch (sortirTransaksi) {
+        case SortirTransaksi.Terbaru:
+          sortirByClause = " ORDER BY waktu DESC";
+          break;
+        case SortirTransaksi.Terlama:
+          sortirByClause = " ORDER BY waktu ASC";
+          break;
+        case SortirTransaksi.Tertinggi:
+          sortirByClause = " ORDER BY waktu ASC";
+          break;
+        case SortirTransaksi.Terendah:
+          sortirByClause = " ORDER BY nilai DESC";
+          break;
+        default:
+          sortirByClause = ""; // Default tidak ada pengurutan
+      }
+
+      query += sortirByClause;
+
+      List<Map<String, dynamic>> results = await db.rawQuery(query);
+      List<SQLModelExpense> data = results.map((map) => SQLModelExpense.fromMap(map)).toList();
+      return data;
+    }
   Future<List<SQLModelExpense>> readByWalletId(int id, Database db) async {
     final results  = (await db.rawQuery("SELECT * FROM $_tableName WHERE id_wallet = ?", [id]));
     return results.map((e) => SQLModelExpense.fromMap(e)).toList();

@@ -108,7 +108,6 @@ class Statistik extends StatelessWidget {
   }
 
   FutureBuilder firstStep(Size size){
-    const double kEmptyVerticalPadding = 0;
     Future<Map<String, dynamic>> getData() async {
       return {
         'barChartData' : await widgetData.barChart,
@@ -124,12 +123,7 @@ class Statistik extends StatelessWidget {
           return makeCenterWithRow(child: const Text("Sadly, something wrong..."));
         } else {
           if (snapshot.data!['barChartData'].isEmpty || snapshot.data == null){
-            return makeCenterWithRow(
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: kEmptyVerticalPadding),
-                child: KEmpty(),
-                )
-              );     
+            return makeCenterWithRow(child: const KEmpty());
           } else {
             final dataPengeluaran = snapshot.data!['dataPengeluaran'] as List<SQLModelExpense>;
             final dataBarChart = snapshot.data!['barChartData'] as List<BarChartXY>;
@@ -143,8 +137,7 @@ class Statistik extends StatelessWidget {
               children: [
                 Text(
                   SQLModelExpense.getInfoBasedOnRating(ratingAvg), 
-                  style: kFontStyle(
-                    fontSize: 14,),
+                  style: kFontStyle(fontSize: 14,),
                 ),
                 dummyHeight(height: 15),
                 Text("Rating Rata-Rata: ${ratingAvg.toStringAsFixed(1)}", style: kFontStyle(fontSize: 14,family: "QuickSand_Mediu"),),
@@ -222,8 +215,7 @@ class Statistik extends StatelessWidget {
     return makeCenterWithRow(
       child: KCard(
         title: "Statistik",
-        width: size.width * 0.875,
-        icon: icon, 
+        icon: icon,
         child: buildBody(size)
       ),
     );
