@@ -20,6 +20,7 @@ import 'package:keuanganku/app/routes/main/beranda/widgets/statistik/statistik.d
 import 'package:keuanganku/app/routes/main/beranda/widgets/ringkasan/k_ringkasan.dart' as ringkasan;
 
 import 'package:keuanganku/util/font_style.dart';
+import 'package:keuanganku/util/get_currency.dart';
 
 class WidgetData{
   distribusi_tx.WidgetData wxDataDistribusiTransaksi = distribusi_tx.WidgetData();
@@ -91,25 +92,55 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
     );
   }
   KWidget   headingUsername     () {
-    Widget buildHeadingUsername(SQLModelUserdata? data){
+    KWidget   buildTotalDana           () {
+      Future getData() async {
+        return await SQLHelperWallet().readSeluruhTotalUangTersedia();
+      }
+      Widget build(double totalDana){
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text("Total Dana",
+              style: kFontStyle(fontSize: 15, family: "QuickSand_Medium", color: Colors.white),
+            ),
+            Text(formatCurrency(totalDana),
+              style: kFontStyle(fontSize: 24, color: Colors.white),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        );
+      }
+      return KFutureBuilder.build(
+          future: getData(),
+          whenError: build(0),
+          whenWaiting: build(0),
+          whenSuccess: (value) => build(value)
+      );
+    }
+    KWidget    buildHeadingUsername(SQLModelUserdata? data){
       String username = "User";
       if (data != null){
         username = data.username ?? "User";
       }
 
       return Padding(
-        padding: const EdgeInsets.only(left: 25),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Hai,", style: kFontStyle(fontSize: 16, color: Colors.white, family: "QuickSand_Medium"),),
-            Text(username, style: kFontStyle(fontSize: 26, color: Colors.white),),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Hai,", style: kFontStyle(fontSize: 15, color: Colors.white, family: "QuickSand_Medium"),),
+                Text(username, style: kFontStyle(fontSize: 24, color: Colors.white),),
+              ],
+            ),
+            buildTotalDana()
           ],
         ),
       );
     }
-
     return KFutureBuilder.build(
         future: SQLHelperUserData().readById(db.database, 1),
         whenError: buildHeadingUsername(null),
@@ -117,13 +148,13 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
         whenSuccess: (data) => buildHeadingUsername(data)
     );
   }
-  KWidget   listExpenseLimiter  (){
+  KWidget   listExpenseLimiter  () {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: ListExpenseLimiter(callback: callback),
     );
   }
-  KWidget   ringkasan           (){
+  KWidget   ringkasan           () {
     void callback(){
       updateState();
       HalamanPengeluaran.state.update();
