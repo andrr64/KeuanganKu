@@ -59,7 +59,7 @@ class KRingkasan extends StatefulWidget {
 }
 
 class _KRingkasanState extends State<KRingkasan> {
-  KWidget     totalPemasukan    (BuildContext context){
+  KWidget     totalPemasukan    (BuildContext context, double totalPemasukan){
     double panjangContainerUang = MediaQuery.sizeOf(context).width * 0.4;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +73,7 @@ class _KRingkasanState extends State<KRingkasan> {
                 alignment: Alignment.centerRight,
                 width: panjangContainerUang,
                 child: Text(
-                  formatCurrency(widget.widgetData.totalPemasukan),
+                  formatCurrency(totalPemasukan),
                   style: kFontStyle(fontSize: 16),
                   overflow: TextOverflow.ellipsis,
                 )
@@ -83,7 +83,7 @@ class _KRingkasanState extends State<KRingkasan> {
       ],
     );
   }
-  KWidget     totalPengeluaran  (BuildContext context){
+  KWidget     totalPengeluaran  (BuildContext context, double totalPengeluaran){
     double panjangContainerUang = MediaQuery.sizeOf(context).width * 0.4;
     return Column(
       children: [
@@ -95,7 +95,7 @@ class _KRingkasanState extends State<KRingkasan> {
               alignment: Alignment.centerRight,
               width: panjangContainerUang,
               child: Text(
-                formatCurrency(widget.widgetData.totalPengeluaran),
+                formatCurrency(totalPengeluaran),
                 style: kFontStyle(fontSize: 16),
                 overflow: TextOverflow.ellipsis,
               )
@@ -132,8 +132,7 @@ class _KRingkasanState extends State<KRingkasan> {
       ).getWidget(),
     );
   }
-  KWidget     delta             (BuildContext context){
-    double delta = widget.widgetData.totalPemasukan - widget.widgetData.totalPengeluaran;
+  KWidget     delta             (BuildContext context, double delta){
     final color = delta < 0? Colors.red : delta == 0? ApplicationColors.primary : Colors.green;
     double panjangContainerUang = MediaQuery.sizeOf(context).width * 0.4;
     return Column(
@@ -159,7 +158,7 @@ class _KRingkasanState extends State<KRingkasan> {
   
   final icon = SvgPicture.asset("assets/icons/ringkasan.svg");
   
-  Widget buildBody(BuildContext context){
+  Widget buildBody(BuildContext context, {required double totalPemasukanX, required double totalPengeluaranX}){
     return KCard(
         title: "Ringkasan",
         icon: icon,
@@ -167,9 +166,9 @@ class _KRingkasanState extends State<KRingkasan> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            totalPemasukan(context),
-            totalPengeluaran(context),
-            delta(context)
+            totalPemasukan(context, totalPemasukanX),
+            totalPengeluaran(context, totalPengeluaranX),
+            delta(context, totalPemasukanX-totalPengeluaranX)
           ],
         ),
     );
@@ -180,8 +179,16 @@ class _KRingkasanState extends State<KRingkasan> {
     return KFutureBuilder.build(
       future: widget.widgetData.updateData(), 
       whenError: makeCenterWithRow(child: const CircularProgressIndicator(color: Colors.white,)), 
-      whenWaiting: makeCenterWithRow(child: const CircularProgressIndicator(color: Colors.white,)),
-      whenSuccess: (val) => buildBody(context)
+      whenWaiting: buildBody(
+        context, 
+        totalPemasukanX: 0, 
+        totalPengeluaranX: 0
+      ),
+      whenSuccess: (val) => buildBody(
+        context, 
+        totalPemasukanX: widget.widgetData.totalPemasukan, 
+        totalPengeluaranX: widget.widgetData.totalPengeluaran
+      )
     );
   }
 }
