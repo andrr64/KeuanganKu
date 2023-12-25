@@ -8,6 +8,7 @@ import 'package:keuanganku/app/widgets/date_picker/show_date_picker.dart';
 import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_dialog/k_dialog_info.dart';
 import 'package:keuanganku/app/widgets/k_dropdown_menu/k_drodpown_menu.dart';
+import 'package:keuanganku/app/widgets/k_future_builder/k_future.dart';
 import 'package:keuanganku/app/widgets/k_textfield/ktext_field.dart';
 import 'package:keuanganku/app/widgets/time_picker/show_time_picker.dart';
 import 'package:keuanganku/app/snack_bar.dart';
@@ -29,6 +30,7 @@ import 'package:keuanganku/util/get_currency.dart';
 
 enum FormError {
   UangKurang,
+  JudulKosong
 }
 
 class Data {
@@ -44,7 +46,6 @@ class FormDataPengeluaran extends StatefulWidget {
     required this.callback,
     this.pengeluaran,
     this.withData,
-    this.readOnly,
     this.walletAndKategori
   });
   final List<SQLModelWallet> listWallet;
@@ -53,7 +54,6 @@ class FormDataPengeluaran extends StatefulWidget {
   final VoidCallback callback;
   final SQLModelExpense? pengeluaran;
   final bool? withData;
-  final bool? readOnly;
   final Map<String,dynamic>? walletAndKategori;
 
   @override
@@ -76,10 +76,15 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
   // Events
   Future<dynamic> validatorDataBaru         (BuildContext context) async {
     double nilaiPengeluaran = 0;
+    if (controllerJudul.text.isEmpty){
+      return FormError.JudulKosong;
+    }
     try{
       double totalUangWalletFree = await widget.data.walletTerpilih!.totalUang();
       nilaiPengeluaran = double.parse(controllerJumlah.text); 
-      if (nilaiPengeluaran > totalUangWalletFree){
+      if (nilaiPengeluaran > MAX_VALUE){
+        return ValidatorError.OverflowNumber;
+      } else if (nilaiPengeluaran > totalUangWalletFree){
         return ValidatorError.IfCondition;
       } else if (nilaiPengeluaran <= 0){
         return ValidatorError.LessThanOrEqualZero;
@@ -110,18 +115,22 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       } else if(value == ValidatorError.OverflowNumber){
         KDialogInfo(
           title: "Overflow Number",
-          info: "Sayangnya aplikasi ini hanya bisa memproses nilai ${formatCurrency(MAX_VALUE)}",
+          info: "Sayangnya aplikasi ini hanya bisa memproses nilai maksimal ${formatCurrency(MAX_VALUE)}",
           jenisPesan: Pesan.Error
         ).tampilkanDialog(context);
-      } 
-      else if (value is SQLError){
+      } else if (value is SQLError){
         tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Terdapat kesalahan saat menyimpan data");
-      } 
-      else if (value == Condition.OK){
+      } else if (value == Condition.OK){
         tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
         Navigator.pop(context);
         widget.callback();
-      } else {
+      } else if (value == FormError.JudulKosong){
+        KDialogInfo(
+          title: "Tidak Lengkap", 
+          info: "Judul tidak boleh kosong", 
+          jenisPesan: Pesan.Error
+        ).tampilkanDialog(context);
+      }else {
         KDialogInfo(
           title: "Exception", 
           info: "Terdapat kesalahan :(", 
@@ -169,10 +178,13 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
     try{
       double nilaiPengeluaranBaru = double.parse(controllerJumlah.text); 
       double totalUangPadaWallet = await widget.data.walletTerpilih!.totalUang() + widget.pengeluaran!.nilai;
-      if (nilaiPengeluaranBaru > totalUangPadaWallet){
+      if (nilaiPengeluaranBaru > MAX_VALUE){
+        return ValidatorError.OverflowNumber;
+      }
+      else if (nilaiPengeluaranBaru > totalUangPadaWallet){
         return FormError.UangKurang;
       }
-      if (nilaiPengeluaranBaru <= 0){
+      else if (nilaiPengeluaranBaru <= 0){
         return ValidatorError.LessThanOrEqualZero;
       }
     } catch(numberException){
@@ -187,8 +199,14 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         info: "Sayangnya uang di wallet anda tidak cukup (miskin)", 
         jenisPesan: Pesan.Warning
       ).tampilkanDialog(context);
+    } else if (value == ValidatorError.OverflowNumber){
+      KDialogInfo(
+        title: "Melewati Batas", 
+        info: "Masukan angka kurang dari ${formatCurrency(MAX_VALUE.toDouble())}", 
+        jenisPesan: Pesan.Error
+      ).tampilkanDialog(context);
     } else if (value is SQLError){
-      tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Terdapat kesalahan saat menyimpan data");
+      tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Terdapat kesalahan pada SQL saat memperbaharui data");
     } else if (value == Condition.OK){
       tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
       widget.callback();
@@ -211,7 +229,19 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       if (validatorResult != Condition.OK){
         return validatorResult;
       }
-      return Condition.OK;
+      SQLModelExpense dataPengeluaranbaru = SQLModelExpense(
+        id: widget.pengeluaran!.id, 
+        id_wallet: widget.data.walletTerpilih!.id, 
+        id_kategori: widget.data.kategoriTerplilih!.id, 
+        judul: controllerJudul.text, 
+        deskripsi: controllerDeskripsi.text, 
+        nilai: double.parse(controllerJumlah.text), 
+        rating: ratingPengeluaran, 
+        waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran));
+      if (await SQLHelperExpense().update(dataPengeluaranbaru, db: db.database) != -1){
+        return Condition.OK;
+      }
+      return SQLError.Update;
     }
     memprosesData().then((value){
       validatorUpdateDataHandler(context, value);
@@ -250,7 +280,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
   }
 
   // Widgets
-  KFormWidget   fieldJudul          () {
+  KFormWidget   fieldJudul            () {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: KTextField(
@@ -260,7 +290,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         prefixIconColor: ApplicationColors.primary  ),
     );
   }
-  KFormWidget   fieldJumlah         () {
+  KFormWidget   fieldJumlah           () {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: KTextField(
@@ -271,7 +301,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         prefixIconColor: ApplicationColors.primary),
     );
   }
-  KFormWidget   fieldDeskripsi      () {
+  KFormWidget   fieldDeskripsi        () {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: TextFormField(
@@ -284,7 +314,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ),
     );
   }
-  KFormWidget   fieldTanggal        (BuildContext context, Size size) {
+  KFormWidget   fieldTanggal          (BuildContext context, Size size) {
     return Padding(
       padding: const EdgeInsets.only(left: 25),
       child: Row(
@@ -313,7 +343,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ),
     );
   }
-  KFormWidget   fieldJam            (BuildContext context, Size size) {
+  KFormWidget   fieldJam              (BuildContext context, Size size) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -334,7 +364,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ],
     );
   }
-  KFormWidget   dropDownMenuWallet  () {
+  KFormWidget   dropDownMenuWallet    () {
     if (widget.withData == true){
       for (var wallet  in widget.listWallet) {
         if (wallet.id == widget.walletAndKategori!['wallet'].id){
@@ -343,25 +373,25 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         }
         widget.data.walletTerpilih = null;
       }
+    } else {
+      widget.data.walletTerpilih ??= widget.listWallet[0];
     }
-
-    // Hapus pemilihan default
-    widget.data.walletTerpilih ??= widget.listWallet[0];
-
-    // Menggunakan Set untuk menyimpan nilai unik
-    Set<SQLModelWallet> uniqueWallets = widget.listWallet.toSet();
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: KDropdownMenu<SQLModelWallet>(
-        items: uniqueWallets.map((e){
+        items: widget.listWallet.map((e){
           return DropdownMenuItem<SQLModelWallet>(
             value: e,
             child: Row(
               children: [
                 Icon(e.tipe == "Wallet"? Icons.wallet : Icons.account_balance),
                 const SizedBox(width: 10,),
-                Text(e.judul, style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),)
+                KFutureBuilder.build(
+                  future: e.totalUang(), 
+                  whenError: Text(e.judul, style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),), 
+                  whenSuccess: (value){
+                    return Text("${e.judul} (${formatCurrency(value)})", style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),);
+                  })
               ],
             )
           );
@@ -374,7 +404,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ).getWidget(),
     );
   }
-  KFormWidget   dropDownKategori    (BuildContext context) {
+  KFormWidget   dropDownKategori      (BuildContext context) {
     List<DropdownMenuItem<SQLModelCategory>> items (){
       List<DropdownMenuItem<SQLModelCategory>> listItem = widget.listKategori.map((kategori){
           return DropdownMenuItem<SQLModelCategory>(
@@ -476,7 +506,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ).getWidget(),
     );
   }
-  KFormWidget   buttonClear         () {
+  KFormWidget   buttonClear           () {
     return KButton(
       onTap: (){
         controllerJudul.text = "";
@@ -489,7 +519,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       title: "Bersihkan", 
       icon: const Icon(Icons.clear, color: Colors.white));
     }
-  KFormWidget   buttonSimpan        (BuildContext context, Size size) {
+  KFormWidget   buttonSimpan          (BuildContext context, Size size) {
     return
     Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -504,7 +534,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ),
     );
   }
-  KFormWidget   buttonUpdate        (BuildContext context) {
+  KFormWidget   buttonUpdate          (BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 25, right: 10),
       child: KButton(
@@ -518,14 +548,14 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ),
     );
   }
-  KFormWidget   ratingBar           (){
+  KFormWidget   ratingBar             (){
     return Padding(
       padding: const EdgeInsets.only(left: 25),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            width: 0.4 * MediaQuery.sizeOf(context).width,
+            width: 0.35 * MediaQuery.sizeOf(context).width,
             child: KTextField(
               fieldController: controllerInfoRating,
               fieldName: "Rating",
@@ -556,13 +586,22 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
       ),
     );
   }
-
   KApplicationBar appBar              () {
     return KAppBar(
         backgroundColor: Colors.white,
         title: widget.withData == true? "Detail Pengeluaran" : "Pengeluaran Baru",
         fontColor: ApplicationColors.primary,
-        action: rightLeadingAction(context)
+        action: rightLeadingAction(context),
+        leading: FilledButton(
+          onPressed: (){
+            Navigator.pop(context);
+          }, 
+          style: FilledButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            foregroundColor: Colors.black26
+          ),
+          child: const Icon(Icons.arrow_back_ios, color: ApplicationColors.primary,)
+        )
     ).getWidget();
   }
   List<Widget>    buttonAction        (BuildContext context, size) {
@@ -602,7 +641,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
     }
   }
 
-  @override
+  @override 
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     isWithDataCheck();
