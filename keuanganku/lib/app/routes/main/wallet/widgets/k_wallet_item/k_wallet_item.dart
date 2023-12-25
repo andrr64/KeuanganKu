@@ -56,7 +56,6 @@ class _KWalletItemState extends State<KWalletItem> {
                     return Container(
                       alignment: Alignment.centerRight,
                       height: 30,
-                      width: MediaQuery.sizeOf(context).width * 0.4,
                       child: Text(
                         formatCurrency(snapshot.data!),
                         style: kFontStyle(fontSize: 15),
