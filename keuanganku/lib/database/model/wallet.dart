@@ -24,6 +24,14 @@ class SQLModelWallet {
   static SQLModelWallet fromMap(Map<String, dynamic> map){
     return SQLModelWallet(id: map['id'],tipe: map['tipe'],  judul: map['judul']);
   }
+  static IconData geIconData(String tipe){
+    for (var i = 0; i < iconTipeWallet.length; i++) {
+      if (tipe == tipeWallet[i]){
+        return iconDataTipeWallet[i];
+      }
+    }
+    return Icons.wallet;
+  }
 
   Map<String, dynamic> toMap(){
     return {
@@ -38,13 +46,5 @@ class SQLModelWallet {
   String get iconPath {
     if (tipe == "Wallet") return "assets/icons/wallet_item.svg";
     return "assets/icons/bank_item.svg";
-  }
-  static IconData geIconData(String tipe){
-    for (var i = 0; i < iconTipeWallet.length; i++) {
-      if (tipe == tipeWallet[i]){
-        return iconDataTipeWallet[i];
-      }
-    }
-    return Icons.wallet;
   }
 }
