@@ -8,8 +8,6 @@ import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/k_wallet_item/k_wallet_item.dart';
 import 'package:keuanganku/util/dummy.dart';
-import 'package:keuanganku/util/font_style.dart';
-import 'package:keuanganku/util/get_currency.dart';
 
 class DataHelper {
   static Future<double> totalUangWallet(List<SQLModelWallet> wallets) async{
@@ -62,38 +60,17 @@ class _KListWalletState extends State<KListWallet> {
       );
     }
 
-    // Widgets
-    Widget teksTotalUangWallet(){
-      return FutureBuilder(
-        future: DataHelper.totalUangWallet(widget.wallets),
-        builder: ((_, snapshot){
-          if (snapshot.connectionState == ConnectionState.waiting){
-            return makeCenterWithRow(child: const CircularProgressIndicator());
-          } else if (snapshot.hasError){
-            return makeCenterWithRow(child: const Text("Something wrong..."));
-          } else {
-            return Text(formatCurrency(snapshot.data!), style: kFontStyle(fontSize: 15, color: Colors.blue),);
-          }
-        })
-      );
-    }
-
     Widget normalBuild(List<SQLModelWallet> wallets){
       return Column(
         children: [
           for(int i = 0; i < wallets.length; i++)
-            KWalletItem(
-              wallet: wallets[i],
-              callback: widget.callback
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: KWalletItem(
+                wallet: wallets[i],
+                callback: widget.callback
+              ),
             ),
-          const Divider(color: Colors.black26,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Total", style: kFontStyle(fontSize: 15),),
-              teksTotalUangWallet()
-            ],
-          )
         ],
       );
     }
