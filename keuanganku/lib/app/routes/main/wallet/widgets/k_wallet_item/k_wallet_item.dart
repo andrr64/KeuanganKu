@@ -17,11 +17,15 @@ class KWalletItem extends StatefulWidget {
 }
 
 class _KWalletItemState extends State<KWalletItem> {
+  void onPressed(BuildContext context){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailWallet(callback: widget.callback, wallet: widget.wallet,)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => DetailWallet(callback: widget.callback, wallet: widget.wallet,)));
+        onPressed(context);
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
