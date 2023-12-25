@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_dropdown_menu/k_drodpown_menu.dart';
@@ -16,6 +17,18 @@ import 'package:keuanganku/util/vector_operation.dart';
 
 class Data {
   WaktuTransaksi waktuTransaksi = WaktuTransaksi.Bulanan;
+  String getInfoWaktu(waktuTransaksiX){
+    switch(waktuTransaksiX){
+      case WaktuTransaksi.Bulanan:
+        return "Bulan Ini";
+      case WaktuTransaksi.Mingguan:
+        return "Minggu Ini";
+      case WaktuTransaksi.Tahunan:
+        return "Tahun Ini";
+      default:
+        return "";
+    }
+  }
 }
 
 class KRingkasan extends StatefulWidget {
@@ -58,6 +71,7 @@ class _KRingkasanState extends State<KRingkasan> {
     }
     return KFutureBuilder.build(
         future: getData(),
+        whenWaiting: build(0),
         whenError: build(0),
         whenSuccess: (value) => build(value)
     );
@@ -92,6 +106,7 @@ class _KRingkasanState extends State<KRingkasan> {
     }
     return KFutureBuilder.build(
         future: getData(), 
+        whenWaiting: build(0.0),
         whenError: build(0.0),
         whenSuccess: (value) => build(value as double)
     );
@@ -99,7 +114,12 @@ class _KRingkasanState extends State<KRingkasan> {
   KWidget     dropdownWaktu     (BuildContext context){
     List<DropdownMenuItem<WaktuTransaksi>> items(){
       return WaktuTransaksi.values.map((e) =>
-          DropdownMenuItem(child: Text(e.enumValue, style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),), value: e,)
+          DropdownMenuItem(
+            child: Text(
+              widget.widgetData.getInfoWaktu(e),
+              style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),
+            ),
+            value: e,)
       ).toList();
     }
 
@@ -133,7 +153,6 @@ class _KRingkasanState extends State<KRingkasan> {
         'color': delta < 0? Colors.red : delta == 0? ApplicationColors.primary : Colors.green
       };
     }
-
     Widget build(value){
       double panjangContainerUang = MediaQuery.sizeOf(context).width * 0.4;
       return Column(
@@ -158,6 +177,10 @@ class _KRingkasanState extends State<KRingkasan> {
     }
     return KFutureBuilder.build<Map<String, dynamic>>(
         future: getData(),
+        whenWaiting: build({
+          'delta' : 0.0,
+          'color': ApplicationColors.primary
+        }),
         whenError: build({
           'delta' : 0.0,
           'color': ApplicationColors.primary
@@ -165,11 +188,13 @@ class _KRingkasanState extends State<KRingkasan> {
         whenSuccess: (value) => build(value)
     );
   }
-  
+  final icon = SvgPicture.asset("assets/icons/ringkasan.svg");
+
   @override
   Widget build(BuildContext context) {
     return KCard(
         title: "Ringkasan",
+        icon: icon,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
