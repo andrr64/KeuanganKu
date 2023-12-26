@@ -103,7 +103,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text("Total Dana",
-                style: kFontStyle(fontSize: 15, family: "QuickSand_Medium", color: Colors.white),
+                style: kFontStyle(fontSize: 17, family: "QuickSand_Medium", color: Colors.white),
               ),
               Text(formatCurrency(totalDana),
                 style: kFontStyle(fontSize: 24, color: Colors.white),
@@ -135,7 +135,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Hai,", style: kFontStyle(fontSize: 15, color: Colors.white, family: "QuickSand_Medium"),),
+                Text("Hai,", style: kFontStyle(fontSize: 17, color: Colors.white, family: "QuickSand_Medium"),),
                 Text(username, style: kFontStyle(fontSize: 24, color: Colors.white),),
               ],
             ),
@@ -171,9 +171,8 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          dummyHeight(height: 5),
           headingUsername(),
-          dummyHeight(height: paddingBottom),
+          dummyHeight(height: paddingBottom-5),
           ringkasan(),
           dummyHeight(height: paddingBottom),
           listExpenseLimiter(),
