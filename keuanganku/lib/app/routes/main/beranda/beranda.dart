@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/distribusi/distribusi_transaksi.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/ringkasan/k_ringkasan.dart';
+import 'package:keuanganku/app/routes/main/main_page.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_expenselimiter/list_expenselimiter.dart';
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
@@ -29,9 +30,12 @@ class WidgetData{
 }
 
 class HalamanBeranda extends StatefulWidget {
-  const HalamanBeranda({super.key, required this.parentScaffoldKey});
+  const HalamanBeranda({
+    super.key, 
+    required this.callback
+  });
 
-  final GlobalKey<ScaffoldState> parentScaffoldKey;
+  final VoidCallback callback;
   static StateBridge state = StateBridge();
   static WidgetData widgetData = WidgetData();
 
@@ -41,12 +45,12 @@ class HalamanBeranda extends StatefulWidget {
 
 class _HalamanBerandaState extends State<HalamanBeranda> {
   // Events
-  KEventHandler updateState () {
+  KEventHandler updateState     () {
     setState(() {
 
     });
   }
-  KEventHandler callback    () {
+  KEventHandler callback        () {
     updateState();
     HalamanPengeluaran.state.update();
     HalamanWallet.state.update();
@@ -163,8 +167,102 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
       child: KRingkasan(callback: callback, widgetData: HalamanBeranda.widgetData.wxDataRingkasan),
     );
   }
-
-  Widget buildBody(BuildContext context){
+  KWidget   fiturUtama          (BuildContext context){
+    Widget    tombolBuild         ({
+      required String title, 
+      required String info, 
+      required Color color,
+      required Function() onTap
+    }){
+      return 
+      GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center    ,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(title, style: kFontStyle(fontSize: 18, color: Colors.white),),
+                        SizedBox(
+                          width: MediaQuery.sizeOf(context).width * 0.7,
+                          child: Text(
+                            info, 
+                            style: kFontStyle(
+                              fontSize: 14, 
+                              family: "QuickSand_Medium", 
+                              color: Colors.white
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                const Icon(Icons.arrow_forward_ios, color: Colors.white,)
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+    Widget    tombolWallet        () {
+      void onTap (){
+        MainPage.data.currentIndex = 2;
+        widget.callback();
+      }
+      return tombolBuild(
+        title: "Pemasukan", 
+        info: "Fitur yang membantu anda untuk melihat dan menambahkan data pemasukan", 
+        color: const Color(0xff216583), 
+        onTap: onTap
+      );
+    }
+    Widget    tombolPengeluaran   () {
+      void onTap (){
+        MainPage.data.currentIndex = 1;
+        widget.callback();
+      }
+      return tombolBuild(
+        title: "Pengeluaran", 
+        info: "Menambah, melihat atau membatasi pengeluaran anda dengan sangat mudah", 
+        color: const Color(0xffB8405E),
+        onTap: onTap
+      );
+    }  
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Fitur Utama", 
+            style: kFontStyle(
+              fontSize: 22, 
+              color: Colors.white,
+            ),
+          ),
+          dummyHeight(height: 10),
+          tombolWallet(),
+          dummyHeight(),
+          tombolPengeluaran(),
+        ],
+      ),
+    );
+  }
+  Widget    buildBody           (BuildContext context){
     const double paddingBottom = 20;
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -172,8 +270,10 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           headingUsername(),
-          dummyHeight(height: paddingBottom-5),
+          dummyHeight(height: paddingBottom),
           ringkasan(),
+          dummyHeight(height: paddingBottom),
+          fiturUtama(context),
           dummyHeight(height: paddingBottom),
           listExpenseLimiter(),
           dummyHeight(height: 25),
