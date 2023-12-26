@@ -33,7 +33,7 @@ class _TentangAplikasiState extends State<TentangAplikasi> {
     ).getWidget();
   }
 
-  Widget tentang(){
+  Widget tentang() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -45,7 +45,7 @@ class _TentangAplikasiState extends State<TentangAplikasi> {
       ],
     );
   }
-  Widget pengembang(){
+  Widget pengembang() {
     Widget buildProfilePengembang({required String nama, required String tugas}){
       return Row(
         children: [
@@ -81,6 +81,19 @@ class _TentangAplikasiState extends State<TentangAplikasi> {
       ],
     );
   }
+  Widget lisensi() {
+    const lisensi = """Aplikasi ini menggunakan lisensi GNU General Public License (GPL), yang memberikan kebebasan kepada pengguna untuk menggunakan, memodifikasi, dan mendistribusikan perangkat lunak tanpa pembatasan. Pengguna dapat menjalankan aplikasi ini tanpa biaya dan memiliki hak untuk mengakses serta memodifikasi kode sumber.""";
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        dummyHeight(),
+        Text("Lisensi", style: kFontStyle(fontSize: 18,),),
+        dummyHeight(height: 12.5),
+        Text(lisensi, style: kFontStyle(fontSize: 14, family: "QuickSand_Medium"),),
+        dummyHeight(height: 25),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +110,8 @@ class _TentangAplikasiState extends State<TentangAplikasi> {
               tentang(),
               divider,
               pengembang(),
+              divider,
+              lisensi(),
               divider,
               makeCenterWithRow(child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 25),
