@@ -19,11 +19,10 @@ class TentangAplikasi extends StatefulWidget {
 }
 
 class _TentangAplikasiState extends State<TentangAplikasi> {
-
   KApplicationBar   appBar      (BuildContext context){
     return KAppBar(
         title: "",
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         fontColor: ApplicationColors.primary,
         leading: KLeadingBackIOS(
           onTap: (){
@@ -47,26 +46,64 @@ class _TentangAplikasiState extends State<TentangAplikasi> {
     );
   }
   Widget pengembang(){
+    Widget buildProfilePengembang({required String nama, required String tugas}){
+      return Row(
+        children: [
+          const Icon(Icons.person_2_rounded, color: ApplicationColors.primary, size: 40,),
+          dummyWidth(10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(nama, style: kFontStyle(fontSize: 14),),
+              Text(tugas, style: kFontStyle(fontSize: 14, family: "QuickSand_Medium"),)
+            ],
+          )
+        ],
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         dummyHeight(),
-        Text("Pengembang", style: kFontStyle(fontSize: 25, family: "QuickSand_Medium"),),
+        Text("Pengembang", style: kFontStyle(fontSize: 18,),),
+        dummyHeight(height: 12.5),
+        buildProfilePengembang(nama: "Derza Andreas", tugas: "UI/UX | Front-End | Back-End"),
+        dummyHeight(height: 12.5),
+        buildProfilePengembang(nama: "Rifqi Abdillah Rosyad", tugas: "Front-End | Dokumentasi"),
+        dummyHeight(height: 12.5),
+        buildProfilePengembang(nama: "Muhammad Dhafa Mahardika", tugas: "Back-End | Dokumentasi"),
+        dummyHeight(height: 12.5),
+        buildProfilePengembang(nama: "Muhammad Fajar Raihan", tugas: "Desainer Basis Data | Dokumentasi"),
+        dummyHeight(height: 12.5),
+        buildProfilePengembang(nama: "Syafiq Najwan", tugas: "Desainer Basis Data | Dokumentasi"),
+        dummyHeight(height: 25),
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    const divider = Divider();
     return Scaffold(
       appBar: appBar(context),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25), 
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            tentang(),
-          ],
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25), 
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              tentang(),
+              divider,
+              pengembang(),
+              divider,
+              makeCenterWithRow(child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 25),
+                child: Text("Akhir Halaman", style: kFontStyle(fontSize: 12, color: Colors.black45),),
+              ))
+            ],
+          ),
         ),
       ),
     );
