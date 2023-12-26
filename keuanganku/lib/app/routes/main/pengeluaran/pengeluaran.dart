@@ -76,7 +76,7 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
   @override
   Widget build(BuildContext context) {
     HalamanPengeluaran.state.init(updateState);
-    const double paddingBottom = 15;
+    const double paddingBottom = 20;
     return Scaffold(
       backgroundColor: ApplicationColors.primary,
       body: SingleChildScrollView(
