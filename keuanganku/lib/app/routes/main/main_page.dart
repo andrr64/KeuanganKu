@@ -56,7 +56,6 @@ class _MainPageState extends State<MainPage> {
   KEventHandler     onPageChanged (int index) {
     setState(() {
       MainPage.data.currentIndex = index;
-      _pageController.jumpToPage(MainPage.data.currentIndex);
     });
   }
   KApplicationBar   appBar        (){
