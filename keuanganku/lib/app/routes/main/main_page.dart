@@ -18,7 +18,6 @@ class Data {
     listMainPagePages = [
         KeepAlivePage(
           child: HalamanBeranda(
-            parentScaffoldKey: scState,
             callback: callback,
           )),
         KeepAlivePage(
