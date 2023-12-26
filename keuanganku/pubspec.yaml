@@ -40,6 +40,7 @@ flutter:
     - assets/icons/pemasukan.svg
     - assets/icons/ringkasan.svg
     - assets/icons/expense_limiter.svg
+    - assets/icons/limiter_kosong.svg
 
     - assets/svg/not_found.svg
     - assets/svg/error.svg
