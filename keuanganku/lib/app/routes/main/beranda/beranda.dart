@@ -224,9 +224,9 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
         widget.callback();
       }
       return tombolBuild(
-        title: "Pemasukan", 
+        title: "Wallet", 
         info: "Fitur yang membantu anda untuk melihat dan menambahkan data pemasukan", 
-        color: const Color(0xff216583), 
+        color: const Color(0xff04837B), 
         onTap: onTap
       );
     }
@@ -256,7 +256,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
           ),
           dummyHeight(height: 10),
           tombolWallet(),
-          dummyHeight(),
+          dummyHeight(height: 20),
           tombolPengeluaran(),
         ],
       ),
@@ -270,9 +270,9 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           headingUsername(),
-          dummyHeight(height: paddingBottom),
+          dummyHeight(height: paddingBottom-10),
           ringkasan(),
-          dummyHeight(height: paddingBottom),
+          dummyHeight(height: paddingBottom + 10),
           fiturUtama(context),
           dummyHeight(height: paddingBottom),
           listExpenseLimiter(),
