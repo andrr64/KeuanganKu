@@ -16,6 +16,7 @@ class AppDrawer extends StatelessWidget {
       height: 0,
     );
     return Drawer(
+      backgroundColor: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
