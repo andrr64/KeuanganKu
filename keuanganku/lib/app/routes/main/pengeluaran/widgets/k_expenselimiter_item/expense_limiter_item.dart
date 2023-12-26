@@ -78,8 +78,7 @@ double getMapColorValue(double perbandingan) {
                       Container(
                           alignment: Alignment.centerLeft,
                           height: 15,
-                          width: MediaQuery.sizeOf(context).width * 0.3,
-                          child: Text("${toThousandK(snapshot.data!['totalPengeluaran'])}/${toThousandK(widget.limiter.nilai)}", style: kFontStyle(fontSize: 14, family: "QuickSand_Medium"),)),
+                          child: Text("${toThousandK(snapshot.data!['totalPengeluaran'])}/${toThousandK(widget.limiter.nilai)}", style: kFontStyle(fontSize: 14, family: "QuickSand_Medium"), overflow: TextOverflow.ellipsis,)),
                       Text(widget.limiter.waktu, style: kFontStyle(fontSize: 13, family: "QuickSand_Medium"),),
                     ],
                   ),
