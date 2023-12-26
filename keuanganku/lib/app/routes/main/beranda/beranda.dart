@@ -129,23 +129,19 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
       if (data != null){
         username = data.username ?? "User";
       }
-
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Hai,", style: kFontStyle(fontSize: 17, color: Colors.white, family: "QuickSand_Medium"),),
-                Text(username, style: kFontStyle(fontSize: 24, color: Colors.white),),
-              ],
-            ),
-            buildTotalDana()
-          ],
-        ),
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Hai,", style: kFontStyle(fontSize: 17, color: Colors.white, family: "QuickSand_Medium"),),
+              Text(username, style: kFontStyle(fontSize: 24, color: Colors.white),),
+            ],
+          ),
+          buildTotalDana()
+        ],
       );
     }
     return KFutureBuilder.build(
@@ -156,16 +152,10 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
     );
   }
   KWidget   listExpenseLimiter  () {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: ListExpenseLimiter(callback: callback),
-    );
+    return ListExpenseLimiter(callback: callback);
   }
   KWidget   ringkasan           () {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: KRingkasan(callback: callback, widgetData: HalamanBeranda.widgetData.wxDataRingkasan),
-    );
+    return KRingkasan(callback: callback, widgetData: HalamanBeranda.widgetData.wxDataRingkasan);
   }
   KWidget   fiturUtama          (BuildContext context){
     Widget    tombolBuild         ({
@@ -242,9 +232,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
         onTap: onTap
       );
     }  
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: Column(
+    return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -265,8 +253,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
           dummyHeight(height: 15),
           tombolPengeluaran(),
         ],
-      ),
-    );
+      );
   }
   Widget    buildBody           (BuildContext context){
     const double paddingBottom = 15;
@@ -293,7 +280,10 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
     HalamanBeranda.state.init(updateState);
     return Scaffold(
       backgroundColor: ApplicationColors.primary,
-      body: buildBody(context)
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: buildBody(context),
+      )
     );
   }
 }
