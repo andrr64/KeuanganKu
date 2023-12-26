@@ -13,11 +13,14 @@ import 'package:keuanganku/main.dart';
 
 class Data {
   bool _init = false;
-  init(GlobalKey<ScaffoldState> scState){
+  init(GlobalKey<ScaffoldState> scState, Function() callback){
     if(_init) return;
     listMainPagePages = [
         KeepAlivePage(
-          child: HalamanBeranda(parentScaffoldKey: scState,)),
+          child: HalamanBeranda(
+            parentScaffoldKey: scState,
+            callback: callback,
+          )),
         KeepAlivePage(
           child: HalamanPengeluaran(parentScaffoldKey: scState,)
         ),
@@ -54,6 +57,7 @@ class _MainPageState extends State<MainPage> {
   KEventHandler     onPageChanged (int index) {
     setState(() {
       MainPage.data.currentIndex = index;
+      _pageController.jumpToPage(MainPage.data.currentIndex);
     });
   }
   KApplicationBar   appBar        (){
@@ -69,10 +73,15 @@ class _MainPageState extends State<MainPage> {
         )
     ).getWidget();
   }
+  KEventHandler     callback      (){
+    setState(() {
+      _pageController.jumpToPage(MainPage.data.currentIndex);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    MainPage.data.init(_scaffoldKey);
+    MainPage.data.init(_scaffoldKey, callback);
     return Scaffold(
         appBar: appBar(),
         key: _scaffoldKey,
