@@ -247,23 +247,29 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Fitur Utama", 
-            style: kFontStyle(
-              fontSize: 22, 
-              color: Colors.white,
-            ),
+          Row(
+            children: [
+              const Icon(Icons.star, color: Colors.orange,),
+              dummyWidth(5),
+              Text(
+                "Fitur Utama", 
+                style: kFontStyle(
+                  fontSize: 22, 
+                  color: Colors.white,
+                ),
+              ),
+            ],
           ),
-          dummyHeight(height: 10),
+          dummyHeight(height: 15),
           tombolWallet(),
-          dummyHeight(height: 20),
+          dummyHeight(height: 15),
           tombolPengeluaran(),
         ],
       ),
     );
   }
   Widget    buildBody           (BuildContext context){
-    const double paddingBottom = 20;
+    const double paddingBottom = 15;
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
@@ -272,7 +278,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
           headingUsername(),
           dummyHeight(height: paddingBottom-10),
           ringkasan(),
-          dummyHeight(height: paddingBottom + 10),
+          dummyHeight(height: paddingBottom),
           fiturUtama(context),
           dummyHeight(height: paddingBottom),
           listExpenseLimiter(),
