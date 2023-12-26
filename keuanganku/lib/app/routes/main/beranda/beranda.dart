@@ -97,17 +97,20 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
         return await SQLHelperWallet().readSeluruhTotalUangTersedia();
       }
       Widget build(double totalDana){
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text("Total Dana",
-              style: kFontStyle(fontSize: 15, family: "QuickSand_Medium", color: Colors.white),
-            ),
-            Text(formatCurrency(totalDana),
-              style: kFontStyle(fontSize: 24, color: Colors.white),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text("Total Dana",
+                style: kFontStyle(fontSize: 15, family: "QuickSand_Medium", color: Colors.white),
+              ),
+              Text(formatCurrency(totalDana),
+                style: kFontStyle(fontSize: 24, color: Colors.white),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         );
       }
       return KFutureBuilder.build(
@@ -155,12 +158,6 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
     );
   }
   KWidget   ringkasan           () {
-    void callback(){
-      updateState();
-      HalamanPengeluaran.state.update();
-      HalamanWallet.state.update();
-    }
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: KRingkasan(callback: callback, widgetData: HalamanBeranda.widgetData.wxDataRingkasan),
@@ -174,6 +171,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          dummyHeight(height: 5),
           headingUsername(),
           dummyHeight(height: paddingBottom),
           ringkasan(),
