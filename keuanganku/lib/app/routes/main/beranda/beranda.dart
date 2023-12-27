@@ -267,8 +267,6 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
           ringkasan(),
           dummyHeight(height: paddingBottom),
           fiturUtama(context),
-          dummyHeight(height: paddingBottom),
-          listExpenseLimiter(),
           dummyHeight(height: 25),
         ]
       ),
