@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/app/routes/getting_started/widget_splashscreen.dart';
+import 'package:keuanganku/app/routes/perkenalan/widget_splashscreen.dart';
 
 class Halaman2 extends StatelessWidget {
   const Halaman2({super.key});

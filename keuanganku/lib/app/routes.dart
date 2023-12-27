@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keuanganku/app/routes/getting_started/halaman_getting_started.dart';
+import 'package:keuanganku/app/routes/perkenalan/halaman_getting_started.dart';
 import 'package:keuanganku/app/routes/main/main_page.dart';
 
 class Routes {
