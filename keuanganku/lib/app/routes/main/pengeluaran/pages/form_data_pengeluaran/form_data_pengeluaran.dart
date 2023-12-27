@@ -287,7 +287,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         fieldController: controllerJudul, 
         fieldName: "Judul", 
         icon: Icons.title_sharp,
-        prefixIconColor: ApplicationColors.primary  ),
+        prefixIconColor: KColors.primary  ),
     );
   }
   KFormWidget   fieldJumlah           () {
@@ -298,7 +298,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         fieldName: "Jumlah", 
         icon: Icons.attach_money,
         keyboardType: TextInputType.number,
-        prefixIconColor: ApplicationColors.primary),
+        prefixIconColor: KColors.primary),
     );
   }
   KFormWidget   fieldDeskripsi        () {
@@ -326,7 +326,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
               fieldController: controllerTanggal, 
               fieldName: "Tanggal", 
               readOnly: true,
-              prefixIconColor: ApplicationColors.primary,
+              prefixIconColor: KColors.primary,
               icon: Icons.calendar_month,
               onTap: () async {
                 tanggalPengeluaran = await tampilkanDatePicker(
@@ -353,7 +353,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
             fieldController: controllerWaktu,
             fieldName: "Jam",
             readOnly: true,
-            prefixIconColor: ApplicationColors.primary,
+            prefixIconColor: KColors.primary,
             icon: Icons.alarm,
             onTap: () async {
               jamPengeluaran = await tampilkanTimePicker(context: context, waktu: jamPengeluaran);
@@ -462,7 +462,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
                         KTextField(
                           fieldController: controllerNamaKategori, 
                           fieldName: "Judul", 
-                          prefixIconColor: ApplicationColors.primary,
+                          prefixIconColor: KColors.primary,
                           icon: Icons.title,
                         ),
                         dummyHeight(height: 15),
@@ -543,7 +543,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
         }, 
         title: "Update", 
         color: Colors.white,
-        bgColor: ApplicationColors.primary,
+        bgColor: KColors.primary,
         icon: const Icon(CupertinoIcons.upload_circle, color: Colors.white,),
       ),
     );
@@ -559,7 +559,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
             child: KTextField(
               fieldController: controllerInfoRating,
               fieldName: "Rating",
-              prefixIconColor: ApplicationColors.primary,
+              prefixIconColor: KColors.primary,
               icon: Icons.star,
               readOnly: true,
             ),
@@ -590,7 +590,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
     return KAppBar(
         backgroundColor: Colors.white,
         title: widget.withData == true? "Detail Pengeluaran" : "Pengeluaran Baru",
-        fontColor: ApplicationColors.primary,
+        fontColor: KColors.primary,
         action: rightLeadingAction(context),
         leading: FilledButton(
           onPressed: (){
@@ -600,7 +600,7 @@ class _FormDataPengeluaranState extends State<FormDataPengeluaran> {
             backgroundColor: Colors.transparent,
             foregroundColor: Colors.black26
           ),
-          child: const Icon(Icons.arrow_back_ios, color: ApplicationColors.primary,)
+          child: const Icon(Icons.arrow_back_ios, color: KColors.primary,)
         )
     ).getWidget();
   }

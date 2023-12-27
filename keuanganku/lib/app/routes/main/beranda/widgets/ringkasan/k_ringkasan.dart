@@ -133,7 +133,7 @@ class _KRingkasanState extends State<KRingkasan> {
     );
   }
   KWidget     delta             (BuildContext context, double delta){
-    final color = delta < 0? Colors.red : delta == 0? ApplicationColors.primary : Colors.green;
+    final color = delta < 0? Colors.red : delta == 0? KColors.primary : Colors.green;
     double panjangContainerUang = MediaQuery.sizeOf(context).width * 0.4;
     return Column(
       children: [

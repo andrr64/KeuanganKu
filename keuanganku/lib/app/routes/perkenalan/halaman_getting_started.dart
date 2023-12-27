@@ -64,7 +64,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                           style: TextStyle(
                               fontFamily: "Quicksand_Medium",
                               fontSize: 14,
-                              color: ApplicationColors.primary),
+                              color: KColors.primary),
                         ),
                       ),
                     )
@@ -78,15 +78,15 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                 effect: WormEffect(
                     dotWidth: 8,
                     dotHeight: 8,
-                    dotColor: ApplicationColors.primaryColorWidthPercentage(percentage: 50),
-                    activeDotColor: ApplicationColors.primary),
+                    dotColor: KColors.primaryColorWidthPercentage(percentage: 50),
+                    activeDotColor: KColors.primary),
               ),
               !halamanAkhir
                   ? SizedBox(
                       height: 30,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: ApplicationColors.primary,
+                          backgroundColor: KColors.primary,
                         ),
                         onPressed: () {
                           _pageController.nextPage(
@@ -103,7 +103,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                       height: 30,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: ApplicationColors.primary,
+                          backgroundColor: KColors.primary,
                         ),
                         child: const Text(
                           "Let's go",

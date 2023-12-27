@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/routes/main/bottom_bar.dart';
+import 'package:keuanganku/app/routes/main/k_bottom_bar.dart';
 import 'package:keuanganku/app/routes/main/beranda/beranda.dart';
-import 'package:keuanganku/app/routes/main/body.dart';
-import 'package:keuanganku/app/routes/main/drawer.dart';
+import 'package:keuanganku/app/routes/main/k_drawer.dart';
 import 'package:keuanganku/app/routes/main/keep_alive.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
@@ -42,7 +41,6 @@ class Data {
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
-
   static Data data = Data();
 
   @override
@@ -61,7 +59,7 @@ class _MainPageState extends State<MainPage> {
   KApplicationBar   appBar        (){
     return KAppBar(
         title: MainPage.data.menu[MainPage.data.currentIndex],
-        backgroundColor: ApplicationColors.primary,
+        backgroundColor: KColors.primary,
         centerTitle: true,
         leading: GestureDetector(
           onTap: (){
@@ -83,14 +81,14 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
         appBar: appBar(),
         key: _scaffoldKey,
-        drawer: const AppDrawer(),
+        drawer: const KeuanganKuDrawer(),
         // appBar: AppTopBar(scaffoldKey: _scaffoldKey, index: MainPage.data.currentIndex).getWidget(context),
-        body: AppBody(
+        body: PageView(
+          controller: _pageController,
           onPageChanged: onPageChanged,
-          pageController: _pageController,
-          body: MainPage.data.listMainPagePages,
-        ).getWidget(),
-        bottomNavigationBar:AppBottomNavBar(MainPage.data.currentIndex, _pageController).getWidget()
+          children: MainPage.data.listMainPagePages,
+        ),
+        bottomNavigationBar:KeuanganKuBottomNavBar(MainPage.data.currentIndex, _pageController).getWidget()
     );
   }
 }

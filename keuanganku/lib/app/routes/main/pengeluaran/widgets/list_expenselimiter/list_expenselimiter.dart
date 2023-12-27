@@ -40,7 +40,7 @@ class _ListExpenseLimiterState extends State<ListExpenseLimiter> {
           });
       }, 
       title: "Tambah", 
-      icon: const Icon(Icons.add, color: ApplicationColors.primary,)
+      icon: const Icon(Icons.add, color: KColors.primary,)
     );
   }
   Widget emptyListWidget(){

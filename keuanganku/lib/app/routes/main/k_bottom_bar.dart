@@ -1,15 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
-import 'package:keuanganku/app/routes/main/list_feature.dart';
+import 'package:keuanganku/app/routes/main/page_titles.dart';
 
 class Data {
   int currentIndex = 0;
-  final List<String> appBarTitle = [
-    "Ringkasan",
-    "Pengeluaran",
-    "Wallet",
-  ];
 
   List<BottomNavigationBarItem> getItems () {
     return [
@@ -27,18 +22,17 @@ class Data {
 
 }
 
-class AppBottomNavBar{
+class KeuanganKuBottomNavBar{
   final Data data = Data();
   late final PageController pageController;
 
-  AppBottomNavBar(int index, this.pageController){
+  KeuanganKuBottomNavBar(int index, this.pageController){
     data.currentIndex = index;
   }
 
   Widget getWidget(){
-
     return BottomNavigationBar(
-      backgroundColor: ApplicationColors.primary,
+      backgroundColor: KColors.primary,
       type:BottomNavigationBarType.fixed ,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white70,

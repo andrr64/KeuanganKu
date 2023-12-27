@@ -74,7 +74,7 @@ class _KWalletItemState extends State<KWalletItem> {
               const SizedBox(width: 5,),
               const Icon(
                 Icons.arrow_forward_ios,
-                color: ApplicationColors.primary,
+                color: KColors.primary,
                 size: 17.5,
               )
             ],

@@ -39,7 +39,7 @@ class KTextField extends StatelessWidget {
           labelText: fieldName,
           border: const OutlineInputBorder(),
           prefixIcon: Icon(icon, color: prefixIconColor,),
-          labelStyle: const TextStyle(color: ApplicationColors.primary)
+          labelStyle: const TextStyle(color: KColors.primary)
       ),
     );
   }

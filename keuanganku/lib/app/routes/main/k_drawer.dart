@@ -3,13 +3,12 @@ import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/tentang/tentang.dart';
 import 'package:keuanganku/app_info.dart';
 
-class AppDrawer extends StatelessWidget {
+class KeuanganKuDrawer extends StatelessWidget {
   /// Drawer aplikasi
-  const AppDrawer({super.key});
+  const KeuanganKuDrawer({super.key});
   
   @override
-  Widget build(BuildContext context) {
-    
+  Widget build(BuildContext context) {   
     const double besarPadding = 40;
     const double besarPaddingKiri = 10;
     const Divider divider = Divider(
@@ -22,7 +21,7 @@ class AppDrawer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            color: ApplicationColors.primary,
+            color: KColors.primary,
             width: double.infinity,
             child: Padding(
               padding: const EdgeInsets.only(left: besarPaddingKiri, top: besarPadding, bottom: besarPadding),

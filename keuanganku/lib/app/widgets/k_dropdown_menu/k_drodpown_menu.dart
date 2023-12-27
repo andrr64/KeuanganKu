@@ -16,10 +16,10 @@ class KDropdownMenu<T> {
         labelText: labelText,
         labelStyle: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: ApplicationColors.primary, width: 1),
+          borderSide: BorderSide(color: KColors.primary, width: 1),
         ),
         enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: ApplicationColors.primary, width: 1),
+          borderSide: BorderSide(color: KColors.primary, width: 1),
         ),
         prefixIcon: icon,
       )

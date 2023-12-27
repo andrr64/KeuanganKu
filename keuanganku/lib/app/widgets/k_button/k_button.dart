@@ -18,7 +18,7 @@ class KButton extends StatelessWidget {
           height: 40,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: bgColor?? ApplicationColors.buttonBgColor, 
+            color: bgColor?? KColors.buttonBgColor, 
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
@@ -33,7 +33,7 @@ class KButton extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: "QuickSand_Bold",
                     fontSize: 14,
-                    color: color ?? ApplicationColors.primary
+                    color: color ?? KColors.primary
                   ), 
                 ),
               ],

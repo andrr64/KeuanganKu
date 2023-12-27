@@ -23,12 +23,12 @@ class _TentangAplikasiState extends State<TentangAplikasi> {
     return KAppBar(
         title: "",
         backgroundColor: Colors.white,
-        fontColor: ApplicationColors.primary,
+        fontColor: KColors.primary,
         leading: KLeadingBackIOS(
           onTap: (){
             Navigator.pop(context);
           },
-          color: ApplicationColors.primary,
+          color: KColors.primary,
         ),
     ).getWidget();
   }
@@ -49,7 +49,7 @@ class _TentangAplikasiState extends State<TentangAplikasi> {
     Widget buildProfilePengembang({required String nama, required String tugas}){
       return Row(
         children: [
-          const Icon(Icons.person_2_rounded, color: ApplicationColors.primary, size: 40,),
+          const Icon(Icons.person_2_rounded, color: KColors.primary, size: 40,),
           dummyWidth(10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

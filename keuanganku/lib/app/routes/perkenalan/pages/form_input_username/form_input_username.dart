@@ -28,7 +28,7 @@ class _FormInputUsernameState extends State<FormInputUsername> {
     return KTextField(
       fieldController: controllerUsername,
       fieldName: "Nama",
-      prefixIconColor: ApplicationColors.primary,
+      prefixIconColor: KColors.primary,
       icon: CupertinoIcons.person_crop_circle,
     );
   }
@@ -55,7 +55,7 @@ class _FormInputUsernameState extends State<FormInputUsername> {
       },
       title: "Ok",
       icon: null,
-      bgColor: ApplicationColors.primary, color: Colors.white,
+      bgColor: KColors.primary, color: Colors.white,
     );
   }
 

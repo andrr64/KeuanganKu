@@ -94,7 +94,7 @@ class _KPengeluaranItemState extends State<KPengeluaranItem> {
               const SizedBox(width: 5,),
               const Icon(
                 Icons.arrow_forward_ios,
-                color: ApplicationColors.primary,
+                color: KColors.primary,
                 size: 15,
               )
             ],

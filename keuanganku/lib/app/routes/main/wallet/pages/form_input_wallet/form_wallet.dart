@@ -67,7 +67,7 @@ class _FormWalletState extends State<FormWallet> {
           fieldController: controllerFieldJudul , 
           fieldName: "Judul", 
           icon: Icons.title,
-          prefixIconColor: ApplicationColors.primary
+          prefixIconColor: KColors.primary
         ),
       );
     }
@@ -80,7 +80,7 @@ class _FormWalletState extends State<FormWallet> {
           fieldName: "Jumlah Uang", 
           icon: Icons.attach_money,
           keyboardType: TextInputType.number,
-          prefixIconColor: ApplicationColors.primary
+          prefixIconColor: KColors.primary
         ),
       );
     }
@@ -138,7 +138,7 @@ class _FormWalletState extends State<FormWallet> {
     }
 
     return Scaffold(
-      appBar: KAppBar(title: "Wallet Baru", fontColor: ApplicationColors.primary).getWidget(),
+      appBar: KAppBar(title: "Wallet Baru", fontColor: KColors.primary).getWidget(),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
