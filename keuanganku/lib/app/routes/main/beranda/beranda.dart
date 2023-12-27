@@ -279,7 +279,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
     return Scaffold(
       backgroundColor: ApplicationColors.primary,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: buildBody(context),
       )
     );
