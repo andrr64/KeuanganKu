@@ -7,7 +7,7 @@ import 'package:keuanganku/app/routes/main/beranda/widgets/distribusi/distribusi
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_pengeluaran/list_pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/list_pemasukan/k_list_pemasukan.dart';
 import 'package:keuanganku/app/snack_bar.dart';
-import 'package:keuanganku/app/widgets/app_bar/app_bar.dart';
+import 'package:keuanganku/app/widgets/k_app_bar/k_app_bar.dart';
 import 'package:keuanganku/app/widgets/k_dialog/k_dialog_info.dart';
 import 'package:keuanganku/app/widgets/k_future_builder/k_future.dart';
 import 'package:keuanganku/database/helper/income.dart';
