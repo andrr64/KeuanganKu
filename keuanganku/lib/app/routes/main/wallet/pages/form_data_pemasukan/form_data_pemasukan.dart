@@ -73,7 +73,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
 
   // Events
   KEventHandler   simpanData (BuildContext context, Size size) {
-    Future memprosesData() async{
+    Future<dynamic> prosesData() async{
       // Validator
       try {
         double.tryParse(controllerJumlah.text)!;
@@ -105,15 +105,19 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
         nilai: double.tryParse(controllerJumlah.text)!, 
         waktu: combineDtTod(tanggalPengeluaran, jamPengeluaran),
       );
-      widget.callback();
       if ((await SQLHelperIncome().insert(dataBaru, db.database)) != -1) {
+        return Condition.OK;
+      } else {
+        return SQLError;
+      }
+    }
+    prosesData().then((value){
+      if (value == Condition.OK){
         tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data berhasil disimpan");
       } else {
         tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Something wrong...");
       }
       Navigator.pop(context);
-    }
-    memprosesData().then((value){
       widget.callback();
     });
   }
@@ -178,7 +182,6 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
     if (widget.pemasukan == null) {
       return;
     }
-
     showDialog(
       context: context,
       builder: (dialogContext) {
@@ -193,18 +196,24 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
               child: const Text("Batal"),
             ),
             TextButton(
-              onPressed: () async {
-                // Hapus data
-                int result = await SQLHelperIncome().delete(widget.pemasukan!.id, db.database);
-
-                if (result != -1) {
-                  tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data Berhasil Dihapus");
-                } else {
-                  tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Something wrong...");
+              onPressed: () {
+                Future prosesData() async {
+                  if ((await SQLHelperIncome().delete(widget.pemasukan!.id, db.database)) != -1) {
+                    return Condition.OK;
+                  } else {
+                    return SQLError;
+                  }
                 }
-                widget.callback();
-                Navigator.pop(dialogContext); // Tutup dialog konfirmasi
-                Navigator.pop(context); // Tutup halaman form setelah menghapus data
+                prosesData().then((value){
+                  if (value == Condition.OK){
+                    tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Data Berhasil Dihapus");
+                  } else {
+                    tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: "Something wrong...");
+                  }
+                  widget.callback();
+                  Navigator.pop(dialogContext); // Tutup dialog konfirmasi
+                  Navigator.pop(context); // Tutup halaman form setelah menghapus data
+                });
               },
               child: const Text("Hapus"),
             ),
