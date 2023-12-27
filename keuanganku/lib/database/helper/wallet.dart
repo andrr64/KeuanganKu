@@ -66,7 +66,6 @@ class SQLHelperWallet {
     final dataPengeluaran = await SQLHelperExpense().readByWalletId(wallet.id, db.database);
     return sumList(dataPemasukan.map((e) => e.nilai).toList()) - sumList(dataPengeluaran.map((e) => e.nilai).toList());
   }
-
   Future<double> readSeluruhTotalUangTersedia()  async {
     List<SQLModelWallet> seluruhWallet = await SQLHelperWallet().readAll(db.database);
     double totalUang = 0;
@@ -83,5 +82,23 @@ class SQLHelperWallet {
       "INSERT INTO $_tableName(tipe, judul) VALUES(?, ?)",
       [wallet.tipe, wallet.judul]
     );
+  }
+
+  // DELETE METHOD
+  Future<int> delete(SQLModelWallet wallet, Database db) async {
+    Future deleteWallet() async {
+      return db.delete(_tableName, where: "id = ?", whereArgs: [wallet.id]);
+    }
+    if (await SQLHelperIncome().deleteAllByWalletId(wallet.id, db.database)  == -1){
+      return -0xa1;
+    }
+    if (await SQLHelperExpense().deleteAllByWalletId(wallet.id, db.database) == -1){
+      return -0xa2;
+    }
+    
+    if (await deleteWallet() == -1){
+      return -0xa3;
+    }
+    return 0;
   }
 }
