@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_data_pengeluaran/form_data_pengeluaran.dart';
 import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
@@ -71,26 +72,38 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
       )
     );
   }
-  Widget        normalBuild       (BuildContext context, Size size){
+  Widget        normalBuild       (BuildContext context,){
+    bool moreThan5 = widget.listPengeluaran.length >= 6;
+    int length = moreThan5 ? 5 : widget.listPengeluaran.length;
+    Widget tombolSelengkapnya(){
+      return moreThan5 ? makeCenterWithRow(
+          child: KButton(
+            onTap: (){}, 
+            title: "Selengkapnya",
+            bgColor: Colors.grey[100],
+            icon: const Icon(
+              Icons.more_horiz, 
+              color: ApplicationColors.primary,
+            ),
+          )
+        ) : const SizedBox();
+    }
+
     return Column(
       children: [
-        for(int i=0; i < widget.listPengeluaran.length; i++)
+        for(int i=0; i < length; i++)
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: SizedBox(
-              width: size.width  * 0.875,
               child: KPengeluaranItem(pengeluaran: widget.listPengeluaran[i], callback: widget.callback,),
             ),
           ),
+        tombolSelengkapnya(),
       ],
     );
   }
-  KWidget       buildBody         (BuildContext context, Size size){
-    if (widget.listPengeluaran.isEmpty){
-      return emptyBuild();
-    } else {
-      return normalBuild(context, size);
-    }
+  KWidget       buildBody         (BuildContext context){
+    return widget.listPengeluaran.isEmpty? emptyBuild() : normalBuild(context);
   }
   KButton       tombolTambahData  (BuildContext context){
     return KButton(  
@@ -104,15 +117,11 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
-    return makeCenterWithRow(
-      child: KCard(
-        title: "Pengeluaran", 
-        icon: icon,
-        width: size.width * 0.875,
-        button: tombolTambahData(context),
-        child: buildBody(context, size),
-      ) 
+    return KCard(
+      title: "Pengeluaran",
+      icon: icon,
+      button: tombolTambahData(context),
+      child: buildBody(context),
     );
   }
 }

@@ -65,11 +65,8 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
       HalamanBeranda.state.update();
       HalamanPengeluaran.state.update();
     }
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: ListExpenseLimiter(
-        callback: callback,
-      )
+    return ListExpenseLimiter(
+      callback: callback,
     );
   }
 
@@ -81,15 +78,18 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
       backgroundColor: ApplicationColors.primary,
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            dummyHeight(height: paddingBottom),
-            listPengeluaran(),
-            dummyHeight(height: paddingBottom),
-            listExpenseLimiter(),
-            dummyHeight(height: paddingBottom)
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              dummyHeight(height: paddingBottom),
+              listPengeluaran(),
+              dummyHeight(height: paddingBottom),
+              listExpenseLimiter(),
+              dummyHeight(height: paddingBottom)
+            ],
+          ),
         ),
       )
     );
