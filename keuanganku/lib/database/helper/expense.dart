@@ -246,6 +246,9 @@ class SQLHelperExpense {
   Future<int> delete(int id, {required Database db}) async {
     return await db.delete(_tableName, where: "id = ?", whereArgs: [id]);
   }
+  Future<int> deleteAllByWalletId(int walletId, Database db) async {
+    return await db.delete(_tableName, where: "id_wallet = ?", whereArgs: [walletId]);
+  }
   
   /// Fungsi ini akan menghapus semua pengeluaran yang memiliki id wallet = idwallet
   Future<int> deleteByWalletId(int idWallet, {required Database db}) async {
