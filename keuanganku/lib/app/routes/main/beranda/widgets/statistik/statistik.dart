@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:keuanganku/app/widgets/bar_chart/data.dart';
+import 'package:keuanganku/app/widgets/k_bar_chart_data/k_bar_chart_data.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/database/helper/expense.dart';
@@ -18,9 +18,9 @@ class WidgetData{
   WaktuTransaksi waktuTransaksi = WaktuTransaksi.Mingguan;
   SortirTransaksi sortirTransaksi = SortirTransaksi.Terbaru;
   List<SQLModelExpense> dataPengeluaran = [];
-  List<BarChartXY>? _dataBar(List<SQLModelExpense> data){
-    List<BarChartXY> barChartMingguan(List<SQLModelExpense> listPengeluaran) {
-      List<BarChartXY> result = [];
+  List<KBarChartXY>? _dataBar(List<SQLModelExpense> data){
+    List<KBarChartXY> barChartMingguan(List<SQLModelExpense> listPengeluaran) {
+      List<KBarChartXY> result = [];
       DateTime now = DateTime.now();
 
       // Mencari tahu tanggal hari Senin ini
@@ -36,7 +36,7 @@ class WidgetData{
 
         // Menambahkan data ke list result
         result.add(
-          BarChartXY(
+          KBarChartXY(
             xValue: i.toDouble(),
             yValue: totalNilaiPengeluaran,
           ),
@@ -45,8 +45,8 @@ class WidgetData{
 
       return result;
     }
-    List<BarChartXY> barChartTahun(List<SQLModelExpense> listPengeluaran) {
-        List<BarChartXY> result = [];
+    List<KBarChartXY> barChartTahun(List<SQLModelExpense> listPengeluaran) {
+        List<KBarChartXY> result = [];
         DateTime now = DateTime.now();
 
         // Iterasi untuk 12 bulan
@@ -60,7 +60,7 @@ class WidgetData{
 
           // Menambahkan data ke list result
           result.add(
-            BarChartXY(
+            KBarChartXY(
               xValue: i.toDouble(),
               yValue: totalNilaiPengeluaran,
             ),
@@ -126,7 +126,7 @@ class Statistik extends StatelessWidget {
             return makeCenterWithRow(child: const KEmpty());
           } else {
             final dataPengeluaran = snapshot.data!['dataPengeluaran'] as List<SQLModelExpense>;
-            final dataBarChart = snapshot.data!['barChartData'] as List<BarChartXY>;
+            final dataBarChart = snapshot.data!['barChartData'] as List<KBarChartXY>;
 
             final maxY = findLargestValue(dataBarChart.map((e) => e.yValue).toList());
             final ratingAvg = sumList(dataPengeluaran.map((e) => e.rating).toList()) / dataPengeluaran.length;

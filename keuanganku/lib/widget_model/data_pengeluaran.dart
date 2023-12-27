@@ -1,4 +1,4 @@
-import 'package:keuanganku/app/widgets/bar_chart/data.dart';
+import 'package:keuanganku/app/widgets/k_bar_chart_data/k_bar_chart_data.dart';
 import 'package:keuanganku/database/helper/expense.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
 import 'package:keuanganku/main.dart';
@@ -6,12 +6,12 @@ import 'package:keuanganku/util/date_util.dart';
 import 'package:keuanganku/util/vector_operation.dart';
 
 class WidgetHelperDataPengeluaran {
-  Future<List<BarChartXY>> listBarChartPengeluaran(WaktuTransaksi waktuTransaksi) async {
-  Future<List<BarChartXY>> getHarian() async {
+  Future<List<KBarChartXY>> listBarChartPengeluaran(WaktuTransaksi waktuTransaksi) async {
+  Future<List<KBarChartXY>> getHarian() async {
     List<DateTime> listHari = getHariMingguan();
-    List<BarChartXY> data = [
+    List<KBarChartXY> data = [
       for(int i = 0; i < 7; i++)
-        BarChartXY(
+        KBarChartXY(
           xValue: i.toDouble(), 
           yValue: sumList(
             (await SQLHelperExpense().readDataByDate(listHari[i], db: db.database))
@@ -23,11 +23,11 @@ class WidgetHelperDataPengeluaran {
     return data;
   }
 
-  Future<List<BarChartXY>> getBulanan() async {
+  Future<List<KBarChartXY>> getBulanan() async {
     int tahun = DateTime.now().year;
     return [
       for(int i = 0; i < 12; i++)
-        BarChartXY(
+        KBarChartXY(
           xValue: i.toDouble(), 
           yValue: sumList(
             (await SQLHelperExpense().readDataByMonth(tahun, i + 1, db: db.database))
