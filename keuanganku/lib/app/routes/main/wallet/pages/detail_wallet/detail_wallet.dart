@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/distribusi/distribusi_transaksi.dart' as distribusiTx;
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_pengeluaran/list_pengeluaran.dart';
-import 'package:keuanganku/app/routes/main/wallet/widgets/list_pemasukan/k_list_pemasukan.dart';
+import 'package:keuanganku/app/routes/main/wallet/widgets/k_list_pemasukan/k_list_pemasukan.dart';
 import 'package:keuanganku/app/snack_bar.dart';
 import 'package:keuanganku/app/widgets/k_app_bar/k_app_bar.dart';
 import 'package:keuanganku/app/widgets/k_dialog/k_dialog_info.dart';

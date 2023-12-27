@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keuanganku/app/routes/main/wallet/pages/form_data_pemasukan/form_data_pemasukan.dart';
@@ -9,10 +8,9 @@ import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/k_pemasukan_item/k_pemasukan_item.dart';
 import 'package:keuanganku/database/helper/income_category.dart';
 import 'package:keuanganku/database/helper/wallet.dart';
-import 'package:keuanganku/database/model/category.dart';
 import 'package:keuanganku/database/model/income.dart';
-import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/enum/status.dart';
+import 'package:keuanganku/k_typedef.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 
@@ -26,7 +24,7 @@ class KListPemasukan extends StatefulWidget {
 }
 
 class KListPemasukanState extends State<KListPemasukan> {
-  Widget buildBody(BuildContext context){
+  KWidget       buildBody             (BuildContext context){
     final size = MediaQuery.sizeOf(context);
     if (widget.listPemasukan.isEmpty){
       return const KEmpty();
@@ -51,38 +49,44 @@ class KListPemasukanState extends State<KListPemasukan> {
       ],
     );
   }
-  Widget tombolTambahPemasukan(){
+  KWidget       tombolTambahPemasukan (){
     return KButton(
       onTap: () => tambahPemasukan(context), 
       title: "Tambah", 
       icon: const Icon(Icons.add), 
     );
   }
-  KEventHandler tambahPemasukan(BuildContext context) async {
-    List<SQLModelWallet> listWallet = await SQLHelperWallet().readAll(db.database);
-    if (listWallet.isEmpty){
-      KDialogInfo(
-        title: "Wallet Kosong", 
-        info: "Anda tidak memiliki wallet :(", 
-        jenisPesan: Pesan.Warning
-      ).tampilkanDialog(context);
-      return;
+  KEventHandler tambahPemasukan       (BuildContext context) {
+    Future<dynamic>   getData     () async {
+      return {
+        'listWallet' : await SQLHelperWallet().readAll(db.database),
+        'listKategori': await SQLHelperIncomeCategory().readAll(db: db.database),
+      };
     }
-    List<SQLModelCategory> listKategori  = await SQLHelperIncomeCategory().readAll(db: db.database);
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_){
-        return FormInputPemasukan(
-          listWallet: listWallet,
-          listKategori: listKategori,
-          callback: (){
-            widget.callback();
-          },
-        );
-      })
-    );
-  }
+    KEventHandler     prosesData  (Map<String, dynamic> data){
+      if ((data['listWallet'] as List).isEmpty){
+        KDialogInfo(
+          title: "Wallet Kosong", 
+          info: "Anda tidak memiliki wallet :(", 
+          jenisPesan: Pesan.Warning
+        ).tampilkanDialog(context);
+        return;
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_){
+            return FormInputPemasukan(
+              listWallet: data['listWallet'],
+              listKategori: data['listKategori'],
+              callback: (){
+                widget.callback();
+              },
+            );
+          })
+      );
+    }
+    getData().then((data) => prosesData(data));
+ }
 
   @override
   Widget build(BuildContext context) {

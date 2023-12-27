@@ -6,7 +6,7 @@ import 'package:keuanganku/app/routes/main/main_page.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pengeluaran.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_expenselimiter/list_expenselimiter.dart';
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
-import 'package:keuanganku/app/routes/main/wallet/widgets/list_wallet/list_wallet.dart';
+import 'package:keuanganku/app/routes/main/wallet/widgets/k_list_wallet/k_list_wallet.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/statistik/statistik.dart';
 import 'package:keuanganku/app/state_bridge.dart';
 import 'package:keuanganku/app/widgets/k_future_builder/k_future.dart';

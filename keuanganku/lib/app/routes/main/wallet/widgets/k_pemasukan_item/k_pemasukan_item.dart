@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/wallet/pages/detail_pemasukan/detail_pemasukan.dart';
 import 'package:keuanganku/database/model/income.dart';
+import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/font_style.dart';
 import 'package:keuanganku/util/get_currency.dart';
 import 'package:keuanganku/util/string_operation.dart';
@@ -12,16 +13,18 @@ class KPemasukanItem extends StatelessWidget {
   final SQLModelIncome pemasukan;
   final VoidCallback callback;
 
+  KEventHandler   onTap(BuildContext context){
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => DetailPemasukan(pemasukan: pemasukan, callback: callback))
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => DetailPemasukan(pemasukan: pemasukan, callback: callback))
-        );
-      },
+      onTap: () => onTap(context),
       child: IntrinsicHeight(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 10),

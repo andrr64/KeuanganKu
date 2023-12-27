@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/wallet/pages/detail_wallet/detail_wallet.dart';
 import 'package:keuanganku/database/model/wallet.dart';
+import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/font_style.dart';
 import 'package:keuanganku/util/get_currency.dart';
@@ -17,16 +18,14 @@ class KWalletItem extends StatefulWidget {
 }
 
 class _KWalletItemState extends State<KWalletItem> {
-  void onPressed(BuildContext context){
+  KEventHandler onTap(BuildContext context){
     Navigator.push(context, MaterialPageRoute(builder: (context) => DetailWallet(callback: widget.callback, wallet: widget.wallet,)));
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        onPressed(context);
-      },
+      onTap: () => onTap(context),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
