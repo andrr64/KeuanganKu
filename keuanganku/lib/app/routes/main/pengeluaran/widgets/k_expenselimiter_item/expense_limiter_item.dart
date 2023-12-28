@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_expense_limiter/form_expense_limiter.dart';
+import 'package:keuanganku/app/widgets/k_future_builder/k_future.dart';
 import 'package:keuanganku/database/helper/expense.dart';
 import 'package:keuanganku/database/helper/income_category.dart';
 import 'package:keuanganku/database/model/expense.dart';
@@ -26,81 +27,76 @@ class KExpenseLimiterItem extends StatefulWidget {
 }
 
 class _KExpenseLimiterItemState extends State<KExpenseLimiterItem> {
-  Future getData() async{
-    List<SQLModelExpense> listPengeluaranKategoriIni = 
-      await SQLHelperExpense().readWeeklyByCategoryId (
-        widget.limiter.kategori.id, 
-        DateTime.now(), db: db.database, sortirBy: SortirTransaksi.Default
-      );
-    double totalPengeluaran = sumList(listPengeluaranKategoriIni.map((e) => e.nilai).toList());
-    double perbandingan = ((totalPengeluaran == 0) ? 0:  totalPengeluaran / widget.limiter.nilai).toDouble();
-    return {
-      'listPengeluaran': listPengeluaranKategoriIni,
-      'totalPengeluaran': totalPengeluaran,
-      'perbandingan': perbandingan,
-    };
-  }
 
-double getMapColorValue(double perbandingan) {
-  double maxValue = 5;
-  double minValue = 1;
-  if (perbandingan >= 1){
-    return minValue;
-  } else if (perbandingan <= 0){
-    return maxValue;
+  double getMapColorValue (double perbandingan) {
+    double maxValue = 5;
+    double minValue = 1;
+    if (perbandingan >= 1){
+      return minValue;
+    } else if (perbandingan <= 0){
+      return maxValue;
+    }
+    double output  = maxValue - ((maxValue-minValue) * perbandingan);
+    return output;
   }
-  double output  = maxValue - ((maxValue-minValue) * perbandingan);
-  return output;
-}
-
-  Widget  getItem(){
-    return FutureBuilder(
-      future: getData(), 
-      builder: (_, snapshot){
-        if (snapshot.connectionState == ConnectionState.waiting){
-          return makeCenterWithRow(child: const CircularProgressIndicator());
-        } else if (snapshot.hasError){
-          return makeCenterWithRow(child: const Text("Sadly something wrong"));
-        } else {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+  Widget buildBody          (){
+    Future getData      () async{
+      List<SQLModelExpense> listPengeluaranKategoriIni = 
+        await SQLHelperExpense().readWeeklyByCategoryId (
+          widget.limiter.kategori.id, 
+          DateTime.now(), db: db.database, sortirBy: SortirTransaksi.Default
+        );
+      double totalPengeluaran = sumList(listPengeluaranKategoriIni.map((e) => e.nilai).toList());
+      double perbandingan = ((totalPengeluaran == 0) ? 0:  totalPengeluaran / widget.limiter.nilai).toDouble();
+      return {
+        'listPengeluaran': listPengeluaranKategoriIni,
+        'totalPengeluaran': totalPengeluaran,
+        'perbandingan': perbandingan,
+      };
+    }
+    Widget buildWidget  (Map<String, dynamic> data){
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.limiter.kategori.judul,
-                        style: kFontStyle(fontSize: 16),
-                      ),
-                      Container(
-                          alignment: Alignment.centerLeft,
-                          height: 15,
-                          child: Text("${toThousandK(snapshot.data!['totalPengeluaran'])}/${toThousandK(widget.limiter.nilai)}", style: kFontStyle(fontSize: 14, family: "QuickSand_Medium"), overflow: TextOverflow.ellipsis,)),
-                      Text(widget.limiter.waktu, style: kFontStyle(fontSize: 13, family: "QuickSand_Medium"),),
-                    ],
-                  ),
                   Text(
-                      percentageFormat(snapshot.data['perbandingan'] < 1.0 ? snapshot.data['perbandingan']  * 100 : 100),
-                    style: kFontStyle(fontSize: 18),
-                  )
+                    widget.limiter.kategori.judul,
+                    style: kFontStyle(fontSize: 16),
+                  ),
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      height: 15,
+                      child: Text("${toThousandK(data['totalPengeluaran'])}/${toThousandK(widget.limiter.nilai)}", style: kFontStyle(fontSize: 14, family: "QuickSand_Medium"), overflow: TextOverflow.ellipsis,)),
+                  Text(widget.limiter.waktu, style: kFontStyle(fontSize: 13, family: "QuickSand_Medium"),),
                 ],
               ),
-              const SizedBox(height: 8),
-              LinearProgressIndicator(
-                value: snapshot.data!['perbandingan'],
-                backgroundColor: Colors.black26,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  mapValueToColor(getMapColorValue(snapshot.data!['perbandingan']))
-                ),
-              ),
+              Text(
+                  percentageFormat(data['perbandingan'] < 1.0 ? data['perbandingan']  * 100 : 100),
+                style: kFontStyle(fontSize: 18),
+              )
             ],
-          );
-        }
-      }
+          ),
+          const SizedBox(height: 8),
+          LinearProgressIndicator(
+            value: data['perbandingan'],
+            backgroundColor: Colors.black26,
+            valueColor: AlwaysStoppedAnimation<Color>(
+              mapValueToColor(getMapColorValue(data['perbandingan']))
+            ),
+          ),
+        ],
+      );
+    }
+    return KFutureBuilder.build(
+      future: getData(), 
+      whenError: makeCenterWithRow(child: const Text("Sadly something wrong")),
+      whenSuccess: (data) => buildWidget(data)
     );
   }
 
@@ -119,7 +115,7 @@ double getMapColorValue(double perbandingan) {
               listCategory: listKategori,)));
           });
       },
-      child: getItem()
+      child: buildBody()
     );
   }
 }
