@@ -17,7 +17,7 @@ class KPemasukanItem extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => DetailPemasukan(pemasukan: pemasukan, callback: callback))
+        builder: (_) => DetailPemasukan(dataPemasukan: pemasukan, callback: callback))
     );
   }
 

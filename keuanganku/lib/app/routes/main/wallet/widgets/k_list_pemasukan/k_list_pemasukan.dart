@@ -76,8 +76,6 @@ class KListPemasukanState extends State<KListPemasukan> {
         context,
         MaterialPageRoute(builder: (_){
             return FormInputPemasukan(
-              listWallet: data['listWallet'],
-              listKategori: data['listKategori'],
               callback: (){
                 widget.callback();
               },

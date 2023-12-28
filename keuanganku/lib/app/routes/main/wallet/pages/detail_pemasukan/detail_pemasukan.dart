@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/routes/main/wallet/pages/form_data_pemasukan/form_data_pemasukan.dart';
+import 'package:keuanganku/app/widgets/k_future_builder/k_future.dart';
 import 'package:keuanganku/database/helper/income_category.dart';
 import 'package:keuanganku/database/helper/wallet.dart';
 import 'package:keuanganku/database/model/income.dart';
 import 'package:keuanganku/main.dart';
-import 'package:keuanganku/util/dummy.dart';
 
 class Data {
   Future<Map<String, dynamic>> getWalletDanKategori() async {
@@ -16,8 +16,8 @@ class Data {
 }
 
 class DetailPemasukan extends StatefulWidget {
-  DetailPemasukan({super.key, required this.pemasukan, required this.callback});
-  final SQLModelIncome pemasukan;
+  DetailPemasukan({super.key, required this.dataPemasukan, required this.callback});
+  final SQLModelIncome dataPemasukan;
   final Data data = Data();
   final VoidCallback callback;
 
@@ -27,24 +27,22 @@ class DetailPemasukan extends StatefulWidget {
 
 class _DetailPemasukanState extends State<DetailPemasukan> {
   Widget buildBody(BuildContext context){
-    return FutureBuilder(
+    return KFutureBuilder.build(
       future: widget.data.getWalletDanKategori(), 
-      builder: (_, snapshot){
-        if (snapshot.connectionState == ConnectionState.waiting){
-          return makeCenterWithRow(child: const CircularProgressIndicator());
-        } else if (snapshot.hasError){
-          return makeCenterWithRow(child: const Text("Sadly, someting wrong..."));
-        } else {
-          return FormInputPemasukan(
-            callback: (){
-              widget.callback();
-            }, 
-            listWallet: snapshot.data!['listWallet'], 
-            listKategori: snapshot.data!['listKategori'],
-            isWithData: true,
-            pemasukan: widget.pemasukan,
-          );
-        }
+      whenError: const Scaffold(
+        body: Center(
+          child: Text("Sadly, someting wrong..."),
+        ),
+      ), 
+      whenWaiting: const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      whenSuccess: (data){
+        return FormInputPemasukan(
+          callback: widget.callback, 
+          isWithData: true,
+          theDataIfIsWithData: widget.dataPemasukan,
+        );
       }
     );
   }
