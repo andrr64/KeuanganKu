@@ -12,10 +12,11 @@ class KTextField extends StatelessWidget {
     this.keyboardType,
     this.readOnly,
     this.onTap,
-    this.textHint
+    this.textHint,
+    this.maxLength
   }
   );
-
+  final int? maxLength;
   final String fieldName;
   final String? textHint;
   final IconData? icon;
@@ -27,6 +28,7 @@ class KTextField extends StatelessWidget {
 
   KFormWidget fieldUsername(){
     return TextFormField(
+      maxLength: maxLength,
       controller: fieldController,
       keyboardType: keyboardType,
       readOnly: readOnly?? false,
