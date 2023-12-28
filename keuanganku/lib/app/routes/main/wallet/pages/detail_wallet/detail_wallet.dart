@@ -48,9 +48,10 @@ class _DetailWalletState extends State<DetailWallet> {
     widget.callback();
   }
   
-  // Builder
 
-  Widget buildDistribusiPengeluaran (BuildContext context){
+
+  // Widgets
+  KWidget         buildDistribusiPengeluaran  (BuildContext context){
     return makeCenterWithRow(
       child: distribusiTx.DistribusiTransaksi(
         widgetData: widget.data.distribusiTxData,
@@ -60,9 +61,7 @@ class _DetailWalletState extends State<DetailWallet> {
       ),
     );
   }
-  
-  // Widgets
-  KWidget         listPengeluaran(BuildContext context){
+  KWidget         listPengeluaran             (BuildContext context){
     return KFutureBuilder.build<List<SQLModelExpense>>(
       future: SQLHelperExpense().readByWalletId(widget.wallet.id, db.database), 
       whenError: ListPengeluaran(
@@ -81,7 +80,7 @@ class _DetailWalletState extends State<DetailWallet> {
       }
     );
   }
-  KWidget         listPemasukan(BuildContext context){
+  KWidget         listPemasukan               (BuildContext context){
     return FutureBuilder(
           future: SQLHelperIncome().readDataByWalletId(widget.wallet.id, db.database),
           builder: (_, snapshot){
@@ -98,9 +97,9 @@ class _DetailWalletState extends State<DetailWallet> {
           }
       );
   }
-  KWidget         ringkasanWallet(BuildContext context){
+  KWidget         ringkasanWallet             (BuildContext context){
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 25),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Container(
           alignment: Alignment.topLeft,
           child: Column(
@@ -115,7 +114,7 @@ class _DetailWalletState extends State<DetailWallet> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(widget.wallet.tipe, style: kFontStyle(fontSize: 15, color: Colors.white, family: "QuickSand_Medium"),),
-                      Text(widget.wallet.judul, style: kFontStyle(fontSize: 20, color: Colors.white,),)
+                      Text(widget.wallet.judul, style: kFontStyle(fontSize: 24, color: Colors.white,),)
                     ],
                   ),
                   FutureBuilder(
@@ -137,7 +136,7 @@ class _DetailWalletState extends State<DetailWallet> {
       ),
     );
   }
-  KWidget         appBarLeading(BuildContext context){
+  KWidget         appBarLeading               (BuildContext context){
     return GestureDetector(
       onTap: (){
         Navigator.pop(context);
@@ -145,7 +144,7 @@ class _DetailWalletState extends State<DetailWallet> {
       child: const Icon(Icons.arrow_back_ios_new, color: Colors.white,),
     );
   }
-  List<Widget>    appBarAction(BuildContext context){
+  List<Widget>    appBarAction                (BuildContext context){
     const Color iconColor = Colors.white;
     const double paddingRight = 10;
     Widget tombolUbah(){
@@ -195,12 +194,12 @@ class _DetailWalletState extends State<DetailWallet> {
       tombolHapus(),
     ];
   }
-  KApplicationBar appBar(BuildContext context){
+  KApplicationBar appBar                      (BuildContext context){
     return KAppBar(
       title: "Detail Wallet", 
       centerTitle: true, 
       fontColor: Colors.white, 
-      backgroundColor: KColors.fontPrimaryBlack,
+      backgroundColor: KColors.backgroundPrimary,
       leading: appBarLeading(context),
       action: appBarAction(context),
     ).getWidget();
@@ -209,7 +208,7 @@ class _DetailWalletState extends State<DetailWallet> {
   @override
   Widget build(BuildContext context) {
    return Scaffold(
-      backgroundColor: KColors.fontPrimaryBlack,
+      backgroundColor: KColors.backgroundPrimary,
       appBar: appBar(context),
       body: SingleChildScrollView(
         child: Padding(
@@ -219,11 +218,11 @@ class _DetailWalletState extends State<DetailWallet> {
             children: [
               ringkasanWallet(context),
               listPemasukan(context),
-              dummyHeight(height: 25),
+              dummyHeight(),
               listPengeluaran(context),
-              dummyHeight(height: 25),
+              dummyHeight(),
               buildDistribusiPengeluaran(context),
-              dummyHeight(height: 25)
+              dummyHeight()
             ],
           ),
         ),

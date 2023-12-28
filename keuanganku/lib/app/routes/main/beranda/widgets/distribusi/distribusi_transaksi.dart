@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
 import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
+import 'package:keuanganku/app/widgets/k_future_builder/k_future.dart';
 import 'package:keuanganku/database/helper/expense.dart';
 import 'package:keuanganku/database/model/category.dart';
 import 'package:keuanganku/database/model/expense.dart';
@@ -162,32 +163,23 @@ class DistribusiTransaksi extends StatelessWidget {
         )
       );
     } 
-    return FutureBuilder(
-      future: widgetData.getPieData(dataPengeluaran), 
-      builder: (_, snapshot){
-        if (snapshot.connectionState == ConnectionState.waiting){
-          return makeCenterWithRow(child: const CircularProgressIndicator());
-        } else if (snapshot.hasError){
-          return makeCenterWithRow(child: const Text("Sadly, something wrong..."));
-        } else {
-          return secondStep(dataPengeluaran, snapshot.data!);
-        }
-      }
+    widgetData.getPieData(dataPengeluaran).then((data){
+      return secondStep(dataPengeluaran, data);
+    });
+    return KFutureBuilder.build(
+      future     : widgetData.getPieData(dataPengeluaran), 
+      whenError  : makeCenterWithRow(child: const Text("Sadly, something wrong...")), 
+      whenWaiting: makeCenterWithRow(child: const CircularProgressIndicator()),
+      whenSuccess: (data) => secondStep(dataPengeluaran, data)
     );
   }
   Widget buildBody(){
-    return FutureBuilder(
-      future: getter() ,
-      builder: (_, snapshot){
-        if(snapshot.connectionState == ConnectionState.waiting){
-          return const CircularProgressIndicator();
-        }
-        else if (snapshot.hasError){
-          return makeCenterWithRow(child: const Text("SQL Error :("));
-        }
-        else {
-          return firstStep(snapshot.data! as List<SQLModelExpense>);
-        }
+    return KFutureBuilder.build(
+      future: getter(), 
+      whenError: makeCenterWithRow(child: const Text("SQL Error :(")), 
+      whenWaiting: makeCenterWithRow(child: const CircularProgressIndicator()),
+      whenSuccess: (listPengeluaran ){
+        return firstStep(listPengeluaran as List<SQLModelExpense>);
       }
     );
   }
@@ -199,12 +191,9 @@ class DistribusiTransaksi extends StatelessWidget {
       "assets/icons/distribusi.svg",
       height: 35,
     );
-    final size = MediaQuery.sizeOf(context);
-    final width = size.width * 0.875;
 
     return KCard(
         title: "Distribusi Pengeluaran",
-        width: width,
         icon: icon,
         child: Column(
           children: [
