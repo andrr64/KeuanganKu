@@ -9,8 +9,6 @@ class KeuanganKuDrawer extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {   
-    const double besarPadding = 40;
-    const double besarPaddingKiri = 10;
     const Divider divider = Divider(
       height: 0,
     );
@@ -24,7 +22,7 @@ class KeuanganKuDrawer extends StatelessWidget {
             color: KColors.backgroundPrimary,
             width: double.infinity,
             child: Padding(
-              padding: const EdgeInsets.only(left: besarPaddingKiri, top: besarPadding, bottom: besarPadding),
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
