@@ -54,7 +54,10 @@ class SQLHelperIncomeCategory {
   }
   
   // INSERT METHODS
-  Future insert(SQLModelCategory dataBaru, {required Database db}){
-    return db.rawInsert("INSERT INTO $_tableName(judul) VALUES(?)", [dataBaru.judul]);
+  Future insert(SQLModelCategory? dataBaru, {required Database db}) async{
+    if (dataBaru == null){
+      return -1;
+    }
+    return await db.rawInsert("INSERT INTO $_tableName(judul) VALUES(?)", [dataBaru.judul]);
   }
 }
