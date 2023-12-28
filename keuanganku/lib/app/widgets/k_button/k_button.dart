@@ -31,7 +31,7 @@ class KButton extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    fontFamily: "QuickSand_Bold",
+                    fontFamily: "QuickSand_Medium",
                     fontSize: 14,
                     color: color ?? KColors.fontPrimaryBlack
                   ), 
