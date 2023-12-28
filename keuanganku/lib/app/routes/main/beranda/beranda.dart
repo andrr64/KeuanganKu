@@ -277,7 +277,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
   Widget build(BuildContext context) {
     HalamanBeranda.state.init(updateState);
     return Scaffold(
-      backgroundColor: KColors.primary,
+      backgroundColor: KColors.fontPrimaryBlack,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: buildBody(context),

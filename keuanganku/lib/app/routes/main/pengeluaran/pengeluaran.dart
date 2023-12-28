@@ -75,7 +75,7 @@ class _HalamanPengeluaranState extends State<HalamanPengeluaran> {
     HalamanPengeluaran.state.init(updateState);
     const double paddingBottom = 20;
     return Scaffold(
-      backgroundColor: KColors.primary,
+      backgroundColor: KColors.fontPrimaryBlack,
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(

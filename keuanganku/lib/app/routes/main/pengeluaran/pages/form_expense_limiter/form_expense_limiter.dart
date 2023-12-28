@@ -98,7 +98,7 @@ class _FormExpenseLimiterState extends State<FormExpenseLimiter> {
                         KTextField(
                           fieldController: controllerNamaKategori, 
                           fieldName: "Judul", 
-                          prefixIconColor: KColors.primary,
+                          prefixIconColor: KColors.fontPrimaryBlack,
                           icon: Icons.title,
                         ),
                         dummyHeight(height: 15),
@@ -206,7 +206,7 @@ class _FormExpenseLimiterState extends State<FormExpenseLimiter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: KAppBar(title: "Limiter Baru", fontColor: KColors.primary, backgroundColor: Colors.white).getWidget(),
+      appBar: KAppBar(title: "Limiter Baru", fontColor: KColors.fontPrimaryBlack, backgroundColor: Colors.white).getWidget(),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
@@ -229,7 +229,7 @@ class _FormExpenseLimiterState extends State<FormExpenseLimiter> {
                 fieldController: controllerNilai, 
                 fieldName: "Jumlah",
                 icon: Icons.attach_money, 
-                prefixIconColor: KColors.primary,
+                prefixIconColor: KColors.fontPrimaryBlack,
                 keyboardType: TextInputType.number,
               ),
               dummyHeight(height: 15),

@@ -79,7 +79,7 @@ class KPemasukanItem extends StatelessWidget {
                     const SizedBox(width: 5,),
                     const Icon(
                       Icons.arrow_forward_ios,
-                      color: KColors.primary,
+                      color: KColors.fontPrimaryBlack,
                       size: 17.5,
                     )
                   ],

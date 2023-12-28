@@ -200,7 +200,7 @@ class _DetailWalletState extends State<DetailWallet> {
       title: "Detail Wallet", 
       centerTitle: true, 
       fontColor: Colors.white, 
-      backgroundColor: KColors.primary,
+      backgroundColor: KColors.fontPrimaryBlack,
       leading: appBarLeading(context),
       action: appBarAction(context),
     ).getWidget();
@@ -209,7 +209,7 @@ class _DetailWalletState extends State<DetailWallet> {
   @override
   Widget build(BuildContext context) {
    return Scaffold(
-      backgroundColor: KColors.primary,
+      backgroundColor: KColors.fontPrimaryBlack,
       appBar: appBar(context),
       body: SingleChildScrollView(
         child: Padding(

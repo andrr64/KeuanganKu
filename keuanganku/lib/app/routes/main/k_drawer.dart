@@ -21,7 +21,7 @@ class KeuanganKuDrawer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            color: KColors.primary,
+            color: KColors.fontPrimaryBlack,
             width: double.infinity,
             child: Padding(
               padding: const EdgeInsets.only(left: besarPaddingKiri, top: besarPadding, bottom: besarPadding),

@@ -83,7 +83,7 @@ class _ListPengeluaranState extends State<ListPengeluaran> {
             bgColor: Colors.grey[100],
             icon: const Icon(
               Icons.more_horiz, 
-              color: KColors.primary,
+              color: KColors.fontPrimaryBlack,
             ),
           )
         ) : const SizedBox();

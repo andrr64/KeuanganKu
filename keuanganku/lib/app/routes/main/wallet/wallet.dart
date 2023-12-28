@@ -88,7 +88,7 @@ class _HalamanWalletState extends State<HalamanWallet> {
     const double paddingBottom = 15;
 
     return Scaffold(
-      backgroundColor: KColors.primary,
+      backgroundColor: KColors.fontPrimaryBlack,
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(

@@ -257,7 +257,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
         }, 
         title: "Update", 
         color: Colors.white,
-        bgColor: KColors.primary,
+        bgColor: KColors.fontPrimaryBlack,
         icon: const Icon(CupertinoIcons.upload_circle, color: Colors.white,),
       ),
     );
@@ -338,7 +338,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
                             KTextField(
                               fieldController: controllerNamaKategori, 
                               fieldName: "Judul", 
-                              prefixIconColor: KColors.primary,
+                              prefixIconColor: KColors.fontPrimaryBlack,
                               icon: Icons.title,
                             ),
                             dummyHeight(height: 15),
@@ -425,7 +425,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
         fieldController: controllerJudul, 
         fieldName: "Judul", 
         icon: Icons.title_sharp,
-        prefixIconColor: KColors.primary  ),
+        prefixIconColor: KColors.fontPrimaryBlack  ),
     );
   }
   KFormWidget     fieldJumlah         (){
@@ -436,7 +436,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
         fieldName: "Jumlah", 
         icon: Icons.attach_money,
         keyboardType: TextInputType.number,
-        prefixIconColor: KColors.primary),
+        prefixIconColor: KColors.fontPrimaryBlack),
     );
   }
   KFormWidget     fieldDeskripsi      () {
@@ -464,7 +464,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
               fieldController: controllerTanggal, 
               fieldName: "Tanggal", 
               readOnly: true,
-              prefixIconColor: KColors.primary,
+              prefixIconColor: KColors.fontPrimaryBlack,
               icon: Icons.calendar_month,
               onTap: () async {
                 tanggalPengeluaran = await tampilkanDatePicker(
@@ -493,7 +493,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
               fieldController: controllerWaktu, 
               fieldName: "Jam", 
               readOnly: true,
-              prefixIconColor: KColors.primary,
+              prefixIconColor: KColors.fontPrimaryBlack,
               icon: Icons.alarm,
               onTap: () async {
                 jamPengeluaran = await tampilkanTimePicker(context: context, waktu: jamPengeluaran);
@@ -509,7 +509,7 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
     return KAppBar(
       backgroundColor: Colors.white, 
       title: widget.isWithData == true ? "Detail Pemasukan" : "Pemasukan Baru", 
-      fontColor: KColors.primary,
+      fontColor: KColors.fontPrimaryBlack,
       action: widget.isWithData == true? buttonAction(context) : null
     ).getWidget();
   }

@@ -64,7 +64,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                           style: TextStyle(
                               fontFamily: "Quicksand_Medium",
                               fontSize: 14,
-                              color: KColors.primary),
+                              color: KColors.fontPrimaryBlack),
                         ),
                       ),
                     )
@@ -79,14 +79,14 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                     dotWidth: 8,
                     dotHeight: 8,
                     dotColor: KColors.primaryColorWidthPercentage(percentage: 50),
-                    activeDotColor: KColors.primary),
+                    activeDotColor: KColors.fontPrimaryBlack),
               ),
               !halamanAkhir
                   ? SizedBox(
                       height: 30,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: KColors.primary,
+                          backgroundColor: KColors.fontPrimaryBlack,
                         ),
                         onPressed: () {
                           _pageController.nextPage(
@@ -103,7 +103,7 @@ class _GettingStartedPageState extends State<GettingStartedPage> {
                       height: 30,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: KColors.primary,
+                          backgroundColor: KColors.fontPrimaryBlack,
                         ),
                         child: const Text(
                           "Let's go",

@@ -1,7 +1,8 @@
 import 'dart:ui';
 
 class KColors {
-  static const Color primary = Color.fromARGB(255, 56, 54, 81);
+  static const Color fontPrimaryBlack = Color.fromARGB(255, 56, 54, 81);
+  static const Color backgroundPrimary = Color(0xff342E4E);
   static const Color secondaryOrange = Color.fromARGB(255,255,111,49);
   static const Color secondaryYoungPurple = Color(0xffD3C3FA);
   static const Color buttonBgColor = Color(0xffF5F5F6);
@@ -13,8 +14,8 @@ class KColors {
 
       // Tentukan nilai ARGB dengan alpha yang sudah dikonversi
       return Color.fromARGB(
-          alpha, primary.red, primary.green, primary.blue);
+          alpha, fontPrimaryBlack.red, fontPrimaryBlack.green, fontPrimaryBlack.blue);
     }
-    return primary;
+    return fontPrimaryBlack;
   }
 }
