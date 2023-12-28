@@ -1,3 +1,5 @@
+import 'package:keuanganku/app/routes/main/beranda/widgets/ringkasan/k_ringkasan.dart';
+import 'package:keuanganku/database/helper/income.dart';
 import 'package:keuanganku/database/model/category.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -45,14 +47,19 @@ class SQLHelperIncomeCategory {
   }
 
   // READ METHODS
-  Future<List<SQLModelCategory>> readAll({required Database db}) async {
+  Future<List<SQLModelCategory>>  readAll({required Database db}) async {
     return (await db.query(_tableName, orderBy: "${_table['judul']?['name']}", )).map((e) => SQLModelCategory.fromMap(e)).toList();
   }
-  Future<SQLModelCategory> readById(int id, {required Database db}) async {
+  Future<SQLModelCategory>        readById(int id, {required Database db}) async {
     Map<String, dynamic> results = (await db.query(_tableName, where: "id = $id"))[0]; // Mengambil data dari database => Map<String, dynamic>
     return SQLModelCategory.fromMap(results);
   }
   
+  /// Fungsi ini akan memeriksa apakah terdapat data pemasukan yang mereferensikan kategori (via id)
+  Future<bool>                    readIsThereAnyReferencedData(int id, Database db) async {
+    return (await SQLHelperIncome().readByCategoryId(db: db, idKategori: id, countOnly: true)) > 0;
+  }
+
   // INSERT METHODS
   Future insert(SQLModelCategory? dataBaru, {required Database db}) async{
     if (dataBaru == null){
