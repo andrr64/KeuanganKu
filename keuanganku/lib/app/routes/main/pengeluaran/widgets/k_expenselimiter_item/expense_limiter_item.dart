@@ -42,14 +42,15 @@ class _KExpenseLimiterItemState extends State<KExpenseLimiterItem> {
   }
 
 double getMapColorValue(double perbandingan) {
-  if (perbandingan == 0){
-    return 5;
-  } else if (perbandingan >= 1){
-    return 1;
-  } else {
-    double x = perbandingan * 5;
-    return 5 - x;
+  double maxValue = 5;
+  double minValue = 1;
+  if (perbandingan >= 1){
+    return minValue;
+  } else if (perbandingan <= 0){
+    return maxValue;
   }
+  double output  = maxValue - ((maxValue-minValue) * perbandingan);
+  return output;
 }
 
   Widget  getItem(){
