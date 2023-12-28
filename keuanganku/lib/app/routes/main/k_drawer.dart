@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/tentang/tentang.dart';
 import 'package:keuanganku/app_info.dart';
+import 'package:keuanganku/util/dummy.dart';
 
 class KeuanganKuDrawer extends StatelessWidget {
   /// Drawer aplikasi
@@ -27,6 +28,7 @@ class KeuanganKuDrawer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  dummyHeight(height: 20),
                   const Text(
                     ApplicationInfo.title, 
                     style: TextStyle(
