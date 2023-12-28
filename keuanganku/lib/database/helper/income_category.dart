@@ -46,7 +46,7 @@ class SQLHelperIncomeCategory {
 
   // READ METHODS
   Future<List<SQLModelCategory>> readAll({required Database db}) async {
-    return (await db.query(_tableName)).map((e) => SQLModelCategory.fromMap(e)).toList();
+    return (await db.query(_tableName, orderBy: "${_table['judul']?['name']}", )).map((e) => SQLModelCategory.fromMap(e)).toList();
   }
   Future<SQLModelCategory> readById(int id, {required Database db}) async {
     Map<String, dynamic> results = (await db.query(_tableName, where: "id = $id"))[0]; // Mengambil data dari database => Map<String, dynamic>
