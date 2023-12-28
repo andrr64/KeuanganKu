@@ -32,7 +32,7 @@ class KeuanganKuBottomNavBar{
 
   Widget getWidget(){
     return BottomNavigationBar(
-      backgroundColor: KColors.fontPrimaryBlack,
+      backgroundColor: KColors.backgroundPrimary,
       type:BottomNavigationBarType.fixed ,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white70,

@@ -59,7 +59,7 @@ class _MainPageState extends State<MainPage> {
   KApplicationBar   appBar        (){
     return KAppBar(
         title: MainPage.data.menu[MainPage.data.currentIndex],
-        backgroundColor: KColors.fontPrimaryBlack,
+        backgroundColor: KColors.backgroundPrimary,
         centerTitle: true,
         leading: GestureDetector(
           onTap: (){
