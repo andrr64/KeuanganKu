@@ -227,6 +227,27 @@ class SQLHelperIncome {
     List<SQLModelIncome> data = results.map((map) => SQLModelIncome.fromMap(map)).toList();
     return data;
   }
+  Future<dynamic> readByCategoryId({
+    required Database db,
+    required int idKategori,
+    bool countOnly = false,
+  }) async {
+    if (countOnly) {
+      // Jika countOnly bernilai true, maka lakukan perhitungan jumlah data
+      final result = await db.rawQuery(
+        "SELECT COUNT(*) FROM $_tableName WHERE id_kategori = $idKategori",
+      );
+      return result[0]["COUNT(*)"];
+    } else {
+      // Jika countOnly bernilai false, maka ambil data sesuai kategori
+      final List<Map<String, dynamic>> results = await db.rawQuery(
+        "SELECT * FROM $_tableName WHERE id_kategori = $idKategori",
+      );
+      List<SQLModelIncome> data = results.map((map) => SQLModelIncome.fromMap(map)).toList();
+      return data;
+    }
+  }
+  
   // CREATE METHODS
   Future<int> insert(SQLModelIncome data, Database db) async {
     return 
