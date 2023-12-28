@@ -12,6 +12,8 @@ class KDropdownMenu<T> {
       items: items,
       onChanged: onChanged,
       value: value,
+      borderRadius: BorderRadius.circular(15),
+      dropdownColor: Colors.white,
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),
