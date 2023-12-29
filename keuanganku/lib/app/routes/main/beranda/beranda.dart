@@ -216,7 +216,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
       return tombolBuild(
         title: "Wallet", 
         info: "Fitur yang membantu anda untuk melihat dan menambahkan data pemasukan", 
-        color: const Color(0xff087E38), 
+        color: const Color(0xff1C9A3F), 
         onTap: onTap
       );
     }
@@ -228,7 +228,7 @@ class _HalamanBerandaState extends State<HalamanBeranda> {
       return tombolBuild(
         title: "Pengeluaran", 
         info: "Menambah, melihat atau membatasi pengeluaran anda dengan sangat mudah", 
-        color: const Color(0xff8E0F26),
+        color: const Color(0xffB11430),
         onTap: onTap
       );
     }  
