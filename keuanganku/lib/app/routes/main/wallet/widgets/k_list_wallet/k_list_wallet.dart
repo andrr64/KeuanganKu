@@ -43,7 +43,6 @@ class _KListWalletState extends State<KListWallet> {
       "assets/icons/wallet.svg",
       height: 35,
     );
-    final size = MediaQuery.sizeOf(context);
    
     // Events
     void tambahData(BuildContext context){
@@ -52,7 +51,7 @@ class _KListWalletState extends State<KListWallet> {
         MaterialPageRoute(
           builder: (_){
           return FormWallet(
-            onFinished: (){
+            callback: (){
               Navigator.pop(_);
               widget.callback();
           });
@@ -98,14 +97,12 @@ class _KListWalletState extends State<KListWallet> {
         normalBuild(widget.wallets);
     }
 
-    return makeCenterWithRow(
-      child: KCard(
-        title: "Wallet",
-        width: size.width * 0.875,
-        icon: icon,
-        button: tombolTambahWallet(),
-        child: buildBody() 
-      ),
+    return 
+    KCard(
+      title: "Wallet",
+      icon: icon,
+      button: tombolTambahWallet(),
+      child: buildBody() 
     );
   }
 }

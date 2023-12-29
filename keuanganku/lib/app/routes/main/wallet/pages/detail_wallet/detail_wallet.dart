@@ -48,17 +48,13 @@ class _DetailWalletState extends State<DetailWallet> {
     widget.callback();
   }
   
-
-
   // Widgets
   KWidget         buildDistribusiPengeluaran  (BuildContext context){
-    return makeCenterWithRow(
-      child: distribusiTx.DistribusiTransaksi(
+    return distribusiTx.DistribusiTransaksi(
         widgetData: widget.data.distribusiTxData,
         getter: (){
           return widget.data.distribusiTxData.getDataByWalletId(widget.wallet.id);
         },
-      ),
     );
   }
   KWidget         listPengeluaran             (BuildContext context){
@@ -212,7 +208,7 @@ class _DetailWalletState extends State<DetailWallet> {
       appBar: appBar(context),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -221,8 +217,7 @@ class _DetailWalletState extends State<DetailWallet> {
               dummyHeight(),
               listPengeluaran(context),
               dummyHeight(),
-              buildDistribusiPengeluaran(context),
-              dummyHeight()
+              buildDistribusiPengeluaran(context)
             ],
           ),
         ),

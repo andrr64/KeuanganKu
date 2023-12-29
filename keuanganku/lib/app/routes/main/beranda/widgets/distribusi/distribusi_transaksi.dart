@@ -82,7 +82,7 @@ class DistribusiTransaksi extends StatelessWidget {
   final WidgetData widgetData;
   final dynamic Function() getter;
 
-  Widget secondStep(List<SQLModelExpense> dataPengeluaran, List<PieChartSectionData> dataSection){
+  Widget secondStep       (List<SQLModelExpense> dataPengeluaran, List<PieChartSectionData> dataSection){
     return Column(
       children: [
         Container(
@@ -153,7 +153,7 @@ class DistribusiTransaksi extends StatelessWidget {
       ],
     );
   }
-  Widget firstStep(List<SQLModelExpense> dataPengeluaran){ 
+  Widget firstStep        (List<SQLModelExpense> dataPengeluaran){ 
     const double kEmptyVerticalPadding = 0;
     if(dataPengeluaran.isEmpty){
       return makeCenterWithRow(
@@ -163,9 +163,6 @@ class DistribusiTransaksi extends StatelessWidget {
         )
       );
     } 
-    widgetData.getPieData(dataPengeluaran).then((data){
-      return secondStep(dataPengeluaran, data);
-    });
     return KFutureBuilder.build(
       future     : widgetData.getPieData(dataPengeluaran), 
       whenError  : makeCenterWithRow(child: const Text("Sadly, something wrong...")), 
@@ -173,7 +170,7 @@ class DistribusiTransaksi extends StatelessWidget {
       whenSuccess: (data) => secondStep(dataPengeluaran, data)
     );
   }
-  Widget buildBody(){
+  Widget buildBody        (){
     return KFutureBuilder.build(
       future: getter(), 
       whenError: makeCenterWithRow(child: const Text("SQL Error :(")), 
