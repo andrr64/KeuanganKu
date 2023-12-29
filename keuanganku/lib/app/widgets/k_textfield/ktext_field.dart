@@ -40,7 +40,7 @@ class KTextField extends StatelessWidget {
           hintText: textHint ?? "Ketik ${fieldName.toLowerCase()}...",
           labelText: fieldName,
           border: const OutlineInputBorder(),
-          prefixIcon: Icon(icon, color: prefixIconColor,),
+          prefixIcon: icon == null? null : Icon(icon, color: prefixIconColor,),
           labelStyle: const TextStyle(color: KColors.fontPrimaryBlack)
       ),
     );
