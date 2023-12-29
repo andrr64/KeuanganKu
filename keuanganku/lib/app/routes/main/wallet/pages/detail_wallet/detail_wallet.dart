@@ -1,18 +1,16 @@
 // ignore_for_file: library_prefixes
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/beranda/widgets/distribusi/distribusi_transaksi.dart' as distribusiTx;
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_pengeluaran/list_pengeluaran.dart';
+import 'package:keuanganku/app/routes/main/wallet/pages/detail_wallet/widgets/tombol_menu/tombol_ubah.dart';
 import 'package:keuanganku/app/routes/main/wallet/widgets/k_list_pemasukan/k_list_pemasukan.dart';
 import 'package:keuanganku/app/snack_bar.dart';
 import 'package:keuanganku/app/widgets/k_app_bar/k_app_bar.dart';
-import 'package:keuanganku/app/widgets/k_dialog/k_dialog_info.dart';
 import 'package:keuanganku/app/widgets/k_future_builder/k_future.dart';
 import 'package:keuanganku/database/helper/income.dart';
 import 'package:keuanganku/database/helper/expense.dart';
-import 'package:keuanganku/database/helper/wallet.dart';
 import 'package:keuanganku/database/model/expense.dart';
 import 'package:keuanganku/database/model/wallet.dart';
 import 'package:keuanganku/enum/status.dart';
@@ -94,8 +92,11 @@ class _DetailWalletState extends State<DetailWallet> {
       );
   }
   KWidget         ringkasanWallet             (BuildContext context){
+    const double ukuranH1 = 20;
+    const double ukuranh2 = ukuranH1 - 5;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 25),
       child: Container(
           alignment: Alignment.topLeft,
           child: Column(
@@ -109,19 +110,37 @@ class _DetailWalletState extends State<DetailWallet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(widget.wallet.tipe, style: kFontStyle(fontSize: 15, color: Colors.white, family: "QuickSand_Medium"),),
-                      Text(widget.wallet.judul, style: kFontStyle(fontSize: 24, color: Colors.white,),)
+                      Text(widget.wallet.tipe, style: kFontStyle(fontSize: ukuranh2, color: Colors.white, family: "QuickSand_Medium"),),
+                      Text(widget.wallet.judul, style: kFontStyle(fontSize: ukuranH1, color: Colors.white,),)
                     ],
                   ),
                   FutureBuilder(
                       future: widget.wallet.totalUang(),
                       builder: (_, snapshot){
                         if (snapshot.connectionState == ConnectionState.waiting){
-                          return Text(formatCurrency(0), style: kFontStyle(fontSize: 25, color: Colors.white),);
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text("Total Dana", style: kFontStyle(fontSize: ukuranh2, color: Colors.white, family: "QuickSand_Medium"),),
+                              Text(formatCurrency(0), style: kFontStyle(fontSize: ukuranH1, color: Colors.white,),)
+                            ],
+                          );
                         } else if (snapshot.hasError){
-                          return const Text("Sadly, something wrong");
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text("Total Dana", style: kFontStyle(fontSize: ukuranh2, color: Colors.white, family: "QuickSand_Medium"),),
+                              Text("Undefined", style: kFontStyle(fontSize: ukuranH1, color: Colors.white,),)
+                            ],
+                          );
                         } else {
-                          return Text(formatCurrency(snapshot.data!), style: kFontStyle(fontSize: 25, color: Colors.white),);
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text("Total Dana", style: kFontStyle(fontSize: ukuranh2, color: Colors.white, family: "QuickSand_Medium"),),
+                              Text(formatCurrency(snapshot.data!), style: kFontStyle(fontSize: ukuranH1, color: Colors.white,),)
+                            ],
+                          );
                         }
                       }
                   ),
@@ -141,53 +160,23 @@ class _DetailWalletState extends State<DetailWallet> {
     );
   }
   List<Widget>    appBarAction                (BuildContext context){
-    const Color iconColor = Colors.white;
-    const double paddingRight = 10;
-    Widget tombolUbah(){
-      return GestureDetector(
-        onTap: (){},
-        child: const Padding(
-          padding: EdgeInsets.only(right: paddingRight),
-          child: Icon(CupertinoIcons.pencil, color: iconColor,),
-        ),
-      );
-    }
-    Widget tombolHapus(){
-      KEventHandler hapusWallet(){
-        SQLHelperWallet().delete(widget.wallet, db.database).then((value){
-          if (value == 0){
-            tampilkanSnackBar(context, jenisPesan: Pesan.Success, msg: "Wallet berhasil dihapus");
-            widget.callback();
-            Navigator.pop(context);
-          } else {
-            KDialogInfo(
-              title: "Kesalahan", 
-              info: "Terdapat kesalahan saat aplikasi mencoba menghapus data wallet ($value)", 
-              jenisPesan: Pesan.Error
-            ).tampilkanDialog(context);
-          }
-        });
-        
-      }
-      return GestureDetector(
-        onTap: (){
-          KDialogInfo(
-            title: "Anda yakin?", 
-            info: "Semua data yang ada di wallet (pemasukan dan pengeluaran) akan dihapus tidak bisa dikembalikan lagi!", 
-            jenisPesan: Pesan.Konfirmasi,
-            onOk: hapusWallet
-          ).tampilkanDialog(context);
-        },
-        child: const Padding(
-          padding: EdgeInsets.only(right: paddingRight), 
-          child: Icon(CupertinoIcons.delete, color: iconColor,),
-        ),
-      );
-    }
-
     return [
-      tombolUbah(),
-      tombolHapus(),
+      TombolMenu(
+        onNameChanged: (){
+          callback();
+          tampilkanSnackBar(
+            context, 
+            jenisPesan: Pesan.Success, 
+            msg: "Data berhasil diperbaharui"
+          );
+        }, 
+        wallet: widget.wallet,
+        context: context,
+        onWalletDeleted: (){
+          widget.callback(); // Update halaman Beranda, Wallet dan Pengeluaran
+          Navigator.pop(context); // Pop halaman 'DetailWallet'
+        },
+      ).getWidget(),
     ];
   }
   KApplicationBar appBar                      (BuildContext context){
