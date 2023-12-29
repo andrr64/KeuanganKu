@@ -5,7 +5,6 @@ import 'package:keuanganku/android_system.dart';
 import 'package:keuanganku/app/routes.dart';
 import 'package:keuanganku/database/helper/user_data.dart';
 
-typedef KEventHandler = void;
 
 extension EnumToString on Enum {
   String get enumValue => toString().split('.').last;
