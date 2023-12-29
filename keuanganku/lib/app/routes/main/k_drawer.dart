@@ -1,13 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/tentang/tentang.dart';
+import 'package:keuanganku/app/widgets/k_dialog/k_dialog_info.dart';
 import 'package:keuanganku/app_info.dart';
+import 'package:keuanganku/enum/status.dart';
 import 'package:keuanganku/util/dummy.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class KeuanganKuDrawer extends StatelessWidget {
+class KeuanganKuDrawer extends StatefulWidget {
   /// Drawer aplikasi
   const KeuanganKuDrawer({super.key});
-  
+
+  @override
+  State<KeuanganKuDrawer> createState() => _KeuanganKuDrawerState();
+}
+
+class _KeuanganKuDrawerState extends State<KeuanganKuDrawer> {
+  Widget donasi(BuildContext context){
+    return 
+    GestureDetector(
+      onTap: (){
+        KDialogInfo(
+          title: "Donasi", 
+          info: "Anda akan menuju ke halaman donasi", 
+          jenisPesan: Pesan.Konfirmasi,
+          okTitle: "Oke, meluncur",
+          cancelTitle: "Ga ah males",
+          onOk: (){
+            setState(() {
+              launchUrl(
+                Uri.parse("https://saweria.co/lawx64rence.com"),
+                mode: LaunchMode.externalApplication
+              );
+            });
+          }
+        ).tampilkanDialog(context);
+      },
+      child: const ListTile(
+        leading: Icon(Icons.favorite), // Ikon di sebelah kiri
+        title: Text('Donasi'),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {   
     const Divider divider = Divider(
@@ -66,10 +101,7 @@ class KeuanganKuDrawer extends StatelessWidget {
             title: Text('Pembaharuan'),
           ),
           divider,
-          const ListTile(
-              leading: Icon(Icons.favorite), // Ikon di sebelah kiri
-              title: Text('Donasi'),
-          ),
+          donasi(context),          
           divider,
         ],
       ),
