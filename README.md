@@ -49,8 +49,10 @@ Pengguna yang dapat memakai sistem ini adalah User.
 ## 👨‍💻 Skenario Kebutuhan Pengguna
 ### User
 <ol>
-  <li>User dapat menambahkan data seperti pengeluaran, pemasukan, dan limiter</li>
-  <li>User dapat mengubah dan menghapus data pengeluaran, pemasukan, limiter dan data user</li>
+  <li>Menambah, mengubah, dan menghapus data wallet</li>
+  <li>Menambah, mengubah, dan menghapus data pengeluaran</li>
+  <li>Menambah, mengubah, dan menghapus data pemasukan</li>
+  <li>Menambah, mengubah, dan menghapus data limiter</li>
 </ol>
 
 ## 🖼️ Screenshot Aplikasi
@@ -58,12 +60,16 @@ Pengguna yang dapat memakai sistem ini adalah User.
   <tbody>
     <tr>
       <td width="33%">
-        <h5>Wallet</h5>
-        <img src="assets/screenshot_aplikasi/wallet.png"><br>
+        <h5>Beranda</h5>
+        <img src="assets/screenshot_aplikasi/beranda.png"><br>
       </td>
       <td width="33%">
-        <h5>Beranda</h5>
-        <img src="assets/screenshot_aplikasi/beranda.png">
+        <h5>Pengeluaran</h5>
+        <img src="assets/screenshot_aplikasi/pengeluaran.png">
+      </td>
+      <td width="33%">
+        <h5>Wallet</h5>
+        <img src="assets/screenshot_aplikasi/wallet.png"><br>
       </td>
     </tr>
   </tbody>
