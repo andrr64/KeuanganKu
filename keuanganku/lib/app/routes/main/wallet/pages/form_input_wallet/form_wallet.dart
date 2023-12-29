@@ -15,8 +15,8 @@ import 'package:keuanganku/util/dummy.dart';
 import 'package:keuanganku/util/font_style.dart';
 
 class FormWallet extends StatefulWidget {
-  const FormWallet({super.key, required this.onFinished});
-  final VoidCallback onFinished;
+  const FormWallet({super.key, required this.callback});
+  final VoidCallback callback;
 
   @override
   State<FormWallet> createState() => _FormWalletState();
@@ -56,7 +56,7 @@ class _FormWalletState extends State<FormWallet> {
       }).catchError((error) {
           tampilkanSnackBar(context, jenisPesan: Pesan.Error, msg: error.toString());
       });
-      widget.onFinished();
+      widget.callback();
     }
 
     Widget fieldJudul(){
