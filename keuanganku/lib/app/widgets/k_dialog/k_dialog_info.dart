@@ -9,14 +9,15 @@ class KDialogInfo{
   List<Widget>? action;
   Function()? onCancel;
   Function()? onOk;
-
+  String? okTitle;
   KDialogInfo({
     required this.title,
     required this.info,
     required this.jenisPesan,
     this.action,
     this.onCancel,
-    this.onOk
+    this.onOk,
+    this.okTitle
   });
 
   Widget buttonCancel(BuildContext context){
@@ -36,7 +37,7 @@ class KDialogInfo{
           onOk!();
         }
         Navigator.pop(context);
-      }, child: const Text("Ok")
+      }, child: Text(okTitle ?? "Ok")
     );
   }
 
