@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
+import 'package:keuanganku/app/routes/main/wallet/pages/form_data_pemasukan/widgets/item_kategori.dart';
 import 'package:keuanganku/app/snack_bar.dart';
 import 'package:keuanganku/app/widgets/k_app_bar/k_app_bar.dart';
 import 'package:keuanganku/app/widgets/k_date_picker/k_date_picker.dart';
@@ -323,44 +324,16 @@ class _FormInputPemasukanState extends State<FormInputPemasukan> {
 
   // Widgets
   List<DropdownMenuItem<SQLModelCategory>>  dropdownListKategori(BuildContext context){
-    return listKategoriPemasukan.map((e){
-      return DropdownMenuItem<SQLModelCategory>(
-        value: e,
-        child: GestureDetector(
-          onLongPress: (){
-            if (e.id == 0) return;
-            showDialog(
-              context: context, 
-              builder: (_){
-                return AlertDialog(
-                  backgroundColor: Colors.white,
-                  content: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Menu", style: kFontStyle(fontSize: 20),),
-                          Divider(),
-                          ListTile(
-                            title: Text("Ubah"),
-                          ),
-                          Divider(),
-                          ListTile(
-                            title: Text("Hapus"),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }
-            );
-          },
-          child: Text(e.judul, style: kFontStyle(fontSize: 15, family: "QuickSand_Medium"),),
-        ),
-      );
-    }).toList();
+    return listKategoriPemasukan.map(
+      (e) => ItemKategori(
+        onDeleted:(){
+          
+        }, 
+        context: context, 
+        data: e, 
+        isLongPressEvent: e.id != 0
+      ).getWidget()
+    ).toList();
   }
   List<DropdownMenuItem<SQLModelWallet>>    dropDownListWallet(BuildContext context){
     return listWallet.map((e){

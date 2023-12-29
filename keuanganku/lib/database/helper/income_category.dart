@@ -1,4 +1,3 @@
-import 'package:keuanganku/app/routes/main/beranda/widgets/ringkasan/k_ringkasan.dart';
 import 'package:keuanganku/database/helper/income.dart';
 import 'package:keuanganku/database/model/category.dart';
 import 'package:sqflite/sqflite.dart';
