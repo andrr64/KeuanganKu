@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/app/app_colors.dart';
 import 'package:keuanganku/app/routes/main/wallet/pages/detail_pemasukan/detail_pemasukan.dart';
 import 'package:keuanganku/database/model/income.dart';
-import 'package:keuanganku/main.dart';
+import 'package:keuanganku/k_typedef.dart';
 import 'package:keuanganku/util/font_style.dart';
 import 'package:keuanganku/util/get_currency.dart';
 import 'package:keuanganku/util/string_operation.dart';

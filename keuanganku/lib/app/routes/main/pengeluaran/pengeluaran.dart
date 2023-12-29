@@ -6,6 +6,7 @@ import 'package:keuanganku/app/routes/main/pengeluaran/widgets/list_pengeluaran/
 import 'package:keuanganku/app/routes/main/wallet/wallet.dart';
 import 'package:keuanganku/app/state_bridge.dart';
 import 'package:keuanganku/database/helper/expense.dart';
+import 'package:keuanganku/k_typedef.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
 
