@@ -6,8 +6,8 @@ class SQLModelWallet {
   SQLModelWallet({required this.id,required this.tipe,required this.judul});
 
   final int id;
-  final String judul;
-  final String tipe;
+  String judul;
+  String tipe;
 
   static List<String> tipeWallet = [
     "Wallet",

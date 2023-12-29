@@ -84,6 +84,11 @@ class SQLHelperWallet {
     );
   }
 
+  // UPDATE METHODS
+  Future<int> update(SQLModelWallet updatedWallet, Database db) async {
+    return await db.update(_tableName, updatedWallet.toMap(), where: "id = ?", whereArgs: [updatedWallet.id]);
+  }
+
   // DELETE METHOD
   Future<int> delete(SQLModelWallet wallet, Database db) async {
     Future deleteWallet() async {
