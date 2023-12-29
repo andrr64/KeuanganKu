@@ -29,7 +29,7 @@ class _KeuanganKuDrawerState extends State<KeuanganKuDrawer> {
           onOk: (){
             setState(() {
               launchUrl(
-                Uri.parse("https://saweria.co/lawx64rence.com"),
+                Uri.parse("https://saweria.co/lawx64rence"),
                 mode: LaunchMode.externalApplication
               );
             });
