@@ -59,7 +59,7 @@ class TombolMenu {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Ubah Data Wallet", style: kFontStyle(fontSize: 20),),
+        Text("Menu", style: kFontStyle(fontSize: 20),),
         GestureDetector(
           onTap: (){
             Navigator.pop(bottomSheetContext);
