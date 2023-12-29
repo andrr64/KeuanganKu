@@ -10,6 +10,8 @@ class KDialogInfo{
   Function()? onCancel;
   Function()? onOk;
   String? okTitle;
+  String? cancelTitle;
+
   KDialogInfo({
     required this.title,
     required this.info,
@@ -17,7 +19,8 @@ class KDialogInfo{
     this.action,
     this.onCancel,
     this.onOk,
-    this.okTitle
+    this.okTitle,
+    this.cancelTitle
   });
 
   Widget buttonCancel(BuildContext context){
@@ -27,7 +30,7 @@ class KDialogInfo{
           onCancel!();
         }
         Navigator.pop(context);
-      }, child: const Text("Cancel")
+      }, child: Text(cancelTitle?? "Cancel")
     );
   }
   Widget buttonOk(BuildContext context){
