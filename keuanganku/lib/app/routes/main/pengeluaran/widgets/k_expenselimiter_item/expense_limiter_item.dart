@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_expense_limiter/form_expense_limiter.dart';
 import 'package:keuanganku/app/widgets/k_future_builder/k_future.dart';
 import 'package:keuanganku/database/helper/expense.dart';
-import 'package:keuanganku/database/helper/income_category.dart';
+import 'package:keuanganku/database/helper/expense_category.dart';
 import 'package:keuanganku/database/model/expense.dart';
 import 'package:keuanganku/database/model/expense_limiter.dart';
 import 'package:keuanganku/enum/data_transaksi.dart';
@@ -105,14 +105,20 @@ class _KExpenseLimiterItemState extends State<KExpenseLimiterItem> {
     return GestureDetector(
       onTap: (){
         Future getListKategori() async {
-          return await SQLHelperIncomeCategory().readAll(db: db.database);
+          return await SQLHelperExpenseCategory().readAll(db: db.database);
         }
         getListKategori().then(
           (listKategori){
             Navigator.push(context, MaterialPageRoute(builder: (_) => 
-            FormExpenseLimiter(
-              callback: widget.callback,
-              listCategory: listKategori,)));
+                FormExpenseLimiter(
+                  expenseLimiter: widget.limiter,
+                  callback: widget.callback,
+                  listCategory: listKategori,
+                  onDataUpdated: widget.callback,
+                  onDataDeleted: widget.callback,
+                )
+              )
+            );
           });
       },
       child: buildBody()
