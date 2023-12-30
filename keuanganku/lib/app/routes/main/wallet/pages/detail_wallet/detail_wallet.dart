@@ -206,7 +206,8 @@ class _DetailWalletState extends State<DetailWallet> {
               dummyHeight(),
               listPengeluaran(context),
               dummyHeight(),
-              buildDistribusiPengeluaran(context)
+              buildDistribusiPengeluaran(context),
+              dummyHeight(height: 50),
             ],
           ),
         ),
