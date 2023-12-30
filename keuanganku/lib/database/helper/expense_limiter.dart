@@ -79,8 +79,8 @@ class SQLHelperExpenseLimiter {
     }
     
   }
-  Future<int> update(Map<String, dynamic> newData, int id, {required Database db}) async {
-    return await db.update(_tableName, newData, where: "id = ?", whereArgs: [id]);
+  Future<int> update(SQLModelExpenseLimiter data, {required Database db}) async {
+    return await db.update(_tableName, data.toMap(), where: "id = ?", whereArgs: [data.id]);
   }
   Future<int> delete(int id, {required Database db}) async {
     return await db.delete(_tableName, where: "id = ?", whereArgs: [id]);

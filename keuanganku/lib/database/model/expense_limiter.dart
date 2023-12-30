@@ -15,6 +15,16 @@ class SQLModelExpenseLimiter {
     required this.kategori
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'deskripsi': deskripsi,
+      'nilai': nilai,
+      'waktu': waktu,
+      'id_kategori': kategori.id, // Memanggil toMap dari objek kategori
+    };
+  }
+
   factory SQLModelExpenseLimiter.fromJson(Map<String, dynamic> json, SQLModelCategory kategori) {
     return SQLModelExpenseLimiter(
       id: json['id'] as int,
