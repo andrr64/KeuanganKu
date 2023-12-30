@@ -5,12 +5,12 @@ import 'package:keuanganku/app/routes/main/pengeluaran/pages/form_expense_limite
 import 'package:keuanganku/app/routes/main/pengeluaran/widgets/k_expenselimiter_item/expense_limiter_item.dart';
 import 'package:keuanganku/app/widgets/k_button/k_button.dart';
 import 'package:keuanganku/app/widgets/k_card/k_card.dart';
+import 'package:keuanganku/app/widgets/k_empty/k_empty.dart';
 import 'package:keuanganku/database/helper/expense_limiter.dart';
 import 'package:keuanganku/database/helper/expense_category.dart';
 import 'package:keuanganku/database/model/expense_limiter.dart';
 import 'package:keuanganku/main.dart';
 import 'package:keuanganku/util/dummy.dart';
-import 'package:keuanganku/util/font_style.dart';
 
 
 class ListExpenseLimiter extends StatefulWidget {
@@ -44,18 +44,19 @@ class _ListExpenseLimiterState extends State<ListExpenseLimiter> {
     );
   }
   Widget emptyListWidget(){
-    return makeCenterWithRow(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 50),
-        child: Column(
-          children: [
-            SvgPicture.asset("assets/icons/limiter_kosong.svg", width: 125,),
-            dummyHeight(height: 15),
-            Text("Kosong :(", style: kFontStyle(fontSize: 14, color: Colors.black54),)
-          ],
-        ),
-      )
-    );
+    return const KEmpty();
+    // return makeCenterWithRow(
+    //   child: Padding(
+    //     padding: const EdgeInsets.symmetric(vertical: 50),
+    //     child: Column(
+    //       children: [
+    //         SvgPicture.asset("assets/icons/limiter_kosong.svg", width: 125,),
+    //         dummyHeight(height: 15),
+    //         Text("Kosong :(", style: kFontStyle(fontSize: 14, color: Colors.black54),)
+    //       ],
+    //     ),
+    //   )
+    // );
   }
 
   Widget buildList(List<SQLModelExpenseLimiter> listLimiter){
