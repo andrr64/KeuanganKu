@@ -2,7 +2,7 @@ name: keuanganku
 description: KeuanganKu is presented as an innovative platform specifically designed to provide support in managing your finances more efficiently. With its flagship features, the goal of this platform is to make it easier for you to plan, monitor, and optimize all aspects of your financial matters
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0
+version: 0.1.0
 
 environment:
   sdk: '>=3.1.2 <4.0.0'
